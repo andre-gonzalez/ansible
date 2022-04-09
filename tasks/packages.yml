@@ -1,5 +1,6 @@
-- name: Intall htop
+- name: Intall pakages
   package:
     name:
       - htop
       - tmux
+      - cronie
