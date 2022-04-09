@@ -2,7 +2,13 @@
   connection: local
   become: true
 
+  pre_tasks:
+    - name: update repositories
+      package:
+        update_cache: yes
+      changed_when: False
+
   tasks:
-  - name: Intall htop
-    package:
-      name: htop
+    - include: tasks/package.yml
+
+

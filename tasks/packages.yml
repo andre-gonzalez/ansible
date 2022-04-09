@@ -1,0 +1,5 @@
+- name: Intall htop
+  package:
+    name:
+      - htop
+      - tmux
