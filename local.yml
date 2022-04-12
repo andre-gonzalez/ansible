@@ -2,7 +2,6 @@
   tags:
     - workstation
   connection: local
-  become: true
 
   pre_tasks:
     - name: update repositories
