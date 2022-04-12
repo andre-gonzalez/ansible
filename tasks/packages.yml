@@ -1,17 +1,17 @@
-  - name: install reflector
-    tags:
-      - packages
-      - full-install
-    package:
-      name: reflector
-    become: true
+- name: install reflector
+  tags:
+    - packages
+    - full-install
+  package:
+    name: reflector
+  become: true
 
 - name: update pacman mirrorlist
-    tags:
-      - packages
-      - full-install
-    script: choose-mirror.sh
-    become: true
+  tags:
+    - packages
+    - full-install
+  script: choose-mirror.sh
+  become: true
 
 - name: Install pakages
   package:
