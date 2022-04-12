@@ -1,9 +1,39 @@
-- name: start services
+- name: start iwd
   tags:
     - start-services
     - full-install
   ansible.builtin.service:
     name: iwd
+    state: started
+    enabled: yes
+  become: yes
+
+- name: start libvirt
+  tags:
+    - start-services
+    - full-install
+  ansible.builtin.service:
+    name: libvirt
+    state: started
+    enabled: yes
+  become: yes
+
+- name: start bluetooth
+  tags:
+    - start-services
+    - full-install
+  ansible.builtin.service:
+    name: bluetooth
+    state: started
+    enabled: yes
+  become: yes
+
+- name: start cron
+  tags:
+    - start-services
+    - full-install
+  ansible.builtin.service:
+    name: cronie
     state: started
     enabled: yes
   become: yes
