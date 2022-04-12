@@ -6,17 +6,6 @@
     name: ansible
     system: yes
 
-- name: copy sudoers_ansible
-  tags:
-    - full-install
-    - user-create
-  copy:
-    src: files/sudoers_ansible
-    dest: /etc/sudoers.d/ansible
-    owner: root
-    group: root
-    mode: 0440
-
 - name: create frank user
   tags:
     - full-install
@@ -25,13 +14,11 @@
     name: frank
     groups: root
 
-- name: copy sudoers_frank
+- name: copy sudoers_ansible
   tags:
     - full-install
     - user-create
-  copy:
-    src: files/sudoers_frank
-    dest: /etc/sudoers.d/frank
-    owner: root
-    group: root
-    mode: 0440
+  copy: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'sudoers_ansible', dest: '/etc/sudoers.d/ansible' }
+    - { src: 'sudoers_frank', dest: '/etc/sudoers.d/frank' }
