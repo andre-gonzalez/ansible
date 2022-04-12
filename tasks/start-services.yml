@@ -13,7 +13,7 @@
     - start-services
     - full-install
   ansible.builtin.service:
-    name: libvirt
+    name: libvirtd
     state: started
     enabled: yes
   become: yes
