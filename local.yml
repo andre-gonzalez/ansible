@@ -1,4 +1,6 @@
 - hosts: localhost
+  tags:
+    - workstation
   connection: local
   become: true
 
@@ -12,5 +14,6 @@
     - include_tasks: tasks/users.yml
     - include_tasks: tasks/packages.yml
     - include_tasks: tasks/cron.yml
+    - include_tasks: tasks/dotfiles.yml
 
 
