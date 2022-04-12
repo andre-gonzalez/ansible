@@ -24,3 +24,14 @@
   user:
     name: frank
     groups: root
+
+- name: copy sudoers_frank
+  tags:
+    - full-install
+    - user-create
+  copy:
+    src: files/sudoers_frank
+    dest: /etc/sudoers.d/frank
+    owner: root
+    group: root
+    mode: 0440
