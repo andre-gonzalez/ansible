@@ -1,0 +1,12 @@
+- name: start services
+  tags:
+    - start-services
+    - full-install
+  service:
+    name:
+      - iwd
+      - libvirt
+      - bluetooth
+      - cronie.service
+    state: started
+    enabled: yes
