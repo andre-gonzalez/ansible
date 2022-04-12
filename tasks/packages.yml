@@ -73,7 +73,6 @@
       - ripgrep
       - fd
       - fzf
-      - jupyter
       - baobab
       - nethogs
       - virt-manager
