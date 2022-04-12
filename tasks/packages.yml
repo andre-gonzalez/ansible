@@ -13,7 +13,7 @@
   script: choose-mirror.sh
   become: true
 
- - name: remove packages
+- name: remove packages
   tags:
     - packages-remove
     - packages
@@ -24,8 +24,8 @@
       - amd-ucode
       - archinstall
       - brltty nano
-    state: absent
-    update_cache: no
+  state: absent
+  update_cache: no
 
 - name: Install packages
   tags:
@@ -37,3 +37,5 @@
       - htop
       - tmux
       - cronie
+  state: present
+  update_cache: yes
