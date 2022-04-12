@@ -5,9 +5,6 @@
   ansible.builtin.service:
     name:
       - iwd
-      - libvirt
-      - bluetooth
-      - cronie.service
     state: started
     enabled: yes
   become: yes
