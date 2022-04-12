@@ -13,7 +13,25 @@
   script: choose-mirror.sh
   become: true
 
-- name: Install pakages
+ - name: remove packages
+  tags:
+    - packages-remove
+    - packages
+    - full-install
+  package:
+    name:
+      - arch-install-scripts
+      - amd-ucode
+      - archinstall
+      - brltty nano
+    state: absent
+    update_cache: no
+
+- name: Install packages
+  tags:
+    - packages-install
+    - packages
+    - full-install
   package:
     name:
       - htop
