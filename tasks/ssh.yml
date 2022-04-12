@@ -1,0 +1,7 @@
+- name: add ssh key for frank
+  tags:
+    - full-install
+    - ssh-config
+  authorized_key:
+    user: frank
+    key: ""
