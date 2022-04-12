@@ -1,5 +1,6 @@
 - name: install reflector
   tags:
+    - packages-install
     - packages
     - full-install
   package:
@@ -23,5 +24,6 @@
       - htop
       - tmux
       - cronie
-  state: present
-  update_cache: yes
+    state: present
+    update_cache: yes
+  become: true
