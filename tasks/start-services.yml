@@ -3,8 +3,7 @@
     - start-services
     - full-install
   ansible.builtin.service:
-    name:
-      - iwd
+    name: iwd
     state: started
     enabled: yes
   become: yes
