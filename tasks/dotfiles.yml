@@ -1,0 +1,11 @@
+- name: Cloning .dotfiles
+  tags:
+    - dotfiles
+    - full-install
+  ansible.builtin.git:
+    repo: 'git@github.com:andre-gonzalez/dotfiles.git'
+    dest: "{{ lookup('env', 'USR') | default('nobody', True) }}"
+    recursive: yes
+    update: yes
+    bare: yes
+    version: main
