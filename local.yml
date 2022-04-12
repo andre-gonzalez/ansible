@@ -3,20 +3,13 @@
     - workstation
   connection: local
 
-  pre_tasks:
-    - name: update repositories
-      package:
-        update_cache: yes
-      changed_when: False
-      become: true
-
   tasks:
-    #- include_tasks: tasks/users.yml
-    #- include_tasks: tasks/packages.yml
-    #- include_tasks: tasks/cron.yml
-    #- include_tasks: tasks/dotfiles.yml
-    #- include_tasks: tasks/start-services.yml
-    #- include_tasks: tasks/git.yml
+    - include_tasks: tasks/users.yml
+    - include_tasks: tasks/packages.yml
+    - include_tasks: tasks/cron.yml
+    - include_tasks: tasks/dotfiles.yml
+    - include_tasks: tasks/start-services.yml
+    - include_tasks: tasks/git.yml
     - include_tasks: tasks/teste.yml
 
 
