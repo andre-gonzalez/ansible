@@ -2,7 +2,7 @@
   tags:
     - start-services
     - full-install
-  service:
+  ansible.builtin.service:
     name:
       - iwd
       - libvirt
@@ -10,3 +10,4 @@
       - cronie.service
     state: started
     enabled: yes
+    become: yes
