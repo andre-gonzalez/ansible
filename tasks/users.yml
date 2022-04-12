@@ -1,12 +1,26 @@
 - name: create ansible user
+  tags:
+    - full-install
+    - user-create
   user:
     name: ansible
     system: yes
 
 - name: copy sudoers_ansible
+  tags:
+    - full-install
+    - user-create
   copy:
     src: files/sudoers_ansible
     dest: /etc/sudoers.d/ansible
     owner: root
     group: root
     mode: 0440
+
+- name: create frank user
+  tags:
+    - full-install
+    - user-create
+  user:
+    name: frank
+    groups: root
