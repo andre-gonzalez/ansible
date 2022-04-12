@@ -8,6 +8,7 @@
       package:
         update_cache: yes
       changed_when: False
+      become: true
 
   tasks:
     #- include_tasks: tasks/users.yml
