@@ -11,7 +11,8 @@
     # - include_tasks: tasks/start-services.yml
     # - include_tasks: tasks/git.yml
     # - include_tasks: tasks/dwm.yml
-    # - include_tasks: tasks/st.yml
+    - include_tasks: tasks/st.yml
     - include_tasks: tasks/dmenu.yml
+    - include_tasks: tasks/dwmstatus.yml
 
 
