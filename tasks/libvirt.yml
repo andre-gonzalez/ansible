@@ -6,3 +6,15 @@
     name: frank
     group: libvirtd
   become: yes
+
+- name: copy file qemu.conf to /etc/libvirt
+  tags:
+    - libvirt
+    - full-install
+  copy:
+    src: qemu.conf
+    dest: /etc/libvirt
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
