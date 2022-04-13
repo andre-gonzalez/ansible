@@ -4,3 +4,4 @@
 4. check why libvirt group do not exists
 5. learn to do ssh configuration
 6. learn to use ansible vault
+7. correct the clone of git to the right directories
