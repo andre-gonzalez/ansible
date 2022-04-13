@@ -1,0 +1,2 @@
+1. make variables for users, packages and other stuff
+2. teste in a brand new VM
