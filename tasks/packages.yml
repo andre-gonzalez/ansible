@@ -14,6 +14,17 @@
   script: choose-mirror.sh
   become: true
 
+- name: copy file pacman.conf to /etc
+  tags:
+    - full-install
+  copy:
+    src: pacman.conf
+    dest: /etc
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+
 - name: remove packages
   tags:
     - packages-remove
