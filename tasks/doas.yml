@@ -1,0 +1,12 @@
+- name: copy file doas.conf to /etc
+  tags:
+    - full-install
+    - doas
+  copy:
+    src:
+      - doas.conf
+    dest: /etc
+    owner: root
+    group: root
+    mode: 0644
+  become: yes

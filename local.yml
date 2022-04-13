@@ -17,3 +17,4 @@
     - include_tasks: tasks/dwmblocks.yml
     - include_tasks: tasks/slock.yml
     - include_tasks: tasks/libvirt.yml
+    - include_tasks: tasks/doas.yml
