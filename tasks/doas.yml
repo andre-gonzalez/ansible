@@ -3,8 +3,7 @@
     - full-install
     - doas
   copy:
-    src:
-      - doas.conf
+    src: doas.conf
     dest: /etc
     owner: root
     group: root
