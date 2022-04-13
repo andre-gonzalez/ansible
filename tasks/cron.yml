@@ -1,4 +1,7 @@
 - name: install cron job (ansible-pull)
+  tags:
+    - full-install
+    - crontab
   cron:
     user: ansible
     name: "ansible provision"
@@ -7,6 +10,9 @@
   become: yes
 
 - name: install cron job (profile-selector)
+  tags:
+    - full-install
+    - crontab
   cron:
     user: frank
     name: "profile-selector"
@@ -15,6 +21,9 @@
   become: yes
 
 - name: install cron job (remove downloads folder)
+  tags:
+    - full-install
+    - crontab
   cron:
     user: frank
     name: "remove-downloads-folder"
