@@ -4,3 +4,4 @@
     name: "ansible provision"
     minute: "*/10"
     job: "/usr/bin/ansible-pull -o -U https://github.com/andre-gonzalez/ansible-pull.git > /dev/null"
+  become: yes
