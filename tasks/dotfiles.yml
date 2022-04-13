@@ -3,7 +3,7 @@
     - dotfiles
     - full-install
   ansible.builtin.git:
-    repo: 'git@github.com:andre-gonzalez/dotfiles.git'
+    repo: 'https://github.com/andre-gonzalez/dotfiles'
     dest: "{{ lookup('env', 'USR') | default('nobody', True) }}"
     recursive: yes
     update: yes
