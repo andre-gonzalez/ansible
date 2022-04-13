@@ -16,3 +16,4 @@
     - include_tasks: tasks/dwmstatus.yml
     - include_tasks: tasks/dwmblocks.yml
     - include_tasks: tasks/slock.yml
+    - include_tasks: tasks/libvirt.yml
