@@ -1,0 +1,16 @@
+- name: Clone slock
+  tags:
+    - slock-install
+    - full-install
+  git:
+    repo: https://github.com/Andre-gonzalez/my-slock.git
+    dest: "{{ lookup('env', 'USR') | default('nobody', True) }}/.config/slock"
+
+- name: Install slock
+  tags:
+    - slock-install
+    - full-install
+  make:
+    chdir: "{{ lookup('env', 'USR') | default('nobody', True) }}/.config/slock"
+    target: clean install
+  become: yes
