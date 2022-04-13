@@ -12,5 +12,5 @@
     - full-install
   make:
     chdir: "{{ lookup('env', 'USR') | default('nobody', True) }}/.config/st"
-    target: clean install
+    target: install
   become: yes
