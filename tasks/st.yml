@@ -1,0 +1,16 @@
+- name: Clone st
+  tags:
+    - st-install
+    - full-install
+  git:
+    repo: https://github.com/andre-gonzalez/my-st
+    dest: "{{ lookup('env', 'USR') | default('nobody', True) }}/.config/st"
+
+- name: Install st
+  tags:
+    - st-install
+    - full-install
+  make:
+    chdir: "{{ lookup('env', 'USR') | default('nobody', True) }}/.config/st"
+    target: clean install
+  become: yes
