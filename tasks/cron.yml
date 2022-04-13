@@ -13,3 +13,10 @@
     special_time: reboot
     job: "sleep 15 && DISPLAY=:0 /usr/local/bin/profile-selector"
   become: yes
+
+- name: install cron job (remove downloads folder)
+  cron:
+    user: frank
+    name: "remove-downloads-folder"
+    special_time: reboot
+    job: "sleep 30 && rm -r /home/frank/Downloads"
