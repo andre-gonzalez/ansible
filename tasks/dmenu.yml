@@ -1,0 +1,16 @@
+- name: Clone dmenu
+  tags:
+    - dmenu-install
+    - full-install
+  git:
+    repo: https://git.suckless.org/dmenu
+    dest: "{{ lookup('env', 'USR') | default('nobody', True) }}/.config/dmenu"
+
+- name: Install dmenu
+  tags:
+    - dmenu-install
+    - full-install
+  make:
+    chdir: "{{ lookup('env', 'USR') | default('nobody', True) }}/.config/dmenu"
+    target: clean install
+  become: yes
