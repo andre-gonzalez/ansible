@@ -1,3 +1,9 @@
+- name: Ensure group libvirtd exists
+  ansible.builtin.group:
+    name: libvirtd
+    state: present
+  become: yes
+
 - name: add the frank user to the libvirt group
   tags:
     - libvirt
