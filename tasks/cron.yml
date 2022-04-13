@@ -5,3 +5,11 @@
     minute: "*/10"
     job: "/usr/bin/ansible-pull -o -U https://github.com/andre-gonzalez/ansible-pull.git > /dev/null"
   become: yes
+
+- name: install cron job (profile-selector)
+  cron:
+    user: frank
+    name: "profile-selector"
+    special_time: reboot
+    job: "sleep 15 && DISPLAY=:0 /usr/local/bin/profile-selector"
+  become: yes
