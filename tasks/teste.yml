@@ -1,0 +1,3 @@
+- name: Print the gateway for each host when defined
+  ansible.builtin.debug:
+    msg: "{{ user }}"
