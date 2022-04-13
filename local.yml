@@ -14,5 +14,6 @@
     - include_tasks: tasks/st.yml
     - include_tasks: tasks/dmenu.yml
     - include_tasks: tasks/dwmstatus.yml
+    - include_tasks: tasks/dwmblocks.yml
 
 
