@@ -6,12 +6,12 @@
     name: ansible
     system: yes
 
-- name: create frank user
+- name: "create {{ user }} user"
   tags:
     - full-install
     - user-create
   user:
-    name: frank
+    name: "{{ user }}"
     groups: root
 
 - name: copy sudoers_ansible
