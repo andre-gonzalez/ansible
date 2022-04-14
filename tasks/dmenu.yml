@@ -4,7 +4,7 @@
     - full-install
   git:
     repo: https://git.suckless.org/dmenu
-    dest: "{{ user }}/.config"
+    dest: "{{ user }}/.config/dmenu"
 
 - name: Install dmenu
   tags:
