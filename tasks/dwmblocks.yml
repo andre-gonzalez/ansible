@@ -2,7 +2,7 @@
   tags:
     - dwmblocks-install
     - full-install
-  git:
+  ansible.builtin.git:
     repo: https://github.com/Andre-gonzalez/my-dwmblocks
     dest: "{{ lookup('env', 'USR') | default('nobody', True) }}/.config/dwmblocks"
 
