@@ -2,7 +2,7 @@
   tags:
     - st-install
     - full-install
-  git:
+  ansible.builtin.git:
     repo: https://github.com/andre-gonzalez/my-st
     dest: "{{ lookup('env', 'USR') | default('nobody', True) }}/.config/st"
 

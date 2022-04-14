@@ -2,7 +2,7 @@
   tags:
     - dmenu-install
     - full-install
-  git:
+  ansible.builtin.git:
     repo: https://git.suckless.org/dmenu
     dest: "{{ user }}/.config/dmenu"
 

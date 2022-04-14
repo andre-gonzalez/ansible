@@ -2,7 +2,7 @@
   tags:
     - dwm-install
     - full-install
-  git:
+  ansible.builtin.git:
     repo: https://github.com/andre-gonzalez/my-dwm
     dest: "{{ lookup('env', 'USR') | default('nobody', True) }}/.config/dwm"
 

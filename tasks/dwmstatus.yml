@@ -2,7 +2,7 @@
   tags:
     - dwmblocks-install
     - full-install
-  git:
+  ansible.builtin.git:
     repo: https://git.suckless.org/dwmstatus
     dest: "{{ lookup('env', 'USR') | default('nobody', True) }}/.config/dwmstatus"
 
