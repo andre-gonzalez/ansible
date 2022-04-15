@@ -4,13 +4,13 @@
     - full-install
   ansible.builtin.git:
     repo: https://git.suckless.org/dwmstatus
-    dest: "/home/frank/.config/dwmstatus"
+    dest: "/home/{{ user }}/.config/dwmstatus"
 
 - name: Install dwmstatus
   tags:
     - dwmblocks-install
     - full-install
   make:
-    chdir: "/home/frank/.config/dwmstatus"
+    chdir: "/home/{{ user }}/.config/dwmstatus"
     target: install
   become: yes
