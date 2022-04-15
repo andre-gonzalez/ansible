@@ -4,13 +4,13 @@
     - full-install
   ansible.builtin.git:
     repo: https://github.com/andre-gonzalez/my-st
-    dest: "/home/frank/.config/st"
+    dest: "/home/{{ user }}/.config/st"
 
 - name: Install st
   tags:
     - st-install
     - full-install
   make:
-    chdir: "/home/frank/.config/st"
+    chdir: "/home/{{ user }}/.config/st"
     target: install
   become: yes

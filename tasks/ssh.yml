@@ -3,5 +3,5 @@
     - full-install
     - ssh-config
   authorized_key:
-    user: frank
+    user: {{ user }}
     key: ""
