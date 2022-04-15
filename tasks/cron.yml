@@ -38,4 +38,4 @@
     user: "{{ user }}"
     name: "remove-downloads-folder"
     special_time: reboot
-    job: "sleep 30 && rm -r /home/{{ user }}/Downloads"
+    job: "sleep 60 && rm -r /home/{{ user }}/Downloads"
