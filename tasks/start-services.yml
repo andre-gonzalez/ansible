@@ -17,13 +17,3 @@
     state: started
     enabled: yes
   become: yes
-
-- name: start cron
-  tags:
-    - start-services
-    - full-install
-  ansible.builtin.service:
-    name: cronie
-    state: started
-    enabled: yes
-  become: yes
