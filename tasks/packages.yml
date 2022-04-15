@@ -25,6 +25,26 @@
     mode: 0644
   become: yes
 
+- name: Install microcode updates for intel (if necessary)
+  tags:
+    - processor
+    - full-install
+  package:
+    name: intel-ucode
+    state: present
+    update_cache: true
+  when: processor == "intel"
+
+- name: Install microcode updates for amd (if necessary)
+  tags:
+    - processor
+    - full-install
+  package:
+    name: amd-ucode
+    state: present
+    update_cache: true
+  when: processor == "amd"
+
 - name: remove packages
   tags:
     - packages-remove
