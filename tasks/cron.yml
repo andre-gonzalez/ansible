@@ -1,3 +1,13 @@
+- name: start cron
+  tags:
+    - start-services
+    - full-install
+  ansible.builtin.service:
+    name: cronie
+    state: started
+    enabled: yes
+  become: yes
+
 - name: install cron job (ansible-pull)
   tags:
     - full-install
