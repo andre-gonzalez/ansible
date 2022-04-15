@@ -1,1 +1,5 @@
 user: frank
+locale:
+timezone:
+processor: intel
+graphics_card: nvidia
