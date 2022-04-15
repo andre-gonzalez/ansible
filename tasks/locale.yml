@@ -1,5 +1,17 @@
 - name: Set timezone to {{ system.timezone }}
+  tags:
+    - timezone
+    - full-install
   timezone: name={{ timezone }}
 
 - name: Ensure the locale {{ system.locale }} exists
+  tags:
+    - locale
+    - full-install
   locale_gen:  name={{ locale }} state=present
+
+- name: Configure keymap "{{ keymap }}"
+  tags:
+    - keymap
+    - full-install
+  command: localectl set-keymap "{{ keymap }}"

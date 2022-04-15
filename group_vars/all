@@ -2,6 +2,7 @@ user: frank
 fullname: André Gonzalez
 locale:
 timezone:
+keymap:
 processor: intel
 graphics_card: nvidia
 personal_email: lopescg@gmail.com
