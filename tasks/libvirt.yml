@@ -24,3 +24,13 @@
     group: root
     mode: 0644
   become: yes
+
+- name: start libvirt
+  tags:
+    - start-services
+    - full-install
+  ansible.builtin.service:
+    name: libvirtd
+    state: started
+    enabled: yes
+  become: yes
