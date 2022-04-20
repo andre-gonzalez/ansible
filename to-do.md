@@ -4,3 +4,4 @@
 5. learn to do ssh configuration
 6. learn to use ansible vault
 7. correct the clone of git to the right directories
+8. use my script to update background
