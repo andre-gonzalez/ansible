@@ -75,7 +75,6 @@
       - xorg-xinit
       - xorg-xsetroot
       - xorg-xrandr
-      - nitrogen
       - spotifyd
       - xautolock
       - git
