@@ -5,6 +5,7 @@
   user:
     name: ansible
     system: yes
+  become: true
 
 - name: "create {{ user }} user"
   tags:
