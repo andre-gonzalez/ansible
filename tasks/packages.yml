@@ -157,7 +157,6 @@
     chdir: "/home/{{ user }}/.config/yay"
     cmd: "makepkg -sfi --noconfirm"
     creates: /usr/bin/yay
-  become: true
 
 - name: Install aur packages
   tags:
