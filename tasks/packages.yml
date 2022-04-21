@@ -58,6 +58,7 @@
       - amd-ucode
       - archinstall
       - brltty nano
+      - htop
     state: absent
     update_cache: no
   become: true
