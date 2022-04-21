@@ -119,6 +119,7 @@
       - broadcom-wl
       - bat
       - dunst
+      - trash-cli
     state: latest
     update_cache: yes
   become: true
