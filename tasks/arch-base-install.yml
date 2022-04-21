@@ -199,27 +199,6 @@
   tags:
     - hostname
 #
-# - name: Setup netctl
-#   block:
-#     - name: Create netctl profile for wired connection
-#       copy:
-#         content: |
-#           Description='Wired with DHCP'
-#           Interface={{ wired_interface }}
-#           Connection=ethernet
-#           IP=dhcp
-#           IP6=dhcp-noaddr
-#           # IPv6 traffic is tunneled over IPv4, which eats 20 bytes of the MTU.
-#           ExecUpPost='/usr/bin/ip link set {{ wired_interface }} mtu 1480'
-#         dest: /mnt/etc/netctl/wired
-#     - name: Enable wired netctl profile
-#       command: arch-chroot /mnt netctl enable wired
-#   tags:
-#     - netctl
-# - name: Enable sshd
-#   command: arch-chroot /mnt systemctl enable sshd
-#   tags:
-#     - sshd
 # - name: Set up initramfs
 #   block:
 #     - name: Add mkinitcpio.conf hooks
@@ -269,31 +248,11 @@
 #         - chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.ssh/authorized_keys
 #   tags:
 #     - user_account
-# - name: Give passwordless sudo access to wheel group
-#   copy:
-#     content: '%wheel ALL=(ALL) NOPASSWD: ALL'
-#     dest: /mnt/etc/sudoers.d/wheel
-#     validate: /usr/sbin/visudo --check --file=%s
-#   tags:
-#     - sudo
 
-# - hosts: thunderbolt
-# tasks:
-# - name: Install and enable bolt
-#   block:
-#     - name: Install bolt
-#       ansible.builtin.command: arch-chroot /mnt pacman --sync --noconfirm bolt
-#     - name: Enable bolt service
-#       ansible.builtin.command: arch-chroot /mnt systemctl enable bolt.service
-#   tags:
-#     - thunderbolt
-
-# - hosts: all
-# tasks:
-# - name: Reboot
-#   reboot:
-#     connect_timeout: 1
-#     reboot_timeout: 1
-#   failed_when: false
-#   tags:
-#     - reboot
+- name: Reboot
+  tags:
+    - reboot
+  reboot:
+    connect_timeout: 1
+    reboot_timeout: 1
+  failed_when: false
