@@ -171,8 +171,6 @@
       - insync
       - vscodium-bin
       - google-cloud-sdk
-      - google-cloud-sdk-app-engine-python
-      - google-cloud-sdk-app-engine-python-extras
       - stremio
       - dashbinsh
       - htim
