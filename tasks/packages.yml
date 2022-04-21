@@ -132,12 +132,14 @@
     repo: https://aur.archlinux.org/yay-bin.git
     dest: "/home/{{ user }}/.config/yay"
     update: true
+  become: true
 
 - name: Create the `aur_builder` user
   ansible.builtin.user:
     name: aur_builder
     create_home: yes
     group: wheel
+  become: true
 
 - name: Allow the `aur_builder` user to run `sudo pacman` without a password
   ansible.builtin.lineinfile:
@@ -145,6 +147,7 @@
     line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
     create: yes
     validate: 'visudo -cf %s'
+  become: true
 
 - name: Build and install yay
   tags:
@@ -154,6 +157,7 @@
     chdir: "/home/{{ user }}/.config/yay"
     cmd: "makepkg -sfi --noconfirm"
     creates: /usr/bin/yay
+  become: true
 
 - name: Install aur packages
   tags:
