@@ -8,7 +8,8 @@
   tags:
     - locale
     - full-install
-  locale_gen:  name={{ locale }} state=present
+  locale_gen: {{ locale }}
+  state: present
 
 - name: set keyboard layout
-  ansible.builtin.command: setxkbmap -layout us -variant dvorak-intl && setxkbmap -option caps:escape
+  ansible.builtin.command: setxkbmap -layout "{{ keyboard-layout }}" -variant "{{ keyboard-variant }}" && setxkbmap -option caps:escape

@@ -2,7 +2,8 @@ user: frank
 fullname: André Gonzalez
 locale: pt_BR.UTF-8
 timezone: America/Sao_Paulo
-keymap:
+keyboard-layout: us
+keyboard-variant: dvorak-intl
 processor: intel
 graphics_card: nvidia
 personal_email: lopescg@gmail.com
