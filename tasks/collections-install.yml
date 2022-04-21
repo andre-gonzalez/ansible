@@ -1,7 +1,7 @@
 # - name: Install collection kewlfft.aur
   # ansible.builtin.command: ansible-galaxy collection install kewlfft.aur
 
- - name: Install collection kewlfft.aur
+- name: Install collection kewlfft.aur
   community.general.ansible_galaxy_install:
     type: collection
     name: kewlfft.aur
