@@ -28,3 +28,4 @@
     - include_tasks: tasks/slock.yml
     - include_tasks: tasks/libvirt.yml
     - include_tasks: tasks/doas.yml
+    - include_tasks: tasks/wallpaper.yml
