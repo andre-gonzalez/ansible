@@ -1,6 +1,6 @@
 - name: Create neovim directory for autoloading configurations
   file:
-    path: "/home/{{ user }}/.vim/"
+    path: "/home/{{ user }}/.local/share/nvim/site/autoload/"
     state: directory
     recurse: yes
     mode: 0o700
@@ -9,6 +9,6 @@
 - name: Install vim-plug
   get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    dest: "/home/{{ user }}/.vim/plug.vim"
+    dest: "/home/{{ user }}/.local/share/nvim/site/autoload/plug.vim"
     mode: 0o600
     owner: "{{ user }}"
