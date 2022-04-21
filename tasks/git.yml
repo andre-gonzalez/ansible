@@ -5,7 +5,7 @@
   community.general.git_config:
     name: user.email
     scope: global
-    value: {{ personal_email }}
+    value: "{{ personal_email }}"
 
 - name: Git personal setup name
   tags:
@@ -14,7 +14,7 @@
   community.general.git_config:
     name: user.name
     scope: global
-    value: {{ fullname }}
+    value: "{{ fullname }}"
 
 - name: Git eureciclo email
   tags:
@@ -23,4 +23,4 @@
   community.general.git_config:
     name: user.email
     scope: global
-    value: {{ work_email }}
+    value: "{{ work_email }}"
