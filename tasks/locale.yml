@@ -16,4 +16,4 @@
   become: true
 
 - name: set keyboard layout
-  ansible.builtin.command: setxkbmap -layout "{{ keyboard-layout }}" -variant "{{ keyboard-variant }}" && setxkbmap -option caps:escape
+  ansible.builtin.command: setxkbmap -layout "{{ keyboard_layout }}" -variant "{{ keyboard_variant }}" && setxkbmap -option caps:escape
