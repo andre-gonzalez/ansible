@@ -2,16 +2,19 @@
   tags:
     - workstation
   connection: local
-  vars_prompt:
-    - name: "archlinux_username"
-      prompt: "Enter your system username"
-      private: false
-    - name: "archlinux_user_real_name"
-      prompt: "Enter your full real name"
-      private: false
-    - name: "archlinux_user_email"
-      prompt: "Enter your email address"
-      private: false
+  # vars_prompt:
+  #   - name: "user"
+  #     prompt: "Enter your system username"
+  #     private: false
+  #   - name: "fullname"
+  #     prompt: "Enter your full real name"
+  #     private: false
+  #   - name: "personal_email"
+  #     prompt: "Enter your personal email address"
+  #     private: false
+  #   - name: "work_email"
+  #     prompt: "Enter your work email address"
+  #     private: false
 
   tasks:
     - include_tasks: tasks/locale.yml
