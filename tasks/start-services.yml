@@ -17,3 +17,13 @@
     state: started
     enabled: yes
   become: yes
+
+- name: start sshd
+  tags:
+    - start-services
+    - full-install
+  ansible.builtin.service:
+    name: sshd
+    state: started
+    enabled: yes
+  become: yes
