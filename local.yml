@@ -18,6 +18,7 @@
   #     private: false
 
   tasks:
+    - include_tasks: tasks/collections-install.yml
     # - include_tasks: tasks/arch-base-install.yml
     - include_tasks: tasks/users.yml
     - include_tasks: tasks/doas.yml
