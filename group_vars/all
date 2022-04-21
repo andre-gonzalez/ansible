@@ -8,3 +8,4 @@ processor: intel
 graphics_card: nvidia
 personal_email: lopescg@gmail.com
 work_email: andre.gonzalez@nhecotech.com
+hostname: frank-vm2
