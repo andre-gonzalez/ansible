@@ -132,7 +132,6 @@
     repo: https://aur.archlinux.org/yay-bin.git
     dest: "/home/{{ user }}/.config/yay"
     update: true
-  become: true
 
 - name: Create the `aur_builder` user
   ansible.builtin.user:
