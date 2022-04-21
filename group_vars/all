@@ -1,7 +1,7 @@
 user: frank
 fullname: André Gonzalez
-locale:
-timezone:
+locale: pt_BR.UTF-8
+timezone: America/Sao_Paulo
 keymap:
 processor: intel
 graphics_card: nvidia
