@@ -1,15 +1,15 @@
-- name: Set timezone to {{ timezone }}
+- name: Set timezone to "{{ timezone }}"
   tags:
     - timezone
     - full-install
-  timezone: name={{ timezone }}
+  timezone: "{{ timezone }}"
 
-- name: Ensure the locale {{ locale }} exists
+- name: Ensure the locale exists
   tags:
     - locale
     - full-install
-  locale_gen: {{ locale }}
-  state: present
+  community.general.locale_gen: "{{ locale }}"
+    state: present
 
 - name: set keyboard layout
   ansible.builtin.command: setxkbmap -layout "{{ keyboard-layout }}" -variant "{{ keyboard-variant }}" && setxkbmap -option caps:escape
