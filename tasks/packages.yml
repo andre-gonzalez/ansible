@@ -59,6 +59,7 @@
       - archinstall
       - brltty nano
       - htop
+      - sudo
     state: absent
     update_cache: no
   become: true
