@@ -9,3 +9,6 @@
     update: yes
     bare: yes
     version: main
+
+- name: set up dotfiles
+  ansible.builtin.command: /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout -f
