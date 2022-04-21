@@ -1,0 +1,11 @@
+- name: copy lfub to /usr/local/bin
+  tags:
+    - full-install
+    - lf
+  copy:
+    src: lfub
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
