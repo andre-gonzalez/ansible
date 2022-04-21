@@ -60,7 +60,6 @@
     update_cache: no
   become: true
 
-
 - name: install packages and update cache
   tags:
     - packages-install
