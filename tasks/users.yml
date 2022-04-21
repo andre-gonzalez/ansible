@@ -14,6 +14,7 @@
   user:
     name: "{{ user }}"
     groups: root
+  become: true
 
 - name: copy sudoers_ansible
   tags:
@@ -23,3 +24,4 @@
   with_items:
     - { src: 'sudoers_ansible', dest: '/etc/sudoers.d/ansible' }
     - { src: 'sudoers_frank', dest: '/etc/sudoers.d/frank' }
+  become: true
