@@ -4,6 +4,7 @@
     - full-install
   community.general.timezone:
     name: "{{ timezone }}"
+  become: true
 
 - name: Ensure the locale exists
   tags:
@@ -12,6 +13,7 @@
   community.general.locale_gen:
     name: "{{ locale }}"
     state: present
+  become: true
 
 - name: set keyboard layout
   ansible.builtin.command: setxkbmap -layout "{{ keyboard-layout }}" -variant "{{ keyboard-variant }}" && setxkbmap -option caps:escape
