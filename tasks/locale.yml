@@ -8,7 +8,8 @@
   tags:
     - locale
     - full-install
-  community.general.locale_gen: "{{ locale }}"
+  community.general.locale_gen:
+    name: "{{ locale }}"
     state: present
 
 - name: set keyboard layout
