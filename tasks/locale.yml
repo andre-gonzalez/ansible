@@ -2,7 +2,8 @@
   tags:
     - timezone
     - full-install
-  timezone: "{{ timezone }}"
+  community.general.timezone:
+    name: "{{ timezone }}"
 
 - name: Ensure the locale exists
   tags:
