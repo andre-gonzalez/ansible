@@ -23,7 +23,7 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
+  become: true
 
 - name: Install microcode updates for intel (if necessary)
   tags:
@@ -34,6 +34,7 @@
     state: present
     update_cache: true
   when: processor == "intel"
+  become: true
 
 - name: Install microcode updates for amd (if necessary)
   tags:
@@ -44,6 +45,7 @@
     state: present
     update_cache: true
   when: processor == "amd"
+  become: true
 
 - name: remove packages
   tags:
