@@ -120,6 +120,7 @@
       - bat
       - dunst
       - trash-cli
+      - xorg-setxkbmap
     state: latest
     update_cache: yes
   become: true
