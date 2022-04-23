@@ -15,12 +15,3 @@
     name: user.name
     scope: global
     value: "{{ fullname }}"
-
-- name: Git eureciclo email
-  tags:
-    - git-eureciclo
-    - full-install
-  community.general.git_config:
-    name: user.email
-    scope: global
-    value: "{{ work_email }}"
