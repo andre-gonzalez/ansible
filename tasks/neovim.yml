@@ -12,3 +12,6 @@
     dest: "/home/{{ user }}/.local/share/nvim/site/autoload/plug.vim"
     mode: 0o600
     owner: "{{ user }}"
+
+- name: Install Plugins
+  shell: nvim -E -s -c "source ~/.vimrc" -c PlugInstall -c qa
