@@ -1,2 +1,0 @@
-- name: Set wallpaper
-  ansible.builtin.command: /usr/bin/feh --bg-fill "$HOME"/.config/.wallpaper/arco-login.jpg
