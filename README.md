@@ -3,12 +3,10 @@ This is my personal ansible playbook to install and configure my workstation
 
 
 # How to run it
-1. To install requirements run
-`ansible-galaxy collection install -r requirements.yml`
-2. Edit the variables in `group-vars/all.yml`
-3. Push the changes to the remote repository
-4. Intall ansible on the machine you want to configure
-5. Run the following code:
+1. Edit the variables in `group-vars/all.yml`
+2. Push the changes to the remote repository
+3. Intall ansible on the machine you want to configure
+4. Run the following code:
 ```
 ansible-pull -o -U https://github.com/andre-gonzalez/ansible.git
 ```
