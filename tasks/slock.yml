@@ -5,6 +5,7 @@
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/my-slock.git
     dest: "{{ lookup('env', 'HOME') }}/.config/slock"
+    accept_newhostkey: yes
 
 - name: Install slock
   tags:
