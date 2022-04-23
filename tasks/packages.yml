@@ -61,6 +61,8 @@
       - htop
       - vim
       - openvpn
+      - grml-zsh-config
+      - zsh
     state: absent
     update_cache: no
   become: true
