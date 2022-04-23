@@ -22,6 +22,7 @@
     # - include_tasks: tasks/arch-base-install.yml
     - include_tasks: tasks/users.yml
     - include_tasks: tasks/doas.yml
+    - include_tasks: tasks/keyboard-layout.yml
     - include_tasks: tasks/packages.yml
     - include_tasks: tasks/locale.yml
     - include_tasks: tasks/cron.yml
