@@ -18,23 +18,23 @@
   #     private: false
 
   tasks:
-    # - include_tasks: tasks/collections-install.yml
+    - include_tasks: tasks/collections-install.yml
     # - include_tasks: tasks/arch-base-install.yml
-    # - include_tasks: tasks/users.yml
-    # - include_tasks: tasks/doas.yml
-    # - include_tasks: tasks/packages.yml
-    # - include_tasks: tasks/locale.yml
-    # - include_tasks: tasks/cron.yml
-    # - include_tasks: tasks/dotfiles.yml
-    # - include_tasks: tasks/start-services.yml
-    # - include_tasks: tasks/git.yml
-    # - include_tasks: tasks/dwm.yml
-    # - include_tasks: tasks/st.yml
-    # - include_tasks: tasks/dmenu.yml
-    # - include_tasks: tasks/dwmstatus.yml
-    # - include_tasks: tasks/dwmblocks.yml
-    # - include_tasks: tasks/slock.yml
-    # - include_tasks: tasks/libvirt.yml
-    # - include_tasks: tasks/lfub.yml
+    - include_tasks: tasks/users.yml
+    - include_tasks: tasks/doas.yml
+    - include_tasks: tasks/packages.yml
+    - include_tasks: tasks/locale.yml
+    - include_tasks: tasks/cron.yml
+    - include_tasks: tasks/dotfiles.yml
+    - include_tasks: tasks/start-services.yml
+    - include_tasks: tasks/git.yml
+    - include_tasks: tasks/dwm.yml
+    - include_tasks: tasks/st.yml
+    - include_tasks: tasks/dmenu.yml
+    - include_tasks: tasks/dwmstatus.yml
+    - include_tasks: tasks/dwmblocks.yml
+    - include_tasks: tasks/slock.yml
+    - include_tasks: tasks/libvirt.yml
+    - include_tasks: tasks/lfub.yml
     - include_tasks: tasks/neovim.yml
-    # - include_tasks: tasks/aur-packages.yml
+    - include_tasks: tasks/aur-packages.yml
