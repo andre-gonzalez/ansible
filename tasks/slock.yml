@@ -3,7 +3,7 @@
     - slock-install
     - full-install
   ansible.builtin.git:
-    repo: https://github.com/Andre-gonzalez/my-slock.git
+    repo: git@github.com:andre-gonzalez/my-slock.git
     dest: "{{ lookup('env', 'HOME') }}/.config/slock"
 
 - name: Install slock
