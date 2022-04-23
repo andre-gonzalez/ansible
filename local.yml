@@ -26,7 +26,6 @@
     - include_tasks: tasks/locale.yml
     - include_tasks: tasks/cron.yml
     - include_tasks: tasks/dotfiles.yml
-    - include_tasks: tasks/start-services.yml
     - include_tasks: tasks/git.yml
     - include_tasks: tasks/dwm.yml
     - include_tasks: tasks/st.yml
@@ -38,3 +37,4 @@
     - include_tasks: tasks/lfub.yml
     - include_tasks: tasks/neovim.yml
     - include_tasks: tasks/aur-packages.yml
+    - include_tasks: tasks/start-services.yml
