@@ -37,5 +37,6 @@
     - include_tasks: tasks/libvirt.yml
     - include_tasks: tasks/lfub.yml
     - include_tasks: tasks/neovim.yml
+    - include_tasks: tasks/ssh.yml
     - include_tasks: tasks/aur-packages.yml
     - include_tasks: tasks/start-services.yml

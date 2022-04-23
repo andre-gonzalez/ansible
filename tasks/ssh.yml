@@ -1,7 +1,35 @@
+- name: Ensure .ssh directory exists.
+  tags:
+    - full-install
+    - ssh-config
+  file:
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    mode: 0700
+    state: directory
+
+- name: Install ssh key
+  tags:
+    - full-install
+    - ssh-config
+  copy:
+    src: id_rsa
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    mode: 0600
+
+- name: Install ssh key public
+  tags:
+    - full-install
+    - ssh-config
+  copy:
+    src: id_rsa.pub
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    mode: 0644
+
 - name: add ssh key for frank
   tags:
     - full-install
     - ssh-config
   authorized_key:
-    user: "{{ lookup('env', 'HOME') }}"
-    key: ""
+    user: "{{ lookup('env', 'USER') }}"
+    state: present
+    key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
