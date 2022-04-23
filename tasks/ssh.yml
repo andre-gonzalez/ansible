@@ -3,5 +3,5 @@
     - full-install
     - ssh-config
   authorized_key:
-    user: {{ user }}
+    user: "{{ lookup('env', 'HOME') }}"
     key: ""

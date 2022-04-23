@@ -9,7 +9,7 @@
     - libvirt
     - full-install
   ansible.builtin.user:
-    name: frank
+    name: "{{ lookup('env', 'USER') }}"
     group: libvirtd
   become: yes
 
