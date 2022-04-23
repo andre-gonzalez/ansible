@@ -2,7 +2,7 @@
 This is my personal ansible playbook to install and configure my workstation
 
 
-# Encryting ssh file
+# Encrypting ssh file
 1. Run `ansbile-vault encrypt --vault-password-file [path_to_key_file] id_rsa`
 2. To decrypt run `ansbile-vault decrypt --vault-password-file [path_to_key_file] id_rsa`
 
