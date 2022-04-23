@@ -7,14 +7,14 @@
     system: yes
   become: true
 
-- name: "create {{ user }} user"
-  tags:
-    - full-install
-    - user-create
-  user:
-    name: "{{ user }}"
-    groups: root
-  become: true
+# - name: "create {{ user }} user"
+#   tags:
+#     - full-install
+#     - user-create
+#   user:
+#     name: "{{ user }}"
+#     groups: root
+#   become: true
 
 - name: copy sudoers_ansible
   tags:
