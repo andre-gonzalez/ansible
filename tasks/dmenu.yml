@@ -4,13 +4,13 @@
     - full-install
   ansible.builtin.git:
     repo: https://git.suckless.org/dmenu
-    dest: "'{{ lookup('env', 'HOME') }}'/.config/dmenu"
+    dest: "{{ lookup('env', 'HOME') }}/.config/dmenu"
 
 - name: Install dmenu
   tags:
     - dmenu-install
     - full-install
   make:
-    chdir: "'{{ lookup('env', 'HOME') }}'/.config/dmenu"
+    chdir: "{{ lookup('env', 'HOME') }}/.config/dmenu"
     target: install
   become: yes
