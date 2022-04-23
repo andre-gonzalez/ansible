@@ -58,6 +58,7 @@
       - informant
       - python-ueberzug-git
       - preload
+      - ttf-symbola
     use: yay
     state: present
     update_cache: yes
