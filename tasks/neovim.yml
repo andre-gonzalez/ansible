@@ -13,5 +13,5 @@
     mode: 0o600
     owner: "{{ user }}"
 
-- name: Install Plugins
-  shell: nvim -E -s -c "source ~/.vimrc" -c PlugInstall -c qa
+# - name: Install Plugins
+  # shell: nvim -E -s -c "source /home/frank/.config/nvim/init.vim" -c PlugInstall -c qa
