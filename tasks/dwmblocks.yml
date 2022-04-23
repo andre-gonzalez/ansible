@@ -5,6 +5,7 @@
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/my-dwmblocks.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
+    accept_newhostkey: yes
 
 - name: Install dwmblocks
   tags:

@@ -5,6 +5,7 @@
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/my-st.git
     dest: "{{ lookup('env', 'HOME') }}/.config/st"
+    accept_newhostkey: yes
 
 - name: Install st
   tags:
