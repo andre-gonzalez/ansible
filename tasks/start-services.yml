@@ -27,3 +27,13 @@
     state: started
     enabled: yes
   become: yes
+
+- name: start preload
+  tags:
+    - start-services
+    - full-install
+  ansible.builtin.service:
+    name: preload
+    state: started
+    enabled: yes
+  become: yes
