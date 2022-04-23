@@ -3,7 +3,7 @@
     - st-install
     - full-install
   ansible.builtin.git:
-    repo: https://github.com/andre-gonzalez/my-st
+    repo: git@github.com:andre-gonzalez/my-st.git
     dest: "{{ lookup('env', 'HOME') }}/.config/st"
 
 - name: Install st

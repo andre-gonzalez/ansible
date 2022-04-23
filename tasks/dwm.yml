@@ -3,7 +3,7 @@
     - dwm-install
     - full-install
   ansible.builtin.git:
-    repo: https://github.com/andre-gonzalez/my-dwm
+    repo: git@github.com:andre-gonzalez/my-dwm.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwm"
 
 - name: Install dwm
