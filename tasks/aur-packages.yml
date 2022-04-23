@@ -50,7 +50,6 @@
       - insync
       - vscodium-bin
       - google-cloud-sdk
-      - stremio
       - dashbinsh
       - htim
       - tmux-bash-completion-git
