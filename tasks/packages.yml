@@ -93,6 +93,9 @@
       - base-devel
       - xclip
       - ttf-nerd-fonts-symbols-mono
+      - ttf-joypixels
+      - ttf-linux-libertine
+      - ttf-symbola
       - brightnessctl
       - alsa-utils
       - pavucontrol
