@@ -35,17 +35,17 @@
     - full-install
     - crontab
   cron:
-    user: "$USER"
+    user: "frank"
     name: "remove-downloads-folder-reboot"
     special_time: reboot
-    job: "sleep 60 && rm -r /home/$USER/Downloads"
+    job: "sleep 60 && rm -r /home/frank/Downloads"
 
 - name: install cron job (remove downloads folder)
   tags:
     - full-install
     - crontab
   cron:
-    user: "$USER"
+    user: "frank"
     name: "remove-downloads-folder"
     minute: "*/10"
-    job: "sleep 60 && rm -r /home/$USER/Downloads"
+    job: "sleep 60 && rm -r /home/frank/Downloads"
