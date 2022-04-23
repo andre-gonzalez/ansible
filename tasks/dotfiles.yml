@@ -9,6 +9,7 @@
     update: yes
     bare: yes
     version: main
+    accept_newhostkey: yes
 
 - name: set up dotfiles
   ansible.builtin.command: "/usr/bin/git --git-dir={{ lookup('env', 'HOME') }}/.dotfiles/ --work-tree={{ lookup('env', 'HOME') }} checkout -f"
