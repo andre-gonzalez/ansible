@@ -54,11 +54,24 @@
       - htim
       - tmux-bash-completion-git
       - checkupdates+aur
-      - informant
       - python-ueberzug-git
       - preload
       - ttf-symbola
     use: yay
     state: present
     update_cache: yes
+  when: ansible_distribution == "Archlinux"
+
+- name: Install informant
+  tags:
+    - aur-packages-install
+    - packages-install
+    - packages
+    - full-install
+  kewlfft.aur.aur:
+    name:
+      - informant
+    use: yay
+    state: present
+    update_cache: no
   when: ansible_distribution == "Archlinux"
