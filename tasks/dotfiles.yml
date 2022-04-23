@@ -4,11 +4,11 @@
     - full-install
   ansible.builtin.git:
     repo: 'https://github.com/andre-gonzalez/dotfiles'
-    dest: "/home/{{ user }}/.dotfiles"
+    dest: "'{{ lookup('env', 'HOME') }}'/.dotfiles"
     recursive: yes
     update: yes
     bare: yes
     version: main
 
 - name: set up dotfiles
-  ansible.builtin.command: /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout -f
+  ansible.builtin.command: "/usr/bin/git --git-dir='{{ lookup('env', 'HOME') }}'/.dotfiles/ --work-tree=$HOME checkout -f"

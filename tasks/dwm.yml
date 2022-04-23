@@ -4,13 +4,13 @@
     - full-install
   ansible.builtin.git:
     repo: https://github.com/andre-gonzalez/my-dwm
-    dest: "/home/{{ user }}/.config/dwm"
+    dest: "'{{ lookup('env', 'HOME') }}'/.config/dwm"
 
 - name: Install dwm
   tags:
     - dwm-install
     - full-install
   make:
-    chdir: "/home/{{ user }}/.config/dwm"
+    chdir: "'{{ lookup('env', 'HOME') }}'/.config/dwm"
     target: install
   become: yes
