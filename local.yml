@@ -35,8 +35,8 @@
     - include_tasks: tasks/dwmblocks.yml
     - include_tasks: tasks/slock.yml
     - include_tasks: tasks/libvirt.yml
-    - include_tasks: tasks/wallpaper.yml
     - include_tasks: tasks/lfub.yml
     - include_tasks: tasks/neovim.yml
     - include_tasks: tasks/aur-packages.yml
+    - include_tasks: tasks/wallpaper.yml
     - include_tasks: tasks/keyboard-layout.yml
