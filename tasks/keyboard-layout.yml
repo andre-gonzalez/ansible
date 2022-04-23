@@ -1,0 +1,11 @@
+- name: copy file vconsole.conf
+  tags:
+    - full-install
+    - keyboard-layout
+  copy:
+    src: vconsole.conf
+    dest: /etc
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
