@@ -1,2 +1,0 @@
-- name: Run startx
-  ansible.builtin.command: startx
