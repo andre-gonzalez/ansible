@@ -63,6 +63,7 @@
       - openvpn
       - grml-zsh-config
       - zsh
+      - virtualbox-guest-utils-nox
     state: absent
     update_cache: no
   become: true
