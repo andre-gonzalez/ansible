@@ -121,6 +121,7 @@
       - dunst
       - trash-cli
       - xorg-setxkbmap
+      - cronie
     state: latest
     update_cache: yes
   become: true
