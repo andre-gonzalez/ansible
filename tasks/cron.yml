@@ -24,7 +24,7 @@
     - full-install
     - crontab
   cron:
-    user: frank
+    user: "{{ lookup('env', 'USER') }}"
     name: "profile-selector"
     special_time: reboot
     job: "sleep 15 && DISPLAY=:0 /usr/local/bin/profile-selector"
@@ -35,17 +35,17 @@
     - full-install
     - crontab
   cron:
-    user: "frank"
+    user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder-reboot"
     special_time: reboot
-    job: "sleep 60 && rm -r /home/frank/Downloads"
+    job: "sleep 60 && rm -r '{{ lookup('env', 'HOME') }}'/Downloads"
 
 - name: install cron job (remove downloads folder)
   tags:
     - full-install
     - crontab
   cron:
-    user: "frank"
+    user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder"
     minute: "*/10"
-    job: "sleep 60 && rm -r /home/frank/Downloads"
+    job: "sleep 60 && rm -r '{{ lookup('env', 'HOME') }}'/Downloads"
