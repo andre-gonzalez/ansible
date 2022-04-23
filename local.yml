@@ -39,3 +39,4 @@
     - include_tasks: tasks/lfub.yml
     - include_tasks: tasks/neovim.yml
     - include_tasks: tasks/aur-packages.yml
+    - include_tasks: tasks/keyboard-layout.yml
