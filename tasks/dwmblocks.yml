@@ -4,13 +4,13 @@
     - full-install
   ansible.builtin.git:
     repo: https://github.com/Andre-gonzalez/my-dwmblocks
-    dest: "'{{ lookup('env', 'HOME') }}'/.config/dwmblocks"
+    dest: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
 
 - name: Install dwmblocks
   tags:
     - dwmblocks-install
     - full-install
   make:
-    chdir: "'{{ lookup('env', 'HOME') }}'/.config/dwmblocks"
+    chdir: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
     target: install
   become: yes

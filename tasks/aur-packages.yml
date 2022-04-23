@@ -4,7 +4,7 @@
     - full-install
   git:
     repo: https://aur.archlinux.org/yay-bin.git
-    dest: "'{{ lookup('env', 'HOME') }}'/.config/yay"
+    dest: "{{ lookup('env', 'HOME') }}/.config/yay"
     update: true
 
 - name: Create the `aur_builder` user
@@ -27,7 +27,7 @@
     - aur-install
     - full-install
   command:
-    chdir: "'{{ lookup('env', 'HOME') }}'/.config/yay"
+    chdir: "{{ lookup('env', 'HOME') }}/.config/yay"
     cmd: "makepkg -sfi --noconfirm"
     creates: /usr/bin/yay
 

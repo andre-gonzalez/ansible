@@ -4,13 +4,13 @@
     - full-install
   ansible.builtin.git:
     repo: https://github.com/Andre-gonzalez/my-slock.git
-    dest: "'{{ lookup('env', 'HOME') }}'/.config/slock"
+    dest: "{{ lookup('env', 'HOME') }}/.config/slock"
 
 - name: Install slock
   tags:
     - slock-install
     - full-install
   make:
-    chdir: "'{{ lookup('env', 'HOME') }}'/.config/slock"
+    chdir: "{{ lookup('env', 'HOME') }}/.config/slock"
     target: install
   become: yes

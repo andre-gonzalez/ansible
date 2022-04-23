@@ -38,7 +38,7 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder-reboot"
     special_time: reboot
-    job: "sleep 60 && rm -r '{{ lookup('env', 'HOME') }}'/Downloads"
+    job: "sleep 60 && rm -r {{ lookup('env', 'HOME') }}/Downloads"
 
 - name: install cron job (remove downloads folder)
   tags:
@@ -48,4 +48,4 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder"
     minute: "*/10"
-    job: "sleep 60 && rm -r '{{ lookup('env', 'HOME') }}'/Downloads"
+    job: "sleep 60 && rm -r {{ lookup('env', 'HOME') }}/Downloads"
