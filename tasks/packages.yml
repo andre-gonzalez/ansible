@@ -60,6 +60,7 @@
       - brltty nano
       - htop
       - vim
+      - openvpn
     state: absent
     update_cache: no
   become: true
@@ -129,4 +130,3 @@
     state: latest
     update_cache: yes
   become: true
-
