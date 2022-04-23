@@ -49,3 +49,13 @@
     name: "remove-downloads-folder"
     minute: "*/10"
     job: "sleep 60 && rm -r {{ lookup('env', 'HOME') }}/Downloads"
+
+- name: install cron job (battery notification)
+  tags:
+    - full-install
+    - crontab
+  cron:
+    user: "{{ lookup('env', 'USER') }}"
+    name: "battery notification"
+    minute: "*/10"
+    job: "/bin/sh {{ lookup('env', 'HOME') }}/.local/bin/battery-warning.sh"
