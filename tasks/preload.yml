@@ -1,0 +1,11 @@
+- name: copy file preload.conf to /etc
+  tags:
+    - full-install
+    - preload
+  copy:
+    src: preload.conf
+    dest: /etc
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
