@@ -7,3 +7,23 @@
     state: stopped
     enabled: no
   become: yes
+
+- name: stop netctl
+  tags:
+    - stop-services
+    - full-install
+  ansible.builtin.service:
+    name: netctl
+    state: stopped
+    enabled: no
+  become: yes
+
+- name: stop networkmanager
+  tags:
+    - stop-services
+    - full-install
+  ansible.builtin.service:
+    name: networkmanager
+    state: stopped
+    enabled: no
+  become: yes
