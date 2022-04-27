@@ -27,3 +27,13 @@
     state: started
     enabled: yes
   become: yes
+
+- name: restart connman
+  tags:
+    - start-services
+    - full-install
+  ansible.builtin.service:
+    name: connman
+    state: restarted
+    enabled: yes
+  become: yes

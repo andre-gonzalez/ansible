@@ -1,0 +1,9 @@
+- name: stop systemd-networkd
+  tags:
+    - stop-services
+    - full-install
+  ansible.builtin.service:
+    name: systemd-networkd
+    state: stopped
+    enabled: no
+  become: yes
