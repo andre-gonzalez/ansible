@@ -2,6 +2,7 @@
   tags:
     - stop-services
     - full-install
+    - light-install
   ansible.builtin.service:
     name: systemd-networkd
     state: stopped
@@ -12,6 +13,7 @@
   tags:
     - stop-services
     - full-install
+    - light-install
   ansible.builtin.service:
     name: netctl
     state: stopped
@@ -22,6 +24,7 @@
   tags:
     - stop-services
     - full-install
+    - light-install
   ansible.builtin.service:
     name: networkmanager
     state: stopped

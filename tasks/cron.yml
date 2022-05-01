@@ -2,6 +2,7 @@
   tags:
     - start-services
     - full-install
+    - light-install
   ansible.builtin.service:
     name: cronie
     state: started
@@ -23,6 +24,7 @@
   tags:
     - full-install
     - crontab
+    - light-install
   cron:
     user: "{{ lookup('env', 'USER') }}"
     name: "profile-selector"
@@ -34,6 +36,7 @@
   tags:
     - full-install
     - crontab
+    - light-install
   cron:
     user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder-reboot"
@@ -54,6 +57,7 @@
   tags:
     - full-install
     - crontab
+    - light-install
   cron:
     user: "{{ lookup('env', 'USER') }}"
     name: "battery notification"

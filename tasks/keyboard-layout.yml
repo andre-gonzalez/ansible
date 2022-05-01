@@ -2,6 +2,7 @@
   tags:
     - full-install
     - keyboard-layout
+    - light-install
   copy:
     src: vconsole.conf
     dest: /etc

@@ -2,6 +2,7 @@
   tags:
     - st-install
     - full-install
+    - light-install
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/my-st.git
     dest: "{{ lookup('env', 'HOME') }}/.config/st"
@@ -11,6 +12,7 @@
   tags:
     - st-install
     - full-install
+    - light-install
   make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/st"
     target: install

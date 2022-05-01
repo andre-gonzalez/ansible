@@ -1,4 +1,8 @@
 - name: Create neovim directory for autoloading configurations
+  tags:
+    - full-install
+    - light-install
+    - neovim
   file:
     path: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/autoload/"
     state: directory
@@ -7,6 +11,10 @@
     owner: "{{ lookup('env', 'USER') }}"
 
 - name: Install vim-plug
+  tags:
+    - full-install
+    - light-install
+    - neovim
   get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/autoload/plug.vim"
