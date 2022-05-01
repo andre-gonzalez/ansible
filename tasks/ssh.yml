@@ -2,6 +2,7 @@
   tags:
     - start-services
     - full-install
+    - ssh-config
   ansible.builtin.service:
     name: sshd
     state: started
