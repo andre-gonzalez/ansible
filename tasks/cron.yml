@@ -1,10 +1,20 @@
+- name: Set cron variable when distribution is Archlinux
+  set_fact:
+    cron: cronie
+  when: ansible_distribution == "Archlinux"
+
+- name: Set cron variable when distribution is Ubuntu
+  set_fact:
+    cron: cron
+  when: ansible_distribution == "Ubuntu"
+
 - name: start cron
   tags:
     - start-services
     - full-install
     - light-install
   ansible.builtin.service:
-    name: cronie
+    name: "{{cron}}"
     state: started
     enabled: yes
   become: yes
