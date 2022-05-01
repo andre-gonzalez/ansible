@@ -2,6 +2,7 @@
   tags:
     - dwm-install
     - full-install
+    - light-install
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/my-dwm.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwm"
@@ -11,6 +12,7 @@
   tags:
     - dwm-install
     - full-install
+    - light-install
   make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwm"
     target: install

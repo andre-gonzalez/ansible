@@ -2,6 +2,7 @@
   tags:
     - slock-install
     - full-install
+    - light-install
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/my-slock.git
     dest: "{{ lookup('env', 'HOME') }}/.config/slock"
@@ -11,6 +12,7 @@
   tags:
     - slock-install
     - full-install
+    - light-install
   make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/slock"
     target: install

@@ -2,6 +2,7 @@
   tags:
     - dwmblocks-install
     - full-install
+    - light-install
   ansible.builtin.git:
     repo: https://git.suckless.org/dwmstatus
     dest: "{{ lookup('env', 'HOME') }}/.config/dwmstatus"
@@ -10,6 +11,7 @@
   tags:
     - dwmblocks-install
     - full-install
+    - light-install
   make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwmstatus"
     target: install

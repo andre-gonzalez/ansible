@@ -3,6 +3,7 @@
     - start-services
     - full-install
     - ssh-config
+    - light-install
   ansible.builtin.service:
     name: sshd
     state: started
@@ -13,6 +14,7 @@
   tags:
     - full-install
     - ssh-config
+    - light-install
   file:
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0700
@@ -22,6 +24,7 @@
   tags:
     - full-install
     - ssh-config
+    - light-install
   copy:
     src: id_rsa
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
@@ -31,6 +34,7 @@
   tags:
     - full-install
     - ssh-config
+    - light-install
   copy:
     src: id_rsa.pub
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
@@ -40,6 +44,7 @@
   tags:
     - full-install
     - ssh-config
+    - light-install
   authorized_key:
     user: "{{ lookup('env', 'USER') }}"
     state: present

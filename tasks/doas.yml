@@ -2,6 +2,7 @@
   tags:
     - full-install
     - doas
+    - light-install
   copy:
     src: doas.conf
     dest: /etc

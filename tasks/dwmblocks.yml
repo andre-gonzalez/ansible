@@ -2,6 +2,7 @@
   tags:
     - dwmblocks-install
     - full-install
+    - light-install
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/my-dwmblocks.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
@@ -11,6 +12,7 @@
   tags:
     - dwmblocks-install
     - full-install
+    - light-install
   make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
     target: install

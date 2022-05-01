@@ -2,6 +2,7 @@
   tags:
     - full-install
     - lf
+    - light-install
   copy:
     src: lfub
     dest: /usr/local/bin

@@ -2,6 +2,7 @@
   tags:
     - start-services
     - full-install
+    - light-install
   ansible.builtin.service:
     name: iwd
     state: started
@@ -12,6 +13,7 @@
   tags:
     - start-services
     - full-install
+    - light-install
   ansible.builtin.service:
     name: bluetooth
     state: started
@@ -32,6 +34,7 @@
   tags:
     - start-services
     - full-install
+    - light-install
   ansible.builtin.service:
     name: connman
     state: restarted

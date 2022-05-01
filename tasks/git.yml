@@ -2,6 +2,7 @@
   tags:
     - git-personal
     - full-install
+    - light-install
   community.general.git_config:
     name: user.email
     scope: global
@@ -11,6 +12,7 @@
   tags:
     - git-personal
     - full-install
+    - light-install
   community.general.git_config:
     name: user.name
     scope: global

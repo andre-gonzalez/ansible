@@ -2,6 +2,7 @@
   tags:
     - full-install
     - user-create
+    - light-install
   user:
     name: ansible
     system: yes
