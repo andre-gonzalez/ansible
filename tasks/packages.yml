@@ -6,6 +6,7 @@
   package:
     name: reflector
   become: true
+  when: ansible_distribution == "Archlinux"
 
 - name: update pacman mirrorlist
   tags:
@@ -13,6 +14,7 @@
     - full-install
   script: choose-mirror.sh
   become: true
+  when: ansible_distribution == "Archlinux"
 
 - name: copy file pacman.conf to /etc
   tags:
@@ -24,6 +26,7 @@
     group: root
     mode: 0644
   become: true
+  when: ansible_distribution == "Archlinux"
 
 - name: Install microcode updates for intel (if necessary)
   tags:
@@ -45,6 +48,14 @@
     state: present
     update_cache: true
   when: processor == "amd"
+  become: true
+
+- name: Install nvidia drivers
+  tags:
+    - nvidia
+  package:
+    name: nvidia
+    state: present
   become: true
 
 - name: remove packages
@@ -77,12 +88,10 @@
     name:
       - neovim
       - tmux
-      - nvidia
       - xorg-server
       - xorg-xinit
       - xorg-xsetroot
       - xorg-xrandr
-      - spotifyd
       - xautolock
       - git
       - xbindkeys
