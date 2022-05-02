@@ -7,6 +7,8 @@
   kewlfft.aur.aur:
     name:
       - lf
+      - python-ueberzug-git
+      - ttf-symbola
     use: yay
     state: present
     update_cache: yes
