@@ -158,6 +158,8 @@
       # - xorg-setxkbmap
       - xautolock
       - xbindkeys
+      # - arandr
+      # - numlockx
       - "{{ python_pip }}"
       - feh
       # - dbeaver
@@ -183,9 +185,6 @@
       # - lxsession
       # - flameshot
       # - clipmenu
-      # - arandr
-      # - numlockx
-      # - broadcom-wl
       # - bat
       # - dunst
       # - trash-cli
