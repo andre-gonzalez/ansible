@@ -22,7 +22,7 @@
     # - include_tasks: tasks/arch-base-install.yml
     # - include_tasks: tasks/ssh.yml
     # - include_tasks: tasks/audio.yml
-    # - include_tasks: tasks/users.yml
+    - include_tasks: tasks/ansible.yml
     # - include_tasks: tasks/doas.yml
     # - include_tasks: tasks/keyboard-layout.yml
     # - include_tasks: tasks/packages.yml
