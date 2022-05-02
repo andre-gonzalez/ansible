@@ -4,7 +4,17 @@
   package:
     name: firmware-b43-install
     state: present
+    update_cache: true
   when: ansible_distribution in = ["Debian", "Ubuntu"]
+
+- name: Install connman
+  tags:
+    - full-install
+    - light-install
+  package:
+    name: connman
+    state: present
+    update_cache: true
 
 - name: stop systemd-networkd
   tags:
