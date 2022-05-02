@@ -9,7 +9,7 @@
       - virt-manager
       - spice-vdagent
     state: present
-    update_cache: true
+    update_cache: false
   become: true
 
 - name: Ensure group libvirtd exists

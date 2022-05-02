@@ -8,5 +8,4 @@
       - alsa-utils
       - pavucontrol
     state: present
-    update_cache: true
   become: true
