@@ -43,7 +43,6 @@
     - full-install
   kewlfft.aur.aur:
     name:
-      - authy
       - obsidian
       - xflux
       - slack-desktop
@@ -55,7 +54,6 @@
       - dashbinsh
       - htim
       - tmux-bash-completion-git
-      - checkupdates+aur
     use: yay
     state: present
     update_cache: yes
