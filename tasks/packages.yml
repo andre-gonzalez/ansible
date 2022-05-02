@@ -164,19 +164,16 @@
       - feh
       # - dbeaver
       - unclutter
-      - pulseaudio
+      # - pamixer
       - "{{ base_devel }}"
       - xclip
       # - ttf-nerd-fonts-symbols-mono
       # - ttf-joypixels
       # - ttf-linux-libertine
       - brightnessctl
-      - alsa-utils
-      - pavucontrol
       - lxappearance
       # - arc-gtk-theme
       - "{{wpa_supplicant}}"
-      # - pamixer
       # - ripgrep
       # - fd
       # - fzf
