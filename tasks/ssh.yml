@@ -40,6 +40,26 @@
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0644
 
+- name: Copy authorized_keys file
+  tags:
+    - full-install
+    - ssh-config
+    - light-install
+  copy:
+    src: authorized_keys
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    mode: 0600
+
+- name: Copy config file
+  tags:
+    - full-install
+    - ssh-config
+    - light-install
+  copy:
+    src: config
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    mode: 0600
+
 - name: add ssh key for frank
   tags:
     - full-install
