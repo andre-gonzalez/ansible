@@ -4,7 +4,7 @@
   package:
     name: firmware-b43-install
     state: present
-    update_cache: true
+    update_cache: false
   when: ansible_distribution in ["Debian", "Ubuntu"]
   become: true
 
@@ -14,7 +14,7 @@
   package:
     name: broadcom-wl
     state: present
-    update_cache: true
+    update_cache: false
   when: ansible_distribution in ["Archlinux"]
   become: true
 
@@ -25,7 +25,7 @@
   package:
     name: connman
     state: present
-    update_cache: true
+    update_cache: false
   become: true
 
 - name: stop systemd-networkd

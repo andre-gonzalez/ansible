@@ -6,7 +6,7 @@
   package:
     name: doas
     state: present
-    update_cache: true
+    update_cache: false
   become: true
 
 - name: copy file doas.conf to /etc

@@ -5,7 +5,7 @@
   package:
     name: neovim
     state: present
-    update_cache: true
+    update_cache: false
   become: true
 
 - name: Create neovim directory for autoloading configurations
