@@ -154,7 +154,10 @@
   package:
     name:
       - tmux
-      - "{{ xorg }}"
+      - "{{ xorg[0] }}"
+      - "{{ xorg[1] }}"
+      - "{{ xorg[2] }}"
+      - "{{ xorg[3] }}"
       # - xorg-setxkbmap
       - xautolock
       - xbindkeys
