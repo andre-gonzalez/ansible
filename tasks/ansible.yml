@@ -8,15 +8,6 @@
     system: yes
   become: true
 
-# - name: "create {{ user }} user"
-#   tags:
-#     - full-install
-#     - user-create
-#   user:
-#     name: "{{ user }}"
-#     groups: root
-#   become: true
-
 - name: copy sudoers_ansible
   tags:
     - full-install
@@ -26,3 +17,13 @@
     - { src: 'sudoers_ansible', dest: '/etc/sudoers.d/ansible' }
     - { src: 'sudoers_frank', dest: '/etc/sudoers.d/frank' }
   become: true
+
+- name: Clone ansible repository
+  tags:
+    - full-install
+    - light-install
+    - ansible
+  ansible.builtin.git:
+    repo: git@github.com:andre-gonzalez/my-dwm.git
+    dest: "{{ lookup('env', 'HOME') }}/.config/ansible"
+    accept_hostkey: yes
