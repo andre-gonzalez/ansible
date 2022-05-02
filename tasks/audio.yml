@@ -1,0 +1,12 @@
+- name: Install audio packages
+  tags:
+    - full-install
+    - audio
+  package:
+    name:
+      - pulseaudio
+      - alsa-utils
+      - pavucontrol
+    state: present
+    update_cache: true
+  become: true
