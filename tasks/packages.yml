@@ -155,8 +155,8 @@
     name:
       - tmux
       - "{{ xorg }}"
+      # - xorg-setxkbmap
       - xautolock
-      - git
       - xbindkeys
       - "{{ python_pip }}"
       - feh
@@ -189,7 +189,6 @@
       # - bat
       # - dunst
       # - trash-cli
-      # - xorg-setxkbmap
       # - noto-fonts-emoji
     state: latest
     update_cache: yes
