@@ -26,6 +26,7 @@
     # - include_tasks: tasks/doas.yml
     # - include_tasks: tasks/keyboard-layout.yml
     # - include_tasks: tasks/packages.yml
+    # - include_tasks: tasks/aur-packages.yml
     # - include_tasks: tasks/locale.yml
     # - include_tasks: tasks/cron.yml
     # - include_tasks: tasks/git.yml
@@ -39,7 +40,6 @@
     # - include_tasks: tasks/libvirt.yml
     # - include_tasks: tasks/lfub.yml
     # - include_tasks: tasks/neovim.yml
-    # - include_tasks: tasks/aur-packages.yml
     # - include_tasks: tasks/preload.yml
     - include_tasks: tasks/network.yml
     - include_tasks: tasks/bluetooth.yml
