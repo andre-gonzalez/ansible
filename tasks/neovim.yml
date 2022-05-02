@@ -1,3 +1,13 @@
+- name: Install neovim package
+  tags:
+    - full-install
+    - light-install
+  package:
+    name: neovim
+    state: present
+    update_cache: true
+  become: true
+
 - name: Create neovim directory for autoloading configurations
   tags:
     - full-install
