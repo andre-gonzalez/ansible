@@ -1,3 +1,14 @@
+- name: Install git
+  tags:
+    - git
+    - full-install
+    - light-install
+  package:
+    name: git
+    state: present
+    update_cache: true
+  become: true
+
 - name: Git personal setup email
   tags:
     - git-personal
