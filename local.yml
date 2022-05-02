@@ -24,7 +24,7 @@
     # - include_tasks: tasks/users.yml
     # - include_tasks: tasks/doas.yml
     # - include_tasks: tasks/keyboard-layout.yml
-    - include_tasks: tasks/packages.yml
+    # - include_tasks: tasks/packages.yml
     # - include_tasks: tasks/locale.yml
     # - include_tasks: tasks/cron.yml
     # - include_tasks: tasks/git.yml
@@ -35,7 +35,7 @@
     - include_tasks: tasks/dwmstatus.yml
     - include_tasks: tasks/dwmblocks.yml
     - include_tasks: tasks/slock.yml
-    - include_tasks: tasks/libvirt.yml
+    # - include_tasks: tasks/libvirt.yml
     # - include_tasks: tasks/lfub.yml
     # - include_tasks: tasks/neovim.yml
     # - include_tasks: tasks/aur-packages.yml
