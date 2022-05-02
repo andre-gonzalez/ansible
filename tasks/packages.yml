@@ -118,7 +118,7 @@
 
 - name: Set python_pip variable when distribution is Archlinux (if necessary)
   set_fact:
-    python_pip: pipenv
+    python_pip: python-pip
   when: ansible_distribution == "Archlinux"
 
 - name: Set python_pip variable when distribution is Ubuntu (if necessary)
