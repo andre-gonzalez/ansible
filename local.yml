@@ -43,3 +43,4 @@
     - include_tasks: tasks/preload.yml
     - include_tasks: tasks/network.yml
     - include_tasks: tasks/bluetooth.yml
+    - include_tasks: tasks/brave.yml

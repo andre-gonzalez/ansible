@@ -43,7 +43,6 @@
     - full-install
   kewlfft.aur.aur:
     name:
-      - brave-bin
       - authy
       - obsidian
       - xflux
