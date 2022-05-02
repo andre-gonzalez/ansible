@@ -57,8 +57,6 @@
       - htim
       - tmux-bash-completion-git
       - checkupdates+aur
-      - python-ueberzug-git
-      - ttf-symbola
     use: yay
     state: present
     update_cache: yes
