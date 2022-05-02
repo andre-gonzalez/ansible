@@ -37,7 +37,7 @@
     # - include_tasks: tasks/slock.yml
     # - include_tasks: tasks/libvirt.yml
     # - include_tasks: tasks/lfub.yml
-    - include_tasks: tasks/neovim.yml
+    # - include_tasks: tasks/neovim.yml
     # - include_tasks: tasks/aur-packages.yml
     # - include_tasks: tasks/preload.yml
     - include_tasks: tasks/stop-services.yml
