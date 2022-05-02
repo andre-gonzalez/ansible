@@ -28,23 +28,43 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
+- name: Set intel variable when distribution is Archlinux (if necessary)
+  set_fact:
+    intel: intel-ucode
+  when: (ansible_distribution == "Archlinux") and (processor == "intel")
+
+- name: Set intel variable when distribution is Ubuntu (if necessary)
+  set_fact:
+    intel: intel-acm
+  when: (ansible_distribution == "Ubuntu") and (processor == "intel")
+
 - name: Install microcode updates for intel (if necessary)
   tags:
     - processor
     - full-install
   package:
-    name: intel-ucode
+    name: "{{ intel }}"
     state: present
     update_cache: true
   when: processor == "intel"
   become: true
+
+- name: Set amd variable when distribution is Archlinux (if necessary)
+  set_fact:
+    amd: amd-ucode
+  when: ansible_distribution == "Archlinux"
+
+- name: Set amd variable when distribution is Ubuntu (if necessary)
+  set_fact:
+    amd: amd64-microcode
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install microcode updates for amd (if necessary)
   tags:
     - processor
     - full-install
   package:
-    name: amd-ucode
+    name: "{{ amd }}"
     state: present
     update_cache: true
   when: processor == "amd"
@@ -56,28 +76,92 @@
   package:
     name: nvidia
     state: present
+  when: (graphics_card == "nvidia") and (ansible_distribution == "Archlinux")
   become: true
 
-- name: remove packages
-  tags:
-    - packages-remove
-    - packages
-    - full-install
-  package:
-    name:
-      - arch-install-scripts
-      - amd-ucode
-      - archinstall
-      - brltty nano
-      - htop
-      - vim
-      - openvpn
-      - grml-zsh-config
-      - zsh
-      - virtualbox-guest-utils-nox
-    state: absent
-    update_cache: no
-  become: true
+# - name: remove packages
+#   tags:
+#     - packages-remove
+#     - packages
+#     - full-install
+#   package:
+#     name:
+#       - arch-install-scripts
+#       - archinstall
+#       - brltty nano
+#       - htop
+#       - vim
+#       - openvpn
+#       - grml-zsh-config
+#       - zsh
+#       - virtualbox-guest-utils-nox
+#     state: absent
+#     update_cache: no
+#   become: true
+
+- name: Set xorg variable when distribution is Archlinux (if necessary)
+  set_fact:
+    xorg:
+      - xorg-server
+      - xorg-xinit
+      - xorg-xsetroot
+      - xorg-xrandr
+  when: ansible_distribution == "Archlinux"
+
+- name: Set xorg variable when distribution is Ubuntu (if necessary)
+  set_fact:
+    xorg: xorg
+  when: ansible_distribution == "Ubuntu"
+
+- name: Set python_pip variable when distribution is Archlinux (if necessary)
+  set_fact:
+    python_pip: pipenv
+  when: ansible_distribution == "Archlinux"
+
+- name: Set python_pip variable when distribution is Ubuntu (if necessary)
+  set_fact:
+    python_pip: pipenv
+  when: ansible_distribution == "Ubuntu"
+
+- name: Set bluez_utils variable when distribution is Archlinux (if necessary)
+  set_fact:
+    bluez_utils: bluez-utils
+  when: ansible_distribution == "Archlinux"
+
+- name: Set bluez_utils variable when distribution is Ubuntu (if necessary)
+  set_fact:
+    bluez_utils: bluez-alsa-utils
+  when: ansible_distribution == "Ubuntu"
+
+- name: Set pulseaudio_bluetooth variable when distribution is Archlinux (if necessary)
+  set_fact:
+    pulseaudio_bluetooth: pulseaudio-bluetooth
+  when: ansible_distribution == "Archlinux"
+
+- name: Set pulseaudio_bluetooth variable when distribution is Ubuntu (if necessary)
+  set_fact:
+    pulseaudio_bluetooth: pulseaudio-module-bluetooth
+  when: ansible_distribution == "Ubuntu"
+
+- name: Set base_devel variable when distribution is Archlinux (if necessary)
+  set_fact:
+    base_devel: base-devel
+  when: ansible_distribution == "Archlinux"
+
+- name: Set base_devel variable when distribution is Ubuntu (if necessary)
+  set_fact:
+    base_devel: make
+  when: ansible_distribution == "Ubuntu"
+
+- name: Set wpa_supplicant variable when distribution is Archlinux (if necessary)
+  set_fact:
+    wpa_supplicant: wpa_supplicant
+  when: ansible_distribution == "Archlinux"
+
+- name: Set wpa_supplicant variable when distribution is Ubuntu (if necessary)
+  set_fact:
+    wpa_supplicant: wpasupplicant
+  when: ansible_distribution == "Ubuntu"
 
 - name: install packages and update cache
   tags:
@@ -88,57 +172,54 @@
     name:
       - neovim
       - tmux
-      - xorg-server
-      - xorg-xinit
-      - xorg-xsetroot
-      - xorg-xrandr
+      - "{{ xorg }}"
       - xautolock
       - git
       - xbindkeys
-      - python-pip
+      - "{{ python_pip }}"
       - feh
-      - dbeaver
+      # - dbeaver
       - unclutter
       - bluez
       - bluez-tools
-      - bluez-utils
+      - "{{ bluez_utils }}"
       - pulseaudio
-      - pulseaudio-bluetooth
-      - base-devel
+      - "{{ pulseaudio_bluetooth }}"
+      - "{{ base_devel }}"
       - xclip
-      - ttf-nerd-fonts-symbols-mono
-      - ttf-joypixels
-      - ttf-linux-libertine
+      # - ttf-nerd-fonts-symbols-mono
+      # - ttf-joypixels
+      # - ttf-linux-libertine
       - brightnessctl
       - alsa-utils
       - pavucontrol
       - lxappearance
-      - arc-gtk-theme
+      # - arc-gtk-theme
       - doas
       - connman
-      - wpa_supplicant
-      - pamixer
-      - ripgrep
-      - fd
-      - fzf
-      - baobab
-      - nethogs
-      - virt-manager
-      - qemu
-      - libvirt
-      - lxsession
-      - spice-vdagent
-      - flameshot
-      - clipmenu
-      - arandr
-      - numlockx
-      - broadcom-wl
-      - bat
-      - dunst
-      - trash-cli
-      - xorg-setxkbmap
-      - noto-fonts-emoji
-      - cronie
+      - "{{wpa_supplicant}}"
+      # - pamixer
+      # - ripgrep
+      # - fd
+      # - fzf
+      # - baobab
+      # - nethogs
+      # - virt-manager
+      # - qemu
+      # - libvirt
+      # - lxsession
+      # - spice-vdagent
+      # - flameshot
+      # - clipmenu
+      # - arandr
+      # - numlockx
+      # - broadcom-wl
+      # - bat
+      # - dunst
+      # - trash-cli
+      # - xorg-setxkbmap
+      # - noto-fonts-emoji
+      # - cronie
     state: latest
     update_cache: yes
   become: true
