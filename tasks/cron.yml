@@ -8,9 +8,18 @@
     cron: cron
   when: ansible_distribution == "Ubuntu"
 
+- name: Install cron
+  tags:
+    - full-install
+    - light-install
+  package:
+    name: " {{ cron }}"
+    state: present
+    update_cache: true
+  become: true
+
 - name: start cron
   tags:
-    - start-services
     - full-install
     - light-install
   ansible.builtin.service:
