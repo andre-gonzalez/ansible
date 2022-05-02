@@ -1,0 +1,25 @@
+- name: Intall authy snap
+  tags:
+    - snap
+    - packages
+    - packages-install
+    - full-install
+    - light-install
+  snap:
+    name: authy
+    state: present
+  become: true
+  when: ansible_distribuiton == "Ubuntu"
+
+- name: Install aur packages
+  tags:
+    - aur-packages-install
+    - packages-install
+    - packages
+    - full-install
+  kewlfft.aur.aur:
+    name: authy
+    use: yay
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Archlinux"
