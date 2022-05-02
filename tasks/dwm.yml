@@ -1,3 +1,4 @@
+# create a job to install this package in ubuntu libx11-dev , libxft-dev libxinerama-dev, libxinerama1
 - name: Clone dwm
   tags:
     - dwm-install
@@ -7,6 +8,7 @@
     repo: git@github.com:andre-gonzalez/my-dwm.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwm"
     accept_hostkey: yes
+    force: yes
 
 - name: Install dwm
   tags:
