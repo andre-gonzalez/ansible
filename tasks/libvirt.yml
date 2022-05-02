@@ -6,6 +6,8 @@
     name:
       - qemu
       - libvirt
+      - virt-manager
+      - spice-vdagent
     state: present
     update_cache: true
   become: true
