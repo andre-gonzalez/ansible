@@ -40,5 +40,5 @@
     # - include_tasks: tasks/neovim.yml
     # - include_tasks: tasks/aur-packages.yml
     # - include_tasks: tasks/preload.yml
-    # - include_tasks: tasks/stop-services.yml
-    - include_tasks: tasks/start-services.yml
+    - include_tasks: tasks/network.yml
+    - include_tasks: tasks/bluetooth.yml

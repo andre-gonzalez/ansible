@@ -1,0 +1,10 @@
+- name: start bluetooth
+  tags:
+    - start-services
+    - full-install
+    - light-install
+  ansible.builtin.service:
+    name: bluetooth
+    state: started
+    enabled: yes
+  become: yes
