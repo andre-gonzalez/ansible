@@ -1,4 +1,4 @@
-- name: Install wireless drivers
+- name: Install wireless drivers (netbook)
   tags:
     - netbook
   package:
@@ -6,6 +6,15 @@
     state: present
     update_cache: true
   when: ansible_distribution in = ["Debian", "Ubuntu"]
+
+- name: Install wireless drivers (samsung-expert)
+  tags:
+    - samsung-expert
+  package:
+    name: broadcom-wl
+    state: present
+    update_cache: true
+  when: ansible_distribution in = ["Archlinux"]
 
 - name: Install connman
   tags:
