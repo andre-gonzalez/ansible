@@ -1,3 +1,18 @@
+- name: Install aur packages
+  tags:
+    - aur-packages-install
+    - packages-install
+    - packages
+    - full-install
+    - preload
+  kewlfft.aur.aur:
+    name:
+      - preload
+    use: yay
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Archlinux"
+
 - name: copy file preload.conf to /etc
   tags:
     - full-install

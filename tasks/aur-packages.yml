@@ -58,7 +58,6 @@
       - tmux-bash-completion-git
       - checkupdates+aur
       - python-ueberzug-git
-      - preload
       - ttf-symbola
     use: yay
     state: present
