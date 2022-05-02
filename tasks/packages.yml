@@ -110,7 +110,10 @@
 
 - name: Set xorg variable when distribution is Ubuntu (if necessary)
   set_fact:
-    xorg: xorg
+    xorg:
+      - xorg
+      - libxrandr2
+      - libxrandr-dev
   when: ansible_distribution == "Ubuntu"
 
 - name: Set python_pip variable when distribution is Archlinux (if necessary)
