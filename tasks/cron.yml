@@ -23,7 +23,7 @@
     - full-install
     - light-install
   ansible.builtin.service:
-    name: "{{cron}}"
+    name: "{{ cron }}"
     state: started
     enabled: yes
   become: yes
