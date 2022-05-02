@@ -5,7 +5,7 @@
     name: firmware-b43-install
     state: present
     update_cache: true
-  when: ansible_distribution in = ["Debian", "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Install wireless drivers (samsung-expert)
   tags:
@@ -14,7 +14,7 @@
     name: broadcom-wl
     state: present
     update_cache: true
-  when: ansible_distribution in = ["Archlinux"]
+  when: ansible_distribution in ["Archlinux"]
 
 - name: Install connman
   tags:
