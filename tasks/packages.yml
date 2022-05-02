@@ -52,12 +52,12 @@
 - name: Set amd variable when distribution is Archlinux (if necessary)
   set_fact:
     amd: amd-ucode
-  when: ansible_distribution == "Archlinux"
+  when: (ansible_distribution == "Archlinux") and (processor == "amd")
 
 - name: Set amd variable when distribution is Ubuntu (if necessary)
   set_fact:
     amd: amd64-microcode
-  when: ansible_distribution == "Ubuntu"
+  when: (ansible_distribution == "Ubuntu") and (processor == "amd")
 
 - name: Install microcode updates for amd (if necessary)
   tags:
@@ -106,6 +106,10 @@
       - xorg-xinit
       - xorg-xsetroot
       - xorg-xrandr
+    python_pip: python-pip
+    base_devel: base-devel
+    wpa_supplicant: wpa_supplicant
+    fd: fd
   when: ansible_distribution == "Archlinux"
 
 - name: Set xorg variable when distribution is Ubuntu (if necessary)
@@ -114,36 +118,10 @@
       - xorg
       - libxrandr2
       - libxrandr-dev
-  when: ansible_distribution == "Ubuntu"
-
-- name: Set python_pip variable when distribution is Archlinux (if necessary)
-  set_fact:
-    python_pip: python-pip
-  when: ansible_distribution == "Archlinux"
-
-- name: Set python_pip variable when distribution is Ubuntu (if necessary)
-  set_fact:
     python_pip: pipenv
-  when: ansible_distribution == "Ubuntu"
-
-- name: Set base_devel variable when distribution is Archlinux (if necessary)
-  set_fact:
-    base_devel: base-devel
-  when: ansible_distribution == "Archlinux"
-
-- name: Set base_devel variable when distribution is Ubuntu (if necessary)
-  set_fact:
     base_devel: make
-  when: ansible_distribution == "Ubuntu"
-
-- name: Set wpa_supplicant variable when distribution is Archlinux (if necessary)
-  set_fact:
-    wpa_supplicant: wpa_supplicant
-  when: ansible_distribution == "Archlinux"
-
-- name: Set wpa_supplicant variable when distribution is Ubuntu (if necessary)
-  set_fact:
     wpa_supplicant: wpasupplicant
+    fd: fd-find
   when: ansible_distribution == "Ubuntu"
 
 - name: install packages and update cache
@@ -161,8 +139,8 @@
       # - xorg-setxkbmap
       - xautolock
       - xbindkeys
-      # - arandr
-      # - numlockx
+      - arandr
+      - numlockx
       - "{{ python_pip }}"
       - feh
       # - dbeaver
@@ -177,17 +155,17 @@
       - lxappearance
       # - arc-gtk-theme
       - "{{wpa_supplicant}}"
-      # - ripgrep
-      # - fd
-      # - fzf
-      # - baobab
-      # - nethogs
-      # - lxsession
-      # - flameshot
+      - ripgrep
+      - "{{ fd }}"
+      - fzf
+      - baobab
+      - nethogs
+      - lxsession
+      - flameshot
       # - clipmenu
-      # - bat
-      # - dunst
-      # - trash-cli
+      - bat
+      - dunst
+      - trash-cli
       # - noto-fonts-emoji
     state: latest
     update_cache: yes
