@@ -198,7 +198,6 @@
       - pavucontrol
       - lxappearance
       # - arc-gtk-theme
-      - doas
       - connman
       - "{{wpa_supplicant}}"
       # - pamixer

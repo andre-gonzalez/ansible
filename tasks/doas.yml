@@ -1,3 +1,14 @@
+- name: Install doas package
+  tags:
+    - full-install
+    - doas
+    - light-install
+  package:
+    name: doas
+    state: present
+    update_cache: true
+  become: true
+
 - name: copy file doas.conf to /etc
   tags:
     - full-install
