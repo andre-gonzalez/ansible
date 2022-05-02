@@ -191,7 +191,6 @@
       # - trash-cli
       # - xorg-setxkbmap
       # - noto-fonts-emoji
-      # - cronie
     state: latest
     update_cache: yes
   become: true
