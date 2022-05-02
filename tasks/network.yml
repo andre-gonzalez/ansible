@@ -6,6 +6,7 @@
     state: present
     update_cache: true
   when: ansible_distribution in ["Debian", "Ubuntu"]
+  become: true
 
 - name: Install wireless drivers (samsung-expert)
   tags:
@@ -15,6 +16,7 @@
     state: present
     update_cache: true
   when: ansible_distribution in ["Archlinux"]
+  become: true
 
 - name: Install connman
   tags:
@@ -24,6 +26,7 @@
     name: connman
     state: present
     update_cache: true
+  become: true
 
 - name: stop systemd-networkd
   tags:
