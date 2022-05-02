@@ -9,3 +9,14 @@
     group: root
     mode: 0644
   become: yes
+
+- name: start preload
+  tags:
+    - start-services
+    - full-install
+  ansible.builtin.service:
+    name: preload
+    state: started
+    enabled: yes
+  become: yes
+
