@@ -8,7 +8,6 @@
     repo: git@github.com:andre-gonzalez/my-dwm.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwm"
     accept_hostkey: yes
-    force: yes
 
 - name: Install dwm
   tags:
