@@ -26,7 +26,7 @@
     # - include_tasks: tasks/doas.yml
     # - include_tasks: tasks/keyboard-layout.yml
     # - include_tasks: tasks/packages.yml
-    # - include_tasks: tasks/aur-packages.yml
+    - include_tasks: tasks/aur-packages.yml
     # - include_tasks: tasks/locale.yml
     # - include_tasks: tasks/cron.yml
     # - include_tasks: tasks/git.yml
