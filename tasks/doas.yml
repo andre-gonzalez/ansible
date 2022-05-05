@@ -21,3 +21,17 @@
     group: root
     mode: 0644
   become: yes
+
+- name: uninstall sudo
+  tags:
+    - packages-remove
+    - packages
+    - light-install
+    - doas
+    - full-install
+  package:
+    name:
+      - sudo
+    state: absent
+    update_cache: no
+  become: true
