@@ -1,0 +1,15 @@
+- name: Install timeshift packages
+  tags:
+    - aur-packages-install
+    - packages-install
+    - packages
+    - full-install
+    - timeshift
+  kewlfft.aur.aur:
+    name:
+      - timeshift
+      - timeshift-autosnap
+    use: yay
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Archlinux"
