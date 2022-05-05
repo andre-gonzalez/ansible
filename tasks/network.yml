@@ -1,4 +1,4 @@
-- name: Install wireless drivers (netbook)
+- name: Install wireless drivers (netbook) - Debian, Ubuntu
   tags:
     - netbook
   package:
@@ -6,6 +6,16 @@
     state: present
     update_cache: false
   when: ansible_distribution in ["Debian", "Ubuntu"]
+  become: true
+
+- name: Install wireless drivers (netbook) - Arch
+  tags:
+    - netbook
+  package:
+    name: b43-fwcutter
+    state: present
+    update_cache: false
+  when: ansible_distribution == "Archlinux"
   become: true
 
 - name: Install wireless drivers (samsung-expert)
