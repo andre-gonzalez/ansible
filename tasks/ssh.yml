@@ -1,3 +1,15 @@
+- name: Install openssh
+  tags:
+    - full-install
+    - light-install
+    - ssh-config
+  package:
+    name: openssh
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  become: true
+
 - name: start sshd
   tags:
     - start-services
