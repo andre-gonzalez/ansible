@@ -16,15 +16,15 @@
   #   - name: "work_email"
   #     prompt: "Enter your work email address"
   #     private: false
- pre_tasks:
-  - name: Update cache of package manager
-    tags:
-      - full-install
-      - light-install
-      - packages
-    package:
-      update_cache: true
-    become: true
+  pre_tasks:
+    - name: Update cache of package manager
+      tags:
+        - full-install
+        - light-install
+        - packages
+      package:
+        update_cache: true
+      become: true
 
   tasks:
     - include_tasks: tasks/collections-install.yml
