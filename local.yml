@@ -29,12 +29,11 @@
   tasks:
     # - include_tasks: tasks/arch-base-install.yml
     - include_tasks: tasks/packages.yml
+    - include_tasks: tasks/ssh.yml
     - include_tasks: tasks/ansible.yml
     - include_tasks: tasks/collections-install.yml
-    - include_tasks: tasks/ssh.yml
     - include_tasks: tasks/audio.yml
     - include_tasks: tasks/keyboard-layout.yml
-    - include_tasks: tasks/aur-packages.yml
     - include_tasks: tasks/locale.yml
     - include_tasks: tasks/cron.yml
     - include_tasks: tasks/git.yml
@@ -54,4 +53,5 @@
     - include_tasks: tasks/brave.yml
     - include_tasks: tasks/authy.yml
     - include_tasks: tasks/timeshift.yml
+    - include_tasks: tasks/aur-packages.yml
     - include_tasks: tasks/doas.yml
