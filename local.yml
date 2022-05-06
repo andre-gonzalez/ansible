@@ -54,4 +54,5 @@
     - include_tasks: tasks/authy.yml
     - include_tasks: tasks/timeshift.yml
     - include_tasks: tasks/aur-packages.yml
+    - include_tasks: tasks/fish.yml
     - include_tasks: tasks/doas.yml
