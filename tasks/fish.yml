@@ -18,17 +18,20 @@
   register: omf
 
 - name: Clone oh-my-fish repo
-  tags:
-    - fish
-  ansible.builtin.git:
-    repo: git@github.com:oh-my-fish/oh-my-fish.git
+  git:
+    repo: 'https://github.com/oh-my-fish/oh-my-fish'
     dest: '/tmp/omf'
     clone: yes
   when: not omf.stat.exists
 
 - name: Install oh-my-fish
-  tags:
-    - fish
-  command: /tmp/omf/bin/install -y --offline --noninteractive
   become: true
+  become_user: "{{ lookup('env', 'USER') }}"
+  command: /tmp/omf/bin/install -y --offline --noninteractive
   when: not omf.stat.exists
+
+- name: Mark oh-my-fish installed with /etc/omf.installed
+  file:
+    path: /etc/omf.installed
+    state: touch
+  become: true
