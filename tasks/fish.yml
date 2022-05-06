@@ -1,0 +1,34 @@
+- name: install fish
+  tags:
+    - packages-install
+    - packages
+    - full-install
+    - fish
+  package:
+    name: fish
+    state: latest
+    update_cache: yes
+  become: true
+
+- name: Check if oh-my-fish is installed
+  tags:
+    - fish
+  stat:
+    path: '/etc/omf.installed'
+  register: omf
+
+- name: Clone oh-my-fish repo
+  tags:
+    - fish
+  ansible.builtin.git:
+    repo: git@github.com:oh-my-fish/oh-my-fish.git
+    dest: '/tmp/omf'
+    clone: yes
+  when: not omf.stat.exists
+
+- name: Install oh-my-fish
+  tags:
+    - fish
+  command: /tmp/omf/bin/install -y --offline --noninteractive
+  become: true
+  when: not omf.stat.exists
