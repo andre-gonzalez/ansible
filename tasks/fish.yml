@@ -35,3 +35,9 @@
     path: /etc/omf.installed
     state: touch
   become: true
+
+- name: change user shell to fish
+    user:
+      name: "{{ lookup('env', 'USER') }}"
+      shell: /usr/bin/fish
+    become: yes
