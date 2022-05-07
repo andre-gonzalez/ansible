@@ -2,7 +2,7 @@
   tags:
     - snap
     - packages
-    - packages-install
+    - authy
     - full-install
     - light-install
   snap:
@@ -14,7 +14,7 @@
 - name: Install aur packages
   tags:
     - aur-packages-install
-    - packages-install
+    - authy
     - packages
     - full-install
   kewlfft.aur.aur:
