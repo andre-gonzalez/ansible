@@ -27,7 +27,6 @@
       become: true
 
   tasks:
-    - include_tasks: tasks/arch-base-install.yml
     - include_tasks: tasks/packages.yml
     - include_tasks: tasks/ssh.yml
     - include_tasks: tasks/ansible.yml
