@@ -17,13 +17,40 @@ ansible-pull --vault-password-file [key file location] -o -U https://github.com/
 5. Sit back and relax
 
 # Tags structure
-The logic here is the existence of groups tags, so it become easier to skip tags with --skip-tags flag. That is why the tags are nested. The structure is shown below 
+The logic here is the existence of groups tags, so it become easier to skip tags with --skip-tags flag. That is why the tags are nested. The structure is shown below
 - full-install
   - docker
   - libvirt
-  - light-install 
-    - dwm
-    - st
-    - slock
+  - light-install
+    - ansible
+    - audio
+    - aur
+    - aur
+    - authy
     - bluetooth
-   ... [TO-BE Completed] 
+    - brave
+    - cron
+    - dmenu
+    - dwm
+    - dwmblocks
+    - eureciclo
+    - graphic-card
+    - keyboard
+    - lf
+    - locale
+    - neovim
+    - netbook
+    - network
+    - nvidia
+    - packages
+    - preload
+    - processor
+    - samsung-expert
+    - scripts
+    - slock
+    - ssh
+    - st
+    - timeshift
+    - timezone
+    - users
+    - xorg

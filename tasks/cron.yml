@@ -1,4 +1,8 @@
 - name: Set cron variable when distribution is Archlinux
+  tags:
+    - full-install
+    - light-install
+    - cron
   set_fact:
     cron: cronie
   when: ansible_distribution == "Archlinux"
@@ -12,6 +16,7 @@
   tags:
     - full-install
     - light-install
+    - cron
   package:
     name: "{{ cron }}"
     state: present
@@ -22,6 +27,7 @@
   tags:
     - full-install
     - light-install
+    - cron
   ansible.builtin.service:
     name: "{{ cron }}"
     state: started
@@ -31,7 +37,8 @@
 - name: install cron job (ansible-pull)
   tags:
     - full-install
-    - crontab
+    - light-install
+    - cron
   cron:
     user: ansible
     name: "ansible provision"
@@ -42,8 +49,8 @@
 - name: install cron job (profile-selector)
   tags:
     - full-install
-    - crontab
     - light-install
+    - cron
   cron:
     user: "{{ lookup('env', 'USER') }}"
     name: "profile-selector"
@@ -54,8 +61,8 @@
 - name: install cron job (remove downloads folder)
   tags:
     - full-install
-    - crontab
     - light-install
+    - cron
   cron:
     user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder-reboot"
@@ -65,7 +72,8 @@
 - name: install cron job (remove downloads folder)
   tags:
     - full-install
-    - crontab
+    - light-install
+    - cron
   cron:
     user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder"
@@ -75,8 +83,8 @@
 - name: install cron job (battery notification)
   tags:
     - full-install
-    - crontab
     - light-install
+    - cron
   cron:
     user: "{{ lookup('env', 'USER') }}"
     name: "battery notification"

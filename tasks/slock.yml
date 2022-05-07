@@ -1,8 +1,8 @@
 - name: Clone slock
   tags:
-    - slock-install
     - full-install
     - light-install
+    - slock
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/my-slock.git
     dest: "{{ lookup('env', 'HOME') }}/.config/slock"
@@ -10,9 +10,9 @@
 
 - name: Install slock
   tags:
-    - slock-install
     - full-install
     - light-install
+    - slock
   make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/slock"
     target: install

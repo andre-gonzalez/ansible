@@ -2,7 +2,7 @@
   tags:
     - full-install
     - light-install
-    - ssh-config
+    - ssh
   package:
     name: openssh
     state: present
@@ -12,10 +12,9 @@
 
 - name: start sshd
   tags:
-    - start-services
     - full-install
-    - ssh-config
     - light-install
+    - ssh
   ansible.builtin.service:
     name: sshd
     state: started
@@ -25,8 +24,8 @@
 - name: Ensure .ssh directory exists.
   tags:
     - full-install
-    - ssh-config
     - light-install
+    - ssh
   file:
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0700
@@ -35,8 +34,8 @@
 - name: Install ssh key
   tags:
     - full-install
-    - ssh-config
     - light-install
+    - ssh
   copy:
     src: id_rsa
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
@@ -45,8 +44,8 @@
 - name: Install ssh key public
   tags:
     - full-install
-    - ssh-config
     - light-install
+    - ssh
   copy:
     src: id_rsa.pub
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
@@ -55,8 +54,8 @@
 - name: Copy authorized_keys file
   tags:
     - full-install
-    - ssh-config
     - light-install
+    - ssh
   copy:
     src: authorized_keys
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
@@ -65,8 +64,8 @@
 - name: Copy config file
   tags:
     - full-install
-    - ssh-config
     - light-install
+    - ssh
   copy:
     src: config
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
@@ -75,8 +74,8 @@
 - name: add ssh key for frank
   tags:
     - full-install
-    - ssh-config
     - light-install
+    - ssh
   authorized_key:
     user: "{{ lookup('env', 'USER') }}"
     state: present

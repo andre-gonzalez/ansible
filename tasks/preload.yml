@@ -1,9 +1,7 @@
 - name: Install aur packages
   tags:
-    - aur-packages-install
-    - packages-install
-    - packages
     - full-install
+    - light-install
     - preload
   kewlfft.aur.aur:
     name:
@@ -16,6 +14,7 @@
 - name: copy file preload.conf to /etc
   tags:
     - full-install
+    - light-install
     - preload
   copy:
     src: preload.conf
@@ -27,8 +26,9 @@
 
 - name: start preload
   tags:
-    - start-services
     - full-install
+    - light-install
+    - preload
   ansible.builtin.service:
     name: preload
     state: started

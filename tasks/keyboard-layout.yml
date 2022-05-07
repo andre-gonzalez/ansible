@@ -1,8 +1,8 @@
 - name: copy file vconsole.conf
   tags:
     - full-install
-    - keyboard-layout
     - light-install
+    - keyboard
   copy:
     src: vconsole.conf
     dest: /etc

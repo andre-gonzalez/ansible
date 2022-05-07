@@ -1,9 +1,9 @@
 # create a job to install this package in ubuntu libx11-dev , libxft-dev libxinerama-dev, libxinerama1
 - name: Clone dwm
   tags:
-    - dwm-install
     - full-install
     - light-install
+    - dwm
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/my-dwm.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwm"
@@ -11,9 +11,9 @@
 
 - name: Install dwm
   tags:
-    - dwm-install
     - full-install
     - light-install
+    - dwm
   make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwm"
     target: install

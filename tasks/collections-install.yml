@@ -2,6 +2,11 @@
   # ansible.builtin.command: ansible-galaxy collection install kewlfft.aur
 
 - name: Install collection kewlfft.aur
+  tags:
+    - aur
+    - full-install
+    - light-install
+    - packages
   community.general.ansible_galaxy_install:
     type: collection
     name: kewlfft.aur

@@ -1,8 +1,8 @@
 - name: install reflector
   tags:
-    - packages-install
-    - packages
     - full-install
+    - light-install
+    - packages
   package:
     name: reflector
   become: true
@@ -10,8 +10,9 @@
 
 - name: update pacman mirrorlist
   tags:
-    - packages
     - full-install
+    - light-install
+    - packages
   script: choose-mirror.sh
   become: true
   when: ansible_distribution == "Archlinux"
@@ -19,6 +20,8 @@
 - name: copy file pacman.conf to /etc
   tags:
     - full-install
+    - light-install
+    - packages
   copy:
     src: pacman.conf
     dest: /etc
@@ -29,19 +32,28 @@
   when: ansible_distribution == "Archlinux"
 
 - name: Set intel variable when distribution is Archlinux (if necessary)
+  tags:
+    - full-install
+    - light-install
+    - processor
   set_fact:
     intel: intel-ucode
   when: (ansible_distribution == "Archlinux") and (processor == "intel")
 
 - name: Set intel variable when distribution is Ubuntu (if necessary)
+  tags:
+    - full-install
+    - light-install
+    - processor
   set_fact:
     intel: intel-acm
   when: (ansible_distribution == "Ubuntu") and (processor == "intel")
 
 - name: Install microcode updates for intel (if necessary)
   tags:
-    - processor
     - full-install
+    - light-install
+    - processor
   package:
     name: "{{ intel }}"
     state: present
@@ -50,6 +62,10 @@
   become: true
 
 - name: Set amd variable when distribution is Archlinux (if necessary)
+  tags:
+    - full-install
+    - light-install
+    - processor
   set_fact:
     amd: amd-ucode
   when: (ansible_distribution == "Archlinux") and (processor == "amd")
@@ -61,8 +77,9 @@
 
 - name: Install microcode updates for amd (if necessary)
   tags:
-    - processor
     - full-install
+    - light-install
+    - processor
   package:
     name: "{{ amd }}"
     state: present
@@ -72,6 +89,9 @@
 
 - name: Install nvidia drivers
   tags:
+    - full-install
+    - light-install
+    - graphic-card
     - nvidia
   package:
     name: nvidia
@@ -79,27 +99,32 @@
   when: (graphics_card == "nvidia") and (ansible_distribution == "Archlinux")
   become: true
 
-# - name: remove packages
-#   tags:
-#     - packages-remove
-#     - packages
-#     - full-install
-#   package:
-#     name:
-#       - arch-install-scripts
-#       - archinstall
-#       - brltty nano
-#       - htop
-#       - vim
-#       - openvpn
-#       - grml-zsh-config
-#       - zsh
-#       - virtualbox-guest-utils-nox
-#     state: absent
-#     update_cache: no
-#   become: true
+- name: remove packages
+  tags:
+    - full-install
+    - light-install
+    - packages
+  package:
+    name:
+      - arch-install-scripts
+      - archinstall
+      - brltty nano
+      - htop
+      - vim
+      - openvpn
+      - grml-zsh-config
+      - zsh
+      - virtualbox-guest-utils-nox
+    state: absent
+    update_cache: no
+  become: true
 
 - name: Set xorg variable when distribution is Archlinux (if necessary)
+  tags:
+    - full-install
+    - light-install
+    - packages
+    - xorg
   set_fact:
     xorg:
       - xorg-server
@@ -113,6 +138,11 @@
   when: ansible_distribution == "Archlinux"
 
 - name: Set xorg variable when distribution is Ubuntu (if necessary)
+  tags:
+    - full-install
+    - light-install
+    - packages
+    - xorg
   set_fact:
     xorg:
       - xorg
@@ -126,9 +156,9 @@
 
 - name: install packages and update cache
   tags:
-    - packages-install
-    - packages
     - full-install
+    - light-install
+    - packages
   package:
     name:
       - tmux

@@ -1,8 +1,8 @@
 - name: Cloning .dotfiles
   tags:
-    - dotfiles
     - full-install
     - light-install
+    - dotfiles
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/dotfiles.git
     dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
@@ -13,4 +13,8 @@
     accept_hostkey: yes
 
 - name: set up dotfiles
+  tags:
+    - full-install
+    - light-install
+    - dotfiles
   ansible.builtin.command: "/usr/bin/git --git-dir={{ lookup('env', 'HOME') }}/.dotfiles/ --work-tree={{ lookup('env', 'HOME') }} checkout -f"
