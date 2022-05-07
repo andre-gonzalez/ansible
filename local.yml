@@ -35,6 +35,7 @@
     - include_tasks: tasks/cron.yml
     - include_tasks: tasks/git.yml
     - include_tasks: tasks/dotfiles.yml
+    - include_tasks: tasks/linux-scripts.yml
     - include_tasks: tasks/dwm.yml
     - include_tasks: tasks/st.yml
     - include_tasks: tasks/dmenu.yml
