@@ -39,13 +39,11 @@ The logic here is the existence of groups tags, so it become easier to skip tags
     - lf
     - locale
     - neovim
-    - netbook
     - network
     - nvidia
     - packages
     - preload
     - processor
-    - samsung-expert
     - scripts
     - slock
     - ssh
@@ -54,3 +52,7 @@ The logic here is the existence of groups tags, so it become easier to skip tags
     - timezone
     - users
     - xorg
+- samsung-expert*
+- netbook*
+
+*These tags should always be specified manually because they are specific drivers for specific machines

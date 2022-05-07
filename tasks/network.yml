@@ -1,7 +1,5 @@
 - name: Install wireless drivers (netbook) - Debian, Ubuntu
   tags:
-    - light-install
-    - network
     - netbook
   package:
     name: firmware-b43-install
@@ -24,8 +22,6 @@
 
 - name: Install wireless drivers (samsung-expert)
   tags:
-    - full-install
-    - network
     - samsung-expert
   package:
     name: broadcom-wl
