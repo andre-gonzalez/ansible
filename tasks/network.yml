@@ -1,5 +1,7 @@
 - name: Install wireless drivers (netbook) - Debian, Ubuntu
   tags:
+    - light-install
+    - network
     - netbook
   package:
     name: firmware-b43-install
@@ -10,6 +12,8 @@
 
 - name: Install wireless drivers (netbook) - Arch
   tags:
+    - light-install
+    - network
     - netbook
   package:
     name: b43-fwcutter
@@ -20,6 +24,8 @@
 
 - name: Install wireless drivers (samsung-expert)
   tags:
+    - full-install
+    - network
     - samsung-expert
   package:
     name: broadcom-wl
@@ -32,6 +38,7 @@
   tags:
     - full-install
     - light-install
+    - network
   package:
     name: connman
     state: present
@@ -40,9 +47,9 @@
 
 - name: stop systemd-networkd
   tags:
-    - stop-services
     - full-install
     - light-install
+    - network
   ansible.builtin.service:
     name: systemd-networkd
     state: stopped
@@ -51,9 +58,9 @@
 
 - name: restart connman
   tags:
-    - start-services
     - full-install
     - light-install
+    - network
   ansible.builtin.service:
     name: connman
     state: restarted
@@ -62,9 +69,9 @@
 
 - name: start iwd
   tags:
-    - start-services
     - full-install
     - light-install
+    - network
   ansible.builtin.service:
     name: iwd
     state: started

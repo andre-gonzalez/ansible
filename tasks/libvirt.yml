@@ -1,7 +1,8 @@
 - name: Install KVM/QEMU packages
   tags:
-    - libvirt
     - full-install
+    - light-install
+    - libvirt
   package:
     name:
       - qemu
@@ -20,8 +21,9 @@
 
 - name: add the user "{{ lookup('env', 'USER') }}" to the libvirt group
   tags:
-    - libvirt
     - full-install
+    - light-install
+    - libvirt
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
     group: libvirtd
@@ -29,8 +31,9 @@
 
 - name: copy file qemu.conf to /etc/libvirt
   tags:
-    - libvirt
     - full-install
+    - light-install
+    - libvirt
   copy:
     src: qemu.conf
     dest: /etc/libvirt
@@ -41,8 +44,9 @@
 
 - name: start libvirt
   tags:
-    - start-services
     - full-install
+    - light-install
+    - libvirt
   ansible.builtin.service:
     name: libvirtd
     state: started

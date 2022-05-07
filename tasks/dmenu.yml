@@ -1,17 +1,17 @@
 - name: Clone dmenu
   tags:
-    - dmenu-install
     - full-install
     - light-install
+    - dmenu
   ansible.builtin.git:
     repo: https://git.suckless.org/dmenu
     dest: "{{ lookup('env', 'HOME') }}/.config/dmenu"
 
 - name: Install dmenu
   tags:
-    - dmenu-install
     - full-install
     - light-install
+    - dmenu
   make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dmenu"
     target: install

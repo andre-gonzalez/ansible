@@ -1,8 +1,7 @@
 - name: install fish
   tags:
-    - packages-install
-    - packages
     - full-install
+    - light-install
     - fish
   package:
     name: fish
@@ -12,12 +11,18 @@
 
 - name: Check if oh-my-fish is installed
   tags:
+    - full-install
+    - light-install
     - fish
   stat:
     path: '/etc/omf.installed'
   register: omf
 
 - name: Clone oh-my-fish repo
+  tags:
+    - full-install
+    - light-install
+    - fish
   git:
     repo: 'https://github.com/oh-my-fish/oh-my-fish'
     dest: '/tmp/omf'
@@ -25,19 +30,31 @@
   when: not omf.stat.exists
 
 - name: Install oh-my-fish
+  tags:
+    - full-install
+    - light-install
+    - fish
   become: true
   become_user: "{{ lookup('env', 'USER') }}"
   command: /tmp/omf/bin/install -y --offline --noninteractive
   when: not omf.stat.exists
 
 - name: Mark oh-my-fish installed with /etc/omf.installed
+  tags:
+    - full-install
+    - light-install
+    - fish
   file:
     path: /etc/omf.installed
     state: touch
   become: true
 
 - name: change user shell to fish
-    user:
-      name: "{{ lookup('env', 'USER') }}"
-      shell: /usr/bin/fish
-    become: yes
+  tags:
+    - full-install
+    - light-install
+    - fish
+  user:
+    name: "{{ lookup('env', 'USER') }}"
+    shell: /usr/bin/fish
+  become: yes

@@ -1,11 +1,8 @@
 - name: Install packages necessary for dwmblocks
   tags:
-    - dwmblocks
-    - aur-packages-install
-    - packages-install
-    - packages
     - full-install
     - light-install
+    - dwmblocks
   kewlfft.aur.aur:
     name:
       - checkupdates+aur
@@ -16,9 +13,9 @@
 
 - name: Clone dwmblocks
   tags:
-    - dwmblocks-install
     - full-install
     - light-install
+    - dwmblocks
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/my-dwmblocks.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
@@ -26,9 +23,9 @@
 
 - name: Install dwmblocks
   tags:
-    - dwmblocks-install
     - full-install
     - light-install
+    - dwmblocks
   make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
     target: install
@@ -36,9 +33,9 @@
 
 - name: Create symbolic links for the dwmblocks scripts
   tags:
-    - dwmblocks-install
     - full-install
     - light-install
+    - dwmblocks
   ansible.builtin.file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"

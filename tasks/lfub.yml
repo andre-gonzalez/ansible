@@ -1,9 +1,8 @@
 - name: Install aur packages
   tags:
-    - aur-packages-install
-    - packages-install
-    - packages
     - full-install
+    - light-install
+    - lf
   kewlfft.aur.aur:
     name:
       - lf
@@ -17,8 +16,8 @@
 - name: copy lfub to /usr/local/bin
   tags:
     - full-install
-    - lf
     - light-install
+    - lf
   copy:
     src: lfub
     dest: /usr/local/bin

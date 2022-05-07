@@ -1,17 +1,17 @@
 - name: Set timezone to "{{ timezone }}"
   tags:
-    - timezone
     - full-install
     - light-install
+    - timezone
   community.general.timezone:
     name: "{{ timezone }}"
   become: true
 
 - name: Ensure the locale exists
   tags:
-    - locale
     - full-install
     - light-install
+    - locale
   community.general.locale_gen:
     name: "{{ locale }}"
     state: present

@@ -1,17 +1,17 @@
 - name: Clone dwmstatus
   tags:
-    - dwmblocks-install
     - full-install
     - light-install
+    - dwmblocks
   ansible.builtin.git:
     repo: https://git.suckless.org/dwmstatus
     dest: "{{ lookup('env', 'HOME') }}/.config/dwmstatus"
 
 - name: Install dwmstatus
   tags:
-    - dwmblocks-install
     - full-install
     - light-install
+    - dwmblocks
   make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwmstatus"
     target: install

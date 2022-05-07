@@ -1,8 +1,8 @@
 - name: Install git
   tags:
-    - git
     - full-install
     - light-install
+    - git
   package:
     name: git
     state: present
@@ -11,9 +11,9 @@
 
 - name: Git personal setup email
   tags:
-    - git-personal
     - full-install
     - light-install
+    - git
   community.general.git_config:
     name: user.email
     scope: global
@@ -21,9 +21,9 @@
 
 - name: Git personal setup name
   tags:
-    - git-personal
     - full-install
     - light-install
+    - git
   community.general.git_config:
     name: user.name
     scope: global

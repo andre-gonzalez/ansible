@@ -2,7 +2,6 @@
   tags:
     - full-install
     - audio
-    - packages
     - light-install
   package:
     name:

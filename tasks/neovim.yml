@@ -2,6 +2,7 @@
   tags:
     - full-install
     - light-install
+    - neovim
   package:
     name: neovim
     state: present

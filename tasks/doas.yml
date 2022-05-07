@@ -1,8 +1,8 @@
 - name: Install doas package
   tags:
     - full-install
-    - doas
     - light-install
+    - doas
   package:
     name: doas
     state: present
@@ -12,8 +12,8 @@
 - name: copy file doas.conf to /etc
   tags:
     - full-install
-    - doas
     - light-install
+    - doas
   copy:
     src: doas.conf
     dest: /etc
@@ -24,11 +24,9 @@
 
 - name: uninstall sudo
   tags:
-    - packages-remove
-    - packages
+    - full-install
     - light-install
     - doas
-    - full-install
   package:
     name:
       - sudo
