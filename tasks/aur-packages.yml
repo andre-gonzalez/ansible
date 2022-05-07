@@ -88,5 +88,10 @@
   when: ansible_distribution == "Archlinux"
 
 - name: Mark all informant news as read
+  tags:
+    - aur
+    - light-install
+    - packages
+    - full-install
   ansible.builtin.command: informant read --all
   become: true
