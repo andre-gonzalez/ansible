@@ -13,3 +13,16 @@
     state: present
     update_cache: yes
   when: ansible_distribution == "Archlinux"
+
+- name: copy file timeshift.json to /etc
+  tags:
+    - full-install
+    - timeshift
+    - light-install
+  copy:
+    src: timeshift.json
+    dest: /etc/timeshift/
+    owner: root
+    group: root
+    mode: 0666
+  become: yes
