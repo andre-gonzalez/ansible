@@ -1,0 +1,30 @@
+- name: Install docker packages
+  tags:
+    - full-install
+    - docker
+  package:
+    name:
+      - docker
+      - docker-compose
+    state: present
+    update_cache: false
+  become: true
+
+- name: start docker
+  tags:
+    - full-install
+    - docker
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes
+
+- name: add the user "{{ lookup('env', 'USER') }}" to the docker group
+  tags:
+    - full-install
+    - docker
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    group: docker
+  become: yes

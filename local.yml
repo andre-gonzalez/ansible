@@ -56,3 +56,4 @@
     - include_tasks: tasks/aur-packages.yml
     - include_tasks: tasks/fish.yml
     - include_tasks: tasks/doas.yml
+    - include_tasks: tasks/docker.yml
