@@ -2,6 +2,7 @@
   tags:
     - full-install
     - audio
+    - light-install
   package:
     name:
       - pulseaudio
