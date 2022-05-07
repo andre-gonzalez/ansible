@@ -33,3 +33,23 @@
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
     target: install
   become: yes
+
+- name: Create symbolic links for the dwmblocks scripts
+  tags:
+    - dwmblocks-install
+    - full-install
+    - light-install
+  ansible.builtin.file: src={{ item.src }} dest={{ item.dest }}
+    with_items:
+      - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_packages" dest: "{{ lookup('env', 'HOME') }}/.scripts/" }
+      - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_spotify" dest: "{{ lookup('env', 'HOME') }}/.scripts/" }
+      - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_connman" dest: "{{ lookup('env', 'HOME') }}/.scripts/" }
+      - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_resources" dest: "{{ lookup('env', 'HOME') }}/.scripts/" }
+      - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_battery" dest: "{{ lookup('env', 'HOME') }}/.scripts/" }
+      - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_backlight" dest: "{{ lookup('env', 'HOME') }}/.scripts/" }
+      - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_pulse" dest: "{{ lookup('env', 'HOME') }}/.scripts/" }
+      - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_bluetooth" dest: "{{ lookup('env', 'HOME') }}/.scripts/" }
+      - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_date" dest: "{{ lookup('env', 'HOME') }}/.scripts/" }
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    state: link
