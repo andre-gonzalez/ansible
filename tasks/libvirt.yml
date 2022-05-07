@@ -18,7 +18,7 @@
     state: present
   become: yes
 
-- name: add the frank user to the libvirt group
+- name: add the user "{{ lookup('env', 'USER') }}" to the libvirt group
   tags:
     - libvirt
     - full-install
