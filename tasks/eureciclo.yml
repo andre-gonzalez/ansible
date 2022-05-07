@@ -1,0 +1,70 @@
+- name: Ensure eureciclo directory exists.
+  tags:
+    - full-install
+    - light-install
+    - eureciclo
+  file:
+    dest: "{{ lookup('env', 'HOME') }}/eureciclo"
+    mode: 0770
+    state: directory
+
+- name: Clone utils
+  tags:
+    - full-install
+    - light-install
+    - eureciclo
+  ansible.builtin.git:
+    repo: git@bitbucket.org:redeciclo/utils.git
+    dest: "{{ lookup('env', 'HOME') }}/eureciclo/utils"
+    accept_hostkey: yes
+
+
+- name: Clone queries
+  tags:
+    - full-install
+    - light-install
+    - eureciclo
+  ansible.builtin.git:
+    repo: git@bitbucket.org:redeciclo/queries.git
+    dest: "{{ lookup('env', 'HOME') }}/eureciclo/queries"
+    accept_hostkey: yes
+
+- name: Clone salesops-dw
+  tags:
+    - full-install
+    - light-install
+    - eureciclo
+  ansible.builtin.git:
+    repo: git@bitbucket.org:redeciclo/salesops-dw.git
+    dest: "{{ lookup('env', 'HOME') }}/eureciclo/salesops-dw"
+    accept_hostkey: yes
+
+- name: Clone diversos repository
+  tags:
+    - full-install
+    - light-install
+    - eureciclo
+  ansible.builtin.git:
+    repo: git@bitbucket.org:andre-gonzalez/diversos.git
+    dest: "{{ lookup('env', 'HOME') }}/eureciclo/diversos"
+    accept_hostkey: yes
+
+- name: Clone conectar-bancos
+  tags:
+    - full-install
+    - light-install
+    - eureciclo
+  ansible.builtin.git:
+    repo: git@bitbucket.org:andre-gonzalez/conectar-bancos.git
+    dest: "{{ lookup('env', 'HOME') }}/eureciclo/conectar-bancos"
+    accept_hostkey: yes
+
+- name: Ensure eureciclo downloads directory exists.
+  tags:
+    - full-install
+    - light-install
+    - eureciclo
+  file:
+    dest: "{{ lookup('env', 'HOME') }}/eureciclo/downloads/query"
+    mode: 0770
+    state: directory

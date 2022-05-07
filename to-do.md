@@ -1,6 +1,5 @@
 1. Finish writing Ubuntu versions for the packages
-2. Add tasks to create eureciclo directories and clone repositories
-3. Add a task to symlink dwmblocks scripts to my path
+2. Add a task to symlink dwmblocks scripts to my path
 3. Recompile st with emoji support see: https://www.youtube.com/watch?v=aoZ3NuEKFF0 and https://github.com/LukeSmithxyz/LARBS/issues/119
 4. Configure LSP in neovim
 5. make lfub emojis work
