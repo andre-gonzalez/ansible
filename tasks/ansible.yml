@@ -1,7 +1,7 @@
 - name: create ansible user
   tags:
     - full-install
-    - user-create
+    - users
     - light-install
   user:
     name: ansible
@@ -11,7 +11,8 @@
 - name: copy sudoers_ansible
   tags:
     - full-install
-    - user-create
+    - users
+    - light-install
   copy: src={{ item.src }} dest={{ item.dest }}
   with_items:
     - { src: 'sudoers_ansible', dest: '/etc/sudoers.d/ansible' }
