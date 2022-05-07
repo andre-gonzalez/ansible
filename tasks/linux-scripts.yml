@@ -1,0 +1,9 @@
+- name: Clone linux-scripts
+  tags:
+    - full-install
+    - light-install
+    - scripts
+  ansible.builtin.git:
+    repo: git@github.com:andre-gonzalez/linux-scripts.git
+    dest: "{{ lookup('env', 'HOME') }}/.scripts"
+    accept_hostkey: yes
