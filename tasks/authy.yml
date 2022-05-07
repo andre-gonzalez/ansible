@@ -13,10 +13,11 @@
 
 - name: Install aur packages
   tags:
-    - aur-packages-install
+    - aur
     - authy
     - packages
     - full-install
+    - light-install
   kewlfft.aur.aur:
     name: authy
     use: yay
