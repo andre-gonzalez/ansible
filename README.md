@@ -19,12 +19,12 @@ ansible-pull --vault-password-file [key file location] --ask-become -t "[full-in
 # Scripts ready to run
 1. Vault password file on $HOME with tags light-install and netbook
 ```
-bash <(curl -sL bit.ly/ansible-netbook)
+bash <(curl -sL tinyurl.com/ansible-netbook)
 ```
 
 2. Vault password file on $HOME with tags full-install and samsung-expert and skiping graphic-card tag
 ```
-bash <(curl -sL bit.ly/ansible-samsung)
+bash <(curl -sL tinyurl.com/ansible-samsung)
 ```
 
 # Tags structure
