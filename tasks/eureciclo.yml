@@ -1,4 +1,4 @@
-- name: Ensure eureciclo directory exists.
+- name: Ensure eureciclo directory exists
   tags:
     - full-install
     - light-install
@@ -8,7 +8,7 @@
     mode: 0770
     state: directory
 
-- name: Clone utils
+- name: Clone utils repository
   tags:
     - full-install
     - light-install
@@ -18,8 +18,7 @@
     dest: "{{ lookup('env', 'HOME') }}/eureciclo/utils"
     accept_hostkey: yes
 
-
-- name: Clone queries
+- name: Clone queries repository
   tags:
     - full-install
     - light-install
@@ -29,7 +28,7 @@
     dest: "{{ lookup('env', 'HOME') }}/eureciclo/queries"
     accept_hostkey: yes
 
-- name: Clone salesops-dw
+- name: Clone salesops-dw repository
   tags:
     - full-install
     - light-install
@@ -49,7 +48,7 @@
     dest: "{{ lookup('env', 'HOME') }}/eureciclo/diversos"
     accept_hostkey: yes
 
-- name: Clone conectar-bancos
+- name: Clone conectar-bancos repository
   tags:
     - full-install
     - light-install
