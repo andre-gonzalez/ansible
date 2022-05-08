@@ -1,4 +1,4 @@
-- name: Intall authy snap
+- name: Install authy via snap
   tags:
     - authy
     - full-install
@@ -7,7 +7,7 @@
     name: authy
     state: present
   become: true
-  when: ansible_distribuiton == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install aur packages
   tags:
