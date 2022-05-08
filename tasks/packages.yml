@@ -89,9 +89,6 @@
 
 - name: Install nvidia drivers
   tags:
-    - full-install
-    - light-install
-    - graphic-card
     - nvidia
   package:
     name: nvidia

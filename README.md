@@ -44,13 +44,11 @@ The logic here is the existence of groups tags, so it become easier to skip tags
     - dwm
     - dwmblocks
     - eureciclo
-    - graphic-card
     - keyboard
     - lf
     - locale
     - neovim
     - network
-    - nvidia
     - packages
     - preload
     - processor
@@ -64,5 +62,6 @@ The logic here is the existence of groups tags, so it become easier to skip tags
     - xorg
 - samsung-expert*
 - netbook*
+- nvidia
 
 *These tags should always be specified manually because they are specific drivers for specific machines
