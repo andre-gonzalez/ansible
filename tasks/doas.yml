@@ -22,14 +22,15 @@
     mode: 0644
   become: yes
 
-- name: uninstall sudo
-  tags:
-    - full-install
-    - light-install
-    - doas
-  package:
-    name:
-      - sudo
-    state: absent
-    update_cache: no
-  become: true
+# Gotta learn to run ansible with doas before getting rid of sudo
+# - name: uninstall sudo
+#   tags:
+#     - full-install
+#     - light-install
+#     - doas
+#   package:
+#     name:
+#       - sudo
+#     state: absent
+#     update_cache: no
+#   become: true
