@@ -1,4 +1,4 @@
-# Automated ArchLinux configuration
+## Automated ArchLinux configuration
 This is my personal ansible playbook to install and configure my workstation
 
 
@@ -15,6 +15,17 @@ This is my personal ansible playbook to install and configure my workstation
 ansible-pull --vault-password-file [key file location] --ask-become -t "[full-install|light-install],[samsung-expert|netbook]" -U https://github.com/andre-gonzalez/ansible.git
 ```
 5. Sit back and relax
+
+# Scripts ready to run
+1. Vault password file on $HOME with tags light-install and netbook
+```
+bash <(curl -sL bit.ly/ansible-netbook)
+```
+
+2. Vault password file on $HOME with tages full-install and samsung-expert
+```
+bash <(curl -sL bit.ly/ansible-samsung)
+```
 
 # Tags structure
 The logic here is the existence of groups tags, so it become easier to skip tags with --skip-tags flag. That is why the tags are nested. The structure is shown below
