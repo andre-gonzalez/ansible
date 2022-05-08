@@ -9,7 +9,7 @@
   become: true
   when: ansible_distribution == "Ubuntu"
 
-- name: Install aur packages
+- name: Install authy package
   tags:
     - authy
     - full-install
