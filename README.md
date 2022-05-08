@@ -1,4 +1,4 @@
-## Automated ArchLinux configuration
+# Automated ArchLinux configuration
 This is my personal ansible playbook to install and configure my workstation
 
 
@@ -22,7 +22,7 @@ ansible-pull --vault-password-file [key file location] --ask-become -t "[full-in
 bash <(curl -sL bit.ly/ansible-netbook)
 ```
 
-2. Vault password file on $HOME with tages full-install and samsung-expert
+2. Vault password file on $HOME with tags full-install and samsung-expert and skiping graphic-card tag
 ```
 bash <(curl -sL bit.ly/ansible-samsung)
 ```
@@ -35,7 +35,6 @@ The logic here is the existence of groups tags, so it become easier to skip tags
   - light-install
     - ansible
     - audio
-    - aur
     - aur
     - authy
     - bluetooth
