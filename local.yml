@@ -57,6 +57,6 @@
     # - include_tasks: tasks/timeshift.yml
     # - include_tasks: tasks/docker.yml
     # - include_tasks: tasks/network.yml
-    - include_tasks: tasks/eureciclo.yml
+    # - include_tasks: tasks/eureciclo.yml
     - include_tasks: tasks/aur-packages2.yml
     - include_tasks: tasks/doas.yml

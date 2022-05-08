@@ -9,7 +9,7 @@
       - obsidian
       - xflux
       - slack-desktop
-      - anki
+      # - anki
       - spotify
       - insync
       - vscodium-bin
