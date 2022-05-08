@@ -45,10 +45,10 @@
     - include_tasks: tasks/st.yml
     - include_tasks: tasks/dmenu.yml
     - include_tasks: tasks/dwmstatus.yml
+    - include_tasks: tasks/aur-packages.yml
     - include_tasks: tasks/dwmblocks.yml
     - include_tasks: tasks/slock.yml
     - include_tasks: tasks/neovim.yml
-    - include_tasks: tasks/aur-packages.yml
     - include_tasks: tasks/lfub.yml
     - include_tasks: tasks/preload.yml
     - include_tasks: tasks/brave.yml
