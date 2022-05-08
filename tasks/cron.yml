@@ -90,3 +90,14 @@
     name: "battery notification"
     minute: "*/10"
     job: "/bin/sh {{ lookup('env', 'HOME') }}/.local/bin/battery-warning.sh"
+
+- name: install cron job (push fish history to git)
+  tags:
+    - full-install
+    - light-install
+    - cron
+  cron:
+    user: "{{ lookup('env', 'USER') }}"
+    name: "push-fish-history-to-git-dotfiles"
+    special_time: weekly
+    job: "/bin/sh /home/frank/.scripts/push-fish-history.sh"
