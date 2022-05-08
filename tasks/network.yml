@@ -10,8 +10,6 @@
 
 - name: Install wireless drivers (netbook) - Arch
   tags:
-    - light-install
-    - network
     - netbook
   package:
     name: b43-fwcutter
