@@ -1,4 +1,4 @@
-- name: Install aur packages
+- name: Install lf packages
   tags:
     - full-install
     - light-install
