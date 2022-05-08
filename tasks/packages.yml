@@ -163,24 +163,24 @@
       - "{{ xorg[1] }}"
       - "{{ xorg[2] }}"
       - "{{ xorg[3] }}"
-      # - xorg-setxkbmap
+      - xorg-setxkbmap #missing ubuntu
       - xautolock
       - xbindkeys
       - arandr
       - numlockx
       - "{{ python_pip }}"
       - feh
-      # - dbeaver
+      - dbeaver #missing ubuntu
       - unclutter
-      # - pamixer
+      - pamixer #missing ubuntu
       - "{{ base_devel }}"
       - xclip
-      # - ttf-nerd-fonts-symbols-mono
-      # - ttf-joypixels
-      # - ttf-linux-libertine
+      - ttf-nerd-fonts-symbols-mono #missing ubuntu
+      - ttf-joypixels #missing ubuntu
+      - ttf-linux-libertine #missing ubuntu
       - brightnessctl
       - lxappearance
-      # - arc-gtk-theme
+      - arc-gtk-theme #missing ubuntu
       - "{{wpa_supplicant}}"
       - ripgrep
       - "{{ fd }}"
@@ -189,11 +189,11 @@
       - nethogs
       - lxsession
       - flameshot
-      # - clipmenu
+      - clipmenu #missing ubuntu
       - bat
       - dunst
       - trash-cli
-      # - noto-fonts-emoji
+      - noto-fonts-emoji #missing ubuntu
     state: latest
     update_cache: yes
   become: true
