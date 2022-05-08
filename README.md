@@ -22,7 +22,7 @@ ansible-pull --vault-password-file [key file location] --ask-become -t "[full-in
 bash <(curl -sL tinyurl.com/ansible-netbook)
 ```
 
-2. Vault password file on $HOME with tags full-install and samsung-expert and skiping graphic-card tag
+2. Vault password file on $HOME with tags full-install, samsung-expert and nvidia
 ```
 bash <(curl -sL tinyurl.com/ansible-samsung)
 ```
@@ -62,6 +62,6 @@ The logic here is the existence of groups tags, so it become easier to skip tags
     - xorg
 - samsung-expert*
 - netbook*
-- nvidia
+- nvidia*
 
 *These tags should always be specified manually because they are specific drivers for specific machines
