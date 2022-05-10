@@ -27,12 +27,20 @@
 
   tasks:
     - include_tasks: tasks/ssh.yml
+      tags:
+        - full-install
+        - light-install
+        - ssh
     - include_tasks: tasks/collections-install.yml
     - include_tasks: tasks/ansible.yml
     - include_tasks: tasks/audio.yml
     - include_tasks: tasks/keyboard-layout.yml
     - include_tasks: tasks/locale.yml
     - include_tasks: tasks/cron.yml
+      tags:
+        - full-install
+        - light-install
+        - cron
     - include_tasks: tasks/git.yml
     - include_tasks: tasks/dotfiles.yml
     - include_tasks: tasks/linux-scripts.yml
