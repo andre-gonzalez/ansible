@@ -88,3 +88,10 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall json +qa
+
+- name: Install treesitter support for markdown
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +TSInstall markdown +qa
