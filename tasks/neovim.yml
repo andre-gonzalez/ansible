@@ -102,3 +102,10 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall yaml +qa
+
+- name: Install treesitter support for fish
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +TSInstall fish +qa
