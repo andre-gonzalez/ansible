@@ -33,8 +33,6 @@
 
 - name: Set intel variable when distribution is Archlinux (if necessary)
   tags:
-    - full-install
-    - light-install
     - processor
   set_fact:
     intel: intel-ucode
@@ -42,8 +40,6 @@
 
 - name: Set intel variable when distribution is Ubuntu (if necessary)
   tags:
-    - full-install
-    - light-install
     - processor
   set_fact:
     intel: intel-acm
@@ -51,8 +47,6 @@
 
 - name: Install microcode updates for intel (if necessary)
   tags:
-    - full-install
-    - light-install
     - processor
   package:
     name: "{{ intel }}"
@@ -63,22 +57,20 @@
 
 - name: Set amd variable when distribution is Archlinux (if necessary)
   tags:
-    - full-install
-    - light-install
     - processor
   set_fact:
     amd: amd-ucode
   when: (ansible_distribution == "Archlinux") and (processor == "amd")
 
 - name: Set amd variable when distribution is Ubuntu (if necessary)
+  tags:
+    - processor
   set_fact:
     amd: amd64-microcode
   when: (ansible_distribution == "Ubuntu") and (processor == "amd")
 
 - name: Install microcode updates for amd (if necessary)
   tags:
-    - full-install
-    - light-install
     - processor
   package:
     name: "{{ amd }}"

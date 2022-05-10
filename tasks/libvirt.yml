@@ -14,6 +14,10 @@
   become: true
 
 - name: Ensure group libvirtd exists
+  tags:
+    - full-install
+    - light-install
+    - libvirt
   ansible.builtin.group:
     name: libvirtd
     state: present

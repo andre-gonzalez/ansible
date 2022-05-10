@@ -1,8 +1,9 @@
 - name: create ansible user
   tags:
     - full-install
-    - users
     - light-install
+    - users
+    - ansible
   user:
     name: ansible
     system: yes
