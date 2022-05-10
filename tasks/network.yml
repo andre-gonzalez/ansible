@@ -1,6 +1,7 @@
 - name: Install wireless drivers (netbook) - Debian, Ubuntu
   tags:
     - netbook
+    - never
   package:
     name: firmware-b43-install
     state: present
@@ -11,6 +12,7 @@
 - name: Install wireless drivers (netbook) - Arch
   tags:
     - netbook
+    - never
   kewlfft.aur.aur:
     name:
       - b43-firmware-classic
@@ -22,6 +24,7 @@
 - name: Install wireless drivers (samsung-expert)
   tags:
     - samsung-expert
+    - never
   package:
     name: broadcom-wl
     state: present
