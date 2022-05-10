@@ -67,5 +67,17 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +PlugInstall +qa
-# - name: Install Plugins
-  # shell: nvim -E -s -c "source /home/frank/.config/nvim/init.vim" -c PlugInstall -c qa
+
+- name: Install treesitter support for python
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +TSInstall python +qa
+
+- name: Install treesitter support for bash
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +TSInstall bash +qa
