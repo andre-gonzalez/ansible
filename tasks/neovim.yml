@@ -60,5 +60,12 @@
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
     mode: 0600
+
+- name: Install nvim plugins
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +PlugInstall +qa
 # - name: Install Plugins
   # shell: nvim -E -s -c "source /home/frank/.config/nvim/init.vim" -c PlugInstall -c qa
