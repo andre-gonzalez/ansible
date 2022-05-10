@@ -191,7 +191,7 @@
       - dunst
       - trash-cli
       - noto-fonts-emoji #missing ubuntu
-      - iwd # need to check Ubuntu name
+      - iwd
     state: latest
     update_cache: yes
   become: true
