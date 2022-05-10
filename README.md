@@ -17,12 +17,12 @@ ansible-pull --vault-password-file [key file location] --ask-become -t "[full-in
 5. Sit back and relax
 
 # Scripts ready to run
-1. Vault password file on $HOME with tags light-install and netbook
+1. Vault password file on $HOME with tags light-install, netbook and processor-intel
 ```
 bash <(curl -sL tinyurl.com/ansible-netbook)
 ```
 
-2. Vault password file on $HOME with tags full-install, samsung-expert and nvidia
+2. Vault password file on $HOME with tags full-install, samsung-expert, processor-intel and nvidia
 ```
 bash <(curl -sL tinyurl.com/ansible-samsung)
 ```
@@ -51,7 +51,6 @@ The logic here is the existence of groups tags, so it become easier to skip tags
     - network
     - packages
     - preload
-    - processor
     - scripts
     - slock
     - ssh
@@ -63,5 +62,7 @@ The logic here is the existence of groups tags, so it become easier to skip tags
 - samsung-expert*
 - netbook*
 - nvidia*
+- processor-intel*
+- processor-nvidia*
 
 *These tags should always be specified manually because they are specific drivers for specific machines

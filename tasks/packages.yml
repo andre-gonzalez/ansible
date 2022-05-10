@@ -33,59 +33,64 @@
 
 - name: Set intel variable when distribution is Archlinux (if necessary)
   tags:
-    - processor
+    - processor-intel
+    - never
   set_fact:
     intel: intel-ucode
-  when: (ansible_distribution == "Archlinux") and (processor == "intel")
+  when: ansible_distribution == "Archlinux"
 
 - name: Set intel variable when distribution is Ubuntu (if necessary)
   tags:
-    - processor
+    - processor-intel
+    - never
   set_fact:
     intel: intel-acm
-  when: (ansible_distribution == "Ubuntu") and (processor == "intel")
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install microcode updates for intel (if necessary)
   tags:
-    - processor
+    - processor-intel
+    - never
   package:
     name: "{{ intel }}"
     state: present
     update_cache: true
-  when: processor == "intel"
   become: true
 
 - name: Set amd variable when distribution is Archlinux (if necessary)
   tags:
-    - processor
+    - processor-amd
+    - never
   set_fact:
     amd: amd-ucode
-  when: (ansible_distribution == "Archlinux") and (processor == "amd")
+  when: ansible_distribution == "Archlinux"
 
 - name: Set amd variable when distribution is Ubuntu (if necessary)
   tags:
-    - processor
+    - processor-amd
+    - never
   set_fact:
     amd: amd64-microcode
-  when: (ansible_distribution == "Ubuntu") and (processor == "amd")
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install microcode updates for amd (if necessary)
   tags:
-    - processor
+    - processor-amd
+    - never
   package:
     name: "{{ amd }}"
     state: present
     update_cache: true
-  when: processor == "amd"
   become: true
 
 - name: Install nvidia drivers
   tags:
     - nvidia
+    - never
   package:
     name: nvidia
     state: present
-  when: (graphics_card == "nvidia") and (ansible_distribution == "Archlinux")
+  when: ansible_distribution == "Archlinux"
   become: true
 
 - name: remove packages
