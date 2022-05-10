@@ -46,8 +46,19 @@
   get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/autoload/plug.vim"
-    mode: 0o600
+    mode: 0600
     owner: "{{ lookup('env', 'USER') }}"
 
+- name: copy sql-language-server file to .config
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  copy:
+    src: sqllsrc.json
+    dest: .config/sql-language-server/
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0600
 # - name: Install Plugins
   # shell: nvim -E -s -c "source /home/frank/.config/nvim/init.vim" -c PlugInstall -c qa
