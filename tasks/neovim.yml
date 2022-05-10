@@ -81,3 +81,10 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall bash +qa
+
+- name: Install treesitter support for json
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +TSInstall json +qa
