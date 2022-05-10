@@ -13,6 +13,7 @@
   tags:
     - full-install
     - users
+    - ansible
     - light-install
   copy: src={{ item.src }} dest={{ item.dest }}
   with_items:
