@@ -95,3 +95,10 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall markdown +qa
+
+- name: Install treesitter support for yaml
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +TSInstall yaml +qa
