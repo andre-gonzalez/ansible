@@ -5,7 +5,8 @@
     - libvirt
   package:
     name:
-      - qemu
+      - qemu-base
+      - qemu-desktop
       - libvirt
       - virt-manager
       - spice-vdagent
