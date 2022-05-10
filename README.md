@@ -28,7 +28,7 @@ bash <(curl -sL tinyurl.com/ansible-samsung)
 ```
 
 # Tags structure
-The logic here is to work well with tags inheritance, so it become easier to run a whole script using less tags. That is why the tags are nested. The structure is shown below
+The logic here is to work well with tags inheritance, so it become easier to run a whole script using less tags. That is why the tags are nested. The structure is shown below:
 - full-install
   - docker
   - libvirt
