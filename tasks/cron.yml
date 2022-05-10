@@ -8,6 +8,10 @@
   when: ansible_distribution == "Archlinux"
 
 - name: Set cron variable when distribution is Ubuntu
+  tags:
+    - full-install
+    - light-install
+    - cron
   set_fact:
     cron: cron
   when: ansible_distribution == "Ubuntu"

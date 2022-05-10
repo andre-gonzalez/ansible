@@ -21,6 +21,7 @@
         - full-install
         - light-install
         - packages
+        - always
       package:
         update_cache: true
       become: true
