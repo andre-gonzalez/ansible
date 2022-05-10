@@ -1,13 +1,30 @@
-- name: Install neovim package
+- name: Install neovim and language servers packages
   tags:
     - full-install
     - light-install
     - neovim
   package:
-    name: neovim
+    name:
+      - neovim
+      - pyright #python language server
+      - bash-language-server #bash language server
     state: present
     update_cache: false
   become: true
+
+- name: Install sql-language-server package
+  tags:
+    - aur
+    - packages
+    - light-install
+    - full-install
+  kewlfft.aur.aur:
+    name:
+      - sql-language-server
+    use: yay
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Archlinux"
 
 - name: Create neovim directory for autoloading configurations
   tags:
