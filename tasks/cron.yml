@@ -104,4 +104,4 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "push-fish-history-to-git-dotfiles"
     special_time: weekly
-    job: "/bin/sh /home/frank/.scripts/push-fish-history.sh"
+    job: "/bin/sh "{{ lookup('env', 'USER') }}"/.scripts/push-fish-history.sh"
