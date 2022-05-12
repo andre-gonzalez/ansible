@@ -59,7 +59,7 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "profile-selector"
     special_time: reboot
-    job: "sleep 15 && DISPLAY=:0 /usr/local/bin/profile-selector"
+    job: "sleep 15 && DISPLAY=:0 {{ lookup('env', 'HOME') }}/.scripts/profile-selector"
   become: yes
 
 - name: install cron job (remove downloads folder)
