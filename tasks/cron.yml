@@ -93,7 +93,7 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "battery notification"
     minute: "*/10"
-    job: "/bin/sh {{ lookup('env', 'HOME') }}/.local/bin/battery-warning.sh"
+    job: "/bin/sh {{ lookup('env', 'HOME') }}/.scripts/battery-warning.sh"
 
 - name: install cron job (push fish history to git)
   tags:
@@ -104,4 +104,4 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "push-fish-history-to-git-dotfiles"
     special_time: weekly
-    job: "/bin/sh "{{ lookup('env', 'USER') }}"/.scripts/push-fish-history.sh"
+    job: "/bin/sh {{ lookup('env', 'USER') }}/.scripts/push-fish-history.sh"
