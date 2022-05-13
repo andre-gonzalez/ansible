@@ -1,0 +1,28 @@
+- name: Install DBeaver package
+  tags:
+    - full-install
+    - light-install
+    - packages
+    - dbeaver
+  package:
+    name: dbeaver #missing ubuntu
+    state: latest
+    update_cache: no
+  become: true
+
+- name: Copy DBeaver configuration files
+  tags:
+    - full-install
+    - light-install
+    - dbeaver
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0644
+  loop:
+    - { src: "data-sources.json" dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }
+    - { src: ".data-sources.json.bak" dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }
+    - { src: "project-metadata.json" dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }
+    - { src: "project-metadata.json.bak" dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }

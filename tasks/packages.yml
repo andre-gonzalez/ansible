@@ -102,7 +102,7 @@
     name:
       - arch-install-scripts
       - archinstall
-      - brltty 
+      - brltty
       - nano
       - htop
       - vim
@@ -168,7 +168,6 @@
       - numlockx
       - "{{ python_pip }}"
       - feh
-      - dbeaver #missing ubuntu
       - unclutter
       - pamixer #missing ubuntu
       - "{{ base_devel }}"

@@ -187,6 +187,11 @@
         - full-install
         - light-install
         - eureciclo
+    - include_tasks: tasks/dbeaver.yml
+      tags:
+        - full-install
+        - light-install
+        - dbeaver
     - include_tasks: tasks/aur-packages2.yml
       tags:
         - full-install
