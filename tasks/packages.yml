@@ -156,6 +156,7 @@
     - packages
   package:
     name:
+      - acpi #Client to check battery status necessary for my script to notify when battery gets low
       - tmux
       - "{{ xorg[0] }}"
       - "{{ xorg[1] }}"
