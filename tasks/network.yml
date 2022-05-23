@@ -3,7 +3,7 @@
     - netbook
     - never
   package:
-    name: firmware-b43-install
+    name: bcmwl-kernel-source
     state: present
     update_cache: false
   when: ansible_distribution in ["Debian", "Ubuntu"]
