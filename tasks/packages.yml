@@ -177,7 +177,7 @@
       - ttf-joypixels #missing ubuntu
       - ttf-linux-libertine #missing ubuntu
       - brightnessctl
-      - lxappearance
+      - lxappearance #Program to set theme for gtk applications
       - arc-gtk-theme #missing ubuntu
       - "{{wpa_supplicant}}"
       - ripgrep
@@ -185,7 +185,7 @@
       - fzf
       - baobab
       - nethogs
-      - lxsession
+      - lxsession 
       - flameshot
       - clipmenu #missing ubuntu
       - bat
@@ -193,6 +193,7 @@
       - trash-cli
       - noto-fonts-emoji #missing ubuntu
       - iwd
+      - qt5ct #To set theme for qt applications 
     state: latest
     update_cache: yes
   become: true
