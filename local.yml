@@ -33,6 +33,11 @@
         - full-install
         - light-install
         - ssh
+    - include_tasks: tasks/grub.yml
+      tags:
+        - full-install
+        - light-install
+        - grub
     - include_tasks: tasks/collections-install.yml
       tags:
         - full-install
