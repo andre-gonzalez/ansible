@@ -1,0 +1,22 @@
+- name: copy file grub config file
+  tags:
+    - full-install
+    - light-install
+    - grub
+  copy:
+    src: grub
+    dest: /etc/default
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  when: ansible_distribution == "Archlinux"
+
+- name: update grub config
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.command: update-grub
+  become: true
+  when: ansible_distribution == "Archlinux"
