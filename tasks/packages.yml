@@ -156,7 +156,6 @@
     - packages
   package:
     name:
-      - acpi #Client to check battery status necessary for my script to notify when battery gets low
       - tmux
       - "{{ xorg[0] }}"
       - "{{ xorg[1] }}"
@@ -185,7 +184,7 @@
       - fzf
       - baobab
       - nethogs
-      - lxsession 
+      - lxsession
       - flameshot
       - clipmenu #missing ubuntu
       - bat
@@ -193,7 +192,7 @@
       - trash-cli
       - noto-fonts-emoji #missing ubuntu
       - iwd
-      - qt5ct #To set theme for qt applications 
+      - qt5ct #To set theme for qt applications
     state: latest
     update_cache: yes
   become: true
