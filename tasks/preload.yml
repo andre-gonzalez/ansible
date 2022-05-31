@@ -11,6 +11,18 @@
     update_cache: yes
   when: ansible_distribution == "Archlinux"
 
+- name: Install preload package
+  tags:
+    - full-install
+    - light-install
+    - preload
+  package:
+    name:
+      - preload
+    state: present
+  become: true
+  when: ansible_distribution == "Ubuntu"
+
 - name: copy file preload.conf to /etc
   tags:
     - full-install
