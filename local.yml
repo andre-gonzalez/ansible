@@ -96,19 +96,19 @@
         - full-install
         - light-install
         - fish
-    - include_tasks: tasks/libvirt.yml
-      tags:
-        - full-install
-        - libvirt
-    - include_tasks: tasks/packages.yml
-      tags:
-        - full-install
-        - light-install
-        - packages
-        - processor-intel
-        - processor-amd
-        - nvidia
-        - xorg
+    # - include_tasks: tasks/libvirt.yml
+    #   tags:
+    #     - full-install
+    #     - libvirt
+    # - include_tasks: tasks/packages.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - packages
+    #     - processor-intel
+    #     - processor-amd
+    #     - nvidia
+    #     - xorg
     - include_tasks: tasks/dwm.yml
       tags:
         - full-install
@@ -177,10 +177,10 @@
         - full-install
         - light-install
         - timeshift
-    - include_tasks: tasks/docker.yml
-      tags:
-        - full-install
-        - docker
+    # - include_tasks: tasks/docker.yml
+    #   tags:
+    #     - full-install
+    #     - docker
     - include_tasks: tasks/network.yml
       tags:
         - full-install
@@ -198,12 +198,12 @@
         - full-install
         - light-install
         - dbeaver
-    - include_tasks: tasks/aur-packages2.yml
-      tags:
-        - full-install
-        - light-install
-        - aur
-        - packages
+    # - include_tasks: tasks/aur-packages2.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - aur
+        # - packages
     - include_tasks: tasks/doas.yml
       tags:
         - full-install
