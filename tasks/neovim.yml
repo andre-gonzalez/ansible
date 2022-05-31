@@ -6,11 +6,36 @@
   package:
     name:
       - neovim
+    state: present
+    update_cache: false
+  become: true
+
+- name: Install language servers packages
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  package:
+    name:
       - pyright #python language server
       - bash-language-server #bash language server
     state: present
     update_cache: false
   become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Install pyright (python language server via snap)
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  snap:
+    name:
+      - pyright
+    state: present
+    classic: yes
+  become: true
+  when: ansible_distribution == "Ubuntu"
 
 # - name: Install sql-language-server package
 #   tags:

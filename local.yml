@@ -135,16 +135,16 @@
     #     - light-install
     #     - aur
     #     - packages
-    - include_tasks: tasks/dwmblocks.yml
-      tags:
-        - full-install
-        - light-install
-        - dwmblocks
-    - include_tasks: tasks/slock.yml
-      tags:
-        - full-install
-        - light-install
-        - slock
+    # - include_tasks: tasks/dwmblocks.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - dwmblocks
+    # - include_tasks: tasks/slock.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - slock
     - include_tasks: tasks/neovim.yml
       tags:
         - full-install
