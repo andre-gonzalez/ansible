@@ -28,74 +28,74 @@
       become: true
 
   tasks:
-    - include_tasks: tasks/ssh.yml
-      tags:
-        - full-install
-        - light-install
-        - ssh
-    - include_tasks: tasks/grub.yml
-      tags:
-        - full-install
-        - light-install
-        - grub
+    # - include_tasks: tasks/ssh.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - ssh
+    # - include_tasks: tasks/grub.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - grub
     # - include_tasks: tasks/collections-install.yml
     #   tags:
     #     - full-install
     #     - light-install
     #     - aur
     #     - packages
-    - include_tasks: tasks/ansible.yml
-      tags:
-        - full-install
-        - light-install
-        - users
-        - ansible
-    - include_tasks: tasks/audio.yml
-      tags:
-        - full-install
-        - light-install
-        - audio
-    - include_tasks: tasks/keyboard-layout.yml
-      tags:
-        - full-install
-        - light-install
-        - keyboard
-    - include_tasks: tasks/locale.yml
-      tags:
-        - full-install
-        - light-install
-        - timezone
-        - locale
-    - include_tasks: tasks/cron.yml
-      tags:
-        - full-install
-        - light-install
-        - cron
-    - include_tasks: tasks/git.yml
-      tags:
-        - full-install
-        - light-install
-        - git
-    - include_tasks: tasks/dotfiles.yml
-      tags:
-        - full-install
-        - light-install
-        - dotfiles
-    - include_tasks: tasks/linux-scripts.yml
-      tags:
-        - full-install
-        - light-install
-        - scripts
-    - include_tasks: tasks/bluetooth.yml
-      tags:
-        - full-install
-        - light-install
-        - bluetooth
-    - include_tasks: tasks/fish.yml
-      tags:
-        - full-install
-        - light-install
-        - fish
+    # - include_tasks: tasks/ansible.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - users
+    #     - ansible
+    # - include_tasks: tasks/audio.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - audio
+    # - include_tasks: tasks/keyboard-layout.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - keyboard
+    # - include_tasks: tasks/locale.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - timezone
+    #     - locale
+    # - include_tasks: tasks/cron.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - cron
+    # - include_tasks: tasks/git.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - git
+    # - include_tasks: tasks/dotfiles.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - dotfiles
+    # - include_tasks: tasks/linux-scripts.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - scripts
+    # - include_tasks: tasks/bluetooth.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - bluetooth
+    # - include_tasks: tasks/fish.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - fish
     # - include_tasks: tasks/libvirt.yml
     #   tags:
     #     - full-install
@@ -109,32 +109,32 @@
     #     - processor-amd
     #     - nvidia
     #     - xorg
-    - include_tasks: tasks/dwm.yml
-      tags:
-        - full-install
-        - light-install
-        - dwm
-    - include_tasks: tasks/st.yml
-      tags:
-        - full-install
-        - light-install
-        - st
-    - include_tasks: tasks/dmenu.yml
-      tags:
-        - full-install
-        - light-install
-        - dmenu
-    - include_tasks: tasks/dwmstatus.yml
-      tags:
-        - full-install
-        - light-install
-        - dwmblocks
-    - include_tasks: tasks/aur-packages.yml
-      tags:
-        - full-install
-        - light-install
-        - aur
-        - packages
+    # - include_tasks: tasks/dwm.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - dwm
+    # - include_tasks: tasks/st.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - st
+    # - include_tasks: tasks/dmenu.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - dmenu
+    # - include_tasks: tasks/dwmstatus.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - dwmblocks
+    # - include_tasks: tasks/aur-packages.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - aur
+    #     - packages
     - include_tasks: tasks/dwmblocks.yml
       tags:
         - full-install

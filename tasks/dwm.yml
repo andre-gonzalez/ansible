@@ -1,4 +1,19 @@
 # create a job to install this package in ubuntu libx11-dev , libxft-dev libxinerama-dev, libxinerama1
+- name: Install gcc (dwm dependency)
+  tags:
+    - full-install
+    - light-install
+    - dwm
+  package:
+    name:
+      - gcc
+      - libxft-dev
+      - libxinerama-dev
+    state: present
+    update_cache: true
+  become: true
+  when: ansible_distribution == "Ubuntu"
+
 - name: Clone dwm
   tags:
     - full-install
