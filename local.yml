@@ -145,21 +145,21 @@
     #     - full-install
     #     - light-install
     #     - slock
-    - include_tasks: tasks/neovim.yml
-      tags:
-        - full-install
-        - light-install
-        - neovim
-    - include_tasks: tasks/lfub.yml
-      tags:
-        - full-install
-        - light-install
-        - lf
-    - include_tasks: tasks/preload.yml
-      tags:
-        - full-install
-        - light-install
-        - preload
+    # - include_tasks: tasks/neovim.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - neovim
+    # - include_tasks: tasks/lfub.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - lf
+    # - include_tasks: tasks/preload.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - preload
     - include_tasks: tasks/brave.yml
       tags:
         - full-install
@@ -172,11 +172,11 @@
         - full-install
         - light-install
         - authy
-    - include_tasks: tasks/timeshift.yml
-      tags:
-        - full-install
-        - light-install
-        - timeshift
+    # - include_tasks: tasks/timeshift.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - timeshift
     # - include_tasks: tasks/docker.yml
     #   tags:
     #     - full-install
