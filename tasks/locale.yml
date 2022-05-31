@@ -1,3 +1,15 @@
+- name: Install audio packages
+  tags:
+    - full-install
+    - light-install
+    - locale
+  package:
+    name:
+      - locales
+    state: present
+  become: true
+  when: ansible_distribution == "Ubuntu"
+
 - name: Set timezone to "{{ timezone }}"
   tags:
     - full-install
