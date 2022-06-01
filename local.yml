@@ -47,6 +47,7 @@
       tags:
         - aur
         - never
+        - collections-install
     - include_tasks: tasks/ansible.yml
       tags:
         - full-install
@@ -134,10 +135,8 @@
         - dwmblocks
     - include_tasks: tasks/aur-packages.yml
       tags:
-        - full-install
-        - light-install
         - aur
-        - packages
+        - never
     - include_tasks: tasks/dwmblocks.yml
       tags:
         - full-install
@@ -203,10 +202,8 @@
         - dbeaver
     - include_tasks: tasks/aur-packages2.yml
       tags:
-        - full-install
-        - light-install
         - aur
-        - packages
+        - never
     - include_tasks: tasks/doas.yml
       tags:
         - full-install
