@@ -126,6 +126,7 @@
       - xorg-xinit
       - xorg-xsetroot
       - xorg-xrandr
+      - xorg-setxkbmap
     python_pip: python-pip
     base_devel: base-devel
     wpa_supplicant: wpa_supplicant
@@ -143,6 +144,8 @@
       - xorg
       - libxrandr2
       - libxrandr-dev
+      - xorg
+      - xorg
     python_pip: pipenv
     base_devel: make
     wpa_supplicant: wpasupplicant
@@ -161,7 +164,7 @@
       - "{{ xorg[1] }}"
       - "{{ xorg[2] }}"
       - "{{ xorg[3] }}"
-      - xorg-setxkbmap #missing ubuntu
+      - "{{ xorg[4] }}"
       - xautolock
       - xbindkeys
       - arandr
@@ -193,6 +196,7 @@
       - noto-fonts-emoji #missing ubuntu
       - iwd
       - qt5ct #To set theme for qt applications
+      - man-db #Manpages
     state: latest
     update_cache: yes
   become: true
