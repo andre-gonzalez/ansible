@@ -41,11 +41,9 @@
 
 - name: Install brave via aur package
   tags:
-    - aur-packages-install
-    - packages-install
-    - packages
-    - full-install
-    - light-install
+    - aur
+    - never
+    - brave
   kewlfft.aur.aur:
     name:
       - brave-bin

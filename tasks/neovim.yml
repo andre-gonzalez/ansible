@@ -40,9 +40,7 @@
 - name: Install sql-language-server package
   tags:
     - aur
-    - packages
-    - light-install
-    - full-install
+    - never
   kewlfft.aur.aur:
     name:
       - sql-language-server
