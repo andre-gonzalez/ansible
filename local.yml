@@ -45,10 +45,8 @@
         - grub
     - include_tasks: tasks/collections-install.yml
       tags:
-        - full-install
-        - light-install
         - aur
-        - packages
+        - never
     - include_tasks: tasks/ansible.yml
       tags:
         - full-install
