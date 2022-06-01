@@ -15,7 +15,7 @@
     - eureciclo
   ansible.builtin.git:
     repo: git@bitbucket.org:redeciclo/utils.git
-    dest: "{{ lookup('env', 'HOME') }}/eureciclo/utils"
+    dest: "{{ lookup('env', 'HOME') }}/eureciclo/utils/main-utils"
     accept_hostkey: yes
 
 - name: Clone queries repository
@@ -25,7 +25,7 @@
     - eureciclo
   ansible.builtin.git:
     repo: git@bitbucket.org:redeciclo/queries.git
-    dest: "{{ lookup('env', 'HOME') }}/eureciclo/queries"
+    dest: "{{ lookup('env', 'HOME') }}/eureciclo/queries/main-queries"
     accept_hostkey: yes
 
 - name: Clone salesops-dw repository
@@ -35,7 +35,7 @@
     - eureciclo
   ansible.builtin.git:
     repo: git@bitbucket.org:redeciclo/salesops-dw.git
-    dest: "{{ lookup('env', 'HOME') }}/eureciclo/salesops-dw"
+    dest: "{{ lookup('env', 'HOME') }}/eureciclo/salesops-dw/main-salesops-dw"
     accept_hostkey: yes
 
 - name: Clone diversos repository
@@ -45,7 +45,7 @@
     - eureciclo
   ansible.builtin.git:
     repo: git@bitbucket.org:andre-gonzalez/diversos.git
-    dest: "{{ lookup('env', 'HOME') }}/eureciclo/diversos"
+    dest: "{{ lookup('env', 'HOME') }}/eureciclo/diversos/main-diversos"
     accept_hostkey: yes
 
 - name: Clone conectar-bancos repository
