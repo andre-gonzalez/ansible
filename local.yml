@@ -160,13 +160,13 @@
     #     - full-install
     #     - light-install
     #     - preload
-    - include_tasks: tasks/brave.yml
-      tags:
-        - full-install
-        - light-install
-        - brave
-        - aur
-        - packages
+    # - include_tasks: tasks/brave.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - brave
+    #     - aur
+    #     - packages
     - include_tasks: tasks/authy.yml
       tags:
         - full-install
