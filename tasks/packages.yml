@@ -172,15 +172,10 @@
       - "{{ python_pip }}"
       - feh
       - unclutter
-      - pamixer #missing ubuntu
       - "{{ base_devel }}"
       - xclip
-      - ttf-nerd-fonts-symbols-mono #missing ubuntu
-      - ttf-joypixels #missing ubuntu
-      - ttf-linux-libertine #missing ubuntu
       - brightnessctl
       - lxappearance #Program to set theme for gtk applications
-      - arc-gtk-theme #missing ubuntu
       - "{{wpa_supplicant}}"
       - ripgrep
       - "{{ fd }}"
@@ -189,14 +184,31 @@
       - nethogs
       - lxsession
       - flameshot
-      - clipmenu #missing ubuntu
       - bat
       - dunst
       - trash-cli
-      - noto-fonts-emoji #missing ubuntu
       - iwd
       - qt5ct #To set theme for qt applications
       - man-db #Manpages
     state: latest
     update_cache: yes
   become: true
+
+- name: install packages that i still have not set in ubuntu
+  tags:
+    - full-install
+    - light-install
+    - packages
+  package:
+    name:
+      - pamixer #missing ubuntu
+      - ttf-nerd-fonts-symbols-mono #missing ubuntu
+      - ttf-joypixels #missing ubuntu
+      - ttf-linux-libertine #missing ubuntu
+      - arc-gtk-theme #missing ubuntu
+      - clipmenu #missing ubuntu
+      - noto-fonts-emoji #missing ubuntu
+    state: latest
+    update_cache: yes
+  become: true
+  when: ansible_distribution == "Archlinux"
