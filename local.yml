@@ -27,7 +27,7 @@
         update_cache: true
       become: true
 
-    - name: "Gathering Facts (1)"
+    - name: "Gathering Facts (Task)"
       setup:
       tags: ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "neovim","network", "preload", "ssh", "timeshift"]
       when: ansible_facts == {}
