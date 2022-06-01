@@ -9,14 +9,14 @@
   become: true
   when: ansible_distribution == "Ubuntu"
 
-# - name: Install authy package
-#   tags:
-#     - authy
-#     - full-install
-#     - light-install
-#   kewlfft.aur.aur:
-#     name: authy
-#     use: yay
-#     state: present
-#     update_cache: yes
-#   when: ansible_distribution == "Archlinux"
+- name: Install authy package
+  tags:
+    - authy
+    - full-install
+    - light-install
+  kewlfft.aur.aur:
+    name: authy
+    use: yay
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Archlinux"

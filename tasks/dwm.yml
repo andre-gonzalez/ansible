@@ -1,4 +1,3 @@
-# create a job to install this package in ubuntu libx11-dev , libxft-dev libxinerama-dev, libxinerama1
 - name: Install gcc (dwm dependency)
   tags:
     - full-install
