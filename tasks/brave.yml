@@ -16,6 +16,7 @@
   get_url:
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
+  become: true
   when: ansible_distribution == "Ubuntu"
 
 - name: Brave Browser PPA setting
