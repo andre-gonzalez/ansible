@@ -152,6 +152,36 @@
     fd: fd-find
   when: ansible_distribution == "Ubuntu"
 
+- name: Set rfkill variable when distribution is Archlinux (if necessary)
+  tags:
+    - full-install
+    - light-install
+    - packages
+    - xorg
+  set_fact:
+    rfkill:
+      - util-linux
+    python_pip: python-pip
+    base_devel: base-devel
+    wpa_supplicant: wpa_supplicant
+    fd: fd
+  when: ansible_distribution == "Archlinux"
+
+- name: Set rfkill variable when distribution is Ubuntu (if necessary)
+  tags:
+    - full-install
+    - light-install
+    - packages
+    - xorg
+  set_fact:
+    rfkill:
+      - rfkill
+    python_pip: pipenv
+    base_devel: make
+    wpa_supplicant: wpasupplicant
+    fd: fd-find
+  when: ansible_distribution == "Ubuntu"
+
 - name: install packages and update cache
   tags:
     - full-install
@@ -190,6 +220,7 @@
       - iwd
       - qt5ct #To set theme for qt applications
       - man-db #Manpages
+      - "{{rfkill}}"
     state: latest
     update_cache: yes
   become: true
