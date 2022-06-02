@@ -13,6 +13,15 @@
     update_cache: yes
   when: ansible_distribution == "Archlinux"
 
+- name: Install lf packages
+  tags:
+    - full-install
+    - light-install
+    - lf
+  shell: env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+  become: true
+  when: ansible_distribution == "Ubuntu"
+
 - name: copy lfub to /usr/local/bin
   tags:
     - full-install
