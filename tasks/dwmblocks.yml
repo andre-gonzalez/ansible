@@ -45,7 +45,7 @@
   loop:
     - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_packages", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_packages" }
     - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_spotify", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_spotify" }
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_connman", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_connman" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_systemd_networkd.sh", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_systemd_networkd" }
     - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_resources", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_resources" }
     - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_battery", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_battery" }
     - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_backlight", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_backlight" }
