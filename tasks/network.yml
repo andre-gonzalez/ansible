@@ -32,36 +32,14 @@
   when: ansible_distribution in ["Archlinux"]
   become: true
 
-- name: Install connman
-  tags:
-    - full-install
-    - light-install
-    - network
-  package:
-    name: connman
-    state: present
-    update_cache: false
-  become: true
-
-- name: stop systemd-networkd
+- name: restart systemd-networkd
   tags:
     - full-install
     - light-install
     - network
   ansible.builtin.service:
     name: systemd-networkd
-    state: stopped
-    enabled: no
-  become: yes
-
-- name: restart connman
-  tags:
-    - full-install
-    - light-install
-    - network
-  ansible.builtin.service:
-    name: connman
-    state: restarted
+    state: started
     enabled: yes
   become: yes
 
