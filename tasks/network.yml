@@ -3,7 +3,9 @@
     - netbook
     - never
   package:
-    name: bcmwl-kernel-source
+    name:
+      - bcmwl-kernel-source
+      - iwd
     state: present
     update_cache: false
   when: ansible_distribution in ["Debian", "Ubuntu"]
@@ -16,6 +18,7 @@
   kewlfft.aur.aur:
     name:
       - b43-firmware-classic
+      - iwd
     use: yay
     state: present
     update_cache: no
@@ -26,7 +29,9 @@
     - samsung-expert
     - never
   package:
-    name: broadcom-wl
+    name:
+      - broadcom-wl
+      - iwd
     state: present
     update_cache: false
   when: ansible_distribution in ["Archlinux"]
