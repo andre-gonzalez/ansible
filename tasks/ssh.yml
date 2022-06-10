@@ -41,6 +41,16 @@
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
 
+- name: Install eureciclo VM ssh key
+  tags:
+    - full-install
+    - light-install
+    - ssh
+  copy:
+    src: linux_data_analytics.pem
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    mode: 0600
+
 - name: Install ssh key public
   tags:
     - full-install
