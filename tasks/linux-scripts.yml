@@ -7,3 +7,15 @@
     repo: git@github.com:andre-gonzalez/linux-scripts.git
     dest: "{{ lookup('env', 'HOME') }}/.scripts"
     accept_hostkey: yes
+
+- name: Copy files to .scripts
+  tags:
+    - full-install
+    - light-install
+    - scripts
+  copy: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'qrc', dest: "{{ lookup('env', 'HOME') }}/.scripts" }
+    - { src: 'qso', dest: "{{ lookup('env', 'HOME') }}/.scripts" }
+    - { src: 'salesops-dw-access', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env" }
+    - { src: 'redeciclo-corp-access', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env" }
