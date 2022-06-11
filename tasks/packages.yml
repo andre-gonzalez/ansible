@@ -221,6 +221,7 @@
       - qt5ct #To set theme for qt applications
       - man-db #Manpages
       - "{{rfkill}}"
+      - csvkit
     state: latest
     update_cache: yes
   become: true
