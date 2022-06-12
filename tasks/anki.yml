@@ -1,0 +1,38 @@
+- name: Ensure anki directory exists.
+  tags:
+    - full-install
+    - light-install
+    - anki
+  file:
+    dest: "{{ lookup('env', 'HOME') }}/.config/anki"
+    mode: 0700
+    state: directory
+
+- name: Download anki installer
+  tags:
+    - full-install
+    - light-install
+    - anki
+  get_url:
+    url: https://github.com/ankitects/anki/releases/download/2.1.53/anki-2.1.53-linux-qt6.tar.zst
+    dest: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
+    force: yes
+
+- name: Extract anki files
+  tags:
+    - full-install
+    - light-install
+    - anki
+  ansible.builtin.unarchive:
+    src:  "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
+    dest: "{{ lookup('env', 'HOME') }}/.config/anki"
+
+- name: Install anki
+  tags:
+    - full-install
+    - light-install
+    - anki
+  ansible.builtin.script:
+    chdir: "{{ lookup('env', 'HOME') }}/.config/anki/anki-2.1.53-linux-qt6"
+    cmd:  "{{ lookup('env', 'HOME') }}/.config/anki/anki-2.1.53-linux-qt6/install.sh"
+  become: true
