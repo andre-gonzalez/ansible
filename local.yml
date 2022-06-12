@@ -200,6 +200,11 @@
         - full-install
         - light-install
         - dbeaver
+    - include_tasks: tasks/anki.yml
+      tags:
+        - full-install
+        - light-install
+        - anki
     - include_tasks: tasks/aur-packages2.yml
       tags:
         - aur
