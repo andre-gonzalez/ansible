@@ -168,3 +168,10 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall graphql +qa
+
+- name: Install treesitter support for docker
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +TSInstall dockerfile +qa
