@@ -84,17 +84,6 @@
     minute: "*/10"
     job: "sleep 60 && rm -r {{ lookup('env', 'HOME') }}/Downloads"
 
-- name: install cron job (battery notification)
-  tags:
-    - full-install
-    - light-install
-    - cron
-  cron:
-    user: "{{ lookup('env', 'USER') }}"
-    name: "battery notification"
-    minute: "*/10"
-    job: "/bin/sh {{ lookup('env', 'HOME') }}/.scripts/battery-warning.sh"
-
 - name: install cron job (push fish history to git)
   tags:
     - full-install
