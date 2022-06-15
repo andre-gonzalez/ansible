@@ -161,3 +161,10 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall html +qa
+
+- name: Install treesitter support for graphql
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +TSInstall graphql +qa
