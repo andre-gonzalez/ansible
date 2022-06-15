@@ -1,4 +1,4 @@
-- name: Install neovim and language servers packages
+- name: Install neovim
   tags:
     - full-install
     - light-install
