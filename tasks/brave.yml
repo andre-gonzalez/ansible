@@ -6,7 +6,7 @@
   package:
     name: ["curl", "apt-transport-https"]
   become: true
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: Brave Browser archive-keyring.gpg download
   tags:
@@ -17,7 +17,7 @@
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
   become: true
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: Brave Browser PPA setting
   tags:
@@ -26,7 +26,7 @@
     - light-install
   shell: echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | tee /etc/apt/sources.list.d/brave-browser-release.list
   become: true
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: Brave Browser apt installation
   tags:
@@ -37,7 +37,7 @@
     name: brave-browser
     update_cache: yes
   become: true
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: Install brave via aur package
   tags:
