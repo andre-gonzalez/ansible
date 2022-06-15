@@ -140,3 +140,10 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall hcl +qa
+
+- name: Install treesitter support for regex
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +TSInstall regex +qa
