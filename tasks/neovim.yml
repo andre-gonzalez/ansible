@@ -44,7 +44,6 @@
   kewlfft.aur.aur:
     name:
       - sql-language-server
-      - terraform-ls
     use: yay
     state: present
     update_cache: yes
@@ -133,13 +132,6 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall fish +qa
-
-- name: Install treesitter support for HCL (Terraform language)
-  tags:
-    - full-install
-    - light-install
-    - neovim
-  ansible.builtin.command: nvim --headless +TSInstall hcl +qa
 
 - name: Install treesitter support for regex
   tags:
