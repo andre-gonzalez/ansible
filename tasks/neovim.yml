@@ -44,6 +44,7 @@
   kewlfft.aur.aur:
     name:
       - sql-language-server
+      - terraform-ls
     use: yay
     state: present
     update_cache: yes
