@@ -175,3 +175,10 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall dockerfile +qa
+
+- name: Install treesitter support for css
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +TSInstall css +qa
