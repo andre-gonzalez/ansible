@@ -1,4 +1,4 @@
-- name: Install gcc (dwm dependency)
+- name: Install gcc, libxft-dev, libxinerama-dev (dwm dependency)
   tags:
     - full-install
     - light-install
