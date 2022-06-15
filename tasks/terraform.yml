@@ -1,0 +1,65 @@
+- name: Terraform archive-keyring.gpg download
+  tags:
+    - full-install
+    - light-install
+    - terraform
+  get_url:
+    url: terraform.gpg https://apt.releases.hashicorp.com/gpg
+    dest: /usr/share/keyrings/terraform-archive-keyring.gpg
+  become: true
+  when: ansible_distribution == "Ubuntu"
+
+- name: Terraform PPA setting
+  tags:
+    - full-install
+    - light-install
+    - terraform
+  shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/terraform-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" > /etc/apt/sources.list.d/terraform.list
+  become: true
+  when: ansible_distribution == "Ubuntu"
+
+- name: Terraform apt installation
+  tags:
+    - full-install
+    - light-install
+    - terraform
+  package:
+    name: terraform
+    update_cache: yes
+  become: true
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Terraform package
+  tags:
+    - full-install
+    - light-install
+    - terraform
+  package:
+    name:
+      - terraform
+    state: latest
+    update_cache: yes
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Install terraform language server
+  tags:
+    - full-install
+    - light-install
+    - neovim
+    - terraform
+  kewlfft.aur.aur:
+    name:
+      - terraform-ls
+    use: yay
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Archlinux"
+
+- name: Install treesitter support for HCL (Terraform language)
+  tags:
+    - full-install
+    - light-install
+    - neovim
+    - terraform
+  ansible.builtin.command: nvim --headless +TSInstall hcl +qa
