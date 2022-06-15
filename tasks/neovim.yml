@@ -147,3 +147,10 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall regex +qa
+
+- name: Install treesitter support for latex
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.command: nvim --headless +TSInstall latex +qa
