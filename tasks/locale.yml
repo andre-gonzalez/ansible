@@ -1,4 +1,4 @@
-- name: Install audio packages
+- name: Install locale package
   tags:
     - full-install
     - light-install
