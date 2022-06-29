@@ -66,7 +66,5 @@ The logic here is to work well with tags inheritance, so it become easier to run
 - samsung-expert*
 - netbook*
 - nvidia*
-- processor-intel*
-- processor-amd*
 
 *These tags should always be specified manually because they are specific drivers for specific machines
