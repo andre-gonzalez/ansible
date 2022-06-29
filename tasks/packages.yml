@@ -182,6 +182,18 @@
     fd: fd-find
   when: ansible_distribution == "Ubuntu"
 
+- name: purge snapd in Ubuntu
+  tags:
+    - full-install
+    - light-install
+    - packages
+  package:
+    name:
+      - snapd
+    state: absent
+  become: true
+  when: ansible_distribution == "Ubuntu"
+
 - name: install packages and update cache
   tags:
     - full-install
