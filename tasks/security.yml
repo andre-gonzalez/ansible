@@ -1,0 +1,9 @@
+- name: disable root login
+  tags:
+    - full-install
+    - light-install
+    - security
+  user:
+    name: root
+    shell: /sbin/nologin
+  become: yes
