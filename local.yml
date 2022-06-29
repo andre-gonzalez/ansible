@@ -29,7 +29,7 @@
 
     - name: "Gathering Facts (Task)"
       setup:
-      tags: ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "neovim","network", "preload", "ssh", "timeshift", "terraform"]
+      tags: ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "neovim","network", "preload", "ssh", "timeshift", "terraform", "security"]
       when: ansible_facts == {}
 
   tasks:
@@ -211,6 +211,11 @@
         - light-install
         - terraform
         - neovim
+    - include_tasks: tasks/security.yml
+      tags:
+        - full-install
+        - light-install
+        - security
     - include_tasks: tasks/aur-packages2.yml
       tags:
         - aur

@@ -53,6 +53,7 @@ The logic here is to work well with tags inheritance, so it become easier to run
     - network
     - packages
     - preload
+    - security
     - scripts
     - slock
     - ssh
