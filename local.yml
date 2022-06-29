@@ -109,8 +109,6 @@
         - full-install
         - light-install
         - packages
-        - processor-intel
-        - processor-amd
         - nvidia
         - xorg
     - include_tasks: tasks/dwm.yml
