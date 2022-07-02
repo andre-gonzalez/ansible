@@ -13,6 +13,7 @@
     state: present
     update_cache: false
   become: true
+  notify: restart libvirt
 
 - name: Ensure group libvirtd exists
   tags:
