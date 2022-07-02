@@ -233,7 +233,6 @@
       - bat
       - dunst
       - trash-cli
-      - iwd
       - qt5ct #To set theme for qt applications
       - man-db #Manpages
       - "{{rfkill}}"
