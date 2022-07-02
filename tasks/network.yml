@@ -10,6 +10,7 @@
     update_cache: false
   when: ansible_distribution in ["Debian", "Ubuntu"]
   become: true
+  notify: "restart network"
 
 - name: Install wireless drivers (netbook) - Arch
   tags:
@@ -23,6 +24,7 @@
     state: present
     update_cache: no
   when: ansible_distribution == "Archlinux"
+  notify: "restart network"
 
 - name: Install wireless drivers (samsung-expert)
   tags:
@@ -36,25 +38,29 @@
     update_cache: false
   when: ansible_distribution in ["Archlinux"]
   become: true
+  notify: "restart network"
 
-- name: restart systemd-networkd
-  tags:
-    - full-install
-    - light-install
-    - network
-  ansible.builtin.service:
-    name: systemd-networkd
-    state: started
-    enabled: yes
-  become: yes
+handlers:
+  - name: restart systemd-networkd
+    tags:
+      - full-install
+      - light-install
+      - network
+    ansible.builtin.service:
+      name: systemd-networkd
+      state: restarted
+      enabled: yes
+    become: yes
+    listen: "restart network"
 
-- name: start iwd
-  tags:
-    - full-install
-    - light-install
-    - network
-  ansible.builtin.service:
-    name: iwd
-    state: started
-    enabled: yes
-  become: yes
+  - name: start iwd
+    tags:
+      - full-install
+      - light-install
+      - network
+    ansible.builtin.service:
+      name: iwd
+      state: restarted
+      enabled: yes
+    become: yes
+    listen: "restart network"
