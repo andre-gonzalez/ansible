@@ -11,8 +11,7 @@
     update_cache: yes
   when: ansible_distribution == "Archlinux"
   ignore_errors: yes
-  notify: start preload
-
+  notify: restart preload
 
 - name: Install preload package
   tags:
@@ -25,7 +24,7 @@
     state: present
   become: true
   when: ansible_distribution == "Ubuntu"
-  notify: start preload
+  notify: restart preload
 
 - name: copy file preload.conf to /etc
   tags:
@@ -42,17 +41,6 @@
   notify: restart preload
 
 handlers:
-  - name: start preload
-    tags:
-      - full-install
-      - light-install
-      - preload
-    ansible.builtin.service:
-      name: preload
-      state: started
-      enabled: yes
-    become: yes
-
   - name: restart preload
     tags:
       - full-install
