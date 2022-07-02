@@ -12,6 +12,7 @@
     state: present
     update_cache: yes
   when: ansible_distribution == "Archlinux"
+  ignore_errors: yes
 
 - name: Install lf packages
   tags:

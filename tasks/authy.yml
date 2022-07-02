@@ -20,3 +20,4 @@
     state: present
     update_cache: yes
   when: ansible_distribution == "Archlinux"
+  ignore_errors: yes

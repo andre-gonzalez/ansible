@@ -25,6 +25,7 @@
     update_cache: no
   when: ansible_distribution == "Archlinux"
   notify: "restart network"
+  ignore_errors: yes
 
 - name: Install wireless drivers (samsung-expert)
   tags:
