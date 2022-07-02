@@ -60,7 +60,7 @@
     src: id_rsa.pub
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0644
-  notify: secure ssh
+  notify: "secure ssh"
 
 - name: Copy authorized_keys file
   tags:
@@ -71,7 +71,7 @@
     src: authorized_keys
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
-  notify: secure ssh
+  notify: "secure ssh"
 
 - name: Copy config file
   tags:
@@ -82,7 +82,7 @@
     src: config
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
-  notify: secure ssh
+  notify: "secure ssh"
 
 - name: add ssh key for frank
   tags:
@@ -93,7 +93,7 @@
     user: "{{ lookup('env', 'USER') }}"
     state: present
     key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
-  notify: secure ssh
+  notify: "secure ssh"
 
 handlers:
   - name: Disable root login via ssh
@@ -108,7 +108,7 @@ handlers:
       state: present
       backup: yes
     become: yes
-    listen: secure ssh
+    listen: "secure ssh"
 
   - name: Disable password login via ssh
     tags:
@@ -122,11 +122,11 @@ handlers:
       state: present
       backup: yes
     become: yes
-    listen: secure ssh
+    listen: "secure ssh"
 
   - name: restart ssh
     systemctl:
       name: sshd
       state: restarted
     become: yes
-    listen: secure ssh
+    listen: "secure ssh"
