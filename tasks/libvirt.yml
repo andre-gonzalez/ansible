@@ -46,14 +46,16 @@
     group: root
     mode: 0644
   become: yes
+  notify: restart libvirt
 
-- name: start libvirt
-  tags:
-    - full-install
-    - light-install
-    - libvirt
-  ansible.builtin.service:
-    name: libvirtd
-    state: started
-    enabled: yes
-  become: yes
+handlers:
+  - name: restart libvirt
+    tags:
+      - full-install
+      - light-install
+      - libvirt
+    ansible.builtin.service:
+      name: libvirtd
+      state: restarted
+      enabled: yes
+    become: yes
