@@ -17,7 +17,7 @@
     url: https://github.com/ankitects/anki/releases/download/2.1.53/anki-2.1.53-linux-qt6.tar.zst
     dest: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
     force: yes
-  notify: proceed anki installation
+  notify: "proceed anki installation"
 
 handlers:
   - name: Extract anki files
@@ -28,7 +28,7 @@ handlers:
     ansible.builtin.unarchive:
       src:  "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
       dest: "{{ lookup('env', 'HOME') }}/.config/anki"
-    listen: proceed anki installation
+    listen: "proceed anki installation"
 
   - name: Install anki
     tags:
@@ -39,4 +39,4 @@ handlers:
       chdir: "{{ lookup('env', 'HOME') }}/.config/anki/anki-2.1.53-linux-qt6"
       cmd:  "{{ lookup('env', 'HOME') }}/.config/anki/anki-2.1.53-linux-qt6/install.sh"
     become: true
-    listen: proceed anki installation
+    listen: "proceed anki installation"
