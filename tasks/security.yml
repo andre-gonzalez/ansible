@@ -23,6 +23,21 @@
   notify:
     - restart ssh
 
+- name: Disable password login via ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: "PasswordAuthentication no"
+    state: present
+    backup: yes
+  become: yes
+  notify:
+    - restart ssh
+
 handlers:
   - name: restart ssh
     systemctl:
