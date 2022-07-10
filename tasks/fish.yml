@@ -44,7 +44,7 @@
     - full-install
     - light-install
     - fish
-  file:
+  ansible.builtin.file:
     path: /etc/omf.installed
     state: touch
   become: true

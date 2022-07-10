@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - eureciclo
-  file:
+  ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/eureciclo"
     mode: 0770
     state: directory
@@ -63,7 +63,7 @@
     - full-install
     - light-install
     - eureciclo
-  file:
+  ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/eureciclo/downloads/query"
     mode: 0770
     state: directory
