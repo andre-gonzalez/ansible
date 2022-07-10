@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - doas
-  package:
+  ansible.builtin.package:
     name: doas
     state: present
     update_cache: false
@@ -28,7 +28,7 @@
 #     - full-install
 #     - light-install
 #     - doas
-#   package:
+  ansible.builtin.package:
 #     name:
 #       - sudo
 #     state: absent

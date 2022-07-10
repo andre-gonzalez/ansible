@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - locale
-  package:
+  ansible.builtin.package:
     name:
       - locales
     state: present

@@ -3,7 +3,7 @@
     - full-install
     - audio
     - light-install
-  package:
+  ansible.builtin.package:
     name:
       - pulseaudio
       - alsa-utils

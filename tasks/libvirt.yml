@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - libvirt
-  package:
+  ansible.builtin.package:
     name:
       - qemu-base
       - qemu-desktop

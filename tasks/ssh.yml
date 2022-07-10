@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - ssh
-  package:
+  ansible.builtin.package:
     name: openssh
     state: present
     update_cache: true

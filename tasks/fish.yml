@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - fish
-  package:
+  ansible.builtin.package:
     name: fish
     state: latest
     update_cache: yes

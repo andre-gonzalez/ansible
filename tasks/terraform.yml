@@ -23,7 +23,7 @@
     - full-install
     - light-install
     - terraform
-  package:
+  ansible.builtin.package:
     name: terraform
     update_cache: yes
   become: true
@@ -34,7 +34,7 @@
     - full-install
     - light-install
     - terraform
-  package:
+  ansible.builtin.package:
     name:
       - terraform
     state: latest

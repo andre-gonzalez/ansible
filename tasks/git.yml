@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - git
-  package:
+  ansible.builtin.package:
     name: git
     state: present
     update_cache: false
