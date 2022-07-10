@@ -28,7 +28,7 @@
     - full-install
     - light-install
     - lf
-  copy:
+  ansible.builtin.copy:
     src: lfub
     dest: /usr/local/bin
     owner: root

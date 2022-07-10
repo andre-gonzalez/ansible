@@ -36,7 +36,7 @@
     - full-install
     - light-install
     - ssh
-  copy:
+  ansible.builtin.copy:
     src: id_rsa
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
@@ -46,7 +46,7 @@
     - full-install
     - light-install
     - ssh
-  copy:
+  ansible.builtin.copy:
     src: linux_data_analytics.pem
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
@@ -56,7 +56,7 @@
     - full-install
     - light-install
     - ssh
-  copy:
+  ansible.builtin.copy:
     src: id_rsa.pub
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0644
@@ -67,7 +67,7 @@
     - full-install
     - light-install
     - ssh
-  copy:
+  ansible.builtin.copy:
     src: authorized_keys
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
@@ -78,7 +78,7 @@
     - full-install
     - light-install
     - ssh
-  copy:
+  ansible.builtin.copy:
     src: config
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600

@@ -15,7 +15,7 @@
     - full-install
     - light-install
     - dbeaver
-  copy:
+  ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ lookup('env', 'USER') }}"

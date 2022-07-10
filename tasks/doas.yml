@@ -14,7 +14,7 @@
     - full-install
     - light-install
     - doas
-  copy:
+  ansible.builtin.copy:
     src: doas.conf
     dest: /etc
     owner: root

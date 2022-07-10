@@ -31,7 +31,7 @@
     - full-install
     - light-install
     - preload
-  copy:
+  ansible.builtin.copy:
     src: preload.conf
     dest: /etc
     owner: root

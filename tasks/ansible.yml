@@ -15,7 +15,7 @@
     - users
     - ansible
     - light-install
-  copy: src={{ item.src }} dest={{ item.dest }}
+  ansible.builtin.copy: src={{ item.src }} dest={{ item.dest }}
   with_items:
     - { src: 'sudoers_ansible', dest: '/etc/sudoers.d/ansible' }
     - { src: 'sudoers_frank', dest: '/etc/sudoers.d/frank' }

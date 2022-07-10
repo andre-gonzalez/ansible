@@ -18,7 +18,7 @@
     - full-install
     - light-install
     - timeshift
-  copy:
+  ansible.builtin.copy:
     src: timeshift.json
     dest: /etc/timeshift/
     owner: root

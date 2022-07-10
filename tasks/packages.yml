@@ -22,7 +22,7 @@
     - full-install
     - light-install
     - packages
-  copy:
+  ansible.builtin.copy:
     src: pacman.conf
     dest: /etc
     owner: root
