@@ -78,7 +78,7 @@
     - full-install
     - light-install
     - neovim
-  copy:
+  ansible.builtin.copy:
     src: sqllsrc.json
     dest: .config/sql-language-server/
     owner: "{{ lookup('env', 'USER') }}"

@@ -40,7 +40,7 @@
     - full-install
     - light-install
     - libvirt
-  copy:
+  ansible.builtin.copy:
     src: qemu.conf
     dest: /etc/libvirt
     owner: root

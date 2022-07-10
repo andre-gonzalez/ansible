@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - grub
-  copy:
+  ansible.builtin.copy:
     src: grub
     dest: /etc/default
     owner: root
