@@ -55,7 +55,7 @@
     - full-install
     - light-install
     - neovim
-  file:
+  ansible.builtin.file:
     path: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/autoload/"
     state: directory
     recurse: yes
