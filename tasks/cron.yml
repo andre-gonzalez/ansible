@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - cron
-  set_fact:
+  ansible.builtin.set_fact:
     cron: cronie
   when: ansible_distribution == "Archlinux"
 
@@ -12,7 +12,7 @@
     - full-install
     - light-install
     - cron
-  set_fact:
+  ansible.builtin.set_fact:
     cron: cron
   when: ansible_distribution == "Ubuntu"
 

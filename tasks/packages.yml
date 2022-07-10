@@ -36,7 +36,7 @@
     - full-install
     - light-install
     - packages
-  set_fact:
+  ansible.builtin.set_fact:
     intel: intel-ucode
   when: ansible_distribution == "Archlinux" and "GenuineIntel" in ansible_processor
 
@@ -45,7 +45,7 @@
     - full-install
     - light-install
     - packages
-  set_fact:
+  ansible.builtin.set_fact:
     intel: intel-acm
   when: ansible_distribution == "Ubuntu" and "GenuineIntel" in ansible_processor
 
@@ -65,7 +65,7 @@
     - full-install
     - light-install
     - packages
-  set_fact:
+  ansible.builtin.set_fact:
     amd: amd-ucode
   when: ansible_distribution == "Archlinux" and "AuthenticAMD" in ansible_processor
 
@@ -73,7 +73,7 @@
   tags:
     - processor-amd
     - never
-  set_fact:
+  ansible.builtin.set_fact:
     amd: amd64-microcode
   when: ansible_distribution == "Ubuntu" and "AuthenticAMD" in ansible_processor
 
@@ -124,7 +124,7 @@
     - light-install
     - packages
     - xorg
-  set_fact:
+  ansible.builtin.set_fact:
     xorg:
       - xorg-server
       - xorg-xinit
@@ -143,7 +143,7 @@
     - light-install
     - packages
     - xorg
-  set_fact:
+  ansible.builtin.set_fact:
     xorg:
       - xorg
       - libxrandr2
@@ -162,7 +162,7 @@
     - light-install
     - packages
     - xorg
-  set_fact:
+  ansible.builtin.set_fact:
     rfkill:
       - util-linux
     python_pip: python-pip
@@ -177,7 +177,7 @@
     - light-install
     - packages
     - xorg
-  set_fact:
+  ansible.builtin.set_fact:
     rfkill:
       - rfkill
     python_pip: pipenv
