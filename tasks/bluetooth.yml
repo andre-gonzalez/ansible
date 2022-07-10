@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - bluetooth
-  set_fact:
+  ansible.builtin.set_fact:
     bluez_utils: bluez-utils
     pulseaudio_bluetooth: pulseaudio-bluetooth
   when: ansible_distribution == "Archlinux"
@@ -13,7 +13,7 @@
     - full-install
     - light-install
     - bluetooth
-  set_fact:
+  ansible.builtin.set_fact:
     bluez_utils: bluez-alsa-utils
     pulseaudio_bluetooth: pulseaudio-module-bluetooth
   when: ansible_distribution == "Ubuntu"
