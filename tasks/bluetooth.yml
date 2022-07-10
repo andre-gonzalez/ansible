@@ -23,7 +23,7 @@
     - full-install
     - light-install
     - bluetooth
-  package:
+  ansible.builtin.package:
     name:
       - bluez
       - bluez-tools

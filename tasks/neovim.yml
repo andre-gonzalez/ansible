@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - neovim
-  package:
+  ansible.builtin.package:
     name:
       - neovim
     state: present
@@ -15,7 +15,7 @@
     - full-install
     - light-install
     - neovim
-  package:
+  ansible.builtin.package:
     name:
       - pyright #python language server
       - bash-language-server #bash language server

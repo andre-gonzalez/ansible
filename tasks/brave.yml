@@ -3,7 +3,7 @@
     - brave
     - full-install
     - light-install
-  package:
+  ansible.builtin.package:
     name: ["curl", "apt-transport-https"]
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
@@ -33,7 +33,7 @@
     - brave
     - full-install
     - light-install
-  package:
+  ansible.builtin.package:
     name: brave-browser
     update_cache: yes
   become: true

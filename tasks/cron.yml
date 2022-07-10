@@ -21,7 +21,7 @@
     - full-install
     - light-install
     - cron
-  package:
+  ansible.builtin.package:
     name: "{{ cron }}"
     state: present
     update_cache: false

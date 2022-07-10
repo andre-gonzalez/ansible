@@ -2,7 +2,7 @@
   tags:
     - netbook
     - never
-  package:
+  ansible.builtin.package:
     name:
       - bcmwl-kernel-source
       - iwd
@@ -31,7 +31,7 @@
   tags:
     - samsung-expert
     - never
-  package:
+  ansible.builtin.package:
     name:
       - broadcom-wl
       - iwd

@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - packages
-  package:
+  ansible.builtin.package:
     name: reflector
   become: true
   when: ansible_distribution == "Archlinux"
@@ -54,7 +54,7 @@
     - full-install
     - light-install
     - packages
-  package:
+  ansible.builtin.package:
     name: "{{ intel }}"
     state: present
     update_cache: true
@@ -81,7 +81,7 @@
   tags:
     - processor-amd
     - never
-  package:
+  ansible.builtin.package:
     name: "{{ amd }}"
     state: present
     update_cache: true
@@ -91,7 +91,7 @@
   tags:
     - nvidia
     - never
-  package:
+  ansible.builtin.package:
     name: nvidia
     state: present
   when: ansible_distribution == "Archlinux"
@@ -102,7 +102,7 @@
     - full-install
     - light-install
     - packages
-  package:
+  ansible.builtin.package:
     name:
       - arch-install-scripts
       - archinstall
@@ -191,7 +191,7 @@
     - full-install
     - light-install
     - packages
-  package:
+  ansible.builtin.package:
     name:
       - snapd
     state: absent
@@ -203,7 +203,7 @@
     - full-install
     - light-install
     - packages
-  package:
+  ansible.builtin.package:
     name:
       - tmux
       - "{{ xorg[0] }}"
@@ -246,7 +246,7 @@
     - full-install
     - light-install
     - packages
-  package:
+  ansible.builtin.package:
     name:
       - pamixer #missing ubuntu
       - ttf-nerd-fonts-symbols-mono #missing ubuntu
