@@ -28,7 +28,7 @@
     - full-install
     - light-install
     - dwm
-  make:
+  community.general.make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwm"
     target: install
   become: yes
