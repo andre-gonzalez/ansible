@@ -54,7 +54,7 @@
     - full-install
     - light-install
     - fish
-  user:
+  ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
     shell: /usr/bin/fish
   become: yes

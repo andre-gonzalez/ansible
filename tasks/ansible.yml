@@ -4,7 +4,7 @@
     - light-install
     - users
     - ansible
-  user:
+  ansible.builtin.user:
     name: ansible
     system: yes
   become: true
