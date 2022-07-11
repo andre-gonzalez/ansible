@@ -43,3 +43,60 @@
     enabled: yes
   become: yes
   listen: "restart network"
+
+- name: restart libvirt
+  tags:
+    - full-install
+    - light-install
+    - libvirt
+  ansible.builtin.service:
+    name: libvirtd
+    state: restarted
+    enabled: yes
+  become: yes
+
+- name: Disable root login via ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: "PermitRootLogin no"
+    state: present
+    backup: yes
+  become: yes
+  listen: "secure ssh"
+
+- name: Disable password login via ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: "PasswordAuthentication no"
+    state: present
+    backup: yes
+  become: yes
+  listen: "secure ssh"
+
+- name: restart ssh
+  systemctl:
+    name: sshd
+    state: restarted
+  become: yes
+  listen: "secure ssh"
+
+- name: restart preload
+  tags:
+    - full-install
+    - light-install
+    - preload
+  ansible.builtin.service:
+    name: preload
+    state: restarted
+    enabled: yes
+  become: yes

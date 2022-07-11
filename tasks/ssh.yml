@@ -94,39 +94,3 @@
     state: present
     key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
   notify: "secure ssh"
-
-handlers:
-  - name: Disable root login via ssh
-    tags:
-      - full-install
-      - light-install
-      - security
-    lineinfile:
-      dest: /etc/ssh/sshd_config
-      regexp: '^PermitRootLogin'
-      line: "PermitRootLogin no"
-      state: present
-      backup: yes
-    become: yes
-    listen: "secure ssh"
-
-  - name: Disable password login via ssh
-    tags:
-      - full-install
-      - light-install
-      - security
-    lineinfile:
-      dest: /etc/ssh/sshd_config
-      regexp: '^PasswordAuthentication'
-      line: "PasswordAuthentication no"
-      state: present
-      backup: yes
-    become: yes
-    listen: "secure ssh"
-
-  - name: restart ssh
-    systemctl:
-      name: sshd
-      state: restarted
-    become: yes
-    listen: "secure ssh"

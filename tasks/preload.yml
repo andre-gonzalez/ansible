@@ -39,15 +39,3 @@
     mode: 0644
   become: yes
   notify: restart preload
-
-handlers:
-  - name: restart preload
-    tags:
-      - full-install
-      - light-install
-      - preload
-    ansible.builtin.service:
-      name: preload
-      state: restarted
-      enabled: yes
-    become: yes
