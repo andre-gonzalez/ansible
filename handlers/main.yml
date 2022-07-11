@@ -1,0 +1,20 @@
+- name: Extract anki files
+  tags:
+    - full-install
+    - light-install
+    - anki
+  ansible.builtin.unarchive:
+    src:  "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
+    dest: "{{ lookup('env', 'HOME') }}/.config/anki"
+  listen: proceed anki installation
+
+- name: Install anki
+  tags:
+    - full-install
+    - light-install
+    - anki
+  ansible.builtin.script:
+    chdir: "{{ lookup('env', 'HOME') }}/.config/anki/anki-2.1.53-linux-qt6"
+    cmd:  "{{ lookup('env', 'HOME') }}/.config/anki/anki-2.1.53-linux-qt6/install.sh"
+  become: true
+  listen: proceed anki installation
