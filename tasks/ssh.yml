@@ -89,7 +89,7 @@
     - full-install
     - light-install
     - ssh
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ lookup('env', 'USER') }}"
     state: present
     key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
