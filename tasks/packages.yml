@@ -13,7 +13,7 @@
     - full-install
     - light-install
     - packages
-  script: choose-mirror.sh
+  ansible.builtin.script: choose-mirror.sh
   become: true
   when: ansible_distribution == "Archlinux"
 
