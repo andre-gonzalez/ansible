@@ -3,7 +3,7 @@
     - authy
     - full-install
     - light-install
-  snap:
+  community.general.snap:
     name: authy
     state: present
   become: true
