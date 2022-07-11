@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - security
-  user:
+  ansible.builtin.user:
     name: root
     shell: /sbin/nologin
   become: yes
