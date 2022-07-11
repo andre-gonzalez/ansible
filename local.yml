@@ -30,7 +30,6 @@
     - name: "Gathering Facts (Task)"
       setup:
       tags: ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "neovim","network", "preload", "ssh", "timeshift", "terraform", "security", "samsung-expert"]
-      when: ansible_facts == {}
 
   tasks:
     - include_tasks: tasks/ssh.yml
