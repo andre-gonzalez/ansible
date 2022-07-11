@@ -12,7 +12,7 @@
     - full-install
     - light-install
     - dmenu
-  make:
+ community.general.make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dmenu"
     target: install
   become: yes
