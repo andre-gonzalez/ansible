@@ -1,3 +1,4 @@
+---
 - name: Extract anki files
   tags:
     - full-install
