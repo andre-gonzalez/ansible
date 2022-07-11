@@ -19,3 +19,27 @@
     cmd:  "{{ lookup('env', 'HOME') }}/.config/anki/anki-2.1.53-linux-qt6/install.sh"
   become: true
   listen: proceed anki installation
+
+- name: restart systemd-networkd
+  tags:
+    - full-install
+    - light-install
+    - network
+  ansible.builtin.service:
+    name: systemd-networkd
+    state: restarted
+    enabled: yes
+  become: yes
+  listen: "restart network"
+
+- name: start iwd
+  tags:
+    - full-install
+    - light-install
+    - network
+  ansible.builtin.service:
+    name: iwd
+    state: restarted
+    enabled: yes
+  become: yes
+  listen: "restart network"
