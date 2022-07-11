@@ -40,28 +40,3 @@
   when: ansible_distribution in ["Archlinux"]
   become: true
   notify: "restart network"
-
-handlers:
-  - name: restart systemd-networkd
-    tags:
-      - full-install
-      - light-install
-      - network
-    ansible.builtin.service:
-      name: systemd-networkd
-      state: restarted
-      enabled: yes
-    become: yes
-    listen: "restart network"
-
-  - name: start iwd
-    tags:
-      - full-install
-      - light-install
-      - network
-    ansible.builtin.service:
-      name: iwd
-      state: restarted
-      enabled: yes
-    become: yes
-    listen: "restart network"
