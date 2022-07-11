@@ -14,7 +14,7 @@
     - full-install
     - light-install
     - fish
-  stat:
+  ansible.builtin.stat:
     path: '/etc/omf.installed'
   register: omf
 
@@ -36,7 +36,7 @@
     - fish
   become: true
   become_user: "{{ lookup('env', 'USER') }}"
-  command: /tmp/omf/bin/install -y --offline --noninteractive
+  ansible.builtin.command: /tmp/omf/bin/install -y --offline --noninteractive
   when: not omf.stat.exists
 
 - name: Mark oh-my-fish installed with /etc/omf.installed
