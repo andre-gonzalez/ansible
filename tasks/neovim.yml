@@ -29,7 +29,7 @@
     - full-install
     - light-install
     - neovim
-  snap:
+  community.general.snap:
     name:
       - pyright
     state: present
