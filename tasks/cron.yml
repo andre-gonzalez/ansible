@@ -43,7 +43,7 @@
     - full-install
     - light-install
     - cron
-  cron:
+ ansible.builtin.cron:
     user: ansible
     name: "ansible provision"
     minute: "*/10"
@@ -55,7 +55,7 @@
     - full-install
     - light-install
     - cron
-  cron:
+ ansible.builtin.cron:
     user: "{{ lookup('env', 'USER') }}"
     name: "profile-selector"
     special_time: reboot
@@ -67,7 +67,7 @@
     - full-install
     - light-install
     - cron
-  cron:
+ ansible.builtin.cron:
     user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder-reboot"
     special_time: reboot
@@ -78,7 +78,7 @@
     - full-install
     - light-install
     - cron
-  cron:
+ ansible.builtin.cron:
     user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder"
     minute: "*/10"
@@ -89,7 +89,7 @@
     - full-install
     - light-install
     - cron
-  cron:
+ ansible.builtin.cron:
     user: "{{ lookup('env', 'USER') }}"
     name: "push-fish-history-to-git-dotfiles"
     special_time: weekly
