@@ -13,7 +13,7 @@
     - brave
     - full-install
     - light-install
-  get_url:
+  ansible.builtin.get_url:
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
   become: true

@@ -3,7 +3,7 @@
     - full-install
     - light-install
     - terraform
-  get_url:
+  ansible.builtin.get_url:
     url: terraform.gpg https://apt.releases.hashicorp.com/gpg
     dest: /usr/share/keyrings/terraform-archive-keyring.gpg
   become: true

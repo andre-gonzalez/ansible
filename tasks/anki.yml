@@ -13,7 +13,7 @@
     - full-install
     - light-install
     - anki
-  get_url:
+  ansible.builtin.get_url:
     url: https://github.com/ankitects/anki/releases/download/2.1.53/anki-2.1.53-linux-qt6.tar.zst
     dest: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
     force: yes
