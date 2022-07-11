@@ -43,7 +43,7 @@
     - packages
     - light-install
     - full-install
-  command:
+  ansible.builtin.command:
     chdir: "{{ lookup('env', 'HOME') }}/.config/yay"
     cmd: "makepkg -sfi --noconfirm"
     creates: /usr/bin/yay
