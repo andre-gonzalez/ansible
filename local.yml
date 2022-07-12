@@ -29,7 +29,7 @@
 
     - name: "Gathering Facts (Task)"
       setup:
-      tags: ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "neovim","network", "preload", "ssh", "timeshift", "terraform", "security", "samsung-expert"]
+      tags: ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "neovim","network", "preload", "ssh", "timeshift", "terraform", "security", "samsung-expert", "eureciclo"]
 
   tasks:
     - include_tasks: tasks/ssh.yml
@@ -74,6 +74,7 @@
         - full-install
         - light-install
         - cron
+        - eureciclo
     - include_tasks: tasks/git.yml
       tags:
         - full-install
