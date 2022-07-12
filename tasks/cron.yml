@@ -94,3 +94,15 @@
     name: "push-fish-history-to-git-dotfiles"
     special_time: weekly
     job: "/bin/sh {{ lookup('env', 'USER') }}/.scripts/push-fish-history.sh"
+
+- name: install cron job (give users access to the database)
+  tags:
+    - full-install
+    - light-install
+    - cron
+    - eureciclo
+ ansible.builtin.cron:
+    user: "{{ lookup('env', 'USER') }}"
+    name: "Give users access to the database"
+    special_time: "0 */4 * * *"
+    job: "cat $HOME/eureciclo/salesops-dw/main-salesops-dw/create-enviroment/user-groups.sql | /home/frank/.scripts/qso"
