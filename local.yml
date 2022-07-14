@@ -223,5 +223,5 @@
         - full-install
         - light-install
         - doas
-  handlers:
-    - include: handlers/main.yml
+  # handlers:
+  #   - include: handlers/main.yml
