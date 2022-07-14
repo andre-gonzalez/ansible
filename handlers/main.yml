@@ -84,7 +84,7 @@
   listen: "secure ssh"
 
 - name: restart ssh
-  systemctl:
+  ansible.builtin.service:
     name: sshd
     state: restarted
   become: yes
