@@ -175,3 +175,14 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall css +qa
+
+- name: Set neovim as default git editor
+  tags:
+    - full-install
+    - light-install
+    - neovim
+    - git
+  community.general.git_config:
+    name: core.editor
+    scope: global
+    value: nvim
