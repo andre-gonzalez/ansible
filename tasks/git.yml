@@ -28,3 +28,13 @@
     name: user.name
     scope: global
     value: "{{ fullname }}"
+
+- name: Git default branch
+  tags:
+    - full-install
+    - light-install
+    - git
+  community.general.git_config:
+    name: init.defaultBranch
+    scope: global
+    value: main
