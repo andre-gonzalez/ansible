@@ -8,13 +8,23 @@
     mode: 0700
     state: directory
 
+- name: Get latest anki release
+  tags:
+    - full-install
+    - light-install
+    - anki
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/ankitects/anki/releases/latest
+    return_content: true
+  register: json_reponse
+
 - name: Download anki installer
   tags:
     - full-install
     - light-install
     - anki
   ansible.builtin.get_url:
-    url: https://github.com/ankitects/anki/releases/download/2.1.53/anki-2.1.53-linux-qt6.tar.zst
+    url: "{{ json_reponse.json.tarball_url }}"
     dest: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
     force: yes
   notify: "proceed anki installation"
