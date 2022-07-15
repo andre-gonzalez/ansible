@@ -4,7 +4,7 @@
     - light-install
     - anki
   ansible.builtin.file:
-    dest: "{{ lookup('env', 'HOME') }}/.config/anki"
+    dest: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
     mode: 0700
     state: directory
 

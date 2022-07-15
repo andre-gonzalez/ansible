@@ -6,7 +6,7 @@
     - anki
   ansible.builtin.unarchive:
     src:  "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
-    dest: "{{ lookup('env', 'HOME') }}/.config/anki"
+    dest: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
   listen: proceed anki installation
 
 - name: Install anki
@@ -15,8 +15,8 @@
     - light-install
     - anki
   ansible.builtin.script:
-    chdir: "{{ lookup('env', 'HOME') }}/.config/anki/anki-2.1.53-linux-qt6"
-    cmd:  "{{ lookup('env', 'HOME') }}/.config/anki/anki-2.1.53-linux-qt6/install.sh"
+    chdir: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
+    cmd:  "{{ lookup('env', 'HOME') }}/.config/anki/install-files/install.sh"
   become: true
   listen: proceed anki installation
 
