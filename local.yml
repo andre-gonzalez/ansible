@@ -225,4 +225,4 @@
         - light-install
         - doas
   handlers:
-    - include_tasks: handlers/main.yml
+    - import_tasks: handlers/main.yml
