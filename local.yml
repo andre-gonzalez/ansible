@@ -150,6 +150,7 @@
         - full-install
         - light-install
         - neovim
+        - git
     - include_tasks: tasks/lfub.yml
       tags:
         - full-install
