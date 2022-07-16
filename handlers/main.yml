@@ -28,8 +28,8 @@
   ansible.builtin.service:
     name: systemd-networkd
     state: restarted
-    enabled: yes
-  become: yes
+    enabled: true
+  become: true
   listen: "restart network"
 
 - name: start iwd
@@ -40,8 +40,8 @@
   ansible.builtin.service:
     name: iwd
     state: restarted
-    enabled: yes
-  become: yes
+    enabled: true
+  become: true
   listen: "restart network"
 
 - name: restart libvirt
@@ -52,8 +52,8 @@
   ansible.builtin.service:
     name: libvirtd
     state: restarted
-    enabled: yes
-  become: yes
+    enabled: true
+  become: true
 
 - name: Disable root login via ssh
   tags:
@@ -65,8 +65,8 @@
     regexp: '^PermitRootLogin'
     line: "PermitRootLogin no"
     state: present
-    backup: yes
-  become: yes
+    backup: true
+  become: true
   listen: "secure ssh"
 
 - name: Disable password login via ssh
@@ -79,15 +79,15 @@
     regexp: '^PasswordAuthentication'
     line: "PasswordAuthentication no"
     state: present
-    backup: yes
-  become: yes
+    backup: true
+  become: true
   listen: "secure ssh"
 
 - name: restart ssh
   ansible.builtin.service:
     name: sshd
     state: restarted
-  become: yes
+  become: true
   listen: "secure ssh"
 
 - name: restart preload
@@ -98,5 +98,5 @@
   ansible.builtin.service:
     name: preload
     state: restarted
-    enabled: yes
-  become: yes
+    enabled: true
+  become: true
