@@ -20,7 +20,7 @@
     enabled: yes
   become: yes
 
-- name: add the user "{{ lookup('env', 'USER') }}" to the docker group
+- name: add the user {{ lookup('env', 'USER') }} to the docker group
   tags:
     - full-install
     - docker
