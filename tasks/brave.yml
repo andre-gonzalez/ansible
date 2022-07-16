@@ -1,4 +1,4 @@
-- name: required libraries for brave
+- name: required libraries for brave in Ubuntu
   tags:
     - brave
     - full-install
@@ -8,7 +8,7 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Brave Browser archive-keyring.gpg download
+- name: Brave Browser archive-keyring.gpg download in Ubuntu
   tags:
     - brave
     - full-install
@@ -19,7 +19,7 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Brave Browser PPA setting
+- name: Brave Browser PPA setting in Ubuntu
   tags:
     - brave
     - full-install
@@ -28,7 +28,7 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Brave Browser apt installation
+- name: Brave Browser apt installation in Ubuntu
   tags:
     - brave
     - full-install

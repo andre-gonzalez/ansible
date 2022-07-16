@@ -1,4 +1,4 @@
-- name: Install preload package
+- name: Install preload package when distribution is Archlinux
   tags:
     - full-install
     - light-install
@@ -13,7 +13,7 @@
   ignore_errors: yes
   notify: restart preload
 
-- name: Install preload package
+- name: Install preload package when distribution is Ubuntu
   tags:
     - full-install
     - light-install

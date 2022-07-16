@@ -1,4 +1,4 @@
-- name: Install lf packages
+- name: Install lf packages when distribution is Archlinux
   tags:
     - full-install
     - light-install
@@ -14,7 +14,7 @@
   when: ansible_distribution == "Archlinux"
   ignore_errors: yes
 
-- name: Install lf packages
+- name: Install lf packages when distribution is Ubuntu
   tags:
     - full-install
     - light-install
