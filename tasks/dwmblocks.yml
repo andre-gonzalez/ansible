@@ -21,6 +21,7 @@
     repo: git@github.com:andre-gonzalez/dwmblocks.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
     accept_hostkey: yes
+  ignore_errors: yes
 
 - name: Install dwmblocks
   tags:

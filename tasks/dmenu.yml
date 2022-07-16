@@ -6,6 +6,7 @@
   ansible.builtin.git:
     repo: https://git.suckless.org/dmenu
     dest: "{{ lookup('env', 'HOME') }}/.config/dmenu"
+  ignore_errors: yes
 
 - name: Install dmenu
   tags:
