@@ -59,6 +59,7 @@
     state: present
     update_cache: true
   become: true
+  when: '"GenuineIntel" in ansible_facts["processor"]'
 
 - name: Set amd variable when distribution is Archlinux (if necessary)
   tags:
@@ -86,6 +87,7 @@
     state: present
     update_cache: true
   become: true
+  when: '"AuthenticAMD" in ansible_facts["processor"]'
 
 - name: Install nvidia drivers
   tags:
@@ -118,12 +120,11 @@
     update_cache: no
   become: true
 
-- name: Set xorg variable when distribution is Archlinux (if necessary)
+- name: Set packages variables when distribution is Archlinux (if necessary)
   tags:
     - full-install
     - light-install
     - packages
-    - xorg
   ansible.builtin.set_fact:
     xorg:
       - xorg-server
@@ -131,18 +132,18 @@
       - xorg-xsetroot
       - xorg-xrandr
       - xorg-setxkbmap
+    rfkill: util-linux-libs
     python_pip: python-pip
     base_devel: base-devel
     wpa_supplicant: wpa_supplicant
     fd: fd
   when: ansible_distribution == "Archlinux"
 
-- name: Set xorg variable when distribution is Ubuntu (if necessary)
+- name: Set packages variable when distribution is Ubuntu (if necessary)
   tags:
     - full-install
     - light-install
     - packages
-    - xorg
   ansible.builtin.set_fact:
     xorg:
       - xorg
@@ -150,36 +151,7 @@
       - libxrandr-dev
       - xorg
       - xorg
-    python_pip: pipenv
-    base_devel: make
-    wpa_supplicant: wpasupplicant
-    fd: fd-find
-  when: ansible_distribution == "Ubuntu"
-
-- name: Set rfkill variable when distribution is Archlinux (if necessary)
-  tags:
-    - full-install
-    - light-install
-    - packages
-    - xorg
-  ansible.builtin.set_fact:
-    rfkill:
-      - util-linux
-    python_pip: python-pip
-    base_devel: base-devel
-    wpa_supplicant: wpa_supplicant
-    fd: fd
-  when: ansible_distribution == "Archlinux"
-
-- name: Set rfkill variable when distribution is Ubuntu (if necessary)
-  tags:
-    - full-install
-    - light-install
-    - packages
-    - xorg
-  ansible.builtin.set_fact:
-    rfkill:
-      - rfkill
+    rfkill: rfkill
     python_pip: pipenv
     base_devel: make
     wpa_supplicant: wpasupplicant
