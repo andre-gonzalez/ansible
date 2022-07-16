@@ -7,13 +7,14 @@
     repo: git@github.com:andre-gonzalez/st.git
     dest: "{{ lookup('env', 'HOME') }}/.config/st"
     accept_hostkey: yes
+  ignore_errors: yes
 
 - name: Install st
   tags:
     - full-install
     - light-install
     - st
- community.general.make:
+  community.general.make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/st"
     target: install
   become: yes
