@@ -56,5 +56,5 @@
     - fish
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
-    ansible.builtin.shell: /usr/bin/fish
+    shell: /usr/bin/fish
   become: yes
