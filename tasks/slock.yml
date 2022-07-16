@@ -5,6 +5,7 @@
     - light-install
     - slock
   ansible.builtin.git:
+    version: main
     repo: git@github.com:andre-gonzalez/slock.git
     dest: "{{ lookup('env', 'HOME') }}/.config/slock"
     accept_hostkey: true

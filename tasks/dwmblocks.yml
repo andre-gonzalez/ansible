@@ -19,6 +19,7 @@
     - light-install
     - dwmblocks
   ansible.builtin.git:
+    version: main
     repo: git@github.com:andre-gonzalez/dwmblocks.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
     accept_hostkey: true

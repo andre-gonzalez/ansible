@@ -5,6 +5,7 @@
     - light-install
     - scripts
   ansible.builtin.git:
+    version: main
     repo: git@github.com:andre-gonzalez/linux-scripts.git
     dest: "{{ lookup('env', 'HOME') }}/.scripts"
     accept_hostkey: true

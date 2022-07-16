@@ -20,6 +20,7 @@
     - light-install
     - dwm
   ansible.builtin.git:
+    version: main
     repo: git@github.com:andre-gonzalez/dwm.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwm"
     accept_hostkey: true

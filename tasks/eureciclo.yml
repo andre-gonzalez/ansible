@@ -15,6 +15,7 @@
     - light-install
     - eureciclo
   ansible.builtin.git:
+    version: main
     repo: git@bitbucket.org:redeciclo/utils.git
     dest: "{{ lookup('env', 'HOME') }}/eureciclo/utils/main-utils"
     accept_hostkey: true
@@ -26,6 +27,7 @@
     - light-install
     - eureciclo
   ansible.builtin.git:
+    version: main
     repo: git@bitbucket.org:redeciclo/queries.git
     dest: "{{ lookup('env', 'HOME') }}/eureciclo/queries/main-queries"
     accept_hostkey: true
@@ -37,6 +39,7 @@
     - light-install
     - eureciclo
   ansible.builtin.git:
+    version: main
     repo: git@bitbucket.org:redeciclo/salesops-dw.git
     dest: "{{ lookup('env', 'HOME') }}/eureciclo/salesops-dw/main-salesops-dw"
     accept_hostkey: true
@@ -48,6 +51,7 @@
     - light-install
     - eureciclo
   ansible.builtin.git:
+    version: main
     repo: git@bitbucket.org:andre-gonzalez/diversos.git
     dest: "{{ lookup('env', 'HOME') }}/eureciclo/diversos/main-diversos"
     accept_hostkey: true
@@ -59,6 +63,7 @@
     - light-install
     - eureciclo
   ansible.builtin.git:
+    version: main
     repo: git@bitbucket.org:andre-gonzalez/conectar-bancos.git
     dest: "{{ lookup('env', 'HOME') }}/eureciclo/conectar-bancos"
     accept_hostkey: true

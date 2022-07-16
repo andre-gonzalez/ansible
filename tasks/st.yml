@@ -5,6 +5,7 @@
     - light-install
     - st
   ansible.builtin.git:
+    version: main
     repo: git@github.com:andre-gonzalez/st.git
     dest: "{{ lookup('env', 'HOME') }}/.config/st"
     accept_hostkey: true

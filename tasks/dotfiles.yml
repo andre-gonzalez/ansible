@@ -5,6 +5,7 @@
     - light-install
     - dotfiles
   ansible.builtin.git:
+    version: main
     repo: git@github.com:andre-gonzalez/dotfiles.git
     dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
     recursive: true
