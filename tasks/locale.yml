@@ -1,4 +1,4 @@
-- name: Install locale package
+- name: Install locale package when distribution is Ubuntu
   tags:
     - full-install
     - light-install
