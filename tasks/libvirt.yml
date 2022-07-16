@@ -15,24 +15,24 @@
   become: true
   notify: restart libvirt
 
-- name: Ensure group libvirtd exists
+- name: Ensure group libvirt exists
   tags:
     - full-install
     - light-install
     - libvirt
   ansible.builtin.group:
-    name: libvirtd
+    name: libvirt
     state: present
   become: yes
 
-- name: add the user "{{ lookup('env', 'USER') }}" to the libvirt group
+- name: add the user {{ lookup('env', 'USER') }} to the libvirt group
   tags:
     - full-install
     - light-install
     - libvirt
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
-    group: libvirtd
+    group: libvirt
   become: yes
 
 - name: copy file qemu.conf to /etc/libvirt
