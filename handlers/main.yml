@@ -60,7 +60,7 @@
     - full-install
     - light-install
     - security
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: '^PermitRootLogin'
     line: "PermitRootLogin no"
@@ -74,7 +74,7 @@
     - full-install
     - light-install
     - security
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: '^PasswordAuthentication'
     line: "PasswordAuthentication no"
