@@ -43,7 +43,7 @@
     - full-install
     - light-install
     - cron
- ansible.builtin.cron:
+  ansible.builtin.cron:
     user: ansible
     name: "ansible provision"
     minute: "*/10"
