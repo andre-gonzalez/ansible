@@ -62,7 +62,6 @@ The logic here is to work well with tags inheritance, so it become easier to run
     - timeshift
     - timezone
     - users
-    - xorg
 - samsung-expert*
 - netbook*
 - nvidia*
