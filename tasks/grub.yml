@@ -10,7 +10,7 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
+  become: true
   when: ansible_distribution == "Archlinux"
 
 - name: update grub config

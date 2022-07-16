@@ -7,11 +7,11 @@
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/dotfiles.git
     dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
-    recursive: yes
-    update: yes
-    bare: yes
+    recursive: true
+    update: true
+    bare: true
     version: main
-    accept_hostkey: yes
+    accept_hostkey: true
 
 - name: set up dotfiles
   tags:

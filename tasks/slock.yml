@@ -7,8 +7,8 @@
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/slock.git
     dest: "{{ lookup('env', 'HOME') }}/.config/slock"
-    accept_hostkey: yes
-  ignore_errors: yes
+    accept_hostkey: true
+  ignore_errors: true
 
 - name: Install slock
   tags:
@@ -18,4 +18,4 @@
   community.general.make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/slock"
     target: install
-  become: yes
+  become: true

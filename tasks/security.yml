@@ -7,4 +7,4 @@
   ansible.builtin.user:
     name: root
     shell: /sbin/nologin
-  become: yes
+  become: true

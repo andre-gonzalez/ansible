@@ -19,7 +19,7 @@
     - full-install
   ansible.builtin.user:
     name: aur_builder
-    create_home: yes
+    create_home: true
     group: wheel
   become: true
   when: ansible_distribution == "Archlinux"
@@ -33,7 +33,7 @@
   ansible.builtin.lineinfile:
     path: /etc/sudoers.d/11-install-aur_builder
     line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
-    create: yes
+    create: true
     validate: 'visudo -cf %s'
   become: true
   when: ansible_distribution == "Archlinux"

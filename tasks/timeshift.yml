@@ -10,9 +10,9 @@
       - timeshift-autosnap
     use: yay
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution == "Archlinux"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: copy file timeshift.json to /etc
   tags:
@@ -25,4 +25,4 @@
     owner: root
     group: root
     mode: 0666
-  become: yes
+  become: true

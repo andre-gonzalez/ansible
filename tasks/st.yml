@@ -7,8 +7,8 @@
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/st.git
     dest: "{{ lookup('env', 'HOME') }}/.config/st"
-    accept_hostkey: yes
-  ignore_errors: yes
+    accept_hostkey: true
+  ignore_errors: true
 
 - name: Install st
   tags:
@@ -18,4 +18,4 @@
   community.general.make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/st"
     target: install
-  become: yes
+  become: true

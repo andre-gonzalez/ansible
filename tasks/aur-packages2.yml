@@ -19,9 +19,9 @@
       - tmux-bash-completion-git
     use: yay
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution == "Archlinux"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Install informant
   tags:
@@ -36,7 +36,7 @@
     state: present
     update_cache: no
   when: ansible_distribution == "Archlinux"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Mark all informant news as read
   tags:
@@ -46,4 +46,4 @@
     - full-install
   ansible.builtin.command: informant read --all
   become: true
-  ignore_errors: yes
+  ignore_errors: true

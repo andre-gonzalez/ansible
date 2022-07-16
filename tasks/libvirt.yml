@@ -24,7 +24,7 @@
   ansible.builtin.group:
     name: libvirt
     state: present
-  become: yes
+  become: true
 
 - name: add the user {{ lookup('env', 'USER') }} to the libvirt group
   tags:
@@ -34,7 +34,7 @@
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
     group: libvirt
-  become: yes
+  become: true
 
 - name: copy file qemu.conf to /etc/libvirt
   tags:
@@ -47,5 +47,5 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
+  become: true
   notify: restart libvirt

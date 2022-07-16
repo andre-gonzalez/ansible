@@ -11,9 +11,9 @@
       - ttf-symbola
     use: yay
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution == "Archlinux"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Install lf packages when distribution is Ubuntu
   tags:
@@ -35,4 +35,4 @@
     owner: root
     group: root
     mode: 0755
-  become: yes
+  become: true
