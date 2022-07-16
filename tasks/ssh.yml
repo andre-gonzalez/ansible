@@ -19,8 +19,8 @@
   ansible.builtin.service:
     name: sshd
     state: started
-    enabled: yes
-  become: yes
+    enabled: true
+  become: true
 
 - name: Ensure .ssh directory exists.
   tags:

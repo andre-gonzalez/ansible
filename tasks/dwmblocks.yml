@@ -9,9 +9,9 @@
       - checkupdates+aur
     use: yay
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution == "Archlinux"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Clone dwmblocks
   tags:
@@ -21,8 +21,8 @@
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/dwmblocks.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
-    accept_hostkey: yes
-  ignore_errors: yes
+    accept_hostkey: true
+  ignore_errors: true
 
 - name: Install dwmblocks
   tags:
@@ -32,7 +32,7 @@
   community.general.make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
     target: install
-  become: yes
+  become: true
 
 - name: Create symbolic links for the dwmblocks scripts
   tags:

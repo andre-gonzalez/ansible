@@ -36,7 +36,7 @@
     - light-install
   ansible.builtin.package:
     name: brave-browser
-    update_cache: yes
+    update_cache: true
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
@@ -50,6 +50,6 @@
       - brave-bin
     use: yay
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution == "Archlinux"
-  ignore_errors: yes
+  ignore_errors: true

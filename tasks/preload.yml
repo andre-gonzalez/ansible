@@ -9,9 +9,9 @@
       - preload
     use: yay
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution == "Archlinux"
-  ignore_errors: yes
+  ignore_errors: true
   notify: restart preload
 
 - name: Install preload package when distribution is Ubuntu
@@ -38,5 +38,5 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
+  become: true
   notify: restart preload

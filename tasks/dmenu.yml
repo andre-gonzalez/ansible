@@ -7,7 +7,7 @@
   ansible.builtin.git:
     repo: https://git.suckless.org/dmenu
     dest: "{{ lookup('env', 'HOME') }}/.config/dmenu"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Install dmenu
   tags:
@@ -17,4 +17,4 @@
   community.general.make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dmenu"
     target: install
-  become: yes
+  become: true

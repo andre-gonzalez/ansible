@@ -7,7 +7,7 @@
   ansible.builtin.git:
     repo: https://git.suckless.org/dwmstatus
     dest: "{{ lookup('env', 'HOME') }}/.config/dwmstatus"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Install dwmstatus
   tags:
@@ -17,4 +17,4 @@
   community.general.make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwmstatus"
     target: install
-  become: yes
+  become: true

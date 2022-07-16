@@ -18,8 +18,8 @@
   ansible.builtin.service:
     name: docker
     state: started
-    enabled: yes
-  become: yes
+    enabled: true
+  become: true
 
 - name: add the user {{ lookup('env', 'USER') }} to the docker group
   tags:
@@ -28,4 +28,4 @@
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
     group: docker
-  become: yes
+  become: true

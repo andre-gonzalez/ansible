@@ -22,8 +22,8 @@
   ansible.builtin.git:
     repo: git@github.com:andre-gonzalez/dwm.git
     dest: "{{ lookup('env', 'HOME') }}/.config/dwm"
-    accept_hostkey: yes
-  ignore_errors: yes
+    accept_hostkey: true
+  ignore_errors: true
 
 - name: Install dwm
   tags:
@@ -33,4 +33,4 @@
   community.general.make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwm"
     target: install
-  become: yes
+  become: true

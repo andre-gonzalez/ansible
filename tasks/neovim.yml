@@ -34,7 +34,7 @@
     name:
       - pyright
     state: present
-    classic: yes
+    classic: true
   become: true
   when: ansible_distribution == "Ubuntu"
 
@@ -47,9 +47,9 @@
       - sql-language-server
     use: yay
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution == "Archlinux"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Create neovim directory for autoloading configurations
   tags:
@@ -59,7 +59,7 @@
   ansible.builtin.file:
     path: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/autoload/"
     state: directory
-    recurse: yes
+    recurse: true
     mode: 0o700
     owner: "{{ lookup('env', 'USER') }}"
 

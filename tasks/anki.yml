@@ -27,5 +27,5 @@
   ansible.builtin.get_url:
     url: "{{ json_reponse.json.assets.browser_download_url }}"
     dest: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
-    force: yes
+    force: true
   notify: "proceed anki installation"

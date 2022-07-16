@@ -19,6 +19,6 @@
     name: authy
     use: yay
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution == "Archlinux"
-  ignore_errors: yes
+  ignore_errors: true

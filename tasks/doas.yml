@@ -21,7 +21,7 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
+  become: true
 
 # Gotta learn to run ansible with doas before getting rid of sudo
 # - name: uninstall sudo

@@ -7,7 +7,7 @@
   ansible.builtin.package:
     name: fish
     state: latest
-    update_cache: yes
+    update_cache: true
   become: true
 
 - name: Check if oh-my-fish is installed
@@ -27,7 +27,7 @@
   ansible.builtin.git:
     repo: 'https://github.com/oh-my-fish/oh-my-fish'
     dest: '/tmp/omf'
-    clone: yes
+    clone: true
   when: not omf.stat.exists
 
 - name: Install oh-my-fish
@@ -58,4 +58,4 @@
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
     shell: /usr/bin/fish
-  become: yes
+  become: true

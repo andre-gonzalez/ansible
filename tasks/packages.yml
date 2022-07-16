@@ -213,7 +213,7 @@
       - yamllint
       - ansible-lint
     state: latest
-    update_cache: yes
+    update_cache: true
   become: true
 
 - name: install packages that i still have not set in ubuntu
@@ -231,6 +231,6 @@
       - clipmenu #missing ubuntu
       - noto-fonts-emoji #missing ubuntu
     state: latest
-    update_cache: yes
+    update_cache: true
   become: true
   when: ansible_distribution == "Archlinux"

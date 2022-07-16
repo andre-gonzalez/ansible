@@ -26,7 +26,7 @@
     - terraform
   ansible.builtin.package:
     name: terraform
-    update_cache: yes
+    update_cache: true
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
@@ -39,7 +39,7 @@
     name:
       - terraform
     state: latest
-    update_cache: yes
+    update_cache: true
   become: true
   when: ansible_distribution == "Archlinux"
 
@@ -54,9 +54,9 @@
       - terraform-ls
     use: yay
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution == "Archlinux"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Install treesitter support for HCL (Terraform language)
   tags:

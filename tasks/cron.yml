@@ -36,8 +36,8 @@
   ansible.builtin.service:
     name: "{{ cron }}"
     state: started
-    enabled: yes
-  become: yes
+    enabled: true
+  become: true
 
 - name: install cron job (ansible-pull)
   tags:
@@ -49,7 +49,7 @@
     name: "ansible provision"
     minute: "*/10"
     job: "/usr/bin/ansible-pull --vault-password-file {{ lookup('env', 'HOME') }}/.vault_key -o -U https://github.com/andre-gonzalez/ansible-pull.git > /dev/null"
-  become: yes
+  become: true
 
 - name: install cron job (profile-selector)
   tags:
@@ -61,7 +61,7 @@
     name: "profile-selector"
     special_time: reboot
     job: "sleep 15 && DISPLAY=:0 {{ lookup('env', 'HOME') }}/.scripts/profile-selector"
-  become: yes
+  become: true
 
 - name: install cron job (remove downloads folder)
   tags:
