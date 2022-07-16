@@ -1,3 +1,4 @@
+---
 - name: Ensure anki directory exists.
   tags:
     - full-install

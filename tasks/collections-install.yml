@@ -1,3 +1,4 @@
+---
 - name: Install collection kewlfft.aur
   tags:
     - aur

@@ -1,3 +1,4 @@
+---
 - name: Install audio packages
   tags:
     - full-install

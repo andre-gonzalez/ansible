@@ -1,3 +1,4 @@
+---
 - name: Install DBeaver package
   tags:
     - full-install

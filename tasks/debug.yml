@@ -1,3 +1,4 @@
+---
 - name: Show facts available on the system
   tags:
     - never

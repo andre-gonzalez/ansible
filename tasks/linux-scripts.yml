@@ -1,3 +1,4 @@
+---
 - name: Clone linux-scripts
   tags:
     - full-install

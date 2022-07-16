@@ -1,3 +1,4 @@
+---
 - name: Install lf packages when distribution is Archlinux
   tags:
     - full-install

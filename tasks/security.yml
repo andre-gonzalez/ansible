@@ -1,3 +1,4 @@
+---
 - name: disable root login
   tags:
     - full-install

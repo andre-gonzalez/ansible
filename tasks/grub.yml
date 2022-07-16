@@ -1,3 +1,4 @@
+---
 - name: copy file grub config file
   tags:
     - full-install
