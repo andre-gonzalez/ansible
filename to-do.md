@@ -1,3 +1,4 @@
+1. Add ansible pull cron job to generate log as this: https://github.com/ansible/ansible-examples/blob/master/language_features/ansible_pull.yml 
 1. Added more tasks to security.yml
 2. Finish writing Ubuntu versions for the packages
 3. Consider move fish history to ansible files with ansible vault
