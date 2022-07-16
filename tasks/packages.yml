@@ -211,6 +211,7 @@
       - "{{rfkill}}"
       - csvkit
       - yamllint
+      - ansible-lint
     state: latest
     update_cache: yes
   become: true
