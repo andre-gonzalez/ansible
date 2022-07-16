@@ -1,3 +1,4 @@
+---
 - name: Install wireless drivers (netbook) - Debian, Ubuntu
   tags:
     - netbook

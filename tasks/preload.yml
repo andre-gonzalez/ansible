@@ -1,3 +1,4 @@
+---
 - name: Install preload package when distribution is Archlinux
   tags:
     - full-install

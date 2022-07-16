@@ -1,3 +1,4 @@
+---
 - name: Install aur packages
   tags:
     - aur

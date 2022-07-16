@@ -1,3 +1,4 @@
+---
 - name: Clone dwmstatus
   tags:
     - full-install

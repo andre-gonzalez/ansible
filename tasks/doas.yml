@@ -1,3 +1,4 @@
+---
 - name: Install doas package
   tags:
     - full-install

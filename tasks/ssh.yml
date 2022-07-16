@@ -1,3 +1,4 @@
+---
 - name: Install openssh
   tags:
     - full-install

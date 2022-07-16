@@ -1,3 +1,4 @@
+---
 - name: Set cron variable when distribution is Archlinux
   tags:
     - full-install

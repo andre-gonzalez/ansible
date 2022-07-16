@@ -1,3 +1,4 @@
+---
 - name: Install locale package when distribution is Ubuntu
   tags:
     - full-install

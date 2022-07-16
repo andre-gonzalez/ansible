@@ -1,3 +1,4 @@
+---
 - name: install fish
   tags:
     - full-install
