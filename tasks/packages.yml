@@ -209,6 +209,7 @@
       - man-db #Manpages
       - "{{rfkill}}"
       - csvkit
+      - yamllint
     state: latest
     update_cache: yes
   become: true
