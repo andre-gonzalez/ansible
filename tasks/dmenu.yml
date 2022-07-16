@@ -5,6 +5,7 @@
     - light-install
     - dmenu
   ansible.builtin.git:
+    version: master
     repo: https://git.suckless.org/dmenu
     dest: "{{ lookup('env', 'HOME') }}/.config/dmenu"
   ignore_errors: true

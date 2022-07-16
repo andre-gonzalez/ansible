@@ -28,6 +28,7 @@
     - light-install
     - ansible
   ansible.builtin.git:
+    version: main
     repo: git@github.com:andre-gonzalez/ansible.git
     dest: "{{ lookup('env', 'HOME') }}/.config/ansible"
     accept_hostkey: true

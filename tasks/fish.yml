@@ -25,6 +25,7 @@
     - light-install
     - fish
   ansible.builtin.git:
+    version: main
     repo: 'https://github.com/oh-my-fish/oh-my-fish'
     dest: '/tmp/omf'
     clone: true

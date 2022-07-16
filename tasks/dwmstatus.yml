@@ -5,6 +5,7 @@
     - light-install
     - dwmblocks
   ansible.builtin.git:
+    version: master
     repo: https://git.suckless.org/dwmstatus
     dest: "{{ lookup('env', 'HOME') }}/.config/dwmstatus"
   ignore_errors: true
