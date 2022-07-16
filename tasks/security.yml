@@ -5,5 +5,5 @@
     - security
   ansible.builtin.user:
     name: root
-    ansible.builtin.shell: /sbin/nologin
+    shell: /sbin/nologin
   become: yes
