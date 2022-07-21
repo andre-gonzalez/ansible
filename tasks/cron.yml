@@ -108,3 +108,17 @@
     minute: "0"
     hour: "*/4"
     job: "cat $HOME/eureciclo/salesops-dw/main-salesops-dw/create-enviroment/user-groups.sql | /home/frank/.scripts/qso"
+
+- name: install cron job (contatos pipeline)
+  tags:
+    - full-install
+    - light-install
+    - cron
+    - eureciclo
+  ansible.builtin.cron:
+    user: "{{ lookup('env', 'USER') }}"
+    name: "Contatos pipeline"
+    minute: "0"
+    hour: "8-20/1"
+    weekday: "1-5"
+    job: "cat $HOME/eureciclo/salesops-dw/main-salesops-dw/salesops-dw/star-schema/cron-job-pipeline-contacts.sql | /home/frank/.scripts/qso"
