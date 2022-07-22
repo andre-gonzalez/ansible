@@ -38,13 +38,14 @@
   become: true
   when: ansible_distribution == "Ubuntu"
 
-- name: Install sql-language-server package
+- name: Install sql-language-server and ansible-language-server package
   tags:
     - aur
     - never
   kewlfft.aur.aur:
     name:
       - sql-language-server
+      - ansible-language-server
     use: yay
     state: present
     update_cache: true
