@@ -24,12 +24,12 @@
         - light-install
         - packages
         - always
-      package:
+      ansible.builtin.package:
         update_cache: true
       become: true
 
     - name: "Gathering Facts (Task)"
-      setup:
+      ansible.builtin.setup:
       tags: ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "neovim", "network", "preload", "ssh", "timeshift", "terraform", "security", "samsung-expert", "eureciclo", "debug"]
 
   tasks:
