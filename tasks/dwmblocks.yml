@@ -21,7 +21,7 @@
   ansible.builtin.git:
     version: main
     repo: git@github.com:andre-gonzalez/dwmblocks.git
-    dest: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
+    dest: "{{ ansible_env.HOME }}/.config/dwmblocks"
     accept_hostkey: true
   ignore_errors: true
 
@@ -31,7 +31,7 @@
     - light-install
     - dwmblocks
   community.general.make:
-    chdir: "{{ lookup('env', 'HOME') }}/.config/dwmblocks"
+    chdir: "{{ ansible_env.HOME }}/.config/dwmblocks"
     target: install
   become: true
 
@@ -47,15 +47,15 @@
     group: "{{ lookup('env', 'USER') }}"
     state: link
   loop:
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_packages", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_packages" }
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_spotify", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_spotify" }
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_systemd_networkd.sh", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_systemd_networkd" }
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_resources", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_resources" }
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_battery", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_battery" }
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_backlight", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_backlight" }
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_pulse", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_pulse" }
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_bluetooth", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_bluetooth" }
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_date", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_date" }
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_weather", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_weather" }
-    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_countdown", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_countdown" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_packages", dest: "{{ ansible_env.HOME }}/.scripts/dwm_packages" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_spotify", dest: "{{ ansible_env.HOME }}/.scripts/dwm_spotify" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_systemd_networkd.sh", dest: "{{ ansible_env.HOME }}/.scripts/dwm_systemd_networkd" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_resources", dest: "{{ ansible_env.HOME }}/.scripts/dwm_resources" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_battery", dest: "{{ ansible_env.HOME }}/.scripts/dwm_battery" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_backlight", dest: "{{ ansible_env.HOME }}/.scripts/dwm_backlight" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_pulse", dest: "{{ ansible_env.HOME }}/.scripts/dwm_pulse" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_bluetooth", dest: "{{ ansible_env.HOME }}/.scripts/dwm_bluetooth" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_date", dest: "{{ ansible_env.HOME }}/.scripts/dwm_date" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_weather", dest: "{{ ansible_env.HOME }}/.scripts/dwm_weather" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_countdown", dest: "{{ ansible_env.HOME }}/.scripts/dwm_countdown" }
   become: true

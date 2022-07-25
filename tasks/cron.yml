@@ -48,7 +48,7 @@
     user: ansible
     name: "ansible provision"
     minute: "*/10"
-    job: "/usr/bin/ansible-pull --vault-password-file {{ lookup('env', 'HOME') }}/.vault_key -o -U https://github.com/andre-gonzalez/ansible-pull.git > /dev/null"
+    job: "/usr/bin/ansible-pull --vault-password-file {{ ansible_env.HOME }}/.vault_key -o -U https://github.com/andre-gonzalez/ansible-pull.git > /dev/null"
   become: true
 
 - name: install cron job (profile-selector)
@@ -60,7 +60,7 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "profile-selector"
     special_time: reboot
-    job: "sleep 15 && DISPLAY=:0 {{ lookup('env', 'HOME') }}/.scripts/profile-selector"
+    job: "sleep 15 && DISPLAY=:0 {{ ansible_env.HOME }}/.scripts/profile-selector"
   become: true
 
 - name: install cron job (remove downloads folder)
@@ -72,7 +72,7 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder-reboot"
     special_time: reboot
-    job: "sleep 60 && rm -r {{ lookup('env', 'HOME') }}/Downloads"
+    job: "sleep 60 && rm -r {{ ansible_env.HOME }}/Downloads"
 
 - name: install cron job (remove downloads folder)
   tags:
@@ -83,7 +83,7 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder"
     minute: "*/10"
-    job: "sleep 60 && rm -r {{ lookup('env', 'HOME') }}/Downloads"
+    job: "sleep 60 && rm -r {{ ansible_env.HOME }}/Downloads"
 
 - name: install cron job (push fish history to git)
   tags:
