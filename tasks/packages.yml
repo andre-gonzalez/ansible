@@ -118,7 +118,7 @@
       - zsh
       - virtualbox-guest-utils-nox
     state: absent
-    update_cache: no
+    update_cache: false
   become: true
 
 - name: Set packages variables when distribution is Archlinux (if necessary)
@@ -194,8 +194,8 @@
       - "{{ base_devel }}"
       - xclip
       - brightnessctl
-      - lxappearance #Program to set theme for gtk applications
-      - "{{wpa_supplicant}}"
+      - lxappearance # Program to set theme for gtk applications
+      - "{{ wpa_supplicant }}"
       - ripgrep
       - "{{ fd }}"
       - fzf
@@ -206,9 +206,9 @@
       - bat
       - dunst
       - trash-cli
-      - qt5ct #To set theme for qt applications
-      - man-db #Manpages
-      - "{{rfkill}}"
+      - qt5ct # To set theme for qt applications
+      - man-db # Manpages
+      - "{{ rfkill }}"
       - csvkit
       - yamllint
       - ansible-lint
@@ -223,13 +223,13 @@
     - packages
   ansible.builtin.package:
     name:
-      - pamixer #missing ubuntu
-      - ttf-nerd-fonts-symbols-mono #missing ubuntu
-      - ttf-joypixels #missing ubuntu
-      - ttf-linux-libertine #missing ubuntu
-      - arc-gtk-theme #missing ubuntu
-      - clipmenu #missing ubuntu
-      - noto-fonts-emoji #missing ubuntu
+      - pamixer # missing ubuntu
+      - ttf-nerd-fonts-symbols-mono # missing ubuntu
+      - ttf-joypixels # missing ubuntu
+      - ttf-linux-libertine # missing ubuntu
+      - arc-gtk-theme # missing ubuntu
+      - clipmenu # missing ubuntu
+      - noto-fonts-emoji # missing ubuntu
     state: latest
     update_cache: true
   become: true

@@ -34,7 +34,7 @@
       - informant
     use: yay
     state: present
-    update_cache: no
+    update_cache: false
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
 

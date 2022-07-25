@@ -23,7 +23,7 @@
       - iwd
     use: yay
     state: present
-    update_cache: no
+    update_cache: false
   when: ansible_distribution == "Archlinux"
   notify: "restart network"
   ignore_errors: true

@@ -6,9 +6,9 @@
     - packages
     - dbeaver
   ansible.builtin.package:
-    name: dbeaver #missing ubuntu
+    name: dbeaver # missing ubuntu
     state: latest
-    update_cache: no
+    update_cache: false
   become: true
 
 - name: Copy DBeaver configuration files
@@ -23,6 +23,6 @@
     group: "{{ lookup('env', 'USER') }}"
     mode: 0644
   loop:
-    - { src: "data-sources.json", dest: "{{ ansible_env.HOME }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }
-    - { src: ".data-sources.json.bak", dest: "{{ ansible_env.HOME }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }
-    - { src: "project-metadata.json", dest: "{{ ansible_env.HOME }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }
+    - { src: "data-sources.json", dest: "{{ ansible_env.HOME }}/.local/share/DBeaverData/workspace6/General/.dbeaver" }
+    - { src: ".data-sources.json.bak", dest: "{{ ansible_env.HOME }}/.local/share/DBeaverData/workspace6/General/.dbeaver" }
+    - { src: "project-metadata.json", dest: "{{ ansible_env.HOME }}/.local/share/DBeaverData/workspace6/General/.dbeaver" }

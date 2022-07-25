@@ -20,7 +20,7 @@
     - full-install
     - light-install
     - lf
-  shell: env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+  ansible.builtin.shell: env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
   become: true
   when: ansible_distribution == "Ubuntu"
 

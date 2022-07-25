@@ -18,8 +18,8 @@
     - neovim
   ansible.builtin.package:
     name:
-      - pyright #python language server
-      - bash-language-server #bash language server
+      - pyright # python language server
+      - bash-language-server # bash language server
     state: present
     update_cache: false
   become: true

@@ -22,7 +22,7 @@
     path: /etc/default/grub
     regexp: '^GRUB_TIMEOUT=.*'
     line: 'GRUB_TIMEOUT=1'
-    backrefs: yes
+    backrefs: true
   become: true
   notify: update grub
 
@@ -35,7 +35,7 @@
     path: /etc/default/grub
     regexp: '^GRUB_TIMEOUT_STYLE=.*'
     line: 'GRUB_TIMEOUT_STYLE=hidden'
-    backrefs: yes
+    backrefs: true
   become: true
   notify: update grub
 
@@ -48,7 +48,7 @@
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX=.*'
     line: 'GRUB_CMDLINE_LINUX="mitigations=off"'
-    backrefs: yes
+    backrefs: true
   become: true
   when: ansible_memtotal_mb > 16000
   notify: update grub
@@ -62,7 +62,7 @@
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX=.*'
     line: 'GRUB_CMDLINE_LINUX="zswap.enabled=1 mitigations=off"'
-    backrefs: yes
+    backrefs: true
   become: true
   when: ansible_memtotal_mb <= 16000
   notify: update grub

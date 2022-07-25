@@ -5,7 +5,7 @@
     - packages
     - light-install
     - full-install
- ansible.builtin.git:
+  ansible.builtin.git:
     version: main
     repo: https://aur.archlinux.org/yay-bin.git
     dest: "{{ ansible_env.HOME }}/.config/yay"
