@@ -101,10 +101,25 @@
     enabled: true
   become: true
 
-- name: update grub
+- name: copy file update-grub
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.copy:
+    src: update-grub
+    dest: /usr/sbin
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+  listen: "update grub"
+
+- name: run update grub
   tags:
     - full-install
     - light-install
     - grub
   ansible.builtin.command: update-grub
   become: true
+  listen: "update grub"

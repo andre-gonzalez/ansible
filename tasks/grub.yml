@@ -66,12 +66,3 @@
   become: true
   when: ansible_memtotal_mb <= 16000
   notify: update grub
-
-# - name: update grub config
-#   tags:
-#     - full-install
-#     - light-install
-#     - grub
-  # ansible.builtin.command: update-grub
-  # become: true
-  # when: ansible_distribution == "Archlinux"
