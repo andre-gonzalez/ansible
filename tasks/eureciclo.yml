@@ -5,7 +5,7 @@
     - light-install
     - eureciclo
   ansible.builtin.file:
-    dest: "{{ lookup('env', 'HOME') }}/eureciclo"
+    dest: "{{ ansible_env.HOME }}/eureciclo"
     mode: 0770
     state: directory
 
@@ -17,7 +17,7 @@
   ansible.builtin.git:
     version: main
     repo: git@bitbucket.org:redeciclo/utils.git
-    dest: "{{ lookup('env', 'HOME') }}/eureciclo/utils/main-utils"
+    dest: "{{ ansible_env.HOME }}/eureciclo/utils/main-utils"
     accept_hostkey: true
   ignore_errors: true
 
@@ -29,7 +29,7 @@
   ansible.builtin.git:
     version: main
     repo: git@bitbucket.org:redeciclo/queries.git
-    dest: "{{ lookup('env', 'HOME') }}/eureciclo/queries/main-queries"
+    dest: "{{ ansible_env.HOME }}/eureciclo/queries/main-queries"
     accept_hostkey: true
   ignore_errors: true
 
@@ -41,7 +41,7 @@
   ansible.builtin.git:
     version: main
     repo: git@bitbucket.org:redeciclo/salesops-dw.git
-    dest: "{{ lookup('env', 'HOME') }}/eureciclo/salesops-dw/main-salesops-dw"
+    dest: "{{ ansible_env.HOME }}/eureciclo/salesops-dw/main-salesops-dw"
     accept_hostkey: true
   ignore_errors: true
 
@@ -53,7 +53,7 @@
   ansible.builtin.git:
     version: main
     repo: git@bitbucket.org:andre-gonzalez/diversos.git
-    dest: "{{ lookup('env', 'HOME') }}/eureciclo/diversos/main-diversos"
+    dest: "{{ ansible_env.HOME }}/eureciclo/diversos/main-diversos"
     accept_hostkey: true
   ignore_errors: true
 
@@ -65,7 +65,7 @@
   ansible.builtin.git:
     version: main
     repo: git@bitbucket.org:andre-gonzalez/conectar-bancos.git
-    dest: "{{ lookup('env', 'HOME') }}/eureciclo/conectar-bancos"
+    dest: "{{ ansible_env.HOME }}/eureciclo/conectar-bancos"
     accept_hostkey: true
   ignore_errors: true
 
@@ -75,6 +75,6 @@
     - light-install
     - eureciclo
   ansible.builtin.file:
-    dest: "{{ lookup('env', 'HOME') }}/eureciclo/downloads/query"
+    dest: "{{ ansible_env.HOME }}/eureciclo/downloads/query"
     mode: 0770
     state: directory

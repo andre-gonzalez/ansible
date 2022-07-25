@@ -23,6 +23,6 @@
     group: "{{ lookup('env', 'USER') }}"
     mode: 0644
   loop:
-    - { src: "data-sources.json", dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }
-    - { src: ".data-sources.json.bak", dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }
-    - { src: "project-metadata.json", dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }
+    - { src: "data-sources.json", dest: "{{ ansible_env.HOME }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }
+    - { src: ".data-sources.json.bak", dest: "{{ ansible_env.HOME }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }
+    - { src: "project-metadata.json", dest: "{{ ansible_env.HOME }}/.local/share/DBeaverData/workspace6/General/.dbeaver"  }

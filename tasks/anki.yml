@@ -5,7 +5,7 @@
     - light-install
     - anki
   ansible.builtin.file:
-    dest: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
+    dest: "{{ ansible_env.HOME }}/.config/anki/install-files"
     mode: 0700
     state: directory
 
@@ -26,6 +26,6 @@
     - anki
   ansible.builtin.get_url:
     url: "{{ json_reponse.json.assets.browser_download_url }}"
-    dest: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
+    dest: "{{ ansible_env.HOME }}/.config/anki/anki-installer.tar.zst"
     force: true
   notify: "proceed anki installation"
