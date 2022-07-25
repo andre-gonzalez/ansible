@@ -48,7 +48,7 @@
     user: ansible
     name: "ansible provision"
     minute: "*/10"
-    job: "/usr/bin/ansible-pull --vault-password-file {{ ansible_env.HOME }}/.vault_key -o -U https://github.com/andre-gonzalez/ansible-pull.git > /dev/null"
+    job: "/usr/bin/ansible-pull --vault-password-file {{ ansible_env.HOME }}/.vault_key -o -U https://github.com/andre-gonzalez/ansible-pull.git  >> {{ ansible_env.HOME }}/ansible-pull.log 2>&1"
   become: true
 
 - name: install cron job (profile-selector)
