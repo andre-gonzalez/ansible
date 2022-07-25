@@ -61,7 +61,7 @@
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX=.*'
-    line: 'GRUB_CMDLINE_LINUX="zswap.enabled=1 rhgb quiet mitigations=off"'
+    line: 'GRUB_CMDLINE_LINUX="zswap.enabled=1 mitigations=off"'
     backrefs: yes
   become: true
   when: ansible_memtotal_mb <= 16000
