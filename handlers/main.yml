@@ -100,3 +100,11 @@
     state: restarted
     enabled: true
   become: true
+
+- name: update grub
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.command: update-grub
+  become: true
