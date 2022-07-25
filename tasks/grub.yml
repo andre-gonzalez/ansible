@@ -23,6 +23,7 @@
     regexp: '^GRUB_TIMEOUT=.*'
     line: 'GRUB_TIMEOUT=1'
     backrefs: yes
+  become: true
   notify: update grub
 
 - name: Change grub timeout to hidden
@@ -35,6 +36,7 @@
     regexp: '^GRUB_TIMEOUT_STYLE=.*'
     line: 'GRUB_TIMEOUT_STYLE=hidden'
     backrefs: yes
+  become: true
   notify: update grub
 
 - name: Speed up linux systems for workstations disabling mitigations - https://christitus.com/speedup-linux/
@@ -47,6 +49,7 @@
     regexp: '^GRUB_CMDLINE_LINUX=.*'
     line: 'GRUB_CMDLINE_LINUX="rhgb quiet mitigations=off"'
     backrefs: yes
+  become: true
   when: ansible_memtotal_mb > 16000
   notify: update grub
 
@@ -60,6 +63,7 @@
     regexp: '^GRUB_CMDLINE_LINUX=.*'
     line: 'GRUB_CMDLINE_LINUX="zswap.enabled=1 rhgb quiet mitigations=off"'
     backrefs: yes
+  become: true
   when: ansible_memtotal_mb <= 16000
   notify: update grub
 
