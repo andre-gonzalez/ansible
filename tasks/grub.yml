@@ -1,17 +1,50 @@
 ---
-- name: copy file grub config file
+# - name: copy file grub config file
+#   tags:
+#     - full-install
+#     - light-install
+#     - grub
+#   ansible.builtin.copy:
+#     src: grub
+#     dest: /etc/default
+#     owner: root
+#     group: root
+#     mode: 0644
+#   become: true
+#   when: ansible_distribution == "Archlinux"
+
+- name: Change grub timeout to 1 second
   tags:
     - full-install
     - light-install
     - grub
-  ansible.builtin.copy:
-    src: grub
-    dest: /etc/default
-    owner: root
-    group: root
-    mode: 0644
-  become: true
-  when: ansible_distribution == "Archlinux"
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_TIMEOUT=.*'
+    line: 'GRUB_TIMEOUT=1'
+    backrefs: yes
+
+- name: Change grub timeout to hidden
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_TIMEOUT_STYLE=.*'
+    line: 'GRUB_TIMEOUT_STYLE=hidden'
+    backrefs: yes
+
+- name: Speed up linux systems for workstations disabling mitigations - https://christitus.com/speedup-linux/
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX=.*'
+    line: 'GRUB_CMDLINE_LINUX="rhgb quiet mitigations=off"'
+    backrefs: yes
 
 - name: update grub config
   tags:
