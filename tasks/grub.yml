@@ -23,6 +23,7 @@
     regexp: '^GRUB_TIMEOUT=.*'
     line: 'GRUB_TIMEOUT=1'
     backrefs: yes
+  notify: update grub
 
 - name: Change grub timeout to hidden
   tags:
@@ -34,6 +35,7 @@
     regexp: '^GRUB_TIMEOUT_STYLE=.*'
     line: 'GRUB_TIMEOUT_STYLE=hidden'
     backrefs: yes
+  notify: update grub
 
 - name: Speed up linux systems for workstations disabling mitigations - https://christitus.com/speedup-linux/
   tags:
@@ -45,12 +47,27 @@
     regexp: '^GRUB_CMDLINE_LINUX=.*'
     line: 'GRUB_CMDLINE_LINUX="rhgb quiet mitigations=off"'
     backrefs: yes
+  when: ansible_memtotal_mb > 16000
+  notify: update grub
 
-- name: update grub config
+- name: Speed up linux systems for workstations disabling mitigations and enable zswap compression - https://christitus.com/speedup-linux/
   tags:
     - full-install
     - light-install
     - grub
-  ansible.builtin.command: update-grub
-  become: true
-  when: ansible_distribution == "Archlinux"
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX=.*'
+    line: 'GRUB_CMDLINE_LINUX="zswap.enabled=1 rhgb quiet mitigations=off"'
+    backrefs: yes
+  when: ansible_memtotal_mb <= 16000
+  notify: update grub
+
+# - name: update grub config
+#   tags:
+#     - full-install
+#     - light-install
+#     - grub
+  # ansible.builtin.command: update-grub
+  # become: true
+  # when: ansible_distribution == "Archlinux"
