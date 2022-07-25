@@ -1,4 +1,4 @@
-1. change how i reference environmental variables
+1. For some core applications change the copy of the config file to change with lineinfile
 2. Move my fish history to a close repo that is a submodule of my dotfiles repo
 3. Review yaml files with ansible-lint and yamllint
 4. Test cronitor

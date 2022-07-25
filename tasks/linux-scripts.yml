@@ -9,6 +9,7 @@
     repo: git@github.com:andre-gonzalez/linux-scripts.git
     dest: "{{ ansible_env.HOME }}/.scripts"
     accept_hostkey: true
+  ignore_errors: true
 
 - name: Copy files to .scripts
   tags:
@@ -17,7 +18,7 @@
     - scripts
   ansible.builtin.copy: src={{ item.src }} dest={{ item.dest }}
   with_items:
-    - {src: 'qrc', dest: "{{ ansible_env.HOME }}/.scripts"}
-    - {src: 'qso', dest: "{{ ansible_env.HOME }}/.scripts"}
-    - {src: 'salesops-dw-access', dest: "{{ ansible_env.HOME }}/.scripts/.env"}
-    - {src: 'redeciclo-corp-access', dest: "{{ ansible_env.HOME }}/.scripts/.env" }
+    - { src: 'qrc', dest: "{{ ansible_env.HOME }}/.scripts", mode: 0700 }
+    - { src: 'qso', dest: "{{ ansible_env.HOME }}/.scripts", mode: 0700 }
+    - { src: 'salesops-dw-access', dest: "{{ ansible_env.HOME }}/.scripts/.env", mode: 0700 }
+    - { src: 'redeciclo-corp-access', dest: "{{ ansible_env.HOME }}/.scripts/.env", mode: 0700 }

@@ -11,7 +11,6 @@
     recursive: true
     update: true
     bare: true
-    version: main
     accept_hostkey: true
 
 - name: set up dotfiles
