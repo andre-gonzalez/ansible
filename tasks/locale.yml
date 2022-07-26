@@ -9,7 +9,7 @@
       - locales
     state: present
   become: true
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: Set timezone to "{{ timezone }}"
   tags:
