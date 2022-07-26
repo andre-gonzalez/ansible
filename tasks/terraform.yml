@@ -38,7 +38,7 @@
   ansible.builtin.package:
     name:
       - terraform
-    state: latest
+    state: present
     update_cache: true
   become: true
   when: ansible_distribution == "Archlinux"

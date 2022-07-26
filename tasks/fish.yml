@@ -6,7 +6,7 @@
     - fish
   ansible.builtin.package:
     name: fish
-    state: latest
+    state: present
     update_cache: true
   become: true
 

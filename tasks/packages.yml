@@ -212,7 +212,7 @@
       - csvkit
       - yamllint
       - ansible-lint
-    state: latest
+    state: present
     update_cache: true
   become: true
 
@@ -230,7 +230,7 @@
       - arc-gtk-theme # missing ubuntu
       - clipmenu # missing ubuntu
       - noto-fonts-emoji # missing ubuntu
-    state: latest
+    state: present
     update_cache: true
   become: true
   when: ansible_distribution == "Archlinux"
