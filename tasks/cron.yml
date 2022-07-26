@@ -39,6 +39,16 @@
     enabled: true
   become: true
 
+- name: define MAILTO variable
+  tags:
+    - full-install
+    - light-install
+    - cron
+  community.general.cronvar:
+    name: MAILTO
+    value: "{{ personal_email }}"
+    state: present
+
 - name: install cron job (ansible-pull)
   tags:
     - full-install
