@@ -7,7 +7,7 @@
     - dbeaver
   ansible.builtin.package:
     name: dbeaver # missing ubuntu
-    state: latest
+    state: present
     update_cache: false
   become: true
 
