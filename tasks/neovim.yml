@@ -46,6 +46,7 @@
     name:
       - sql-language-server
       - ansible-language-server
+      - terraform-ls
     use: yay
     state: present
     update_cache: true
