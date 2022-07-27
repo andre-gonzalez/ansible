@@ -53,6 +53,27 @@
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
 
+- name: Install grammarly-languageserver
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  community.general.npm:
+    name: grammarly-languageserver
+    global: true
+    state: present
+
+- name: Install ansible-language-server when distribution in Ubuntu or Debian
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  community.general.npm:
+    name: ansible-language-server
+    global: true
+    state: present
+  when: ansible_distribution = ["Ubuntu", "Debian"]
+
 - name: Create neovim directory for autoloading configurations
   tags:
     - full-install
