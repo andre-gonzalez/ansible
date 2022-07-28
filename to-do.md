@@ -1,8 +1,8 @@
-1. add play to install ansible-language-server in debian and ubuntu using NPM
-2. For some core applications change the copy of the config file to change with lineinfile
-3. Move my fish history to a close repo that is a submodule of my dotfiles repo
-4. Review yaml files with ansible-lint and yamllint
-5. Test cronitor
+1. Fix unmounting drives when powering off
+2. add play to install ansible-language-server in debian and ubuntu using NPM
+3. For some core applications change the copy of the config file to change with lineinfile
+4. Move my fish history to a close repo that is a submodule of my dotfiles repo
+5. Review yaml files with ansible-lint and yamllint
 6. Add ansible pull cron job to generate log as this: https://github.com/ansible/ansible-examples/blob/master/language_features/ansible_pull.yml
 7. Added more tasks to security.yml
 8. Finish writing Ubuntu versions for the packages
