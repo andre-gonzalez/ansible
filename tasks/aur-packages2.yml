@@ -17,6 +17,7 @@
       - dashbinsh
       - htim
       - tmux-bash-completion-git
+      - whatsapp-nativefier
     use: yay
     state: present
     update_cache: true
