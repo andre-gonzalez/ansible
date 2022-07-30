@@ -63,6 +63,17 @@
     global: true
     state: present
 
+- name: Install ansible language server (Ubuntu or Debian)
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  community.general.npm:
+    name: ansible-language-server
+    global: true
+    state: present
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+
 - name: Install ansible-language-server when distribution in Ubuntu or Debian
   tags:
     - full-install
