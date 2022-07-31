@@ -13,7 +13,6 @@
       - spotify
       - insync
       - vscodium-bin
-      - google-cloud-sdk
       - dashbinsh
       - htim
       - tmux-bash-completion-git
