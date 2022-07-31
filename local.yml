@@ -221,6 +221,11 @@
         - full-install
         - light-install
         - security
+    - include_tasks: tasks/python.yml
+      tags:
+        - full-install
+        - light-install
+        - python
     - include_tasks: tasks/aur-packages2.yml
       tags:
         - aur
