@@ -74,6 +74,7 @@
     - full-install
     - light-install
     - security
+    - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: '^PasswordAuthentication'
@@ -84,6 +85,11 @@
   listen: "secure ssh"
 
 - name: restart ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
   ansible.builtin.service:
     name: sshd
     state: restarted
