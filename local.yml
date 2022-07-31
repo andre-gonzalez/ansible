@@ -226,6 +226,12 @@
         - full-install
         - light-install
         - python
+    - include_tasks: tasks/gcloud.yml
+      tags:
+        - full-install
+        - light-install
+        - gcloud
+        - aur
     - include_tasks: tasks/aur-packages2.yml
       tags:
         - aur
