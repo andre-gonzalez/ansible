@@ -78,3 +78,20 @@
     dest: "{{ ansible_env.HOME }}/eureciclo/downloads/query"
     mode: 0770
     state: directory
+
+- name: Create symbolic links for scripts
+  tags:
+    - full-install
+    - light-install
+    - eureciclo
+  ansible.builtin.file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    state: link
+  loop:
+    - { src: "{{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra/public-ip-ec2-instance.sh", dest: "{{ ansible_env.HOME }}/.scripts/public-ip-ec2-instance" }
+    - { src: "{{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra/start-ec2-instance.sh", dest: "{{ ansible_env.HOME }}/.scripts/start-ec2-instance" }
+    - { src: "{{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra/stop-ec2-instance.sh", dest: "{{ ansible_env.HOME }}/.scripts/stop-ec2-instance" }
+  become: true
