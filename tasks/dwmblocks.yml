@@ -43,8 +43,8 @@
   ansible.builtin.file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
     state: link
   loop:
     - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_packages", dest: "{{ ansible_env.HOME }}/.scripts/dwm_packages" }
