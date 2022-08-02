@@ -58,6 +58,7 @@
     user: ansible
     name: "ansible provision"
     minute: "*/10"
+    disabled: true
     job: "/usr/bin/ansible-pull --vault-password-file {{ ansible_env.HOME }}/.vault_key -o -U https://github.com/andre-gonzalez/ansible-pull.git  >> {{ ansible_env.HOME }}/ansible-pull.log 2>&1"
   become: true
 
@@ -70,6 +71,7 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "profile-selector"
     special_time: reboot
+    disabled: false
     job: "sleep 15 && DISPLAY=:0 {{ ansible_env.HOME }}/.scripts/profile-selector"
   become: true
 
@@ -82,6 +84,7 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder-reboot"
     special_time: reboot
+    disabled: false
     job: "sleep 60 && rm -r {{ ansible_env.HOME }}/Downloads"
 
 - name: install cron job (remove downloads folder)
@@ -93,6 +96,7 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "remove-downloads-folder"
     minute: "*/10"
+    disabled: false
     job: "sleep 60 && rm -r {{ ansible_env.HOME }}/Downloads"
 
 - name: install cron job (push fish history to git)
@@ -104,7 +108,8 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "push-fish-history-to-git-dotfiles"
     special_time: weekly
-    job: "/bin/sh {{ lookup('env', 'USER') }}/.scripts/push-fish-history.sh"
+    disabled: true
+    job: "/bin/sh {{ lookup('env', 'USER') }}/.scripts/push-fish-history.sh 2>> $HOME/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/push-fish-history-to-git-dotfiles-error-logs.txt 1>> $HOME/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/give-users-access-to-the-database-stdout-logs.txt"
 
 - name: install cron job (give users access to the database)
   tags:
@@ -117,7 +122,8 @@
     name: "Give users access to the database"
     minute: "0"
     hour: "*/4"
-    job: "cat $HOME/eureciclo/salesops-dw/main-salesops-dw/create-enviroment/user-groups.sql | /home/frank/.scripts/qso"
+    disabled: false
+    job: "cat $HOME/eureciclo/salesops-dw/main-salesops-dw/create-enviroment/user-groups.sql | /home/frank/.scripts/qso 2>> $HOME/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/give-users-access-to-the-database-error-logs.txt 1>> $HOME/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/give-users-access-to-the-database-stdout-logs.txt"
 
 - name: install cron job (contatos pipeline)
   tags:
@@ -131,4 +137,5 @@
     minute: "0"
     hour: "8-20/1"
     weekday: "1-5"
-    job: "cat $HOME/eureciclo/salesops-dw/main-salesops-dw/salesops-dw/star-schema/cron-job-pipeline-contacts.sql | /home/frank/.scripts/qso"
+    disabled: false
+    job: "cat $HOME/eureciclo/salesops-dw/main-salesops-dw/salesops-dw/star-schema/cron-job-pipeline-contacts.sql | /home/frank/.scripts/qso 2>> $HOME/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/contatos-pipeline-error-logs.txt 1>> $HOME/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/contatos-pipeline-stdout-logs.txt"
