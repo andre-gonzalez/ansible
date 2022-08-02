@@ -6,13 +6,14 @@
     - python
   ansible.builtin.pip:
     name:
-      - pandas
-      - numpy
-      - scrapy
-      - bs4
-      - apache-airflow
-      - awscli
-      - jupyter
-      - requests
-      - SQLAlchemy
+      - pandas # Datascience Dataframes
+      - numpy # Datascience
+      - scrapy # Webscraping
+      - bs4 # Beautiful Soup - Webscraping
+      - apache-airflow # Data pipelines orchestration
+      - awscli # Aws cli interface
+      - jupyter # Jupyter notebooks
+      - requests # API calls
+      - SQLAlchemy # Database connect utiliy
+      - ipdb # Debug python code
     state: present
