@@ -1,0 +1,28 @@
+---
+- name: install tlp package
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - tlp
+  ansible.builtin.package:
+    name:
+      - tlp # Power managment for laptop battery
+    state: present
+    update_cache: false
+  become: true
+  notify: restart tlp
+
+- name: install tlp package
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - powertop
+  ansible.builtin.package:
+    name:
+      - powertop # Show informations about what is consuming your battery
+    state: present
+    update_cache: false
+  become: true
+  notify: Calibrate powertop

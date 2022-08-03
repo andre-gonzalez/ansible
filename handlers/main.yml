@@ -134,9 +134,19 @@
   tags:
     - full-install
     - light-install
+    - save-battery
     - tlp
   ansible.builtin.service:
     name: tlp
     state: restarted
     enabled: true
+  become: true
+
+- name: Calibrate powertop
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - powertop
+  ansible.builtin.command: powertop --calibrate
   become: true
