@@ -213,7 +213,6 @@
       - csvkit
       - yamllint
       - ansible-lint
-      - tlp # Power managment for laptop battery
     state: present
     update_cache: true
   become: true
