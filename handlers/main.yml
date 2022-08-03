@@ -129,3 +129,14 @@
   ansible.builtin.command: update-grub
   become: true
   listen: "update grub"
+
+- name: restart tlp
+  tags:
+    - full-install
+    - light-install
+    - tlp
+  ansible.builtin.service:
+    name: tlp
+    state: restarted
+    enabled: true
+  become: true
