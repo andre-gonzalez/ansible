@@ -179,6 +179,7 @@
   ansible.builtin.package:
     name:
       - tmux
+      - tmuxp
       - "{{ xorg[0] }}"
       - "{{ xorg[1] }}"
       - "{{ xorg[2] }}"
