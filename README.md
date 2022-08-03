@@ -53,8 +53,10 @@ The logic here is to work well with tags inheritance, so it become easier to run
     - neovim
     - network
     - packages
+    - powertop
     - preload
     - python
+    - save-battery
     - security
     - scripts
     - slock
@@ -63,6 +65,7 @@ The logic here is to work well with tags inheritance, so it become easier to run
     - terraform
     - timeshift
     - timezone
+    - tlp
     - users
 - samsung-expert*
 - netbook*

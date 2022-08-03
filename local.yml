@@ -236,6 +236,13 @@
       tags:
         - aur
         - never
+    - include_tasks: tasks/save-battery.yml
+      tags:
+        - full-install
+        - light-install
+        - save-battery
+        - tlp
+        - powertop
     - include_tasks: tasks/doas.yml
       tags:
         - full-install
