@@ -84,6 +84,17 @@
   become: true
   listen: "secure ssh"
 
+- name: install denyhosts
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.package:
+    name: denyhosts
+  become: true
+  listen: "secure ssh"
+
 - name: restart ssh
   tags:
     - full-install
