@@ -100,20 +100,6 @@
     disabled: false
     job: "sleep 60 && rm -r {{ ansible_env.HOME }}/Downloads"
 
-- name: install cron job (push fish history to git)
-  tags:
-    - full-install
-    - light-install
-    - cron
-  ansible.builtin.cron:
-    user: "{{ ansible_env.USER }}"
-    name: "push-fish-history-to-git-dotfiles"
-    special_time: weekly
-    disabled: true
-    job: "/bin/sh {{ ansible_env.HOME }}/.scripts/push-fish-history.sh \
-          2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/push-fish-history-to-git-dotfiles-error-logs.txt \
-          1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/give-users-access-to-the-database-stdout-logs.txt"
-
 - name: install cron job (give users access to the database)
   tags:
     - full-install
