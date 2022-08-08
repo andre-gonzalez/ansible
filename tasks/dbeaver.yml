@@ -19,8 +19,8 @@
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
     mode: 0644
   loop:
     - { src: "data-sources.json", dest: "{{ ansible_env.HOME }}/.local/share/DBeaverData/workspace6/General/.dbeaver" }
