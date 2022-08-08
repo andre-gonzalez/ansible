@@ -60,3 +60,15 @@
     name: "{{ lookup('env', 'USER') }}"
     shell: /usr/bin/fish
   become: true
+
+- name: Copy fish history file
+  tags:
+    - full-install
+    - light-install
+    - fish
+  ansible.builtin.copy:
+    src: fish_history
+    dest:  "{{ ansible_env.HOME }}/.local/share/fish/"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: 0600
