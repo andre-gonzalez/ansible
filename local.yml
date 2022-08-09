@@ -165,8 +165,8 @@
         - git
     - include_tasks: tasks/lfub.yml
       tags:
-        - full-install
-        - light-install
+        - never
+        - aur
         - lf
     - include_tasks: tasks/preload.yml
       tags:
