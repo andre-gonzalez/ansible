@@ -65,6 +65,7 @@
     name: grammarly-languageserver
     global: true
     state: present
+  become: true
 
 - name: Install ansible language server (Ubuntu or Debian)
   tags:
