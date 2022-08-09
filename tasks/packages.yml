@@ -215,6 +215,7 @@
       - ansible-lint
       - npm # Necessary to install gramarly language server in neovim play
       - qutebrowser
+      - unzip
     state: present
     update_cache: true
   become: true
