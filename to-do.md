@@ -1,3 +1,5 @@
+Fix eureciclo symbolic link copy task 
+Move all plays that depends of the aur to the end of the playbook 
 1. Adapt sudoers file to change with the user added 
 2. Create a separate play for dwmblock dependencies or one play for all aur dependencies 
 3. For some core applications change the copy of the config file to change with lineinfile
