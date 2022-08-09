@@ -151,6 +151,7 @@
         - full-install
         - light-install
         - dwmblocks
+        - aur
     - include_tasks: tasks/slock.yml
       tags:
         - full-install
