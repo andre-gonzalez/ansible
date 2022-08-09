@@ -1,14 +1,10 @@
 See why the grub screen is not just lasting one second
 See if i can carry configuration files for brave and slack -- Maybe export bookmarks
-Move all plays that depends of the aur to the end of the playbook
-Added terraform and gcloud to aur tasks
-edit dbeaver configuration files to remove old databases
 See gtk theming
 follow DT KVM/libvirtd video to make virt-manager work and create this tasks here in ansible and https://www.xmodulo.com/network-default-is-not-active.html
 add `sudo virsh net-autostart default` and `sudo virsh net-start default`
 save gtk theming https://wiki.archlinux.org/title/GTK
 aprender a personalizar a minha fonte
-Add a task to create gdrive-pessoal folder
 1. Adapt sudoers file to change with the user added
 2. Create a separate play for dwmblock dependencies or one play for all aur dependencies
 3. For some core applications change the copy of the config file to change with lineinfile

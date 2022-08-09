@@ -45,8 +45,7 @@
 
 - name: Install terraform language server
   tags:
-    - full-install
-    - light-install
+    - aur
     - neovim
     - terraform
   kewlfft.aur.aur:
