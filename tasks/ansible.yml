@@ -30,5 +30,5 @@
   ansible.builtin.git:
     version: main
     repo: git@github.com:andre-gonzalez/ansible.git
-    dest: "{{ ansible_env.HOME }}/.config/ansible"
+    dest: "{{ ansible_env.HOME }}/"
     accept_hostkey: true
