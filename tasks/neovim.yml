@@ -76,6 +76,7 @@
     name: ansible-language-server
     global: true
     state: present
+  become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: Install ansible-language-server when distribution in Ubuntu or Debian
