@@ -1,8 +1,8 @@
 ---
 - name: Install timeshift packages
   tags:
-    - full-install
-    - light-install
+    - never
+    - aur
     - timeshift
   kewlfft.aur.aur:
     name:
@@ -16,8 +16,8 @@
 
 - name: copy file timeshift.json to /etc
   tags:
-    - full-install
-    - light-install
+    - never
+    - aur
     - timeshift
   ansible.builtin.copy:
     src: timeshift.json
