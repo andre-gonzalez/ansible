@@ -67,18 +67,6 @@
     state: present
   become: true
 
-- name: Install ansible language server (Ubuntu or Debian)
-  tags:
-    - full-install
-    - light-install
-    - neovim
-  community.general.npm:
-    name: ansible-language-server
-    global: true
-    state: present
-  become: true
-  when: ansible_distribution = ["Ubuntu", "Debian"]
-
 - name: Install ansible-language-server when distribution in Ubuntu or Debian
   tags:
     - full-install
@@ -88,7 +76,7 @@
     name: ansible-language-server
     global: true
     state: present
-  when: ansible_distribution = ["Ubuntu", "Debian"]
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: Create neovim directory for autoloading configurations
   tags:
