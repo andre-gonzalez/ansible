@@ -58,4 +58,5 @@
     - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_weather", dest: "{{ ansible_env.HOME }}/.scripts/dwm_weather" }
     - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_countdown", dest: "{{ ansible_env.HOME }}/.scripts/dwm_countdown" }
     - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_date_brasil", dest: "{{ ansible_env.HOME }}/.scripts/dwm_date_brasil" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_currency", dest: "{{ ansible_env.HOME }}/.scripts/dwm_currency" }
   become: true
