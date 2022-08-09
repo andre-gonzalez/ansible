@@ -13,7 +13,7 @@
   become: true
   notify: restart tlp
 
-- name: install tlp package
+- name: install powertop package
   tags:
     - full-install
     - light-install
