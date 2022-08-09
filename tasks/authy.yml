@@ -1,9 +1,9 @@
 ---
 - name: Install authy via snap
   tags:
+    - aur
+    - never
     - authy
-    - full-install
-    - light-install
   community.general.snap:
     name: authy
     state: present
@@ -12,9 +12,9 @@
 
 - name: Install authy package
   tags:
+    - aur
+    - never
     - authy
-    - full-install
-    - light-install
   kewlfft.aur.aur:
     name: authy
     use: yay
