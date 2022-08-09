@@ -213,7 +213,8 @@
       - csvkit
       - yamllint
       - ansible-lint
-      - npm # Necessary to install gramarly language server in neovim play 
+      - npm # Necessary to install gramarly language server in neovim play
+      - qutebrowser
     state: present
     update_cache: true
   become: true
