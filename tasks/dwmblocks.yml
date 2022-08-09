@@ -1,9 +1,8 @@
 ---
 - name: Install packages necessary for dwmblocks
   tags:
-    - full-install
-    - light-install
-    - dwmblocks
+    - never
+    - aur
   kewlfft.aur.aur:
     name:
       - checkupdates+aur
