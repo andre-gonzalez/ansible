@@ -147,16 +147,6 @@
         - full-install
         - light-install
         - dwmblocks
-    - include_tasks: tasks/aur-packages.yml
-      tags:
-        - aur
-        - never
-    - include_tasks: tasks/dwmblocks.yml
-      tags:
-        - full-install
-        - light-install
-        - dwmblocks
-        - aur
     - include_tasks: tasks/slock.yml
       tags:
         - full-install
@@ -168,31 +158,6 @@
         - light-install
         - neovim
         - git
-    - include_tasks: tasks/lfub.yml
-      tags:
-        - never
-        - aur
-        - lf
-    - include_tasks: tasks/preload.yml
-      tags:
-        - never
-        - aur
-        - preload
-    - include_tasks: tasks/brave.yml
-      tags:
-        - never
-        - aur
-        - brave
-    - include_tasks: tasks/authy.yml
-      tags:
-        - never
-        - aur
-        - authy
-    - include_tasks: tasks/timeshift.yml
-      tags:
-        - never
-        - aur
-        - timeshift
     - include_tasks: tasks/docker.yml
       tags:
         - full-install
@@ -219,12 +184,6 @@
         - full-install
         - light-install
         - anki
-    - include_tasks: tasks/terraform.yml
-      tags:
-        - full-install
-        - light-install
-        - terraform
-        - neovim
     - include_tasks: tasks/security.yml
       tags:
         - full-install
@@ -235,16 +194,6 @@
         - full-install
         - light-install
         - python
-    - include_tasks: tasks/gcloud.yml
-      tags:
-        - full-install
-        - light-install
-        - gcloud
-        - aur
-    - include_tasks: tasks/aur-packages2.yml
-      tags:
-        - aur
-        - never
     - include_tasks: tasks/save-battery.yml
       tags:
         - full-install
@@ -252,6 +201,56 @@
         - save-battery
         - tlp
         - powertop
+    - include_tasks: tasks/aur-packages.yml
+      tags:
+        - aur
+        - never
+    - include_tasks: tasks/dwmblocks.yml
+      tags:
+        - full-install
+        - light-install
+        - dwmblocks
+        - aur
+    - include_tasks: tasks/terraform.yml
+      tags:
+        - full-install
+        - light-install
+        - aur
+        - terraform
+        - neovim
+    - include_tasks: tasks/gcloud.yml
+      tags:
+        - gcloud
+        - aur
+    - include_tasks: tasks/lfub.yml
+      tags:
+        - never
+        - aur
+        - lf
+    - include_tasks: tasks/preload.yml
+      tags:
+        - never
+        - aur
+        - preload
+    - include_tasks: tasks/brave.yml
+      tags:
+        - never
+        - aur
+        - brave
+    - include_tasks: tasks/authy.yml
+      tags:
+        - never
+        - aur
+        - authy
+    - include_tasks: tasks/timeshift.yml
+      tags:
+        - never
+        - aur
+        - timeshift
+    - include_tasks: tasks/aur-packages2.yml
+      tags:
+        - aur
+        - never
     - include_tasks: tasks/doas.yml
       tags:
         - full-install
