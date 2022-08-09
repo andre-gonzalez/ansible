@@ -1,0 +1,11 @@
+---
+- name: Ensure gdrive-pessoal directory exists.
+  tags:
+    - full-install
+    - light-install
+    - directories
+  ansible.builtin.file:
+    dest: "{{ ansible_env.HOME }}/gdrive-pessoal"
+    mode: 0770
+    state: directory
+
