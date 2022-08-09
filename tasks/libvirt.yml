@@ -10,6 +10,8 @@
       - libvirt
       - virt-manager
       - spice-vdagent
+      - dnsmasq
+      - ebtables
     state: present
     update_cache: false
   become: true
@@ -21,7 +23,7 @@
     - light-install
     - libvirt
   ansible.builtin.group:
-    name: libvirt
+    name: libvirtd
     state: present
   become: true
 
@@ -32,7 +34,7 @@
     - libvirt
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
-    group: libvirt
+    group: libvirtd
   become: true
   notify: restart libvirt
 
