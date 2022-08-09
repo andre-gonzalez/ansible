@@ -77,7 +77,7 @@
     global: true
     state: present
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_distribution = ["Ubuntu", "Debian"]
 
 - name: Install ansible-language-server when distribution in Ubuntu or Debian
   tags:
