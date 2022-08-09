@@ -39,6 +39,11 @@
       tags:
         - debug
         - never
+    - include_tasks: tasks/directory.yml
+      tags:
+        - full-install
+        - light-install
+        - directories
     - include_tasks: tasks/ssh.yml
       tags:
         - full-install
