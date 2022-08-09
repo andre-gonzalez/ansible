@@ -1,8 +1,1 @@
-winget install --source winget --id Microsoft.PowerBI -e &&
-winget install --source winget --id DaxStudio.DaxStudio -e &&
-winget install --source winget --id BraveSoftware.BraveBrowser -e &&
-winget install --source winget --id Google.Drive -e &&
-winget install --source winget --id Spice.VDAgent -e &&
-winget install --source winget --id Microsoft.WindowsTerminal -e &&
-winget install --source winget --id Google.CloudSDK -e &&
-winget install --source winget --id DaxStudio.DaxStudio -e
+winget install --id=Microsoft.PowerBI -e  && winget install --id=DaxStudio.DaxStudio -e  && winget install --id=BraveSoftware.BraveBrowser -e  && winget install --id=Microsoft.WindowsTerminal -e  && winget install --id=Google.Drive -e  && winget install --id=Spice.VDAgent -e  && winget install --id=Google.CloudSDK -e 
