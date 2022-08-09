@@ -41,20 +41,20 @@
   become: true
   when: ansible_distribution == "Ubuntu"
 
-- name: Install sql-language-server and ansible-language-server package
-  tags:
-    - aur
-    - never
-  kewlfft.aur.aur:
-    name:
-      - sql-language-server
-      - ansible-language-server
-      - terraform-ls
-    use: yay
-    state: present
-    update_cache: true
-  when: ansible_distribution == "Archlinux"
-  ignore_errors: true
+# - name: Install sql-language-server and ansible-language-server package
+#  tags:
+#    - aur
+#    - never
+#  kewlfft.aur.aur:
+#    name:
+#      - sql-language-server
+#      - ansible-language-server
+#      - terraform-ls
+#    use: yay
+#    state: present
+#    update_cache: true
+#  when: ansible_distribution == "Archlinux"
+#  ignore_errors: true
 
 - name: Install grammarly-languageserver
   tags:
