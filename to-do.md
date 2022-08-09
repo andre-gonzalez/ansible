@@ -1,8 +1,13 @@
-Fix eureciclo symbolic link copy task 
-Move all plays that depends of the aur to the end of the playbook 
-Added terraform and gcloud to aur tasks 
-1. Adapt sudoers file to change with the user added 
-2. Create a separate play for dwmblock dependencies or one play for all aur dependencies 
+Fix eureciclo symbolic link copy task
+See if i can carry configuration files for brave and slack -- Maybe export bookmarks
+Move all plays that depends of the aur to the end of the playbook
+Added terraform and gcloud to aur tasks
+edit dbeaver configuration files to remove old databases
+See gtk theming
+follow DT KVM/libvirtd video to make virt-manager work and create this tasks here in ansible and https://www.xmodulo.com/network-default-is-not-active.html
+save gtk theming https://wiki.archlinux.org/title/GTK
+1. Adapt sudoers file to change with the user added
+2. Create a separate play for dwmblock dependencies or one play for all aur dependencies
 3. For some core applications change the copy of the config file to change with lineinfile
 4. Create a cron job that update the fish history file in the ansible cloud repository
 5. Write one script to get information about all tables of a postgres or mysql database to use in data pipelines
