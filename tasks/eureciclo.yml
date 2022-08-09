@@ -69,6 +69,18 @@
     accept_hostkey: true
   ignore_errors: true
 
+- name: Clone datalake-infra repository
+  tags:
+    - full-install
+    - light-install
+    - eureciclo
+  ansible.builtin.git:
+    version: main
+    repo: git@bitbucket.org:redeciclo/datalake-infra.git
+    dest: "{{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra"
+    accept_hostkey: true
+  ignore_errors: true
+
 - name: Ensure eureciclo downloads directory exists.
   tags:
     - full-install
@@ -91,7 +103,7 @@
     group: "{{ ansible_env.USER }}"
     state: link
   loop:
-    - { src: "{{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra/public-ip-ec2-instance.sh", dest: "{{ ansible_env.HOME }}/.scripts/public-ip-ec2-instance" }
-    - { src: "{{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra/start-ec2-instance.sh", dest: "{{ ansible_env.HOME }}/.scripts/start-ec2-instance" }
-    - { src: "{{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra/stop-ec2-instance.sh", dest: "{{ ansible_env.HOME }}/.scripts/stop-ec2-instance" }
+    - { src: "{{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra/scripts-managment-ec2-instances/public-ip-ec2-instance.sh", dest: "{{ ansible_env.HOME }}/.scripts/public-ip-ec2-instance" }
+    - { src: "{{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra/scripts-managment-ec2-instances/start-ec2-instance.sh", dest: "{{ ansible_env.HOME }}/.scripts/start-ec2-instance" }
+    - { src: "{{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra/scripts-managment-ec2-instances/stop-ec2-instance.sh", dest: "{{ ansible_env.HOME }}/.scripts/stop-ec2-instance" }
   become: true
