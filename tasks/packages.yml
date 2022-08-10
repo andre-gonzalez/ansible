@@ -137,6 +137,7 @@
     python_pip: python-pip
     base_devel: base-devel
     wpa_supplicant: wpa_supplicant
+    liberation-font: ttf-liberation
     fd: fd
   when: ansible_distribution == "Archlinux"
 
@@ -156,6 +157,7 @@
     python_pip: pipenv
     base_devel: make
     wpa_supplicant: wpasupplicant
+    liberation-font: fonts-liberation
     fd: fd-find
   when: ansible_distribution == "Ubuntu"
 
@@ -216,6 +218,8 @@
       - npm # Necessary to install gramarly language server in neovim play
       - qutebrowser
       - unzip
+      - ttf
+      - "{{ liberation-font }}
     state: present
     update_cache: true
   become: true
