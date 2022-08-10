@@ -1,16 +1,16 @@
 ---
-#- name: Install packages necessary for dwmblocks
-#  tags:
-#    - never
-#    - aur
-#  kewlfft.aur.aur:
-#    name:
-#     - checkupdates+aur
-#    use: yay
-#    state: present
-#    update_cache: true
-#  when: ansible_distribution == "Archlinux"
-#  ignore_errors: true
+- name: Install packages necessary for dwmblocks
+  tags:
+    - never
+    - aur
+  kewlfft.aur.aur:
+    name:
+     - checkupdates+aur
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
 
 - name: Clone dwmblocks
   tags:
