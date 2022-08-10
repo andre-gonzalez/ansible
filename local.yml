@@ -201,6 +201,11 @@
         - save-battery
         - tlp
         - powertop
+    - include_tasks: tasks/aws.yml
+      tags:
+        - full-install
+        - light-install
+        - aws
     - include_tasks: tasks/aur-packages.yml
       tags:
         - aur
