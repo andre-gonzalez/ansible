@@ -1,3 +1,4 @@
+add the creation of python virtual enviroment in each repository and the following install of the requirements
 See why the grub screen is not just lasting one second
 follow DT KVM/libvirtd video to make virt-manager work and create this tasks here in ansible and https://www.xmodulo.com/network-default-is-not-active.html
 add `sudo virsh net-autostart default` and `sudo virsh net-start default`
