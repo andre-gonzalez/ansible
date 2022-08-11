@@ -59,11 +59,6 @@
  #      - full-install
  #      - light-install
  #       - systemd
-    - include_tasks: tasks/collections-install.yml
-      tags:
-        - aur
-        - never
-        - collections-install
     - include_tasks: tasks/ansible.yml
       tags:
         - full-install
@@ -206,6 +201,11 @@
         - full-install
         - light-install
         - aws
+    - include_tasks: tasks/collections-install.yml
+      tags:
+        - aur
+        - never
+        - collections-install
     - include_tasks: tasks/aur-packages.yml
       tags:
         - aur
