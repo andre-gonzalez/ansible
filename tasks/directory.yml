@@ -8,4 +8,3 @@
     dest: "{{ ansible_env.HOME }}/gdrive-pessoal"
     mode: 0770
     state: directory
-
