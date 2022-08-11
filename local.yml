@@ -112,16 +112,16 @@
         - full-install
         - light-install
         - fish
-    - include_tasks: tasks/libvirt.yml
-      tags:
-        - full-install
-        - libvirt
     - include_tasks: tasks/packages.yml
       tags:
         - full-install
         - light-install
         - packages
         - nvidia
+    - include_tasks: tasks/libvirt.yml
+      tags:
+        - full-install
+        - libvirt
     - include_tasks: tasks/dwm.yml
       tags:
         - full-install
