@@ -1,4 +1,14 @@
 ---
+- name: Ensure aws directory exists in .config
+  tags:
+    - full-install
+    - light-install
+    - aws
+  ansible.builtin.file:
+    dest: "{{ ansible_env.HOME }}/.config/aws"
+    mode: 0600
+    state: directory
+
 - name: copy credentials and config files
   tags:
     - full-install
