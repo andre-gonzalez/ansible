@@ -174,11 +174,11 @@
         - full-install
         - light-install
         - dbeaver
-    - include_tasks: tasks/anki.yml
-      tags:
-        - full-install
-        - light-install
-        - anki
+    # - include_tasks: tasks/anki.yml
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - anki
     - include_tasks: tasks/security.yml
       tags:
         - full-install
