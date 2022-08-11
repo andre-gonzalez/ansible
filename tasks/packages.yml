@@ -117,6 +117,7 @@
       - grml-zsh-config
       - zsh
       - virtualbox-guest-utils-nox
+      - iptables # Is conflicting with iptables-nft when insalling libvirt
     state: absent
     update_cache: false
   become: true
