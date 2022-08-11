@@ -203,8 +203,9 @@
         - aws
     - include_tasks: tasks/collections-install.yml
       tags:
+        - full-install
+        - light-install
         - aur
-        - never
         - collections-install
     - include_tasks: tasks/aur-packages.yml
       tags:
