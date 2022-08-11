@@ -220,7 +220,6 @@
       - npm # Necessary to install gramarly language server in neovim play
       - qutebrowser
       - unzip
-      - ttf
       - "{{ liberation_font }}"
       - "{{ postgres }}"
     state: present
