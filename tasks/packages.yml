@@ -199,7 +199,6 @@
       - "{{ base_devel }}"
       - xclip
       - brightnessctl
-      - lxappearance # Program to set theme for gtk applications
       - "{{ wpa_supplicant }}"
       - ripgrep
       - "{{ fd }}"
