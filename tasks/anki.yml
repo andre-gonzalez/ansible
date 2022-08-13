@@ -25,7 +25,7 @@
     - light-install
     - anki
   ansible.builtin.get_url:
-    url: "{{ json_reponse.json.assets.browser_download_url }}"
+    url: "{{ json_reponse.json.assets.2.browser_download_url }}"
     dest: "{{ ansible_env.HOME }}/.config/anki/anki-installer.tar.zst"
     force: true
     mode: 0777
