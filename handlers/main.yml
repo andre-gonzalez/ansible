@@ -54,6 +54,16 @@
     state: restarted
     enabled: true
   become: true
+  listen: "finish libvirt configuration"
+
+- name: virsh start
+  tags:
+    - full-install
+    - light-install
+    - libvirt
+  ansible.builtin.command: virsh net-autostart default && virsh net-start default
+  become: true
+  listen: "finish libvirt configuration"
 
 - name: Disable root login via ssh
   tags:
@@ -264,3 +274,4 @@
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall css +qa
   listen: Install treesitter
+

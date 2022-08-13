@@ -15,7 +15,7 @@
     state: present
     update_cache: false
   become: true
-  notify: restart libvirt
+  notify: "finish libvirt configuration"
 
 - name: Ensure group libvirt exists
   tags:
@@ -36,7 +36,7 @@
     name: "{{ lookup('env', 'USER') }}"
     group: libvirtd
   become: true
-  notify: restart libvirt
+  notify: "finish libvirt configuration"
 
 - name: copy file qemu.conf to /etc/libvirt
   tags:
@@ -50,4 +50,4 @@
     group: root
     mode: 0644
   become: true
-  notify: restart libvirt
+  notify: "finish libvirt configuration"
