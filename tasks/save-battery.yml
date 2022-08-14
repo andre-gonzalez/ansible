@@ -8,6 +8,8 @@
   ansible.builtin.package:
     name:
       - tlp # Power managment for laptop battery
+      - smartmontools # Contorl and monitor hard drives
+      - ethtool
     state: present
     update_cache: false
   become: true
