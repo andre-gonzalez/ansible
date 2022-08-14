@@ -87,6 +87,7 @@
         - light-install
         - cron
         - eureciclo
+        - fish
     - include_tasks: tasks/git.yml
       tags:
         - full-install
