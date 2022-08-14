@@ -18,4 +18,5 @@
       - ipdb # Debug python code
       - psycopg2-binary # Postgresql database adapter
       - mysql-connector-python # Mysql database adapter
+      - virtualenv # Python virtual environments
     state: present

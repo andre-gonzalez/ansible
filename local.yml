@@ -152,6 +152,11 @@
       tags:
         - full-install
         - docker
+    - include_tasks: tasks/python.yml
+      tags:
+        - full-install
+        - light-install
+        - python
     - include_tasks: tasks/eureciclo.yml
       tags:
         - full-install
@@ -172,11 +177,6 @@
         - full-install
         - light-install
         - security
-    - include_tasks: tasks/python.yml
-      tags:
-        - full-install
-        - light-install
-        - python
     - include_tasks: tasks/save-battery.yml
       tags:
         - full-install
