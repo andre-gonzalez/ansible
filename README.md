@@ -37,6 +37,7 @@ The logic here is to work well with tags inheritance, so it become easier to run
     - audio
     - aur
     - authy
+    - aws
     - bluetooth
     - brave
     - cron

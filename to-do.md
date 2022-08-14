@@ -1,5 +1,4 @@
 ## Missing
-1. Solve aws play bug "failed to get information on remote file, permission denied"
 
 ## Improvements
 1. create a template to generate the sudoers file
