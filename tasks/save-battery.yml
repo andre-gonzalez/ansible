@@ -15,6 +15,28 @@
   become: true
   notify: restart tlp
 
+- name: mask systemd-rfkill.service to avoid conflicts with TLP
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - tlp
+  ansible.builtin.service:
+    name: systemd-rfkill.service
+    masked: true
+  become: true
+
+- name: mask systemd-rfkill.socket to avoid conflicts with TLP
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - tlp
+  ansible.builtin.service:
+    name: systemd-rfkill.socket
+    masked: true
+  become: true
+
 - name: install powertop package
   tags:
     - full-install
