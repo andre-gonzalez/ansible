@@ -275,3 +275,12 @@
   ansible.builtin.command: nvim --headless +TSInstall css +qa
   listen: Install treesitter
 
+- name: Mark all informant news as read
+  tags:
+    - aur
+    - light-install
+    - packages
+    - full-install
+  ansible.builtin.command: informant read --all
+  become: true
+  ignore_errors: true
