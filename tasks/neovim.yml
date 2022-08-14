@@ -43,13 +43,13 @@
 
 - name: Install sql-language-server and ansible-language-server package
   tags:
-   - aur
-   - never
+    - aur
+    - never
   kewlfft.aur.aur:
     name:
-     - sql-language-server
-     - ansible-language-server
-     - terraform-ls
+      - sql-language-server
+      - ansible-language-server
+      - terraform-ls
     use: yay
     state: present
     update_cache: true
