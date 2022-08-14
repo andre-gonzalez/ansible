@@ -152,13 +152,6 @@
       tags:
         - full-install
         - docker
-    - include_tasks: tasks/network.yml
-      tags:
-        - full-install
-        - light-install
-        - network
-        - netbook
-        - samsung-expert
     - include_tasks: tasks/eureciclo.yml
       tags:
         - full-install
@@ -208,6 +201,14 @@
         - light-install
         - neovim
         - git
+        - aur
+    - include_tasks: tasks/network.yml
+      tags:
+        - full-install
+        - light-install
+        - network
+        - netbook
+        - samsung-expert
         - aur
     - include_tasks: tasks/aur-packages.yml
       tags:
