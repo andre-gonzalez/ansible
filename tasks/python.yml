@@ -20,3 +20,15 @@
       - mysql-connector-python # Mysql database adapter
       - virtualenv # Python virtual environments
     state: present
+
+- name: Install python virtualenv as root so ansible can use it
+  tags:
+    - full-install
+    - light-install
+    - python
+  ansible.builtin.pip:
+    name:
+      - virtualenv # Python virtual environments
+    state: present
+  become: true
+  become_user: root
