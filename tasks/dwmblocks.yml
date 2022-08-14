@@ -5,7 +5,7 @@
     - aur
   kewlfft.aur.aur:
     name:
-     - checkupdates+aur
+      - checkupdates+aur
     use: yay
     state: present
     update_cache: true
