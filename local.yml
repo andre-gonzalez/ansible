@@ -54,11 +54,11 @@
         - full-install
         - light-install
         - grub
- #   - include_tasks: tasks/systemd.yml
- #     tags:
- #      - full-install
- #      - light-install
- #       - systemd
+    - include_tasks: tasks/systemd.yml
+      tags:
+        - full-install
+        - light-install
+        - systemd
     - include_tasks: tasks/ansible.yml
       tags:
         - full-install
