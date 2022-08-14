@@ -60,7 +60,8 @@
     minute: "*/10"
     disabled: true
     job: "/usr/bin/ansible-pull --vault-password-file {{ ansible_env.HOME }}/.vault_key -o -U https://github.com/andre-gonzalez/ansible-pull.git \
-          >> {{ ansible_env.HOME }}/ansible-pull.log 2>&1"
+          2>> /home/frank/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/ansible-pull-error-logs.txt \
+          1>> /home/frank/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/ansible-pull-stdout-logs.txt"
   become: true
 
 - name: install cron job (profile-selector)
@@ -134,3 +135,20 @@
           | /home/frank/.scripts/qso \
           2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/contatos-pipeline-error-logs.txt \
           1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/contatos-pipeline-stdout-logs.txt"
+
+- name: install cron job (update fish_history)
+  tags:
+    - full-install
+    - light-install
+    - cron
+    - fish
+  ansible.builtin.cron:
+    user: "{{ ansible_env.USER }}"
+    name: "Update fish history"
+    minute: "0"
+    hour: "12"
+    weekday: "3"
+    disabled: false
+    job: "/bin/sh {{ ansible_env.HOME }}/.scripts/backup-fish-history.sh \
+          2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-fish-history-error-logs.txt \
+          1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-fish-history-stdout-logs.txt"
