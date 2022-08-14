@@ -1,4 +1,16 @@
 ---
+- name: Uninstall iptables so it can install iptables-nft later
+  tags:
+    - full-install
+    - light-install
+    - libvirt
+  ansible.builtin.package:
+    name: iptables
+    state: absent
+    update_cache: false
+    force: true
+  become: true
+
 - name: Install KVM/QEMU packages
   tags:
     - full-install
