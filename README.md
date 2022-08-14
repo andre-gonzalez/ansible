@@ -43,6 +43,7 @@ The logic here is to work well with tags inheritance, so it become easier to run
     - cron
     - dbeaver
     - dmenu
+    - dotfiles
     - dwm
     - dwmblocks
     - eureciclo

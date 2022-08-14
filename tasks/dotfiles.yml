@@ -7,7 +7,7 @@
   ansible.builtin.git:
     version: main
     repo: git@github.com:andre-gonzalez/dotfiles.git
-    dest: "{{ ansible_env.HOME }}/.dotfiles"
+    dest: "{{ ansible_env.HOME }}/.config/dotfiles"
     recursive: true
     update: true
     bare: true
@@ -18,4 +18,4 @@
     - full-install
     - light-install
     - dotfiles
-  ansible.builtin.command: "/usr/bin/git --git-dir={{ ansible_env.HOME }}/.dotfiles/ --work-tree={{ ansible_env.HOME }} checkout -f"
+  ansible.builtin.command: "/usr/bin/git --git-dir={{ ansible_env.HOME }}/.config/dotfiles/ --work-tree={{ ansible_env.HOME }} checkout -f"
