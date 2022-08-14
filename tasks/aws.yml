@@ -18,3 +18,4 @@
   with_items:
     - { src: 'credentials-aws', dest: '{{ ansible_env.HOME }}/.config/aws/credentials', mode: 0600 }
     - { src: 'config-aws', dest: '{{ ansible_env.HOME }}/.config/aws/config', mode: 0600 }
+  become: true
