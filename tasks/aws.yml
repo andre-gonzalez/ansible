@@ -6,7 +6,7 @@
     - aws
   ansible.builtin.file:
     dest: "{{ ansible_env.HOME }}/.config/aws"
-    mode: 0600
+    mode: 0700
     state: directory
 
 - name: copy credentials and config files
@@ -18,4 +18,3 @@
   with_items:
     - { src: 'credentials-aws', dest: '{{ ansible_env.HOME }}/.config/aws/credentials', mode: 0600 }
     - { src: 'config-aws', dest: '{{ ansible_env.HOME }}/.config/aws/config', mode: 0600 }
-  become: true
