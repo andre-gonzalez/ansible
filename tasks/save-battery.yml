@@ -50,3 +50,17 @@
     update_cache: false
   become: true
   notify: Calibrate powertop
+
+- name: Install aur packages
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - aur
+  kewlfft.aur.aur:
+    name: tlpui
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
