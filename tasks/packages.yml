@@ -221,6 +221,7 @@
       - unzip
       - "{{ liberation_font }}"
       - "{{ postgres }}"
+      - tldr # More concise man pages
     state: present
     update_cache: true
   become: true
