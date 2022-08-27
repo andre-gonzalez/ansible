@@ -34,6 +34,10 @@
   become: true
 
 - name: Make sure rsync can run without root privileges
+  tags:
+    - full-install
+    - light-install
+    - rsync
   ansible.builtin.lineinfile:
     path: /etc/sudoers.d/frank
     state: present
@@ -71,4 +75,3 @@
     job: "{{ ansible_env.HOME }}/.scripts/backup-to-external-hard-drive.sh \
           2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-external-hard-drive-error-logs.txt \
           1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-external-hard-drive-stdout-logs.txt"
-# mount internal drive
