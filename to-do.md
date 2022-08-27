@@ -1,4 +1,5 @@
 ## Missing
+1. add a task to mount the internal hard drive in rsync play when device is samsung-expert
 
 ## Improvements
 1. create a template to generate the sudoers file
