@@ -63,3 +63,25 @@
     mode: 0644
   become: true
   notify: "finish libvirt configuration"
+
+- name: change libvirt.conf to allow non root user to start a VM
+  tags:
+    - full-install
+    - light-install
+    - libvirt
+  ansible.builtin.lineinfile:
+    path: /etc/libvirt/libvirt.conf
+    state: present
+    regexp: 'uri_default = "qemu:///system"'
+  become: true
+
+- name: Copy libvirt conf to user .config directory
+  tags:
+    - full-install
+    - light-install
+    - libvirt
+  ansible.builtin.copy:
+    src: /etc/libvirt/libvirt.conf
+    dest: "{{ ansible_env.HOME }}/.config/libvirt/libvirt.conf"
+    mode: 0644
+  become: true
