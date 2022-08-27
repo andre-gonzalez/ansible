@@ -42,6 +42,7 @@
     path: /etc/sudoers.d/frank
     state: present
     regexp: "{{ ansible_env.USER }} ALL = NOPASSWD: /usr/bin/rsync"
+    line: last
   become: true
 
 - name: install cron job (Backup home directory with rsync to internal hard drive)
