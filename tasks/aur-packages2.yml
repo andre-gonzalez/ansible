@@ -17,6 +17,7 @@
       - htim
       - tmux-bash-completion-git
       - whatsapp-nativefier
+      - mysql
     use: yay
     state: present
     update_cache: true
