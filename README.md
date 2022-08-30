@@ -51,6 +51,7 @@ The logic here is to work well with tags inheritance, so it become easier to run
     - dbeaver
     - dmenu
     - dotfiles
+    - drives
     - dwm
     - dwmblocks
     - eureciclo
