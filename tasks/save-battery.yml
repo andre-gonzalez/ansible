@@ -8,6 +8,7 @@
   ansible.builtin.package:
     name:
       - tlp # Power managment for laptop battery
+      - tlp-rdw
       - smartmontools # Contorl and monitor hard drives
       - ethtool
     state: present
