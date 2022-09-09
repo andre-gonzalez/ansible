@@ -47,7 +47,7 @@
     - never
   kewlfft.aur.aur:
     name:
-      - sql-language-server
+      - sqls-bin
       - ansible-language-server
       - terraform-ls
     use: yay
