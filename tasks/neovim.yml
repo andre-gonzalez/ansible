@@ -56,13 +56,15 @@
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
 
-- name: Install grammarly-languageserver
+- name: Install grammarly-languageserver and json language server
   tags:
     - full-install
     - light-install
     - neovim
   community.general.npm:
-    name: grammarly-languageserver
+    name:
+      - grammarly-languageserver
+      - vscode-langservers-extracted
     global: true
     state: present
   become: true
