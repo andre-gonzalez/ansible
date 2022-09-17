@@ -138,6 +138,34 @@
     backrefs: true
   become: true
 
+- name: Enable Intel CPU HWP dynamic boost when on AC
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - tlp
+  ansible.builtin.lineinfile:
+    path: /etc/tlp.conf
+    regexp: '[#]?CPU_HWP_DYN_BOOST_ON_AC=*'
+    line: 'CPU_HWP_DYN_BOOST_ON_AC=1'
+    backrefs: true
+  become: true
+  when: '"GenuineIntel" in ansible_processor'
+
+- name: Disable Intel CPU HWP dynamic boost when on AC
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - tlp
+  ansible.builtin.lineinfile:
+    path: /etc/tlp.conf
+    regexp: '[#]?CPU_HWP_DYN_BOOST_ON_BAT=*'
+    line: 'CPU_HWP_DYN_BOOST_ON_BAT=0'
+    backrefs: true
+  become: true
+  when: '"GenuineIntel" in ansible_processor'
+
 - name: install powertop package
   tags:
     - full-install
