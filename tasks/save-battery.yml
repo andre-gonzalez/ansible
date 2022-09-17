@@ -58,7 +58,7 @@
     backrefs: true
   become: true
 
-- name: Set processor to performance when on AC
+- name: Set processor to performance when on AC (scaling)
   tags:
     - full-install
     - light-install
@@ -71,7 +71,7 @@
     backrefs: true
   become: true
 
-- name: Set processor to powersave when on Battery
+- name: Set processor to powersave when on Battery (scaling)
   tags:
     - full-install
     - light-install
@@ -83,6 +83,34 @@
     line: 'CPU_SCALING_GOVERNOR_ON_BAT=powersave'
     backrefs: true
   become: true
+
+- name: Set processor to performance when on AC (energy/performance policies)
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - tlp
+  ansible.builtin.lineinfile:
+    path: /etc/tlp.conf
+    regexp: '#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance'
+    line: 'CPU_ENERGY_PERF_POLICY_ON_AC=performance'
+    backrefs: true
+  become: true
+  when: "GenuineIntel" in ansible_processor
+
+- name: Set processor to powersave when on Battery (energy/performance policies)
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - tlp
+  ansible.builtin.lineinfile:
+    path: /etc/tlp.conf
+    regexp: '#CPU_ENERGY_PERF_POLICY_ON_BAT=balance_power'
+    line: 'CPU_ENERGY_PERF_POLICY_ON_BAT=power'
+    backrefs: true
+  become: true
+  when: "GenuineIntel" in ansible_processor
 
 - name: install powertop package
   tags:
