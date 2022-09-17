@@ -226,6 +226,7 @@
         - tlp
         - powertop
         - aur
+        - samsung-expert
     - include_tasks: tasks/dwmblocks.yml
       tags:
         - full-install
