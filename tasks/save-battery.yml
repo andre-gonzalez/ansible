@@ -159,7 +159,9 @@
     - save-battery
     - aur
   kewlfft.aur.aur:
-    name: tlpui
+    name:
+      - tlpui # UI for TLP
+      - pstate-frequency # Intel pstate driver to manage CPU frequency
     use: yay
     state: present
     update_cache: true
