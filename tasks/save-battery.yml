@@ -53,7 +53,7 @@
     - samsung-expert
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '#DISK_SPINDOWN_TIMEOUT_ON_BAT="0 0" '
+    regexp: '#DISK_SPINDOWN_TIMEOUT_ON_BAT="0 0"'
     line: 'DISK_SPINDOWN_TIMEOUT_ON_BAT="0 12"'
     backrefs: true
   become: true
