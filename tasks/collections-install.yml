@@ -4,6 +4,7 @@
     - full-install
     - light-install
     - packages
+    - collections-install
   ansible.builtin.set_fact:
     python_pip: python-pip
   when: ansible_distribution == "Archlinux"
@@ -13,13 +14,8 @@
     - full-install
     - light-install
     - packages
+    - collections-install
   ansible.builtin.set_fact:
-    xorg:
-      - xorg
-      - libxrandr2
-      - libxrandr-dev
-      - xorg
-      - xorg
     python_pip: pipenv
   when: ansible_distribution == "Ubuntu"
 
