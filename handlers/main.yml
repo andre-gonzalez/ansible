@@ -284,3 +284,10 @@
   ansible.builtin.command: informant read --all
   become: true
   ignore_errors: true
+
+- name: set up dotfiles
+  tags:
+    - full-install
+    - light-install
+    - dotfiles
+  ansible.builtin.command: "/usr/bin/git --git-dir={{ ansible_env.HOME }}/.config/dotfiles/ --work-tree={{ ansible_env.HOME }} checkout -f"
