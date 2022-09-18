@@ -56,18 +56,18 @@
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
 
-- name: Install grammarly-languageserver and json language server
-  tags:
-    - full-install
-    - light-install
-    - neovim
-  community.general.npm:
-    name:
-      - grammarly-languageserver
-      - vscode-langservers-extracted
-    global: true
-    state: present
-  become: true
+# - name: Install grammarly-languageserver and json language server
+#   tags:
+#     - full-install
+#     - light-install
+#     - neovim
+#   community.general.npm:
+#     name:
+#       - unofficial-grammarly-language-server
+#       - vscode-langservers-extracted
+#     global: true
+#     state: present
+#   become: true
 
 - name: Install ansible-language-server when distribution in Ubuntu or Debian
   tags:
@@ -112,7 +112,6 @@
     src: sqllsrc.json
     dest: "{{ lookup('env', 'HOME') }}/.config/sql-language-server/"
     owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
     mode: 0600
 
 - name: Set neovim as default git editor
