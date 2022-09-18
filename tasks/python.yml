@@ -20,6 +20,7 @@
       - mysql-connector-python # Mysql database adapter
       - virtualenv # Python virtual environments
       - mysqlclient
+      - virtualenv
     state: present
 
 - name: Install python virtualenv as root so ansible can use it
