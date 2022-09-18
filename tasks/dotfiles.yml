@@ -12,10 +12,5 @@
     update: true
     bare: true
     accept_hostkey: true
+  notify: set up dotfiles
 
-- name: set up dotfiles
-  tags:
-    - full-install
-    - light-install
-    - dotfiles
-  ansible.builtin.command: "/usr/bin/git --git-dir={{ ansible_env.HOME }}/.config/dotfiles/ --work-tree={{ ansible_env.HOME }} checkout -f"
