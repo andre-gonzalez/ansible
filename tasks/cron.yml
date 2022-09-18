@@ -74,7 +74,7 @@
     name: "profile-selector"
     special_time: reboot
     disabled: false
-    job: "sleep 20 && DISPLAY=:0 {{ ansible_env.HOME }}/.scripts/profile-selector"
+    job: "DISPLAY=:0 {{ ansible_env.HOME }}/.scripts/profile-selector"
   become: true
 
 - name: install cron job (remove downloads folder)
