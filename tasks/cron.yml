@@ -99,7 +99,7 @@
     name: "remove-downloads-folder"
     minute: "*/10"
     disabled: false
-    job: "sleep 60 && rm -r {{ ansible_env.HOME }}/Downloads"
+    job: "rm -r {{ ansible_env.HOME }}/Downloads"
 
 - name: install cron job (give users access to the database)
   tags:
