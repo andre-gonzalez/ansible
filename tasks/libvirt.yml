@@ -72,7 +72,7 @@
   ansible.builtin.lineinfile:
     path: /etc/libvirt/libvirt.conf
     state: present
-    regexp: 'uri_default = "qemu:///system"'
+    line: 'uri_default = "qemu:///system"'
   become: true
 
 - name: Copy libvirt conf to user .config directory
