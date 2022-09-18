@@ -32,7 +32,6 @@
   ansible.builtin.package:
     name:
       - "{{ python_pip }}"
-      - python-virtualenv
     state: present
     update_cache: true
   become: true
