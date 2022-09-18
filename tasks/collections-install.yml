@@ -23,7 +23,6 @@
   tags:
     - full-install
     - light-install
-    - aur
     - collections-install
   ansible.builtin.package:
     name:
