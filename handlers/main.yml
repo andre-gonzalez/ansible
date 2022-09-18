@@ -291,3 +291,13 @@
     - light-install
     - dotfiles
   ansible.builtin.command: "/usr/bin/git --git-dir={{ ansible_env.HOME }}/.config/dotfiles/ --work-tree={{ ansible_env.HOME }} checkout -f"
+
+- name: Mark oh-my-fish installed with /etc/omf.installed
+  tags:
+    - full-install
+    - light-install
+    - fish
+  ansible.builtin.file:
+    path: /etc/omf.installed
+    state: touch
+  become: true

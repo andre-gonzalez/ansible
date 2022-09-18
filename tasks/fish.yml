@@ -40,16 +40,7 @@
   become_user: "{{ lookup('env', 'USER') }}"
   ansible.builtin.command: /tmp/omf/bin/install -y --offline --noninteractive
   when: not omf.stat.exists
-
-- name: Mark oh-my-fish installed with /etc/omf.installed
-  tags:
-    - full-install
-    - light-install
-    - fish
-  ansible.builtin.file:
-    path: /etc/omf.installed
-    state: touch
-  become: true
+  notify: "Mark oh-my-fish installed with /etc/omf.installed"
 
 - name: change user shell to fish
   tags:
