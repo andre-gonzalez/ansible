@@ -192,6 +192,19 @@
     backrefs: true
   become: true
 
+- name: Disable wifi and wwan on LAN connect
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - tlp
+  ansible.builtin.lineinfile:
+    path: /etc/tlp.conf
+    regexp: '[#]?DEVICES_TO_DISABLE_ON_LAN_CONNECT="*"'
+    line: 'DEVICES_TO_DISABLE_ON_LAN_CONNECT="wifi wwan"'
+    backrefs: true
+  become: true
+
 - name: install powertop package
   tags:
     - full-install
