@@ -112,7 +112,7 @@
     name: "Give users access to the database"
     minute: "0"
     hour: "*/4"
-    disabled: false
+    disabled: true
     job: "cat {{ ansible_env.HOME }}/eureciclo/salesops-dw/main-salesops-dw/create-enviroment/user-groups.sql \
       | /home/frank/.scripts/qso \
       2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/give-users-access-to-the-database-error-logs.txt \
@@ -130,7 +130,7 @@
     minute: "0"
     hour: "8-20/1"
     weekday: "1-5"
-    disabled: false
+    disabled: true
     job: "cat {{ ansible_env.HOME }}/eureciclo/salesops-dw/main-salesops-dw/salesops-dw/star-schema/cron-job-pipeline-contacts.sql \
           | /home/frank/.scripts/qso \
           2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/contatos-pipeline-error-logs.txt \
