@@ -205,6 +205,19 @@
     backrefs: true
   become: true
 
+- name: Enable wifi and wwan on LAN disconnect
+  tags:
+    - full-install
+    - light-install
+    - save-battery
+    - tlp
+  ansible.builtin.lineinfile:
+    path: /etc/tlp.conf
+    regexp: '[#]?DEVICES_TO_ENABLE_ON_LAN_DISCONNECT="*"'
+    line: 'DEVICES_TO_ENABLE_ON_LAN_DISCONNECT="wifi wwan"'
+    backrefs: true
+  become: true
+
 - name: install powertop package
   tags:
     - full-install
