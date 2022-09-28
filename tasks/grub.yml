@@ -13,7 +13,7 @@
 #   become: true
 #   when: ansible_distribution == "Archlinux"
 
-- name: Change grub timeout to 1 second
+- name: Change grub timeout to 0 second
   tags:
     - full-install
     - light-install
@@ -21,7 +21,7 @@
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: '^GRUB_TIMEOUT=.*'
-    line: 'GRUB_TIMEOUT=1'
+    line: 'GRUB_TIMEOUT=0'
     backrefs: true
   become: true
   notify: update grub
