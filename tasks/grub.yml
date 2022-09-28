@@ -20,7 +20,7 @@
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '^GRUB_TIMEOUT=.*'
+    regexp: '.*GRUB_TIMEOUT=.*'
     line: 'GRUB_TIMEOUT=0'
     backrefs: true
   become: true
@@ -33,7 +33,7 @@
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '^GRUB_TIMEOUT_STYLE=.*'
+    regexp: '.*GRUB_TIMEOUT_STYLE=.*'
     line: 'GRUB_TIMEOUT_STYLE=hidden'
     backrefs: true
   become: true
@@ -46,7 +46,7 @@
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '^GRUB_CMDLINE_LINUX=.*'
+    regexp: '.*GRUB_CMDLINE_LINUX=.*'
     line: 'GRUB_CMDLINE_LINUX="mitigations=off"'
     backrefs: true
   become: true
@@ -60,7 +60,7 @@
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '^GRUB_CMDLINE_LINUX=.*'
+    regexp: '.*GRUB_CMDLINE_LINUX=.*'
     line: 'GRUB_CMDLINE_LINUX="zswap.enabled=1 mitigations=off"'
     backrefs: true
   become: true
