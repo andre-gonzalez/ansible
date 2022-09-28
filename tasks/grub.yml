@@ -66,3 +66,29 @@
   become: true
   when: ansible_memtotal_mb <= 16000
   notify: update grub
+
+- name: Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '.*GRUB_DEFAULT=.*'
+    line: 'GRUB_DEFAULT=saved'
+    backrefs: true
+  become: true
+  notify: update grub
+
+- name: Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '.*GRUB_SAVEDEFAULT=.*'
+    line: 'GRUB_SAVEDEFAULT=true'
+    backrefs: true
+  become: true
+  notify: update grub
