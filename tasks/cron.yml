@@ -152,3 +152,18 @@
     job: "/bin/sh {{ ansible_env.HOME }}/.scripts/backup-fish-history.sh \
           2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-fish-history-error-logs.txt \
           1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-fish-history-stdout-logs.txt"
+
+- name: install cron job (update-inventory-ip)
+  tags:
+    - full-install
+    - light-install
+    - cron
+    - fish
+  ansible.builtin.cron:
+    user: "{{ ansible_env.USER }}"
+    name: "update vm inventory ip"
+    special_time: reboot
+    disabled: false
+    job: "cd {{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra/ && /bin/sh ansible/update-inventory-ip.sh \
+          2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/update-inventory-ip-error-logs.txt \
+          1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/update-inventory-ip-stdout-logs.txt"
