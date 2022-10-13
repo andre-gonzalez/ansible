@@ -1,13 +1,33 @@
 ---
-- name: Install audio packages
+- name: Install pulseaudio packages
   tags:
-    - full-install
-    - audio
-    - light-install
+    - pulseaudio
+    - never
   ansible.builtin.package:
     name:
       - pulseaudio
       - alsa-utils
       - pavucontrol
+    state: present
+  become: true
+
+- name: Install pipewire packages
+  tags:
+    - pipewire
+    - full-install
+    - light-install
+  ansible.builtin.package:
+    name:
+      - alsa-utils
+      - pavucontrol # Audio control interface
+      - pipewire
+      - lib32-pipewire
+      - pipewire-alsa # Rounte all application using ALSA API through pipewire
+      - pipewire-docs # Not necessary. Only documentation
+      - wireplumber # Session manager. Alternative to pipewire-media-session
+      - qpwgraph  # GUI session manager
+      - pipewire-pulse
+      - pipewire-jack
+      - lib32-pipewire-jack
     state: present
   become: true
