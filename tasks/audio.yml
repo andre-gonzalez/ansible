@@ -1,8 +1,9 @@
 ---
 - name: Install pulseaudio packages
   tags:
+    - full-install
+    - light-install
     - pulseaudio
-    - never
   ansible.builtin.package:
     name:
       - pulseaudio
@@ -17,8 +18,7 @@
 - name: Install pipewire packages
   tags:
     - pipewire
-    - full-install
-    - light-install
+    - never
   ansible.builtin.package:
     name:
       - alsa-utils
