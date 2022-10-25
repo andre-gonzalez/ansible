@@ -8,8 +8,11 @@
       - pulseaudio
       - alsa-utils
       - pavucontrol
+      - pulseaudio-bluetooth
+      - pulseaudio-alsa
     state: present
   become: true
+  notify: "restart pulseaudio"
 
 - name: Install pipewire packages
   tags:
@@ -20,7 +23,6 @@
     name:
       - alsa-utils
       - pavucontrol # Audio control interface
-      - pipewire
       - lib32-pipewire
       - pipewire-alsa # Rounte all application using ALSA API through pipewire
       - pipewire-docs # Not necessary. Only documentation
@@ -29,5 +31,7 @@
       - pipewire-pulse
       - pipewire-jack
       - lib32-pipewire-jack
+      - pipewire-audio
+      - pipewire
     state: present
   become: true

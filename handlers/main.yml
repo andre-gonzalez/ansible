@@ -301,3 +301,15 @@
     path: /etc/omf.installed
     state: touch
   become: true
+
+- name: restart pulseaudio
+  tags:
+    - full-install
+    - light-install
+    - pulseaudio
+  ansible.builtin.service:
+    name: pulseaudio
+    state: restarted
+    enabled: true
+  become: true
+  listen: "restart pulseaudio"
