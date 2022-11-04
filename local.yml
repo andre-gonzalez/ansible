@@ -31,7 +31,7 @@
     - name: "Gathering Facts (Task)"
       ansible.builtin.setup:
       tags:
-        - ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale"]
+        - ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "fish"]
         - ["neovim", "network", "preload", "ssh", "timeshift", "terraform", "security", "samsung-expert", "eureciclo", "debug", "slock", "systemd", "anki", "aws", "dotfiles", "rsync", "drives", "collections-install", "pipewire", "pulseaudio"]
 
   tasks:
