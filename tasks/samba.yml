@@ -1,0 +1,51 @@
+---
+- name: Install samba packages
+  tags:
+    - full-install
+    - light-install
+    - samba
+  ansible.builtin.package:
+    name:
+      - krb5
+      - ntp
+      - python-dnspython
+      - openresolv
+      - samba
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Ensure group sambausers exists
+  tags:
+    - full-install
+    - light-install
+    - samba
+  ansible.builtin.group:
+    name: sambausers
+    state: present
+  become: true
+
+- name: Ensure /samba directory exists
+  tags:
+    - full-install
+    - light-install
+    - samba
+  ansible.builtin.file:
+    dest: "/samba"
+    group: sambausers
+    mode: 1770
+    state: directory
+  become: true
+
+- name: Copy file smb.conf to /etc/samba/
+  tags:
+    - full-install
+    - light-install
+    - samba
+  ansible.builtin.copy:
+    src: smb.conf
+    dest: /etc/samba/smb.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify: "finish samba configuration"

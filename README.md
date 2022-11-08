@@ -69,6 +69,7 @@ The logic here is to work well with tags inheritance, so it become easier to run
     - pulseaudio
     - python
     - rsync
+    - samba
     - save-battery
     - security
     - scripts
