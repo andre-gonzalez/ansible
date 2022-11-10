@@ -31,7 +31,7 @@
     - name: "Gathering Facts (Task)"
       ansible.builtin.setup:
       tags:
-        - ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "fish"]
+        - ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "fish", "ufw"]
         - ["neovim", "network", "preload", "ssh", "timeshift", "terraform", "security", "samsung-expert", "eureciclo", "debug", "slock", "systemd", "anki", "aws", "dotfiles", "rsync", "drives", "collections-install", "pipewire", "pulseaudio", "samba"]
 
   tasks:
@@ -194,17 +194,23 @@
         - full-install
         - light-install
         - rsync
-    - include_tasks: tasks/samba.yml
-      tags:
-        - full-install
-        - light-install
-        - samba
     - include_tasks: tasks/collections-install.yml
       tags:
         - full-install
         - light-install
         - aur
         - collections-install
+        - ufw
+    - include_tasks: tasks/ufw.yml
+      tags:
+        - full-install
+        - light-install
+        - ufw
+    - include_tasks: tasks/samba.yml
+      tags:
+        - full-install
+        - samba
+        - ufw
     - include_tasks: tasks/neovim.yml
       tags:
         - full-install

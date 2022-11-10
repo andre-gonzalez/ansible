@@ -2,7 +2,6 @@
 - name: Install samba packages
   tags:
     - full-install
-    - light-install
     - samba
   ansible.builtin.package:
     name:
@@ -17,7 +16,6 @@
 - name: Ensure group sambausers exists
   tags:
     - full-install
-    - light-install
     - samba
   ansible.builtin.group:
     name: sambausers
@@ -27,7 +25,6 @@
 - name: Ensure /samba directory exists
   tags:
     - full-install
-    - light-install
     - samba
   ansible.builtin.file:
     dest: "/samba"
@@ -39,7 +36,6 @@
 - name: Copy file smb.conf to /etc/samba/
   tags:
     - full-install
-    - light-install
     - samba
   ansible.builtin.copy:
     src: smb.conf
@@ -49,3 +45,26 @@
     mode: 0644
   become: true
   notify: "finish samba configuration"
+
+- name: File to Allow samba in ufw
+  tags:
+    - full-install
+    - samba
+    - ufw
+  ansible.builtin.copy:
+    src: samba-ufw
+    dest: /etc/ufw/applications.d/samba
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Allow samba in ufw
+  tags:
+    - full-install
+    - samba
+    - ufw
+  community.general.ufw:
+    rule: allow
+    name: Samba
+  become: true
