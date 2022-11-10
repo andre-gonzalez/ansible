@@ -39,3 +39,12 @@
   community.general.ansible_galaxy_install:
     type: collection
     name: kewlfft.aur
+
+- name: Install collection community.general (for ufw)
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  community.general.ansible_galaxy_install:
+    type: collection
+    name: community.general

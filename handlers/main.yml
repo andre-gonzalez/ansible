@@ -317,7 +317,6 @@
 - name: Create samba password and the user {{ ansible_env.USER }}
   tags:
     - full-install
-    - light-install
     - samba
   ansible.builtin.shell: "(echo '{{ samba_pass }}'; echo '{{ samba_pass }}') | smbpasswd -s -a {{ ansible_env.USER }}"
   register: smbpasswd
@@ -328,7 +327,6 @@
 - name: start samba (smb) service
   tags:
     - full-install
-    - light-install
     - samba
   ansible.builtin.service:
     name: smb
@@ -340,7 +338,6 @@
 - name: start samba (nmb) service
   tags:
     - full-install
-    - light-install
     - samba
   ansible.builtin.service:
     name: nmb

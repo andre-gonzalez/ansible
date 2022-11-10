@@ -1,0 +1,19 @@
+---
+- name: install ufw
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  ansible.builtin.package:
+    name: ufw
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Enable ufw
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  community.general.ufw:
+    state: enabled
+  become: true
