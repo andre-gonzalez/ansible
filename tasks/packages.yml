@@ -203,7 +203,6 @@
       - ripgrep
       - "{{ fd }}"
       - fzf
-      - baobab
       - nethogs
       - lxsession
       - flameshot
