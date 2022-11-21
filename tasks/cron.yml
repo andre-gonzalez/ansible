@@ -179,3 +179,19 @@
     job: "/bin/sh {{ ansible_env.HOME }}/.scripts/push-new-notes.sh \
           2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/push-new-notes-error-logs.txt \
           1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/push-new-notes-stdout-logs.txt"
+
+- name: install cron job (Auto adjust screen brightness)
+  tags:
+    - full-install
+    - light-install
+    - cron
+  ansible.builtin.cron:
+    user: root
+    name: "Auto adjust screen brightness"
+    minute: "*/5"
+    hour: "17-19"
+    disabled: false
+    job: "/bin/sh {{ ansible_env.HOME }}/.scripts/auto-adjust-brightness.sh \
+          2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/auto-adjust-brightness-error-logs.txt \
+          1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/auto-adjust-brightness-stdout-logs.txt"
+  become: true
