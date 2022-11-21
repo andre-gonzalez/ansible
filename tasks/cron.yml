@@ -171,7 +171,6 @@
     - full-install
     - light-install
     - cron
-    - fish
   ansible.builtin.cron:
     user: "{{ ansible_env.USER }}"
     name: "push notes to git repository"
