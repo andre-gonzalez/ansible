@@ -42,6 +42,7 @@ The logic here is to work well with tags inheritance, so it become easier to run
   - light-install
     - ansible
     - audio
+    - auto-adjust-brightness
     - aur
     - authy
     - aws
