@@ -32,7 +32,7 @@
       ansible.builtin.setup:
       tags:
         - ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "fish", "ufw"]
-        - ["neovim", "network", "preload", "ssh", "timeshift", "terraform", "security", "samsung-expert", "eureciclo", "debug", "slock", "systemd", "anki", "aws", "dotfiles", "rsync", "drives", "collections-install", "pipewire", "pulseaudio", "samba", "auto-adjust-brightness"]
+        - ["neovim", "network", "preload", "ssh", "timeshift", "terraform", "security", "samsung-expert", "eureciclo", "debug", "slock", "systemd", "anki", "aws", "dotfiles", "rsync", "drives", "collections-install", "pipewire", "pulseaudio", "samba", "auto-adjust-brightness", "windows-vm"]
 
   tasks:
     - include_tasks: tasks/debug.yml
@@ -125,6 +125,11 @@
       tags:
         - full-install
         - libvirt
+    - include_tasks: tasks/windows-vm.yml
+      tags:
+        - full-install
+        - collections-install
+        - windows-vm
     - include_tasks: tasks/dwm.yml
       tags:
         - full-install
