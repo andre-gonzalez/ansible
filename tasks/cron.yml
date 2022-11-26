@@ -185,6 +185,7 @@
     - full-install
     - light-install
     - cron
+    - auto-adjust-brightness
   ansible.builtin.cron:
     user: root
     name: "Auto adjust screen brightness"
