@@ -1,0 +1,20 @@
+---
+- name: Install collection kewlfft.aur
+  tags:
+    - full-install
+    - collections-install
+    - windows-vm
+  community.general.ansible_galaxy_install:
+    type: collection
+    name: community.libvirt
+
+- name: Define a VM
+  tags:
+    - full-install
+    - windows-vm
+  community.libvirt.virt:
+    command: define
+    autostart: false
+    name: win10
+    xml: "{{ lookup('template', 'win10.xml') }}"
+    uri: 'qemu:///system'
