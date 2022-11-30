@@ -101,41 +101,6 @@
     disabled: false
     job: "rm -r {{ ansible_env.HOME }}/Downloads"
 
-- name: install cron job (give users access to the database)
-  tags:
-    - full-install
-    - light-install
-    - cron
-    - eureciclo
-  ansible.builtin.cron:
-    user: "{{ ansible_env.USER }}"
-    name: "Give users access to the database"
-    minute: "0"
-    hour: "*/4"
-    disabled: true
-    job: "cat {{ ansible_env.HOME }}/eureciclo/salesops-dw/main-salesops-dw/create-enviroment/user-groups.sql \
-      | /home/frank/.scripts/qso \
-      2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/give-users-access-to-the-database-error-logs.txt \
-      1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/give-users-access-to-the-database-stdout-logs.txt"
-
-- name: install cron job (contatos pipeline)
-  tags:
-    - full-install
-    - light-install
-    - cron
-    - eureciclo
-  ansible.builtin.cron:
-    user: "{{ ansible_env.USER }}"
-    name: "Contatos pipeline"
-    minute: "0"
-    hour: "8-20/1"
-    weekday: "1-5"
-    disabled: true
-    job: "cat {{ ansible_env.HOME }}/eureciclo/salesops-dw/main-salesops-dw/salesops-dw/star-schema/cron-job-pipeline-contacts.sql \
-          | /home/frank/.scripts/qso \
-          2>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/contatos-pipeline-error-logs.txt \
-          1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/contatos-pipeline-stdout-logs.txt"
-
 - name: install cron job (update fish_history)
   tags:
     - full-install
