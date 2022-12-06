@@ -41,3 +41,18 @@
   when: ansible_distribution in ["Archlinux"]
   become: true
   notify: "restart network"
+
+- name: Change default DNS server
+  tags:
+    - full-install
+    - light-install
+    - network
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/resolved.conf
+    state: present
+    insertafter: "{{ item.insertafter }}"
+    line: "{{ item.line }}"
+  loop:
+    - { insertafter: '\[Resolve\]', line: 'DNS=8.8.4.4' }
+    - { insertafter: 'DNS=8.8.4.4', line: 'FallbackDNS=8.8.8.8' }
+  become: true
