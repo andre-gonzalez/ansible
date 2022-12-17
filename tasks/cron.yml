@@ -155,7 +155,7 @@
     user: root
     name: "Auto adjust screen brightness"
     minute: "*/5"
-    hour: "17-19"
+    hour: "17-19,6-15"
     disabled: false
     job: "/bin/sh {{ ansible_env.HOME }}/.scripts/auto-adjust-brightness.sh \
           2>> {{ ansible_env.HOME }}/auto-adjust-brightness-error-logs.txt \
