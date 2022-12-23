@@ -9,6 +9,73 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
+- name: Set logging on
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  community.general.ufw:
+    logging: 'on'
+  become: true
+
+# ufw supports connection rate limiting, which is useful for protecting
+# against brute-force login attacks. ufw will deny connections if an IP
+# address has attempted to initiate 6 or more connections in the last
+# 30 seconds. See  http://www.debian-administration.org/articles/187
+# for details.
+- name: Limit ssh
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  community.general.ufw:
+    rule: limit
+    port: ssh
+    proto: tcp
+  become: true
+
+- name: Allow port range 80/tcp
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  community.general.ufw:
+    rule: allow
+    port: 80
+    proto: tcp
+  become: true
+
+- name: Allow port range 443/tcp
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  community.general.ufw:
+    rule: allow
+    port: 443
+    proto: tcp
+  become: true
+
+- name: Default policy deny incoming
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  community.general.ufw:
+    default: deny
+    direction: incoming
+  become: true
+
+- name: Default policy allow outgoing
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  community.general.ufw:
+    default: allow
+    direction: outgoing
+  become: true
+
 - name: Enable ufw
   tags:
     - full-install
