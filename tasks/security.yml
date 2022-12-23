@@ -21,6 +21,21 @@
   when: ansible_distribution == "Archlinux"
   notify: "start fail2ban"
 
+- name: Copy fail2ban configuration file
+  tags:
+    - full-install
+    - light-install
+    - security
+    - fail2ban
+  ansible.builtin.copy:
+    src: jail.local
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify: "start fail2ban"
+
 - name: install apparmor
   tags:
     - full-install
