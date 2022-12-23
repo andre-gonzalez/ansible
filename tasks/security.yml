@@ -14,6 +14,7 @@
     - full-install
     - light-install
     - security
+    - fail2ban
   ansible.builtin.package:
     name: fail2ban
   become: true
