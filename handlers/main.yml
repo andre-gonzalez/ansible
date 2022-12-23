@@ -358,3 +358,16 @@
     enabled: true
   become: true
   listen: "start fail2ban"
+
+- name: restart apparmor
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.service:
+    name: apparmor
+    state: restarted
+    enabled: true
+  become: true
+  listen: "start apparmor"

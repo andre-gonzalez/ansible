@@ -19,4 +19,16 @@
     name: fail2ban
   become: true
   when: ansible_distribution == "Archlinux"
-  notify: start fail2ban
+  notify: "start fail2ban"
+
+- name: install apparmor
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.package:
+    name: apparmor
+  become: true
+  when: ansible_distribution == "Archlinux"
+  notify: "start apparmor"
