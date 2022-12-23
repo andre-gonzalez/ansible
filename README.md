@@ -56,6 +56,7 @@ The logic here is to work well with tags inheritance, so it become easier to run
     - dwm
     - dwmblocks
     - eureciclo
+    - fail2ban
     - gcloud
     - grub
     - keyboard
