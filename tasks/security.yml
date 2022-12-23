@@ -8,3 +8,14 @@
     name: root
     shell: /sbin/nologin
   become: true
+
+- name: install fail2ban
+  tags:
+    - full-install
+    - light-install
+    - security
+  ansible.builtin.package:
+    name: fail2ban
+  become: true
+  when: ansible_distribution == "Archlinux"
+  notify: start fail2ban
