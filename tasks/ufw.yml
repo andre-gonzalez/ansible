@@ -76,6 +76,18 @@
     direction: outgoing
   become: true
 
+- name: Block computers from ping my ip address
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  ansible.builtin.lineinfile:
+    path: /etc/ufw/before.rules
+    state: present
+    insertafter: "# ok icmp codes for INPUT"
+    line: "-A ufw-before-input -p icmp --icmp-type echo-request -j DROP"
+  become: true
+
 - name: Enable ufw
   tags:
     - full-install
