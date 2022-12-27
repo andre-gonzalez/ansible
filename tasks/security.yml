@@ -47,3 +47,17 @@
   become: true
   when: ansible_distribution == "Archlinux"
   notify: "start apparmor"
+
+- name: Enable apparmor in kernel parameters
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '.*GRUB_CMDLINE_LINUX_DEFAULT=.*'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf"'
+    backrefs: true
+  become: true
+  notify: update grub
