@@ -43,12 +43,15 @@
     - security
     - apparmor
   ansible.builtin.package:
-    name: apparmor
+    name:
+      - apparmor
+      - audit
+      - python-notify2
   become: true
   when: ansible_distribution == "Archlinux"
   notify: "start apparmor"
 
-- name: Enable apparmor in kernel parameters
+- name: Enable apparmor in kernel parameters with audit enabled
   tags:
     - full-install
     - light-install
@@ -57,7 +60,80 @@
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: '.*GRUB_CMDLINE_LINUX_DEFAULT=.*'
-    line: 'GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf"'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf" audit=1'
     backrefs: true
   become: true
   notify: update grub
+
+- name: start auditd
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.service:
+    name: auditd
+    state: started
+    enabled: true
+  become: true
+
+- name: Ensure group audit exists
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.group:
+    name: audit
+    state: present
+  become: yes
+
+- name: "Add the user {{ ansible_env.USER }} to group audit"
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.user:
+    name: "{{ ansible_env.USER }}"
+    groups: audit
+    append: true
+  become: yes
+
+- name: add audit group to auditd.conf
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.lineinfile:
+    path: /etc/audit/auditd.conf
+    line: 'log_group = audit'
+  become: true
+
+- name: copy apparmor-notify.desktop file to autostart apparmor notify
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.copy:
+    src: apparmor-notify.desktop
+    dest: "{{ ansible_env.HOME }}/.config/autostart"
+    owner: "{{ ansible_env.USER }}"
+    group: audit
+    mode: 0644
+  become: true
+
+- name: Enable write-cache to speed up apparmor
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.lineinfile:
+    path: /etc/apparmor/parser.conf
+    regexp: '#write-cache'
+    line: 'write-cache'
+    backrefs: true
+  become: true
