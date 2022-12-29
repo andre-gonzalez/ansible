@@ -15,6 +15,19 @@
   become: true
   notify: "restart pulseaudio"
 
+- name: Set pulseaudio to automatically change to the bluetooth once connected
+  tags:
+    - full-install
+    - light-install
+    - pulseaudio
+  ansible.builtin.lineinfile:
+    path: /etc/pulse/default.pa
+    line: 'load-module module-switch-on-connect'
+    create: yes
+    backrefs: true
+    state: present
+  become: true
+
 - name: Install pipewire packages
   tags:
     - pipewire
