@@ -33,7 +33,7 @@
       tags:
         - ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "fish", "ufw"]
         - ["neovim", "network", "preload", "ssh", "timeshift", "terraform", "security", "samsung-expert", "eureciclo", "debug", "slock", "systemd", "anki", "aws", "dotfiles", "rsync", "drives", "collections-install", "pipewire", "pulseaudio", "samba", "auto-adjust-brightness", "windows-vm"]
-        - ["apparmor" , "fail2ban"]
+        - ["apparmor" , "fail2ban", "opensmtpd"]
 
   tasks:
     - include_tasks: tasks/debug.yml
@@ -290,6 +290,10 @@
         - never
         - aur
         - timeshift
+    - include_tasks: tasks/smtpd.yml
+      tags:
+        - never
+        - opensmtpd
     - include_tasks: tasks/aur-packages2.yml
       tags:
         - aur
