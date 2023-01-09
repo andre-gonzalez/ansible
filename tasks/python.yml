@@ -22,6 +22,7 @@
       - mysqlclient
       - pyspark
       - virtualenv
+      - databricks-cli
     state: present
 
 - name: Install python virtualenv as root so ansible can use it
