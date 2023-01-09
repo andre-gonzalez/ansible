@@ -33,7 +33,7 @@
       tags:
         - ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "fish", "ufw"]
         - ["neovim", "network", "preload", "ssh", "timeshift", "terraform", "security", "samsung-expert", "eureciclo", "debug", "slock", "systemd", "anki", "aws", "dotfiles", "rsync", "drives", "collections-install", "pipewire", "pulseaudio", "samba", "auto-adjust-brightness", "windows-vm"]
-        - ["apparmor" , "fail2ban", "opensmtpd"]
+        - ["apparmor" , "fail2ban", "opensmtpd", "databricks"]
 
   tasks:
     - include_tasks: tasks/debug.yml
@@ -165,6 +165,11 @@
         - full-install
         - light-install
         - python
+    - include_tasks: tasks/databricks.yml
+      tags:
+        - full-install
+        - light-install
+        - databricks
     - include_tasks: tasks/eureciclo.yml
       tags:
         - full-install
