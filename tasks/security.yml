@@ -137,3 +137,13 @@
     line: 'write-cache'
     backrefs: true
   become: true
+
+- name: install security updates automatically
+  tags:
+    - full-install
+    - light-install
+    - security
+  ansible.builtin.package:
+    name: unattended-upgrades
+  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
