@@ -155,11 +155,6 @@
     - aur
     - collections-install
     - ufw
-- include_tasks: tasks/ufw.yml
-  tags:
-    - full-install
-    - light-install
-    - ufw
 - include_tasks: tasks/samba.yml
   tags:
     - full-install

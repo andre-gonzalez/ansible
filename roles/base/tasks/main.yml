@@ -42,3 +42,8 @@
     - security
     - fail2ban
     - apparmor
+- include_tasks: tasks/ufw.yml
+  tags:
+    - full-install
+    - light-install
+    - ufw
