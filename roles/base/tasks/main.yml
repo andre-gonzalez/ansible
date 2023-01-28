@@ -24,3 +24,8 @@
     - full-install
     - light-install
     - cron
+- include_tasks: tasks/fish.yml
+  tags:
+    - full-install
+    - light-install
+    - fish
