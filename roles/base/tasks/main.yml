@@ -13,3 +13,9 @@
     - full-install
     - light-install
     - keyboard
+- include_tasks: tasks/locale.yml
+  tags:
+    - full-install
+    - light-install
+    - timezone
+    - locale
