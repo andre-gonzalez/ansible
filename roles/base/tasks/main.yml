@@ -54,3 +54,11 @@
     - neovim
     - git
     - aur
+- include_tasks: tasks/network.yml
+  tags:
+    - full-install
+    - light-install
+    - network
+    - netbook
+    - samsung-expert
+    - aur
