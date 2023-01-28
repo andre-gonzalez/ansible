@@ -1,0 +1,45 @@
+---
+- name: users | frank | create group
+  tags:
+    - full-install
+    - light-install
+    - users
+  group:
+    name: frank
+    state: present
+
+- name: users | frank | create user
+  tags:
+    - full-install
+    - light-install
+    - users
+  user:
+    name: frank
+    group: frank
+    groups: adm,ansible,{{ sudo_group }}
+    state: present
+    password: "{{ frank_passwd }}"
+    shell: /bin/fish
+
+- name: create ansible user
+  tags:
+    - full-install
+    - light-install
+    - users
+    - ansible
+  ansible.builtin.user:
+    name: ansible
+    system: true
+  become: true
+
+- name: copy sudoers_ansible
+  tags:
+    - full-install
+    - users
+    - ansible
+    - light-install
+  ansible.builtin.copy: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'sudoers_ansible', dest: '/etc/sudoers.d/ansible', mode: 0440 }
+    - { src: 'sudoers_frank', dest: '/etc/sudoers.d/frank', mode: 0440 }
+  become: true
