@@ -47,3 +47,10 @@
     - full-install
     - light-install
     - ufw
+- include_tasks: tasks/neovim.yml
+  tags:
+    - full-install
+    - light-install
+    - neovim
+    - git
+    - aur
