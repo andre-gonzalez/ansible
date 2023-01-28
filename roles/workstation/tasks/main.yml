@@ -35,11 +35,6 @@
     - light-install
     - pipewire
     - pulseaudio
-- include_tasks: tasks/keyboard-layout.yml
-  tags:
-    - full-install
-    - light-install
-    - keyboard
 - include_tasks: tasks/locale.yml
   tags:
     - full-install
