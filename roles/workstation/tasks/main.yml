@@ -35,12 +35,6 @@
     - light-install
     - pipewire
     - pulseaudio
-- include_tasks: tasks/locale.yml
-  tags:
-    - full-install
-    - light-install
-    - timezone
-    - locale
 - include_tasks: tasks/cron.yml
   tags:
     - full-install
