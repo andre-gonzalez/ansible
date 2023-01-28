@@ -69,14 +69,11 @@
       - ripgrep
       - "{{ fd }}"
       - fzf
-      - nethogs
       - lxsession
       - flameshot
       - bat
       - dunst
-      - trash-cli
       - qt5ct # To set theme for qt applications
-      - man-db # Manpages
       - "{{ rfkill }}"
       - csvkit
       - yamllint
@@ -86,7 +83,6 @@
       - unzip
       - "{{ liberation_font }}"
       - "{{ postgres }}"
-      - tldr # More concise man pages
     state: present
     update_cache: true
   become: true

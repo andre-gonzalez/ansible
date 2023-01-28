@@ -133,3 +133,17 @@
   become: true
   when: ansible_distribution == "Ubuntu"
 
+- name: install base packages and update cache
+  tags:
+    - full-install
+    - light-install
+    - packages
+  ansible.builtin.package:
+    name:
+      - trash-cli
+      - nethogs
+      - man-db # Manpages
+      - tldr # More concise man pages
+    state: present
+    update_cache: true
+  become: true
