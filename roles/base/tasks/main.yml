@@ -35,3 +35,10 @@
     - light-install
     - packages
     - nvidia
+- include_tasks: tasks/security.yml
+  tags:
+    - full-install
+    - light-install
+    - security
+    - fail2ban
+    - apparmor

@@ -132,13 +132,6 @@
     - full-install
     - light-install
     - anki
-- include_tasks: tasks/security.yml
-  tags:
-    - full-install
-    - light-install
-    - security
-    - fail2ban
-    - apparmor
 - include_tasks: tasks/aws.yml
   tags:
     - full-install
