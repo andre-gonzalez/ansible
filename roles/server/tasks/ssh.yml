@@ -1,0 +1,11 @@
+---
+- name: start sshd
+  tags:
+    - full-install
+    - light-install
+    - ssh
+  ansible.builtin.service:
+    name: sshd
+    state: started
+    enabled: true
+  become: true

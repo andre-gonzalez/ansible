@@ -1,37 +1,4 @@
 ---
-- name: Install openssh
-  tags:
-    - full-install
-    - light-install
-    - ssh
-  ansible.builtin.package:
-    name: openssh
-    state: present
-    update_cache: true
-  when: ansible_distribution == "Archlinux"
-  become: true
-
-- name: start sshd
-  tags:
-    - full-install
-    - light-install
-    - ssh
-  ansible.builtin.service:
-    name: sshd
-    state: started
-    enabled: false
-  become: true
-
-- name: Ensure .ssh directory exists.
-  tags:
-    - full-install
-    - light-install
-    - ssh
-  ansible.builtin.file:
-    dest: "{{ ansible_env.HOME }}/.ssh"
-    mode: 0700
-    state: directory
-
 - name: Install ssh key
   tags:
     - full-install
@@ -83,15 +50,4 @@
     src: config
     dest: "{{ ansible_env.HOME }}/.ssh"
     mode: 0600
-  notify: "secure ssh"
-
-- name: add ssh key for frank
-  tags:
-    - full-install
-    - light-install
-    - ssh
-  ansible.posix.authorized_key:
-    user: "{{ lookup('env', 'USER') }}"
-    state: present
-    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
   notify: "secure ssh"
