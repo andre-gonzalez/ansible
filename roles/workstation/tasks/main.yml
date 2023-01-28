@@ -63,11 +63,6 @@
     - full-install
     - light-install
     - bluetooth
-- include_tasks: tasks/fish.yml
-  tags:
-    - full-install
-    - light-install
-    - fish
 - include_tasks: tasks/packages.yml
   tags:
     - full-install
