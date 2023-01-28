@@ -8,3 +8,8 @@
     - full-install
     - light-install
     - ssh
+- include_tasks: tasks/keyboard-layout.yml
+  tags:
+    - full-install
+    - light-install
+    - keyboard
