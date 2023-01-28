@@ -19,3 +19,8 @@
     - light-install
     - timezone
     - locale
+- include_tasks: tasks/cron.yml
+  tags:
+    - full-install
+    - light-install
+    - cron
