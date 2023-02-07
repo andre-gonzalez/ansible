@@ -44,6 +44,30 @@
     update_cache: false
   become: true
 
+- name: Activate bluetooth experimental features (to get headset battery)
+  tags:
+    - full-install
+    - light-install
+    - bluetooth
+  ansible.builtin.lineinfile:
+    path: /etc/bluetooth/main.conf
+    regexp: '\b#?\s*?Experimental = (true|false)\b'
+    line: 'Experimental = true'
+    backrefs: true
+  become: true
+
+- name: Activate bluetooth kernel experimental features (to get headset battery)
+  tags:
+    - full-install
+    - light-install
+    - bluetooth
+  ansible.builtin.lineinfile:
+    path: /etc/bluetooth/main.conf
+    regexp: '\b#?\s*?KernelExperimental = (true|false)\b'
+    line: 'KernelExperimental = true'
+    backrefs: true
+  become: true
+
 - name: start bluetooth
   tags:
     - full-install
