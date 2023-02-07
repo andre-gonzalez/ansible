@@ -13,6 +13,16 @@
 #   become: true
 #   when: ansible_distribution == "Archlinux"
 
+- name: install grub
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.package:
+    name: grub
+  become: true
+  when: ansible_distribution == "Archlinux"
+
 - name: Change grub timeout to 0 second
   tags:
     - full-install
