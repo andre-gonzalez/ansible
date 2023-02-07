@@ -63,6 +63,7 @@
     - full-install
     - light-install
     - bluetooth
+    - pulseaudio
 - include_tasks: tasks/packages.yml
   tags:
     - full-install
