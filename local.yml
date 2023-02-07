@@ -111,6 +111,7 @@
         - full-install
         - light-install
         - bluetooth
+        - pulseaudio
     - include_tasks: tasks/fish.yml
       tags:
         - full-install
