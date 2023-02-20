@@ -70,4 +70,5 @@
     - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_currency", dest: "{{ ansible_env.HOME }}/.scripts/dwm_currency" }
     - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_do_not_disturb", dest: "{{ ansible_env.HOME }}/.scripts/dwm_do_not_disturb" }
     - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_ufw", dest: "{{ ansible_env.HOME }}/.scripts/dwm_ufw" }
+    - { src: "{{ ansible_env.HOME }}/.config/dwmblocks/bar-functions/dwm_cron", dest: "{{ ansible_env.HOME }}/.scripts/dwm_cron" }
   become: true
