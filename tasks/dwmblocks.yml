@@ -1,5 +1,5 @@
 ---
-- name: Install packages necessary for dwmblocks
+- name: Install packages necessary for dwmblocks | AUR
   tags:
     - never
     - aur
@@ -11,6 +11,16 @@
     update_cache: true
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
+
+- name: Install packages necessary for dwmblocks | Pacman
+  tags:
+    - full-install
+    - light-install
+    - dwmblocks
+  ansible.builtin.package:
+    name: playerctl
+  become: true
+  when: ansible_distribution == "Archlinux"
 
 - name: Clone dwmblocks
   tags:
