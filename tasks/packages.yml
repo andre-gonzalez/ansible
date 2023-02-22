@@ -240,6 +240,7 @@
       - clipmenu # missing ubuntu
       - noto-fonts-emoji # missing ubuntu
       - xcompmgr
+      - bleachbit # Utility to free space on disk
     state: present
     update_cache: true
   become: true
