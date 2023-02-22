@@ -102,6 +102,7 @@
       - clipmenu # missing ubuntu
       - noto-fonts-emoji # missing ubuntu
       - xcompmgr # Compositor to have transparency on the terminal
+      - bleachbit # Utility to free space on disk
     state: present
     update_cache: true
   become: true
