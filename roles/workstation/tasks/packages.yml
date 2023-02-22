@@ -101,6 +101,7 @@
       - arc-gtk-theme # missing ubuntu
       - clipmenu # missing ubuntu
       - noto-fonts-emoji # missing ubuntu
+      - xcompmgr # Compositor to have transparency on the terminal
     state: present
     update_cache: true
   become: true
