@@ -21,13 +21,13 @@
     mode: 0700
     state: directory
 
-- name: Install ssh key public
+- name: add ssh key for  "{{ lookup('env', 'USER') }}"
   tags:
     - full-install
     - light-install
     - ssh
-  ansible.builtin.copy:
-    src: id_rsa.pub
-    dest: "{{ ansible_env.HOME }}/.ssh"
-    mode: 0644
+  ansible.posix.authorized_key:
+    user: "{{ lookup('env', 'USER') }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
   notify: "secure ssh"
