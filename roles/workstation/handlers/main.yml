@@ -233,19 +233,6 @@
   become: true
   listen: "finish samba configuration"
 
-- name: restart fail2ban
-  tags:
-    - full-install
-    - light-install
-    - security
-    - fail2ban
-  ansible.builtin.service:
-    name: fail2ban
-    state: restarted
-    enabled: true
-  become: true
-  listen: "start fail2ban"
-
 - name: restart apparmor
   tags:
     - full-install

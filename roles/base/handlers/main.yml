@@ -8,3 +8,17 @@
     path: /etc/omf.installed
     state: touch
   become: true
+
+- name: restart fail2ban
+  tags:
+    - full-install
+    - light-install
+    - security
+    - fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    state: restarted
+    enabled: true
+  become: true
+  listen: "start fail2ban"
+
