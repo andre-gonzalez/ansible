@@ -31,14 +31,3 @@
     dest: "{{ ansible_env.HOME }}/.ssh"
     mode: 0644
   notify: "secure ssh"
-
-- name: add ssh key for frank
-  tags:
-    - full-install
-    - light-install
-    - ssh
-  ansible.posix.authorized_key:
-    user: "{{ lookup('env', 'USER') }}"
-    state: present
-    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
-  notify: "secure ssh"
