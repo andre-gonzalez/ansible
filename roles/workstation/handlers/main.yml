@@ -232,16 +232,3 @@
     enabled: true
   become: true
   listen: "finish samba configuration"
-
-- name: restart apparmor
-  tags:
-    - full-install
-    - light-install
-    - security
-    - apparmor
-  ansible.builtin.service:
-    name: apparmor
-    state: restarted
-    enabled: true
-  become: true
-  listen: "start apparmor"
