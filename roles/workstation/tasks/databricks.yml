@@ -1,4 +1,14 @@
 ---
+- name: Make sure pyspark is uninstalled because it conflicts with databricks-connect
+  tags:
+    - full-install
+    - light-install
+    - databricks
+  ansible.builtin.pip:
+    name:
+      - pyspark
+    state: absent
+
 - name: Install databricks-cli
   tags:
     - full-install
@@ -8,6 +18,16 @@
     name:
       - databricks-cli
     state: present
+
+- name: Install databricks-connect
+  tags:
+    - full-install
+    - light-install
+    - databricks
+  ansible.builtin.pip:
+    name: databricks-connect
+    version: 11.3.*
+    state: latest
 
 - name: Copy Databricks configuration files
   tags:
