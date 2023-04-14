@@ -1,0 +1,32 @@
+---
+- name: Install aur packages
+  tags:
+    - aur
+    - never
+    - portmaster
+  kewlfft.aur.aur:
+    name:
+      - portmaster-stub-bin
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
+
+- name: Generate a file to start portmaster
+  tags:
+    - aur
+    - never
+    - portmaster
+  ansible.builtin.blockinfile:
+    path: /usr/local/bin/portmaster
+    create: true
+    group : "{{ ansible_env.USER }}"
+    owner : "{{ ansible_env.USER }}"
+    mode: '0750'
+    block: |
+      #!/bin/sh
+
+      /opt/safing/portmaster/portmaster-start app
+  become: true
+  when: ansible_distribution == "Archlinux"
