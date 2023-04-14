@@ -239,6 +239,11 @@
   tags:
     - aur
     - never
+- include_tasks: tasks/portmaster.yml
+  tags:
+    - aur
+    - never
+    - portmaster
 - include_tasks: tasks/doas.yml
   tags:
     - full-install
