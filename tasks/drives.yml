@@ -5,7 +5,7 @@
   ansible.builtin.lineinfile:
     path: /etc/fstab
     state: present
-    line: "UUID=447cc11d-693c-47a2-b7dd-6d158e07e9f6 /mnt/hd-interno ext4    defaults        0       0"
+    line: "UUID=1b4f5a72-bc54-4f80-a27b-7b7542391825 /mnt/hd-interno ext4    defaults        0       0"
   become: true
 
 # ADD here pendrive and external drive
