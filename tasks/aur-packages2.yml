@@ -17,7 +17,6 @@
       - tmux-bash-completion-git
       - whatsapp-nativefier
       - mysql
-      - portmaster-stub-bin
     use: yay
     state: present
     update_cache: true
