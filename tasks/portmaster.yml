@@ -27,6 +27,7 @@
     block: |
       #!/bin/sh
 
+      /opt/safing/portmaster/portmaster-start core &
       /opt/safing/portmaster/portmaster-start app
   become: true
   when: ansible_distribution == "Archlinux"

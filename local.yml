@@ -18,22 +18,28 @@
   #     prompt: "Enter your work email address"
   #     private: false
   pre_tasks:
-    - name: Update cache of package manager
-      tags:
-        - full-install
-        - light-install
-        - packages
-        - always
-      ansible.builtin.package:
-        update_cache: true
-      become: true
+    # - name: Update cache of package manager
+    #   tags:
+    #     - full-install
+    #     - light-install
+    #     - packages
+    #     - always
+    #   ansible.builtin.package:
+    #     update_cache: true
+    #   become: true
 
     - name: "Gathering Facts (Task)"
       ansible.builtin.setup:
       tags:
-        - ["aur", "packages", "full-install", "light-install", "authy", "bluetooth", "brave", "cron", "dbeaver", "dwmblocks", "dwm", "grub", "lfub", "locale", "fish", "ufw"]
-        - ["neovim", "network", "preload", "ssh", "timeshift", "terraform", "security", "samsung-expert", "eureciclo", "debug", "slock", "systemd", "anki", "aws", "dotfiles", "rsync", "drives", "collections-install", "pipewire", "pulseaudio", "samba", "auto-adjust-brightness", "windows-vm"]
-        - ["apparmor" , "fail2ban", "opensmtpd", "databricks"]
+        - [ "anki" , "apparmor " , "aur"   , "authy" , "auto-adjust-brightness" ]
+        - [ "aws"  , "bluetooth" , "brave" , "collections-install" , "cron"     ]
+        - [ "databricks" , "dbeaver" , "debug" , "dotfiles" , "drives" , "dwm"  ]
+        - [ "dwmblocks" , "eureciclo" , "fail2ban" , "fish" , "full-install"    ]
+        - [ "grub" , "lfub" , "light-install" , "locale" , "neovim"             ]
+        - [ "network" , "opensmtpd" , "packages" , "pipewire" , "preload"       ]
+        - [ "pulseaudio" , "rsync" , "samba" , "samsung-expert" , "security"    ]
+        - [ "slock" , "ssh" , "systemd" , "terraform" , "timeshift" , "ufw"     ]
+        - [ "windows-vm", "portmaster" ]
 
   tasks:
     - include_tasks: tasks/debug.yml
@@ -216,6 +222,7 @@
         - aur
         - collections-install
         - ufw
+        - dwmblocks
     - include_tasks: tasks/ufw.yml
       tags:
         - full-install
