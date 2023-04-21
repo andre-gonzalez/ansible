@@ -20,5 +20,6 @@
   with_items:
     - { src: 'qrc', dest: "{{ ansible_env.HOME }}/.scripts", mode: 0700 }
     - { src: 'qso', dest: "{{ ansible_env.HOME }}/.scripts", mode: 0700 }
-    - { src: 'salesops-dw-access', dest: "{{ ansible_env.HOME }}/.scripts/.env/", mode: 0700 }
-    - { src: 'redeciclo-corp-access', dest: "{{ ansible_env.HOME }}/.scripts/.env/", mode: 0700 }
+    - { src: 'salesops-dw-access', dest: "{{ ansible_env.HOME }}/.scripts/.env/", mode: 0600 }
+    - { src: 'redeciclo-corp-access', dest: "{{ ansible_env.HOME }}/.scripts/.env/", mode: 0600 }
+    - { src: 'instapaper', dest: "{{ ansible_env.HOME }}/.scripts/.env/", mode: 0600 }
