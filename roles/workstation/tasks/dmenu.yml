@@ -6,7 +6,7 @@
     - dmenu
   ansible.builtin.git:
     version: master
-    repo: https://git.suckless.org/dmenu
+    repo: git@github.com:andre-gonzalez/dmenu.git
     dest: "{{ ansible_env.HOME }}/.config/dmenu"
   ignore_errors: true
 
