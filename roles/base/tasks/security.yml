@@ -78,6 +78,17 @@
   become: true
   notify: update grub
 
+- name: install auditd package
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.package:
+    name: auditd
+  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+
 - name: start auditd
   tags:
     - full-install
