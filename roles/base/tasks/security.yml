@@ -21,6 +21,19 @@
   when: ansible_distribution == "Archlinux"
   notify: "start fail2ban"
 
+- name: Ensure /etc/fail2ban directory exists
+  tags:
+    - full-install
+    - light-install
+    - security
+    - fail2ban
+  ansible.builtin.file:
+    dest: "/etc/fail2ban"
+    group: root
+    mode: 1755
+    state: directory
+  become: true
+
 - name: Copy fail2ban configuration file
   tags:
     - full-install
