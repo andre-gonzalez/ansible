@@ -57,3 +57,55 @@
   ansible.builtin.command: update-grub
   become: true
   listen: "update grub"
+
+- name: Disable root login via ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: "PermitRootLogin no"
+    state: present
+    backup: true
+  become: true
+  listen: "secure ssh"
+
+- name: Disable password login via ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: "PasswordAuthentication no"
+    state: present
+    backup: true
+  become: true
+  listen: "secure ssh"
+
+- name: install denyhosts
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.package:
+    name: denyhosts
+  become: true
+  listen: "secure ssh"
+
+- name: restart ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+  become: true
+  listen: "secure ssh"
