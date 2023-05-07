@@ -7,7 +7,6 @@
   ansible.builtin.package:
     name: ufw
   become: true
-  when: ansible_distribution == "Archlinux"
 
 - name: Set logging on
   tags:
