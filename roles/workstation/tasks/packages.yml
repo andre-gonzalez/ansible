@@ -104,6 +104,7 @@
       - xcompmgr # Compositor to have transparency on the terminal
       - bleachbit # Utility to free space on disk
       - aws-cli-v2
+      - python-debugpy # Pythan debugger dependencie for nvim-dap-python
     state: present
     update_cache: true
   become: true
