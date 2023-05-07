@@ -1,5 +1,5 @@
-# Automated ArchLinux configuration
-This is my personal ansible playbook to install and configure my workstation
+# Automated ArchLinux workstation and server configuration
+This is my personal ansible playbook to install and configure my workstation and configure my server.
 
 
 # Encrypting ssh file
