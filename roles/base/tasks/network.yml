@@ -10,6 +10,6 @@
     insertafter: "{{ item.insertafter }}"
     line: "{{ item.line }}"
   loop:
-    - { insertafter: '\[Resolve\]', line: 'DNS=8.8.4.4' }
-    - { insertafter: 'DNS=8.8.4.4', line: 'FallbackDNS=8.8.8.8' }
+    - { insertafter: '\[Resolve\]', line: 'DNS=1.1.1.2' }
+    - { insertafter: 'DNS=1.1.1.2', line: 'FallbackDNS=1.0.0.2' }
   become: true
