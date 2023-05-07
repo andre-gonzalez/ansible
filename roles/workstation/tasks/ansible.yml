@@ -1,0 +1,12 @@
+---
+- name: Clone ansible repository
+  tags:
+    - full-install
+    - light-install
+    - ansible
+  ansible.builtin.git:
+    version: main
+    repo: git@github.com:andre-gonzalez/ansible.git
+    dest: "{{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/ansible/main-ansible"
+    accept_hostkey: true
+  ignore_errors: true

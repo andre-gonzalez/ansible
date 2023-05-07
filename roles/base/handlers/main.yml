@@ -1,0 +1,59 @@
+---
+- name: Mark oh-my-fish installed with /etc/omf.installed
+  tags:
+    - full-install
+    - light-install
+    - fish
+  ansible.builtin.file:
+    path: /etc/omf.installed
+    state: touch
+  become: true
+
+- name: restart fail2ban
+  tags:
+    - full-install
+    - light-install
+    - security
+    - fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    state: restarted
+    enabled: true
+  become: true
+  listen: "start fail2ban"
+
+- name: restart apparmor
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.service:
+    name: apparmor
+    state: restarted
+    enabled: true
+  become: true
+  listen: "start apparmor"
+
+- name: copy file update-grub
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.copy:
+    src: update-grub
+    dest: /usr/sbin
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+  listen: "update grub"
+
+- name: run update grub
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.command: update-grub
+  become: true
+  listen: "update grub"

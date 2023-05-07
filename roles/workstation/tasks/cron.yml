@@ -1,54 +1,4 @@
 ---
-- name: Set cron variable when distribution is Archlinux
-  tags:
-    - full-install
-    - light-install
-    - cron
-  ansible.builtin.set_fact:
-    cron: cronie
-  when: ansible_distribution == "Archlinux"
-
-- name: Set cron variable when distribution is Ubuntu
-  tags:
-    - full-install
-    - light-install
-    - cron
-  ansible.builtin.set_fact:
-    cron: cron
-  when: ansible_distribution == "Ubuntu"
-
-- name: Install cron
-  tags:
-    - full-install
-    - light-install
-    - cron
-  ansible.builtin.package:
-    name: "{{ cron }}"
-    state: present
-    update_cache: false
-  become: true
-
-- name: start cron
-  tags:
-    - full-install
-    - light-install
-    - cron
-  ansible.builtin.service:
-    name: "{{ cron }}"
-    state: started
-    enabled: true
-  become: true
-
-- name: define MAILTO variable
-  tags:
-    - full-install
-    - light-install
-    - cron
-  community.general.cronvar:
-    name: MAILTO
-    value: "{{ personal_email }}"
-    state: present
-
 - name: install cron job (ansible-pull)
   tags:
     - full-install
@@ -60,7 +10,7 @@
     minute: "*/10"
     disabled: true
     job: "/usr/bin/ansible-pull --vault-password-file {{ ansible_env.HOME }}/.vault_key -o -U https://github.com/andre-gonzalez/ansible-pull.git \
-          2>> {{ ansible_env.HOME }}/.cron-errors/ansible-pull-error-logs.txt \
+          2>> {{ ansible_env.HOME }}/ansible-pull-error-logs.txt \
           1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/ansible-pull-stdout-logs.txt"
   become: true
 
@@ -113,8 +63,23 @@
     minute: "*/10"
     disabled: false
     job: "/bin/sh {{ ansible_env.HOME }}/.scripts/backup-fish-history.sh \
-          2>> {{ ansible_env.HOME }}/.cron-errors/backup-fish-history-error-logs.txt \
+          2>> {{ ansible_env.HOME }}/backup-fish-history-error-logs.txt \
           1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-fish-history-stdout-logs.txt"
+
+- name: install cron job (update-inventory-ip)
+  tags:
+    - full-install
+    - light-install
+    - cron
+    - fish
+  ansible.builtin.cron:
+    user: "{{ ansible_env.USER }}"
+    name: "update vm inventory ip"
+    special_time: reboot
+    disabled: false
+    job: "cd {{ ansible_env.HOME }}/eureciclo/datalake-infra/main-datalake-infra/ && /bin/sh ansible/update-inventory-ip.sh \
+          2>> {{ ansible_env.HOME }}/update-inventory-ip-error-logs.txt \
+          1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/update-inventory-ip-stdout-logs.txt"
 
 - name: install cron job (push notes to git repository)
   tags:
@@ -127,7 +92,7 @@
     minute: "*/10"
     disabled: false
     job: "/bin/sh {{ ansible_env.HOME }}/.scripts/push-new-notes.sh \
-          2>> {{ ansible_env.HOME }}/.cron-errors/push-new-notes-error-logs.txt \
+          2>> {{ ansible_env.HOME }}/push-new-notes-error-logs.txt \
           1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/push-new-notes-stdout-logs.txt"
 
 - name: install cron job (Auto adjust screen brightness)
@@ -143,6 +108,6 @@
     hour: "17-19,6-15"
     disabled: false
     job: "/bin/sh {{ ansible_env.HOME }}/.scripts/auto-adjust-brightness.sh \
-          2>> {{ ansible_env.HOME }}/.cron-errors/auto-adjust-brightness-error-logs.txt \
+          2>> {{ ansible_env.HOME }}/auto-adjust-brightness-error-logs.txt \
           1>> {{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/auto-adjust-brightness-stdout-logs.txt"
   become: true

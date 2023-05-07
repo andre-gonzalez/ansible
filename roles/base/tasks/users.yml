@@ -1,4 +1,26 @@
 ---
+- name: users | frank | create group
+  tags:
+    - full-install
+    - light-install
+    - users
+  group:
+    name: frank
+    state: present
+
+- name: users | frank | create user
+  tags:
+    - full-install
+    - light-install
+    - users
+  user:
+    name: frank
+    group: frank
+    groups: adm,ansible,{{ sudo_group }}
+    state: present
+    password: "{{ frank_passwd }}"
+    shell: /bin/fish
+
 - name: create ansible user
   tags:
     - full-install
@@ -21,15 +43,3 @@
     - { src: 'sudoers_ansible', dest: '/etc/sudoers.d/ansible', mode: 0440 }
     - { src: 'sudoers_frank', dest: '/etc/sudoers.d/frank', mode: 0440 }
   become: true
-
-- name: Clone ansible repository
-  tags:
-    - full-install
-    - light-install
-    - ansible
-  ansible.builtin.git:
-    version: main
-    repo: git@github.com:andre-gonzalez/ansible.git
-    dest: "{{ ansible_env.HOME }}/gdrive-pessoal/pessoal/programação/ansible/main-ansible"
-    accept_hostkey: true
-  ignore_errors: true

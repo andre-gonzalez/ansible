@@ -121,48 +121,6 @@
     update_cache: false
   become: true
 
-- name: Set packages variables when distribution is Archlinux (if necessary)
-  tags:
-    - full-install
-    - light-install
-    - packages
-  ansible.builtin.set_fact:
-    xorg:
-      - xorg-server
-      - xorg-xinit
-      - xorg-xsetroot
-      - xorg-xrandr
-      - xorg-setxkbmap
-    rfkill: util-linux-libs
-    python_pip: python-pip
-    base_devel: base-devel
-    wpa_supplicant: wpa_supplicant
-    liberation_font: ttf-liberation
-    postgres: postgresql-libs
-    fd: fd
-  when: ansible_distribution == "Archlinux"
-
-- name: Set packages variable when distribution is Ubuntu (if necessary)
-  tags:
-    - full-install
-    - light-install
-    - packages
-  ansible.builtin.set_fact:
-    xorg:
-      - xorg
-      - libxrandr2
-      - libxrandr-dev
-      - xorg
-      - xorg
-    rfkill: rfkill
-    python_pip: pipenv
-    base_devel: make
-    wpa_supplicant: wpasupplicant
-    liberation_font: fonts-liberation
-    postgres: postgresql
-    fd: fd-find
-  when: ansible_distribution == "Ubuntu"
-
 - name: purge snapd in Ubuntu
   tags:
     - full-install
@@ -175,75 +133,17 @@
   become: true
   when: ansible_distribution == "Ubuntu"
 
-- name: install packages and update cache
+- name: install base packages and update cache
   tags:
     - full-install
     - light-install
     - packages
   ansible.builtin.package:
     name:
-      - tmux
-      - tmuxp
-      - "{{ xorg[0] }}"
-      - "{{ xorg[1] }}"
-      - "{{ xorg[2] }}"
-      - "{{ xorg[3] }}"
-      - "{{ xorg[4] }}"
-      - xautolock
-      - xbindkeys
-      - arandr
-      - numlockx
-      - "{{ python_pip }}"
-      - feh
-      - unclutter
-      - "{{ base_devel }}"
-      - xclip
-      - brightnessctl
-      - "{{ wpa_supplicant }}"
-      - ripgrep
-      - "{{ fd }}"
-      - fzf
-      - nethogs
-      - lxsession
-      - flameshot
-      - bat
-      - dunst
       - trash-cli
-      - qt5ct # To set theme for qt applications
+      - nethogs
       - man-db # Manpages
-      - "{{ rfkill }}"
-      - csvkit
-      - yamllint
-      - ansible-lint
-      - npm # Necessary to install gramarly language server in neovim play
-      - qutebrowser
-      - unzip
-      - "{{ liberation_font }}"
-      - "{{ postgres }}"
       - tldr # More concise man pages
     state: present
     update_cache: true
   become: true
-
-- name: install packages that i still have not set in ubuntu
-  tags:
-    - full-install
-    - light-install
-    - packages
-  ansible.builtin.package:
-    name:
-      - pamixer
-      - ttf-nerd-fonts-symbols-2048-em-mono
-      - ttf-joypixels
-      - ttf-linux-libertine
-      - arc-gtk-theme
-      - clipmenu
-      - noto-fonts-emoji
-      - xcompmgr # Compositor to have transparency on the terminal
-      - bleachbit # Utility to free space on disk
-      - aws-cli-v2
-      - python-debugpy # Pythan debugger dependencie for nvim-dap-python
-    state: present
-    update_cache: true
-  become: true
-  when: ansible_distribution == "Archlinux"

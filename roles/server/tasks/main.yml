@@ -1,0 +1,10 @@
+---
+- include_tasks: tasks/debug.yml
+  tags:
+    - debug
+    - never
+- include_tasks: tasks/ssh.yml
+  tags:
+    - full-install
+    - light-install
+    - ssh

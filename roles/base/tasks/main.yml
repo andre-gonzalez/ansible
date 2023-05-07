@@ -1,0 +1,64 @@
+---
+- include_tasks: tasks/debug.yml
+  tags:
+    - debug
+    - never
+- include_tasks: tasks/ssh.yml
+  tags:
+    - full-install
+    - light-install
+    - ssh
+- include_tasks: tasks/keyboard-layout.yml
+  tags:
+    - full-install
+    - light-install
+    - keyboard
+- include_tasks: tasks/locale.yml
+  tags:
+    - full-install
+    - light-install
+    - timezone
+    - locale
+- include_tasks: tasks/cron.yml
+  tags:
+    - full-install
+    - light-install
+    - cron
+- include_tasks: tasks/fish.yml
+  tags:
+    - full-install
+    - light-install
+    - fish
+- include_tasks: tasks/packages.yml
+  tags:
+    - full-install
+    - light-install
+    - packages
+    - nvidia
+- include_tasks: tasks/security.yml
+  tags:
+    - full-install
+    - light-install
+    - security
+    - fail2ban
+    - apparmor
+- include_tasks: tasks/ufw.yml
+  tags:
+    - full-install
+    - light-install
+    - ufw
+- include_tasks: tasks/neovim.yml
+  tags:
+    - full-install
+    - light-install
+    - neovim
+    - git
+    - aur
+- include_tasks: tasks/network.yml
+  tags:
+    - full-install
+    - light-install
+    - network
+    - netbook
+    - samsung-expert
+    - aur

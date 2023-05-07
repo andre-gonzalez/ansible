@@ -13,4 +13,3 @@
     bare: true
     accept_hostkey: true
   notify: set up dotfiles
-

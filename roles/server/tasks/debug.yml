@@ -1,0 +1,7 @@
+---
+- name: Show facts available on the system
+  tags:
+    - never
+    - debug
+  ansible.builtin.debug:
+    var: ansible_facts

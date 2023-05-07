@@ -1,325 +1,56 @@
----
-- hosts: localhost
-  tags:
-    - workstation
-  connection: local
-  gather_facts: true
-  # vars_prompt:
-  #   - name: "user"
-  #     prompt: "Enter your system username"
-  #     private: false
-  #   - name: "fullname"
-  #     prompt: "Enter your full real name"
-  #     private: false
-  #   - name: "personal_email"
-  #     prompt: "Enter your personal email address"
-  #     private: false
-  #   - name: "work_email"
-  #     prompt: "Enter your work email address"
-  #     private: false
+# tasks to complete before running roles
+- hosts: all
+  tags: always
+  become: true
   pre_tasks:
-    # - name: Update cache of package manager
-    #   tags:
-    #     - full-install
-    #     - light-install
-    #     - packages
-    #     - always
-    #   ansible.builtin.package:
-    #     update_cache: true
-    #   become: true
+    - name: pre-run | update package cache (arch)
+      tags: always
+      pacman: update_cache=yes
+      changed_when: False
+      when: ansible_distribution == "Archlinux"
 
-    - name: "Gathering Facts (Task)"
-      ansible.builtin.setup:
-      tags:
-        - [ "anki" , "apparmor " , "aur"   , "authy" , "auto-adjust-brightness" ]
-        - [ "aws"  , "bluetooth" , "brave" , "collections-install" , "cron"     ]
-        - [ "databricks" , "dbeaver" , "debug" , "dotfiles" , "drives" , "dwm"  ]
-        - [ "dwmblocks" , "eureciclo" , "fail2ban" , "fish" , "full-install"    ]
-        - [ "grub" , "lfub" , "light-install" , "locale" , "neovim"             ]
-        - [ "network" , "opensmtpd" , "packages" , "pipewire" , "preload"       ]
-        - [ "pulseaudio" , "rsync" , "samba" , "samsung-expert" , "security"    ]
-        - [ "slock" , "ssh" , "systemd" , "terraform" , "timeshift" , "ufw"     ]
-        - [ "windows-vm", "portmaster" ]
+    - name: pre-run | update package cache (debian, etc)
+      tags: always
+      apt: update_cache=yes
+      changed_when: False
+      when: ansible_distribution in ["Debian", "Ubuntu"]
 
+# run roles
+- hosts: all
+  tags: 
+    - base
+    - workstation
+    - server
+  become: true
+  roles:
+    - base
+
+- hosts: workstation
+  tags: workstation
+  become: true
+  roles:
+    - workstation
+
+- hosts: server
+  tags: server
+  become: true
+  roles:
+    - server
+
+# end of run cleanup and reporting
+- hosts: all
+  become: true
   tasks:
-    - include_tasks: tasks/debug.yml
-      tags:
-        - debug
-        - never
-    - include_tasks: tasks/directory.yml
-      tags:
-        - full-install
-        - light-install
-        - directories
-    - include_tasks: tasks/ssh.yml
-      tags:
-        - full-install
-        - light-install
-        - ssh
-    - include_tasks: tasks/grub.yml
-      tags:
-        - full-install
-        - light-install
-        - grub
-    - include_tasks: tasks/systemd.yml
-      tags:
-        - full-install
-        - light-install
-        - systemd
-    - include_tasks: tasks/ansible.yml
-      tags:
-        - full-install
-        - light-install
-        - users
-        - ansible
-    - include_tasks: tasks/audio.yml
-      tags:
-        - full-install
-        - light-install
-        - pipewire
-        - pulseaudio
-    - include_tasks: tasks/keyboard-layout.yml
-      tags:
-        - full-install
-        - light-install
-        - keyboard
-    - include_tasks: tasks/locale.yml
-      tags:
-        - full-install
-        - light-install
-        - timezone
-        - locale
-    - include_tasks: tasks/cron.yml
-      tags:
-        - full-install
-        - light-install
-        - cron
-        - eureciclo
-        - fish
-        - auto-adjust-brightness
-    - include_tasks: tasks/git.yml
-      tags:
-        - full-install
-        - light-install
-        - git
-    - include_tasks: tasks/dotfiles.yml
-      tags:
-        - full-install
-        - light-install
-        - dotfiles
-    - include_tasks: tasks/linux-scripts.yml
-      tags:
-        - full-install
-        - light-install
-        - scripts
-    - include_tasks: tasks/bluetooth.yml
-      tags:
-        - full-install
-        - light-install
-        - bluetooth
-        - pulseaudio
-    - include_tasks: tasks/fish.yml
-      tags:
-        - full-install
-        - light-install
-        - fish
-    - include_tasks: tasks/packages.yml
-      tags:
-        - full-install
-        - light-install
-        - packages
-        - nvidia
-    - include_tasks: tasks/libvirt.yml
-      tags:
-        - full-install
-        - libvirt
-    - include_tasks: tasks/windows-vm.yml
-      tags:
-        - full-install
-        - collections-install
-        - windows-vm
-    - include_tasks: tasks/dwm.yml
-      tags:
-        - full-install
-        - light-install
-        - dwm
-    - include_tasks: tasks/st.yml
-      tags:
-        - full-install
-        - light-install
-        - st
-    - include_tasks: tasks/dmenu.yml
-      tags:
-        - full-install
-        - light-install
-        - dmenu
-    - include_tasks: tasks/dwmstatus.yml
-      tags:
-        - full-install
-        - light-install
-        - dwmblocks
-    - include_tasks: tasks/slock.yml
-      tags:
-        - full-install
-        - light-install
-        - slock
-    - include_tasks: tasks/docker.yml
-      tags:
-        - full-install
-        - docker
-    - include_tasks: tasks/python.yml
-      tags:
-        - full-install
-        - light-install
-        - python
-    - include_tasks: tasks/databricks.yml
-      tags:
-        - full-install
-        - light-install
-        - databricks
-    - include_tasks: tasks/eureciclo.yml
-      tags:
-        - full-install
-        - light-install
-        - eureciclo
-    - include_tasks: tasks/dbeaver.yml
-      tags:
-        - full-install
-        - light-install
-        - dbeaver
-    - include_tasks: tasks/anki.yml
-      tags:
-        - full-install
-        - light-install
-        - anki
-    - include_tasks: tasks/security.yml
-      tags:
-        - full-install
-        - light-install
-        - security
-        - fail2ban
-        - apparmor
-    - include_tasks: tasks/aws.yml
-      tags:
-        - full-install
-        - light-install
-        - aws
-    - include_tasks: tasks/drives.yml
-      tags:
-        - full-install
-        - light-install
-        - drives
-        - samsung-expert
-    - include_tasks: tasks/rsync.yml
-      tags:
-        - full-install
-        - light-install
-        - rsync
-    - include_tasks: tasks/collections-install.yml
-      tags:
-        - full-install
-        - light-install
-        - aur
-        - collections-install
-        - ufw
-        - dwmblocks
-    - include_tasks: tasks/ufw.yml
-      tags:
-        - full-install
-        - light-install
-        - ufw
-    - include_tasks: tasks/samba.yml
-      tags:
-        - full-install
-        - samba
-        - ufw
-    - include_tasks: tasks/neovim.yml
-      tags:
-        - full-install
-        - light-install
-        - neovim
-        - git
-        - aur
-    - include_tasks: tasks/network.yml
-      tags:
-        - full-install
-        - light-install
-        - network
-        - netbook
-        - samsung-expert
-        - aur
-    - include_tasks: tasks/aur-packages.yml
-      tags:
-        - aur
-        - never
-    - include_tasks: tasks/save-battery.yml
-      tags:
-        - full-install
-        - light-install
-        - save-battery
-        - tlp
-        - powertop
-        - aur
-        - samsung-expert
-    - include_tasks: tasks/dwmblocks.yml
-      tags:
-        - full-install
-        - light-install
-        - dwmblocks
-        - aur
-    - include_tasks: tasks/terraform.yml
-      tags:
-        - full-install
-        - light-install
-        - aur
-        - terraform
-        - neovim
-    - include_tasks: tasks/gcloud.yml
-      tags:
-        - gcloud
-        - aur
-    - include_tasks: tasks/lfub.yml
-      tags:
-        - never
-        - aur
-        - lf
-    - include_tasks: tasks/preload.yml
-      tags:
-        - never
-        - aur
-        - preload
-    - include_tasks: tasks/brave.yml
-      tags:
-        - never
-        - aur
-        - brave
-    - include_tasks: tasks/authy.yml
-      tags:
-        - never
-        - aur
-        - authy
-    - include_tasks: tasks/timeshift.yml
-      tags:
-        - never
-        - aur
-        - timeshift
-    - include_tasks: tasks/smtpd.yml
-      tags:
-        - never
-        - opensmtpd
-    - include_tasks: tasks/aur-packages2.yml
-      tags:
-        - aur
-        - never
-    - include_tasks: tasks/portmaster.yml
-      tags:
-        - aur
-        - never
-        - portmaster
-    - include_tasks: tasks/doas.yml
-      tags:
-        - full-install
-        - light-install
-        - doas
-  handlers:
-    - import_tasks: handlers/main.yml
+  - name: cleanup package cache (debian and ubuntu)
+    tags: always
+    apt:
+      autoclean: yes
+    changed_when: false
+    when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+  - name: autoremove orphan packages (debian and ubuntu)
+    tags: always
+    apt:
+      autoremove: yes
+      purge: yes
+    when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]

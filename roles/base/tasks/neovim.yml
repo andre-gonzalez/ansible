@@ -1,0 +1,23 @@
+---
+- name: Install neovim
+  tags:
+    - full-install
+    - light-install
+    - neovim
+  ansible.builtin.package:
+    name:
+      - neovim
+    state: present
+    update_cache: false
+  become: true
+
+- name: Set neovim as default git editor
+  tags:
+    - full-install
+    - light-install
+    - neovim
+    - git
+  community.general.git_config:
+    name: core.editor
+    scope: global
+    value: nvim
