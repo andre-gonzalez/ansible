@@ -1,15 +1,15 @@
 ---
-- name: Change default DNS server
-  tags:
-    - full-install
-    - light-install
-    - network
-  ansible.builtin.lineinfile:
-    path: /etc/systemd/resolved.conf
-    state: present
-    insertafter: "{{ item.insertafter }}"
-    line: "{{ item.line }}"
-  loop:
-    - { insertafter: '\[Resolve\]', line: 'DNS=1.1.1.2' }
-    - { insertafter: 'DNS=1.1.1.2', line: 'FallbackDNS=1.0.0.2' }
-  become: true
+# - name: Change default DNS server
+#   tags:
+#     - full-install
+#     - light-install
+#     - network
+#   ansible.builtin.lineinfile:
+#     path: /etc/systemd/resolved.conf
+#     state: present
+#     insertafter: "{{ item.insertafter }}"
+#     line: "{{ item.line }}"
+#   loop:
+#     - { insertafter: '\[Resolve\]', line: 'DNS=1.1.1.2' }
+#     - { insertafter: 'DNS=1.1.1.2', line: 'FallbackDNS=1.0.0.2' }
+#   become: true
