@@ -8,3 +8,10 @@
     - full-install
     - light-install
     - ssh
+- include_tasks: tasks/docker.yml
+  tags:
+    - docker
+    - pihole
+- include_tasks: tasks/pihole.yml
+  tags:
+    - pihole

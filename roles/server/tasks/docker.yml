@@ -1,0 +1,27 @@
+---
+- name: install docker
+  tags:
+    - docker
+    - pihole
+  ansible.builtin.package:
+    name: docker.io
+  become: true
+
+- name: start docker
+  tags:
+    - docker
+    - pihole
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+  become: true
+
+- name: add the user {{ lookup('env', 'USER') }} to the docker group
+  tags:
+    - docker
+    - pihole
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    group: docker
+  become: true

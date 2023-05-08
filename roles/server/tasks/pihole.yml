@@ -1,0 +1,46 @@
+---
+- name: stop resolved service
+  tags:
+    - pihole
+  ansible.builtin.service:
+    name: systemd-resolved
+    state: stopped
+    enabled: false
+  become: true
+
+- name: Change /etc/resolv.conf nameserver to cloudflare DNS
+  tags:
+    - pihole
+  ansible.builtin.lineinfile:
+    path: /etc/resolv.conf
+    regexp: '.*nameserver.*'
+    line: 'nameserver 1.1.1.2'
+    backrefs: true
+  become: true
+
+- name: Pull pihole docker image
+  tags:
+    - docker
+    - pihole
+  community.docker.docker_image:
+    name: pihole/pihole
+    source: pull
+    pull:
+      platform: amd64
+  become: true
+
+- name: Allow ports 80, 53 and 67 on ufw for pihole
+  tags:
+    - pihole
+  community.general.ufw:
+    rule: allow
+    port: '{{ item.port }}'
+    proto: '{{ item.proto }}'
+  loop:
+    - { port: '80', proto: 'tcp' }
+    - { port: '53', proto: 'tcp' }
+    - { port: '53', proto: 'udp' }
+    - { port: '67', proto: 'tcp' }
+    - { port: '67', proto: 'udp' }
+    - { port: '546:547', proto: 'udp' }
+  become: true
