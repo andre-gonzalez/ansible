@@ -105,6 +105,7 @@
       - bleachbit # Utility to free space on disk
       - aws-cli-v2
       - python-debugpy # Pythan debugger dependencie for nvim-dap-python
+      - syncthing
     state: present
     update_cache: true
   become: true
