@@ -158,9 +158,8 @@
     - ufw
 - include_tasks: tasks/samba.yml
   tags:
-    - full-install
+    - never
     - samba
-    - ufw
 - include_tasks: tasks/neovim.yml
   tags:
     - full-install

@@ -1,8 +1,8 @@
 ---
 - name: Install samba packages
   tags:
-    - full-install
     - samba
+    - never
   ansible.builtin.package:
     name:
       - krb5
@@ -15,8 +15,8 @@
 
 - name: Ensure group sambausers exists
   tags:
-    - full-install
     - samba
+    - never
   ansible.builtin.group:
     name: sambausers
     state: present
@@ -24,8 +24,8 @@
 
 - name: Ensure /samba directory exists
   tags:
-    - full-install
     - samba
+    - never
   ansible.builtin.file:
     dest: "/samba"
     group: sambausers
@@ -35,8 +35,8 @@
 
 - name: Copy file smb.conf to /etc/samba/
   tags:
-    - full-install
     - samba
+    - never
   ansible.builtin.copy:
     src: smb.conf
     dest: /etc/samba/smb.conf
@@ -48,9 +48,8 @@
 
 - name: File to Allow samba in ufw
   tags:
-    - full-install
     - samba
-    - ufw
+    - never
   ansible.builtin.copy:
     src: samba-ufw
     dest: /etc/ufw/applications.d/samba
@@ -61,9 +60,8 @@
 
 - name: Allow samba in ufw
   tags:
-    - full-install
     - samba
-    - ufw
+    - never
   community.general.ufw:
     rule: allow
     name: Samba
