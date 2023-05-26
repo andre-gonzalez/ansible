@@ -9,3 +9,29 @@
     state: started
     enabled: true
   become: true
+
+- name: install cron job (stop ssh at night)
+  tags:
+    - full-install
+    - light-install
+    - ssh
+  ansible.builtin.cron:
+    user: ansible
+    name: "stop ssh at night"
+    hour: "0"
+    disabled: false
+    job: "systemctl stop sshd"
+  become: true
+
+- name: install cron job (Start ssh at morning)
+  tags:
+    - full-install
+    - light-install
+    - ssh
+  ansible.builtin.cron:
+    user: ansible
+    name: "Start ssh at morning"
+    hour: "6"
+    disabled: false
+    job: "systemctl start sshd"
+  become: true
