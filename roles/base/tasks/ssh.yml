@@ -31,3 +31,15 @@
     state: present
     key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
   notify: "secure ssh"
+
+- name: Change ssh port
+  tags:
+    - full-install
+    - light-install
+    - ssh
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '#Port .*'
+    line: '#Port {{ ssh_port }}'
+    backrefs: true
+  become: true
