@@ -30,7 +30,7 @@
     user: "{{ lookup('env', 'USER') }}"
     state: present
     key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
-  notify: "secure ssh"
+  notify: "restart ssh"
 
 - name: Change ssh port
   tags:
@@ -42,4 +42,44 @@
     regexp: '#Port .*'
     line: '#Port {{ ssh_port }}'
     backrefs: true
+  become: true
+  notify: "restart ssh"
+
+- name: Disable root login via ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: "PermitRootLogin no"
+    state: present
+    backup: true
+  become: true
+  notify: "restart ssh"
+
+- name: Disable password login via ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: "PasswordAuthentication no"
+    state: present
+    backup: true
+  become: true
+  notify: "restart ssh"
+
+- name: install denyhosts
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.package:
+    name: denyhosts
   become: true
