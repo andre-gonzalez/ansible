@@ -22,13 +22,27 @@
 # address has attempted to initiate 6 or more connections in the last
 # 30 seconds. See  http://www.debian-administration.org/articles/187
 # for details.
-- name: Limit ssh
+# - name: Limit ssh
+#   tags:
+#     - full-install
+#     - light-install
+#     - ufw
+#     - ssh
+#   community.general.ufw:
+#     rule: limit
+#     port: "{{ ssh_port }}"
+#     proto: tcp
+#   become: true
+
+- name: Allow ssh only to local network
   tags:
     - full-install
     - light-install
     - ufw
+    - ssh
   community.general.ufw:
-    rule: limit
+    rule: allow
+    from_ip: 192.168.0.0/16
     port: "{{ ssh_port }}"
     proto: tcp
   become: true
