@@ -29,7 +29,7 @@
     - ufw
   community.general.ufw:
     rule: limit
-    port: ssh
+    port: "{{ ssh_port }}"
     proto: tcp
   become: true
 
