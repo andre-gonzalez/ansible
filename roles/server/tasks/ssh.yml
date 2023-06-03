@@ -16,7 +16,7 @@
     - light-install
     - ssh
   ansible.builtin.cron:
-    user: ansible
+    user: root
     name: "stop ssh at night"
     hour: "0"
     disabled: false
