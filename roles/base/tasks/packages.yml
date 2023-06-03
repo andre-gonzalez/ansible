@@ -158,6 +158,7 @@
       - nethogs
       - man-db # Manpages
       - tldr # More concise man pages
+      - git
     state: present
     update_cache: true
   become: true
