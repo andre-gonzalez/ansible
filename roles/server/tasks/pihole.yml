@@ -42,5 +42,32 @@
     - { port: '53', proto: 'udp' }
     - { port: '67', proto: 'tcp' }
     - { port: '67', proto: 'udp' }
-    - { port: '546:547', proto: 'udp' }
+  become: true
+
+- name: Ensure pihole directory exists.
+  tags:
+    - pihole
+  ansible.builtin.file:
+    dest: "{{ lookup('env', 'HOME') }}/pihole/"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0740
+    state: directory
+
+- name: copy pihole docker compose file
+  tags:
+    - pihole
+  ansible.builtin.copy:
+    src: pihole-docker-compose
+    dest: "{{ lookup('env', 'HOME') }}/pihole/docker-compose.yml"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0640
+
+- name: Deploy Docker Compose pihole
+  tags:
+    - pihole
+  community.docker.docker_compose:
+    project_src: "{{ lookup('env', 'HOME') }}/pihole"
+    files: docker-compose.yml
   become: true
