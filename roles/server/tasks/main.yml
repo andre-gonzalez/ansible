@@ -3,6 +3,9 @@
   tags:
     - debug
     - never
+- include_tasks: tasks/network-packages.yml
+  tags:
+    - network-packages
 - include_tasks: tasks/ssh.yml
   tags:
     - full-install
