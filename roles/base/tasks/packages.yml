@@ -121,7 +121,7 @@
     update_cache: false
   become: true
 
-- name: purge snapd in Ubuntu
+- name: purge snapd and cloud-init in Ubuntu
   tags:
     - full-install
     - light-install
@@ -129,6 +129,20 @@
   ansible.builtin.package:
     name:
       - snapd
+      - cloud-init
+    state: absent
+  become: true
+  when: ansible_distribution == "Ubuntu"
+
+- name: delete config files for cloud-init in Ubuntu
+  tags:
+    - full-install
+    - light-install
+    - packages
+  ansible.builtin.file:
+    path:
+      - /etc/cloud/
+      - /var/lib/cloud/
     state: absent
   become: true
   when: ansible_distribution == "Ubuntu"
