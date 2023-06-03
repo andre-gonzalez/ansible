@@ -18,7 +18,6 @@
   ansible.builtin.package:
     name: fail2ban
   become: true
-  when: ansible_distribution == "Archlinux"
   notify: "start fail2ban"
 
 - name: Ensure /etc/fail2ban directory exists
