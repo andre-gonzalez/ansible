@@ -29,7 +29,7 @@
     - light-install
     - ssh
   ansible.builtin.cron:
-    user: ansible
+    user: root
     name: "Start ssh at morning"
     hour: "6"
     disabled: false
