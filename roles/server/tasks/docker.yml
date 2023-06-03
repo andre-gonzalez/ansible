@@ -4,7 +4,8 @@
     - docker
     - pihole
   ansible.builtin.package:
-    name: docker.io
+    name:
+      - docker-compose
   become: true
 
 - name: start docker
