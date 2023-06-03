@@ -7,7 +7,7 @@
   ansible.builtin.git:
     version: main
     repo: git@github.com:andre-gonzalez/st.git
-    dest: "{{ ansible_env.HOME }}/.config/st"
+    dest: "{{ lookup('env', 'HOME') }}/.config/st"
     accept_hostkey: true
   ignore_errors: true
 
@@ -17,6 +17,6 @@
     - light-install
     - st
   community.general.make:
-    chdir: "{{ ansible_env.HOME }}/.config/st"
+    chdir: "{{ lookup('env', 'HOME') }}/.config/st"
     target: install
   become: true

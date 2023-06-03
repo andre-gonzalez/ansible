@@ -82,6 +82,6 @@
     - libvirt
   ansible.builtin.copy:
     src: /etc/libvirt/libvirt.conf
-    dest: "{{ ansible_env.HOME }}/.config/libvirt/libvirt.conf"
+    dest: "{{ lookup('env', 'HOME') }}/.config/libvirt/libvirt.conf"
     mode: 0644
   become: true

@@ -49,9 +49,9 @@
     - syncthing
   ansible.builtin.copy:
     src: syncthing-config.xml
-    dest: "{{ ansible_env.HOME }}/.config/syncthing/config.xml"
-    owner: "{{ ansible_env.USER }}"
-    group: "{{ ansible_env.USER }}"
+    dest: "{{ lookup('env', 'HOME') }}"/.config/syncthing/config.xml"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
     mode: 0600
   become: true
 

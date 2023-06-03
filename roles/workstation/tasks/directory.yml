@@ -5,6 +5,6 @@
     - light-install
     - directories
   ansible.builtin.file:
-    dest: "{{ ansible_env.HOME }}/gdrive-pessoal/not-up/iso"
+    dest: "{{ lookup('env', 'HOME') }}/gdrive-pessoal/not-up/iso"
     mode: 0770
     state: directory

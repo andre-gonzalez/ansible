@@ -7,7 +7,7 @@
   ansible.builtin.git:
     version: main
     repo: git@github.com:andre-gonzalez/slock.git
-    dest: "{{ ansible_env.HOME }}/.config/slock"
+    dest: "{{ lookup('env', 'HOME') }}/.config/slock"
     accept_hostkey: true
   ignore_errors: true
 
@@ -17,6 +17,6 @@
     - light-install
     - slock
   community.general.make:
-    chdir: "{{ ansible_env.HOME }}/.config/slock"
+    chdir: "{{ lookup('env', 'HOME') }}/.config/slock"
     target: install
   become: true

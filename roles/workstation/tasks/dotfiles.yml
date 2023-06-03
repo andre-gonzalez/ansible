@@ -7,7 +7,7 @@
   ansible.builtin.git:
     version: main
     repo: git@github.com:andre-gonzalez/dotfiles.git
-    dest: "{{ ansible_env.HOME }}/.config/dotfiles"
+    dest: "{{ lookup('env', 'HOME') }}/.config/dotfiles"
     recursive: true
     update: true
     bare: true

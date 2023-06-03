@@ -6,7 +6,7 @@
     - ssh
   ansible.builtin.copy:
     src: id_rsa
-    dest: "{{ ansible_env.HOME }}/.ssh"
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
 
 - name: Install eureciclo VM ssh key
@@ -16,7 +16,7 @@
     - ssh
   ansible.builtin.copy:
     src: linux_data_analytics.pem
-    dest: "{{ ansible_env.HOME }}/.ssh"
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
 
 - name: Install ssh key public
@@ -26,7 +26,7 @@
     - ssh
   ansible.builtin.copy:
     src: id_rsa.pub
-    dest: "{{ ansible_env.HOME }}/.ssh"
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0644
   notify: "secure ssh"
 
@@ -37,7 +37,7 @@
     - ssh
   ansible.builtin.copy:
     src: authorized_keys
-    dest: "{{ ansible_env.HOME }}/.ssh"
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
   notify: "secure ssh"
 
@@ -48,6 +48,6 @@
     - ssh
   ansible.builtin.copy:
     src: config
-    dest: "{{ ansible_env.HOME }}/.ssh"
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
   notify: "secure ssh"

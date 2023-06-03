@@ -7,7 +7,7 @@
   ansible.builtin.git:
     version: master
     repo: git@github.com:andre-gonzalez/dmenu.git
-    dest: "{{ ansible_env.HOME }}/.config/dmenu"
+    dest: "{{ lookup('env', 'HOME') }}/.config/dmenu"
   ignore_errors: true
 
 - name: Install dmenu
@@ -16,6 +16,6 @@
     - light-install
     - dmenu
   community.general.make:
-    chdir: "{{ ansible_env.HOME }}/.config/dmenu"
+    chdir: "{{ lookup('env', 'HOME') }}/.config/dmenu"
     target: install
   become: true

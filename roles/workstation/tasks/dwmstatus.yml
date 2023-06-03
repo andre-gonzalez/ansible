@@ -7,7 +7,7 @@
   ansible.builtin.git:
     version: master
     repo: https://git.suckless.org/dwmstatus
-    dest: "{{ ansible_env.HOME }}/.config/dwmstatus"
+    dest: "{{ lookup('env', 'HOME') }}/.config/dwmstatus"
   ignore_errors: true
 
 - name: Install dwmstatus
@@ -16,6 +16,6 @@
     - light-install
     - dwmblocks
   community.general.make:
-    chdir: "{{ ansible_env.HOME }}/.config/dwmstatus"
+    chdir: "{{ lookup('env', 'HOME') }}/.config/dwmstatus"
     target: install
   become: true

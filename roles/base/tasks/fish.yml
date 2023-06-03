@@ -48,7 +48,7 @@
     - light-install
     - fish
   ansible.builtin.user:
-    name: "{{ ansible_env.USER }}"
+    name: "{{ lookup('env', 'USER') }}"
     shell: /usr/bin/fish
   become: true
 
@@ -59,6 +59,6 @@
     - fish
   ansible.builtin.copy:
     src: fish_history
-    dest: "{{ ansible_env.HOME }}/.local/share/fish/"
-    owner: "{{ ansible_env.USER }}"
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/fish/"
+    owner: "{{ lookup('env', 'USER') }}"
     mode: 0600

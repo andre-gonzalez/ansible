@@ -21,8 +21,8 @@
   ansible.builtin.blockinfile:
     path: /usr/local/bin/portmaster
     create: true
-    group : "{{ ansible_env.USER }}"
-    owner : "{{ ansible_env.USER }}"
+    group : "{{ lookup('env', 'USER') }}"
+    owner : "{{ lookup('env', 'USER') }}"
     mode: '0750'
     block: |
       #!/bin/sh

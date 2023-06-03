@@ -8,7 +8,7 @@
   ansible.builtin.git:
     version: master
     repo: https://aur.archlinux.org/yay-bin.git
-    dest: "{{ ansible_env.HOME }}/.config/yay"
+    dest: "{{ lookup('env', 'HOME') }}/.config/yay"
     update: true
   when: ansible_distribution == "Archlinux"
 
@@ -47,7 +47,7 @@
     - light-install
     - full-install
   ansible.builtin.command:
-    chdir: "{{ ansible_env.HOME }}/.config/yay"
+    chdir: "{{ lookup('env', 'HOME') }}/.config/yay"
     cmd: "makepkg -sfi --noconfirm"
     creates: /usr/bin/yay
   when: ansible_distribution == "Archlinux"

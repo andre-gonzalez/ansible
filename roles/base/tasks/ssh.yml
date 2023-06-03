@@ -17,7 +17,7 @@
     - light-install
     - ssh
   ansible.builtin.file:
-    dest: "{{ ansible_env.HOME }}/.ssh"
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0700
     state: directory
 

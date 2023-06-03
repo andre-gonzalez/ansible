@@ -37,8 +37,8 @@
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ lookup('env', 'USER') }}"
     mode: 0600
   loop:
-    - { src: "databrickscfg", dest: "{{ ansible_env.HOME }}/.databrickscfg" }
-    - { src: "databricks-connect", dest: "{{ ansible_env.HOME }}/.databricks-connect" }
+    - { src: "databrickscfg", dest: "{{ lookup('env', 'HOME') }}/.databrickscfg" }
+    - { src: "databricks-connect", dest: "{{ lookup('env', 'HOME') }}/.databricks-connect" }

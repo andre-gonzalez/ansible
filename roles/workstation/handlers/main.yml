@@ -164,7 +164,7 @@
     - full-install
     - light-install
     - dotfiles
-  ansible.builtin.command: "/usr/bin/git --git-dir={{ ansible_env.HOME }}/.config/dotfiles/ --work-tree={{ ansible_env.HOME }} checkout -f"
+  ansible.builtin.command: "/usr/bin/git --git-dir={{ lookup('env', 'HOME') }}/.config/dotfiles/ --work-tree={{ lookup('env', 'HOME') }} checkout -f"
 
 - name: restart pulseaudio
   tags:
@@ -178,11 +178,11 @@
   become: true
   listen: "restart pulseaudio"
 
-- name: Create samba password and the user {{ ansible_env.USER }}
+- name: Create samba password and the user {{ lookup('env', 'USER') }}
   tags:
     - full-install
     - samba
-  ansible.builtin.shell: "(echo '{{ samba_pass }}'; echo '{{ samba_pass }}') | smbpasswd -s -a {{ ansible_env.USER }}"
+  ansible.builtin.shell: "(echo '{{ samba_pass }}'; echo '{{ samba_pass }}') | smbpasswd -s -a {{ lookup('env', 'USER') }}"
   register: smbpasswd
   changed_when: "'Added user' in smbpasswd.stdout"
   become: true
