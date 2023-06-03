@@ -40,7 +40,7 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '#Port .*'
-    line: '#Port {{ ssh_port }}'
+    line: 'Port {{ ssh_port }}'
     backrefs: true
   become: true
   notify: "restart ssh"
