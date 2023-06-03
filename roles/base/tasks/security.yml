@@ -111,14 +111,14 @@
     state: present
   become: yes
 
-- name: "Add the user {{ ansible_env.USER }} to group audit"
+- name: "Add the user  {{ lookup('env', 'USER') }} to group audit"
   tags:
     - full-install
     - light-install
     - security
     - apparmor
   ansible.builtin.user:
-    name: "{{ ansible_env.USER }}"
+    name: "{{ lookup('env', 'USER') }}"
     groups: audit
     append: true
   become: yes
@@ -142,8 +142,8 @@
     - apparmor
   ansible.builtin.copy:
     src: apparmor-notify.desktop
-    dest: "{{ ansible_env.HOME }}/.config/autostart"
-    owner: "{{ ansible_env.USER }}"
+    dest: "{{ lookup('env', 'HOME') }}/.config/autostart"
+    owner: "{{ lookup('env', 'USER') }}"
     group: audit
     mode: 0644
   become: true
