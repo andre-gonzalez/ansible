@@ -113,7 +113,6 @@
       - nano
       - htop
       - vim
-      - openvpn
       - grml-zsh-config
       - zsh
       - virtualbox-guest-utils-nox
