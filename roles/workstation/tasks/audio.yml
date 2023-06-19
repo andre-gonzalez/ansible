@@ -1,9 +1,8 @@
 ---
 - name: Install pulseaudio packages
   tags:
-    - full-install
-    - light-install
     - pulseaudio
+    - never
   ansible.builtin.package:
     name:
       - pulseaudio
@@ -17,9 +16,8 @@
 
 - name: Set pulseaudio to automatically change to the bluetooth once connected
   tags:
-    - full-install
-    - light-install
     - pulseaudio
+    - never
   ansible.builtin.lineinfile:
     path: /etc/pulse/default.pa
     line: 'load-module module-switch-on-connect'
@@ -30,8 +28,9 @@
 
 - name: Install pipewire packages
   tags:
+    - full-install
+    - light-install
     - pipewire
-    - never
   ansible.builtin.package:
     name:
       - alsa-utils
