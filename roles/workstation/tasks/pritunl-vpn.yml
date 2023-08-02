@@ -1,0 +1,23 @@
+---
+- name: install openvpn (Necessary for pritunl client to work)
+  tags:
+    - full-install
+    - light-install
+    - pritunl-vpn
+    - eureciclo
+  ansible.builtin.package:
+    name: openvpn
+  become: true
+
+- name: Install pritunl client
+  tags:
+    - full-install
+    - light-install
+    - pritunl-vpn
+    - eureciclo
+  kewlfft.aur.aur:
+    name: pritunl-client-electron
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
