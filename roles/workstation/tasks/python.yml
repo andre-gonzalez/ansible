@@ -4,34 +4,22 @@
     - full-install
     - light-install
     - python
-  ansible.builtin.pip:
+  ansible.builtin.package:
     name:
-      - pandas # Datascience Dataframes
-      - numpy # Datascience
-      - scrapy # Webscraping
-      - bs4 # Beautiful Soup - Webscraping
-      - apache-airflow # Data pipelines orchestration
-      - awscli # Aws cli interface
-      - jupyter # Jupyter notebooks
-      - requests # API calls
-      - SQLAlchemy # Database connect utiliy
-      - ipdb # Debug python code
-      - psycopg2-binary # Postgresql database adapter
-      - mysql-connector-python # Mysql database adapter
-      - virtualenv # Python virtual environments
-      - mysqlclient
-      - pyspark
-      - virtualenv
+      - python-pandas # Datascience Dataframes
+      - python-numpy # Datascience
+      - python-scrapy # Webscraping
+      - python-bs4 # Beautiful Soup - Webscraping
+      - python-apache-airflow # Data pipelines orchestration
+      - python-awscli # Aws cli interface
+      - python-jupyter # Jupyter notebooks
+      - python-requests # API calls
+      - python-SQLAlchemy # Database connect utiliy
+      - python-ipdb # Debug python code
+      - python-psycopg2-binary # Postgresql database adapter
+      - python-mysql-connector-python # Mysql database adapter
+      - python-virtualenv # Python virtual environments
+      - python-mysqlclient
+      - python-pyspark
+      - python-virtualenv
     state: present
-
-- name: Install python virtualenv as root so ansible can use it
-  tags:
-    - full-install
-    - light-install
-    - python
-  ansible.builtin.pip:
-    name:
-      - virtualenv # Python virtual environments
-    state: present
-  become: true
-  become_user: root
