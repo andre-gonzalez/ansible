@@ -20,6 +20,5 @@
       - python-mysql-connector-python # Mysql database adapter
       - python-virtualenv # Python virtual environments
       - python-mysqlclient
-      - python-pyspark
       - python-virtualenv
     state: present
