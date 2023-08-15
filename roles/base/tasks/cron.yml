@@ -15,7 +15,7 @@
     - cron
   ansible.builtin.set_fact:
     cron: cron
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Install cron
   tags:
@@ -38,13 +38,3 @@
     state: started
     enabled: true
   become: true
-
-- name: define MAILTO variable
-  tags:
-    - full-install
-    - light-install
-    - cron
-  community.general.cronvar:
-    name: MAILTO
-    value: "{{ personal_email }}"
-    state: present
