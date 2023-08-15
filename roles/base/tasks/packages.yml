@@ -48,7 +48,7 @@
     - packages
   ansible.builtin.set_fact:
     intel: intel-acm
-  when: ansible_distribution == "Ubuntu" and "GenuineIntel" in ansible_processor
+  when: ansible_distribution in ["Ubuntu", "Debian"] and "GenuineIntel" in ansible_processor
 
 - name: Install microcode updates for intel (if necessary)
   tags:
@@ -116,22 +116,11 @@
       - grml-zsh-config
       - zsh
       - virtualbox-guest-utils-nox
-    state: absent
-    update_cache: false
-  become: true
-
-- name: purge snapd and cloud-init in Ubuntu
-  tags:
-    - full-install
-    - light-install
-    - packages
-  ansible.builtin.package:
-    name:
       - snapd
       - cloud-init
     state: absent
+    update_cache: false
   become: true
-  when: ansible_distribution == "Ubuntu"
 
 - name: delete config files for cloud-init in Ubuntu
   tags:
@@ -144,20 +133,4 @@
       - /var/lib/cloud/
     state: absent
   become: true
-  when: ansible_distribution == "Ubuntu"
-
-- name: install base packages and update cache
-  tags:
-    - full-install
-    - light-install
-    - packages
-  ansible.builtin.package:
-    name:
-      - trash-cli
-      - nethogs
-      - man-db # Manpages
-      - tldr # More concise man pages
-      - git
-    state: present
-    update_cache: true
-  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]

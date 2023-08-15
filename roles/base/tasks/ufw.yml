@@ -47,27 +47,27 @@
     proto: tcp
   become: true
 
-- name: Allow port range 80/tcp
-  tags:
-    - full-install
-    - light-install
-    - ufw
-  community.general.ufw:
-    rule: allow
-    port: 80
-    proto: tcp
-  become: true
+# - name: Allow port range 80/tcp
+#   tags:
+#     - full-install
+#     - light-install
+#     - ufw
+#   community.general.ufw:
+#     rule: allow
+#     port: 80
+#     proto: tcp
+#   become: true
 
-- name: Allow port range 443/tcp
-  tags:
-    - full-install
-    - light-install
-    - ufw
-  community.general.ufw:
-    rule: allow
-    port: 443
-    proto: tcp
-  become: true
+# - name: Allow port range 443/tcp
+#   tags:
+#     - full-install
+#     - light-install
+#     - ufw
+#   community.general.ufw:
+#     rule: allow
+#     port: 443
+#     proto: tcp
+#   become: true
 
 - name: Default policy deny incoming
   tags:
