@@ -47,7 +47,7 @@
     - light-install
     - packages
   ansible.builtin.set_fact:
-    intel: intel-acm
+    intel: intel-microcode
   when: ansible_distribution in ["Ubuntu", "Debian"] and "GenuineIntel" in ansible_processor
 
 - name: Install microcode updates for intel (if necessary)
