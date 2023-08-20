@@ -41,7 +41,7 @@
     - ufw
     - ssh
   community.general.ufw:
-    rule: allow
+    rule: limit
     from_ip: 192.168.0.0/16
     port: "{{ ssh_port }}"
     proto: tcp
