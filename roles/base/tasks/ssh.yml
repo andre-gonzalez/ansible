@@ -38,7 +38,7 @@
     mode: 0700
     state: directory
 
-- name: add ssh key for  "{{ lookup('env', 'USER') }}"
+- name: add ssh key for {{ lookup('env', 'USER') }}
   tags:
     - full-install
     - light-install
@@ -46,7 +46,7 @@
   ansible.posix.authorized_key:
     user: "{{ lookup('env', 'USER') }}"
     state: present
-    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_ed25519.pub') }}"
   notify: "restart ssh"
 
 - name: Change ssh port
