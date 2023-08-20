@@ -118,6 +118,8 @@
       - virtualbox-guest-utils-nox
       - snapd
       - cloud-init
+      - vim-common
+      - vim-tiny
     state: absent
     update_cache: false
   become: true
