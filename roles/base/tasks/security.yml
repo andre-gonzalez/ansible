@@ -48,7 +48,7 @@
   become: true
   notify: "start fail2ban"
 
-- name: install apparmor
+- name: install apparmor on Archlinux
   tags:
     - full-install
     - light-install
@@ -63,7 +63,21 @@
   when: ansible_distribution == "Archlinux"
   notify: "start apparmor"
 
-- name: Enable apparmor in kernel parameters with audit enabled
+- name: install apparmor on Ubuntu or Debian
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.package:
+    name:
+      - apparmor
+      - apparmor-utils
+  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+  notify: "start apparmor"
+
+- name: Enable apparmor in kernel parameters with audit enabled on Archlinux
   tags:
     - full-install
     - light-install
@@ -75,6 +89,31 @@
     line: 'GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf" audit=1'
     backrefs: true
   become: true
+  when: ansible_distribution == "Archlinux"
+  notify: update grub
+
+- name: Ensure apparmor.cfg file exists on Debian and Ubuntu
+  tags:
+    - full-install
+    - light-install
+    - ssh
+  ansible.builtin.file:
+    dest: "/etc/default/grub.d/apparmor.cfg"
+    mode: 0700
+    state: touch
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+
+- name: Enable apparmor in kernel parameters with audit enabled on Debian and ubuntu
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub.d/apparmor.cfg
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT apparmor=1 security=apparmor"'
+  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
   notify: update grub
 
 - name: install auditd package
@@ -87,18 +126,7 @@
     name: auditd
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
-
-- name: start auditd
-  tags:
-    - full-install
-    - light-install
-    - security
-    - apparmor
-  ansible.builtin.service:
-    name: auditd
-    state: started
-    enabled: true
-  become: true
+  notify: restart auditd
 
 - name: Ensure group audit exists
   tags:
@@ -111,7 +139,7 @@
     state: present
   become: yes
 
-- name: "Add the user  {{ lookup('env', 'USER') }} to group audit"
+- name: "Add the user {{ lookup('env', 'USER') }} to group audit"
   tags:
     - full-install
     - light-install

@@ -69,3 +69,15 @@
     state: restarted
   become: true
   listen: "restart ssh"
+
+- name: restart auditd
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.service:
+    name: auditd
+    state: restarted
+    enabled: true
+  become: true
