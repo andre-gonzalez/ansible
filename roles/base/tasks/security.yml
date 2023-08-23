@@ -92,6 +92,18 @@
   when: ansible_distribution == "Archlinux"
   notify: update grub
 
+- name: Ensure grub.d directory exists on Debian and Ubuntu
+  tags:
+    - full-install
+    - light-install
+    - ssh
+  ansible.builtin.file:
+    dest: "/etc/default/grub.d"
+    mode: 0700
+    state: directory
+    recurse: yes
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+
 - name: Ensure apparmor.cfg file exists on Debian and Ubuntu
   tags:
     - full-install
