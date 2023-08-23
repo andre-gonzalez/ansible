@@ -50,6 +50,20 @@
     intel: intel-microcode
   when: ansible_distribution in ["Ubuntu", "Debian"] and "GenuineIntel" in ansible_processor
 
+- name: Enable contrib, non-free and non-free-firmware repos
+  tags:
+    - full-install
+    - light-install
+    - packages
+  ansible.builtin.apt_repository:
+    repo: '{{ item.repo }}'
+    state: present
+  loop:
+    - { repo: 'deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware' }
+    - { repo: 'deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware' }
+    - { repo: 'deb http://security.debian.org bookworm-security main contrib non-free non-free-firmware' }
+  become: true
+
 - name: Install microcode updates for intel (if necessary)
   tags:
     - full-install
