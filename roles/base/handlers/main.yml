@@ -22,19 +22,6 @@
   become: true
   listen: "start fail2ban"
 
-- name: restart apparmor
-  tags:
-    - full-install
-    - light-install
-    - security
-    - apparmor
-  ansible.builtin.service:
-    name: apparmor
-    state: restarted
-    enabled: true
-  become: true
-  listen: "start apparmor"
-
 - name: copy file update-grub
   tags:
     - full-install
@@ -81,3 +68,16 @@
     state: restarted
     enabled: true
   become: true
+
+- name: restart apparmor
+  tags:
+    - full-install
+    - light-install
+    - security
+    - apparmor
+  ansible.builtin.service:
+    name: apparmor
+    state: restarted
+    enabled: true
+  become: true
+  listen: "start apparmor"
