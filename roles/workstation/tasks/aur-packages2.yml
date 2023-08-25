@@ -16,6 +16,7 @@
       - tmux-bash-completion-git
       - whatsapp-nativefier
       - mysql
+      - insomnia-bin
     use: yay
     state: present
     update_cache: true
