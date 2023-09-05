@@ -17,6 +17,7 @@
       - whatsapp-nativefier
       - mysql
       - insomnia-bin
+      - ferdium-bin
     use: yay
     state: present
     update_cache: true
