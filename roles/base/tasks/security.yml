@@ -73,6 +73,8 @@
     name:
       - apparmor
       - apparmor-utils
+      - apparmor-profiles-extra
+      - apparmor-profiles
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
   notify: "start apparmor"
