@@ -111,6 +111,7 @@
       - man-db # Manpages
       - tldr # More concise man pages
       - git
+      - zoxide # easily jump between directories using z + directory name
     state: present
     update_cache: true
   become: true
