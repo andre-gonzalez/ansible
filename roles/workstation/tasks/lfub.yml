@@ -7,7 +7,7 @@
   kewlfft.aur.aur:
     name:
       - lf
-      - python-ueberzug-git
+      - ueberzugpp
       - ttf-symbola
     use: yay
     state: present
