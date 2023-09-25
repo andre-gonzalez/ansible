@@ -71,4 +71,5 @@
     - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_do_not_disturb", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_do_not_disturb" }
     - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_ufw", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_ufw" }
     - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_cron", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_cron" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/bar-functions/dwm_vpn.sh", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_vpn" }
   become: true
