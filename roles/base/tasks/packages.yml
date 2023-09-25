@@ -63,6 +63,7 @@
     - { repo: 'deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware' }
     - { repo: 'deb http://security.debian.org bookworm-security main contrib non-free non-free-firmware' }
   become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: Install microcode updates for intel (if necessary)
   tags:
