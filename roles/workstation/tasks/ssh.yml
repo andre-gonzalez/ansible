@@ -5,7 +5,7 @@
     - light-install
     - ssh
   ansible.builtin.copy:
-    src: id_rsa
+    src: personal_id_ed25519_2023-05
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
 
@@ -25,7 +25,7 @@
     - light-install
     - ssh
   ansible.builtin.copy:
-    src: id_rsa.pub
+    src: personal_id_ed25519_2023-05.pub
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0644
   notify: "secure ssh"
