@@ -16,7 +16,7 @@
     - light-install
     - ssh
   ansible.builtin.copy:
-    src: linux_data_analytics.pem
+    src: eureciclo-2023-06
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     owner: "{{ lookup('env', 'USER') }}"
     mode: 0600
