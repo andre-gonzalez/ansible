@@ -33,18 +33,6 @@
     owner: "{{ lookup('env', 'USER') }}"
   notify: "secure ssh"
 
-- name: Copy authorized_keys file
-  tags:
-    - full-install
-    - light-install
-    - ssh
-  ansible.builtin.copy:
-    src: authorized_keys
-    dest: "{{ lookup('env', 'HOME') }}/.ssh"
-    mode: 0600
-    owner: "{{ lookup('env', 'USER') }}"
-  notify: "secure ssh"
-
 - name: Copy config file
   tags:
     - full-install
