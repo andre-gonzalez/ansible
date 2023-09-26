@@ -7,6 +7,7 @@
   ansible.builtin.copy:
     src: personal_id_ed25519_2023-05
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    owner: "{{ lookup('env', 'USER') }}"
     mode: 0600
 
 - name: Install eureciclo VM ssh key
@@ -17,6 +18,7 @@
   ansible.builtin.copy:
     src: linux_data_analytics.pem
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    owner: "{{ lookup('env', 'USER') }}"
     mode: 0600
 
 - name: Install ssh key public
@@ -28,6 +30,7 @@
     src: personal_id_ed25519_2023-05.pub
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0644
+    owner: "{{ lookup('env', 'USER') }}"
   notify: "secure ssh"
 
 - name: Copy authorized_keys file
@@ -39,6 +42,7 @@
     src: authorized_keys
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
+    owner: "{{ lookup('env', 'USER') }}"
   notify: "secure ssh"
 
 - name: Copy config file
@@ -50,4 +54,5 @@
     src: config
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
+    owner: "{{ lookup('env', 'USER') }}"
   notify: "secure ssh"
