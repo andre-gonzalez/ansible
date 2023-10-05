@@ -90,3 +90,18 @@
     backup: true
   become: true
   notify: "restart ssh"
+
+- name: Only allow user
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^AllowUsers'
+    line: "AllowUsers {{ lookup('env', 'USER') }}"
+    state: present
+    backup: true
+  become: true
+  notify: "restart ssh"
