@@ -91,7 +91,7 @@
   become: true
   notify: "restart ssh"
 
-- name: Only allow user
+- name: Only allow user {{ lookup('env', 'USER') }}
   tags:
     - full-install
     - light-install
@@ -101,6 +101,21 @@
     dest: /etc/ssh/sshd_config
     regexp: '^AllowUsers'
     line: "AllowUsers {{ lookup('env', 'USER') }}"
+    state: present
+    backup: true
+  become: true
+  notify: "restart ssh"
+
+- name: Do not permit empty passwords on ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^#PermitEmptyPasswords'
+    line: "PermitEmptyPasswords no"
     state: present
     backup: true
   become: true
