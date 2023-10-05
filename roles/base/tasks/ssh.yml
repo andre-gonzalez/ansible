@@ -120,3 +120,18 @@
     backup: true
   become: true
   notify: "restart ssh"
+
+- name: Limit max auth tries to 6
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^#MaxAuthTries'
+    line: "MaxAuthTries 6"
+    state: present
+    backup: true
+  become: true
+  notify: "restart ssh"
