@@ -150,3 +150,18 @@
     backup: true
   become: true
   notify: "restart ssh"
+
+- name: Block TCP Forwarding on ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^#AllowTcpForwarding'
+    line: "AllowTcpForwarding no"
+    state: present
+    backup: true
+  become: true
+  notify: "restart ssh"
