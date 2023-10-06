@@ -135,3 +135,18 @@
     backup: true
   become: true
   notify: "restart ssh"
+
+- name: Block X11Forwarding on ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^#X11Forwarding'
+    line: "X11Forwarding no"
+    state: present
+    backup: true
+  become: true
+  notify: "restart ssh"
