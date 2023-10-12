@@ -23,3 +23,4 @@
     - { src: 'salesops-dw-access', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }
     - { src: 'redeciclo-corp-access', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }
     - { src: 'instapaper', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }
+    - { src: 'mac-address-proxmox-server', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }
