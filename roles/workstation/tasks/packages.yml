@@ -113,6 +113,7 @@
       - git
       - zoxide # easily jump between directories using z + directory name
       - wol # provide Wake-on-Lan functionality
+      - redshift # Adapt brightness and color of the screen at night
     state: present
     update_cache: true
   become: true
