@@ -248,5 +248,10 @@
     - full-install
     - light-install
     - doas
+- include_tasks: tasks/stw.yml
+  tags:
+    - full-install
+    - light-install
+    - stw
 # handlers:
 # - import_tasks: handlers/main.yml
