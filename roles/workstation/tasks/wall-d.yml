@@ -1,0 +1,32 @@
+---
+- name: Install packages necessary for wall-d
+  tags:
+    - full-install
+    - light-install
+    - wall-d
+  ansible.builtin.package:
+    name:
+      - sxiv
+      - feh
+  become: true
+
+- name: Clone wall-d
+  tags:
+    - full-install
+    - light-install
+    - wall-d
+  ansible.builtin.git:
+    version: main
+    repo: git@github.com:andre-gonzalez/wall-d.git
+    dest: "{{ lookup('env', 'HOME') }}/.config/wall-d"
+    accept_hostkey: true
+  ignore_errors: true
+
+- name: Install wall-d
+  tags:
+    - full-install
+    - light-install
+    - wall-d
+  ansible.builtin.shell: ./install.sh
+  args:
+    chdir: "{{ lookup('env', 'HOME') }}/.config/wall-d/"

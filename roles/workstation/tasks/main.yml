@@ -253,5 +253,10 @@
     - full-install
     - light-install
     - stw
+- include_tasks: tasks/wall-d.yml
+  tags:
+    - full-install
+    - light-install
+    - wall-d
 # handlers:
 # - import_tasks: handlers/main.yml
