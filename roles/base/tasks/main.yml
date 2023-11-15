@@ -62,3 +62,8 @@
     - netbook
     - samsung-expert
     - aur
+- include_tasks: tasks/tailscale.yml
+  tags:
+    - full-install
+    - light-install
+    - tailscale

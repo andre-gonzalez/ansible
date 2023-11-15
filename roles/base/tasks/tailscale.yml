@@ -1,0 +1,61 @@
+---
+- name: install tailscale
+  tags:
+    - full-install
+    - light-install
+    - tailscale
+  ansible.builtin.package:
+    name: tailscale
+    state: present
+    update_cache: true
+  become: true
+  when: ansible_distribution == "Archlinux"
+  notify: restart tailscale service
+
+- name: Debian | Apt Dependencies
+  tags:
+    - full-install
+    - light-install
+    - tailscale
+  ansible.builtin.apt:
+    name:
+      - gnupg2
+      - gnupg-agent
+      - apt-transport-https
+      - python3-apt
+    cache_valid_time: 3600
+    state: present
+  become: true
+  when: ansible_distribution == "Debian"
+
+- name: Debian | Add Tailscale Signing Key
+  become: true
+  ansible.builtin.get_url:
+    url: "https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_distribution | lower] }}/{{ ansible_distribution_release | lower }}.noarmor.gpg"
+    dest: "/usr/share/keyrings/tailscale-archive-keyring.gpg"
+    mode: '0644'
+  when: ansible_distribution == "Debian"
+
+- name: Debian | Add Tailscale Deb
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by={{ tailscale_apt_keyring_path }}] https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_distribution | lower] }} {{ ansible_distribution_release | lower }} main"
+    state: present
+  when: ansible_distribution == "Debian"
+
+- name: Debian | Install Tailscale
+  become: true
+  ansible.builtin.apt:
+    name: "tailscale"
+    cache_valid_time: 3600
+    state: present
+  when: ansible_distribution == "Debian"
+  notify: restart tailscale service
+
+- name: tailscale up
+  tags:
+    - full-install
+    - light-install
+  ansible.builtin.script:
+    cmd: "tailscale up"
+  become: true

@@ -81,3 +81,14 @@
     enabled: true
   become: true
   listen: "start apparmor"
+
+- name: restart tailscale service
+  tags:
+    - full-install
+    - light-install
+    - tailscale
+  ansible.builtin.service:
+    name: tailscale
+    state: restarted
+    enabled: true
+  become: true
