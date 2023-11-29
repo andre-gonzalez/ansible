@@ -1,12 +1,33 @@
 ---
-- name: users | frank | create group
+- name: create frank group
   tags:
     - full-install
     - light-install
     - users
-  group:
-    name: frank
+  ansible.builtin.group:
+    name:
+      - frank
     state: present
+
+- name: Create ansible group
+  tags:
+    - full-install
+    - light-install
+    - users
+  ansible.builtin.group:
+    name:
+      - ansible
+    state: present
+
+- name: Set fact for Debian
+  set_fact:
+    sudo_group: sudo
+  when: ansible_os_family == "Debian"
+
+- name: Set fact for ArchLinux
+  set_fact:
+    sudo_group: wheel
+  when: ansible_os_family == "Archlinux"
 
 - name: users | frank | create user
   tags:
@@ -16,7 +37,7 @@
   user:
     name: frank
     group: frank
-    groups: adm,ansible,{{ sudo_group }}
+    groups: adm,{{ sudo_group }}
     state: present
     password: "{{ frank_passwd }}"
     shell: /bin/fish
