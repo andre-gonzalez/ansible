@@ -8,7 +8,7 @@
     cron: cronie
   when: ansible_distribution == "Archlinux"
 
-- name: Set cron variable when distribution is Ubuntu
+- name: Set cron variable when distribution is Ubuntu on Debian
   tags:
     - full-install
     - light-install
