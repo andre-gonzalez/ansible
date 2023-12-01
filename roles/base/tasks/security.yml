@@ -176,6 +176,16 @@
     line: 'log_group = audit'
   become: true
 
+- name: Ensure autostart directory exists.
+  tags:
+    - pihole
+  ansible.builtin.file:
+    dest: "{{ lookup('env', 'HOME') }}/.config/autostart/"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0644
+    state: directory
+
 - name: copy apparmor-notify.desktop file to autostart apparmor notify
   tags:
     - full-install
