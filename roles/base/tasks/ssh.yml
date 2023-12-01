@@ -69,7 +69,7 @@
     - security
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^PermitRootLogin'
+    regexp: '^(#)PermitRootLogin .*'
     line: "PermitRootLogin no"
     state: present
     backup: true
@@ -84,7 +84,7 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^PasswordAuthentication'
+    regexp: '^(#)PasswordAuthentication .*'
     line: "PasswordAuthentication no"
     state: present
     backup: true
@@ -114,7 +114,7 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^#PermitEmptyPasswords'
+    regexp: '^(#)PermitEmptyPasswords'
     line: "PermitEmptyPasswords no"
     state: present
     backup: true
@@ -129,7 +129,7 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^#MaxAuthTries'
+    regexp: '^(#)MaxAuthTries'
     line: "MaxAuthTries 6"
     state: present
     backup: true
@@ -144,7 +144,7 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^#X11Forwarding'
+    regexp: '^(#)X11Forwarding .*'
     line: "X11Forwarding no"
     state: present
     backup: true
@@ -159,7 +159,7 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^#AllowTcpForwarding'
+    regexp: '^(#)AllowTcpForwarding'
     line: "AllowTcpForwarding no"
     state: present
     backup: true
