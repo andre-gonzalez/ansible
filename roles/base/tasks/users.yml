@@ -39,7 +39,7 @@
     group: frank
     groups: adm,{{ sudo_group }}
     state: present
-    password: "{{ frank_passwd }}"
+    # password: "{{ frank_passwd }}"
     shell: /bin/fish
 
 - name: create ansible user
