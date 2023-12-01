@@ -1,8 +1,13 @@
 ---
-- include_tasks: tasks/debug.yml
+# - include_tasks: tasks/debug.yml
+#   tags:
+#     - debug
+#     - never
+- include_tasks: tasks/users.yml
   tags:
-    - debug
-    - never
+    - full-install
+    - light-install
+    - users
 - include_tasks: tasks/ssh.yml
   tags:
     - full-install
