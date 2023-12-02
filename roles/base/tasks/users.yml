@@ -5,8 +5,7 @@
     - light-install
     - users
   ansible.builtin.group:
-    name:
-      - frank
+    name: frank
     state: present
 
 - name: Create ansible group
@@ -15,8 +14,7 @@
     - light-install
     - users
   ansible.builtin.group:
-    name:
-      - ansible
+    name: ansible
     state: present
 
 - name: Set fact for Debian
