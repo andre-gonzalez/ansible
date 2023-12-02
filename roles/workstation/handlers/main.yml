@@ -209,3 +209,17 @@
     enabled: true
   become: true
   listen: "finish samba configuration"
+
+- name: copy file update-grub
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.copy:
+    src: update-grub
+    dest: /usr/sbin
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+  listen: "update grub"
