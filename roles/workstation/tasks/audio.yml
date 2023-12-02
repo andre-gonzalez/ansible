@@ -35,14 +35,12 @@
     name:
       - alsa-utils
       - pavucontrol # Audio control interface
-      - lib32-pipewire
       - pipewire-alsa # Rounte all application using ALSA API through pipewire
       - pipewire-docs # Not necessary. Only documentation
       - wireplumber # Session manager. Alternative to pipewire-media-session
       - qpwgraph  # GUI session manager
       - pipewire-pulse
       - pipewire-jack
-      - lib32-pipewire-jack
       - pipewire-audio
       - pipewire
     state: present
