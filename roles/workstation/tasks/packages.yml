@@ -114,6 +114,7 @@
       - zoxide # easily jump between directories using z + directory name
       - wol # provide Wake-on-Lan functionality
       - redshift # Adapt brightness and color of the screen at night
+      - inetutils # Hostname command necessary for fish prompt
     state: present
     update_cache: true
   become: true
