@@ -177,3 +177,4 @@
     update_cache: false
   when: ansible_virtualization_role == "guest"
   become: true
+  notify: "restart qemu-guest-agent"
