@@ -5,10 +5,22 @@
     - light-install
     - ssh
   ansible.builtin.copy:
-    src: personal_id_ed25519_2023-05
+    src: personal_id_ed25519_2023-11
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     owner: "{{ lookup('env', 'USER') }}"
     mode: 0600
+
+- name: Install ssh key public
+  tags:
+    - full-install
+    - light-install
+    - ssh
+  ansible.builtin.copy:
+    src: personal_id_ed25519_2023-11.pub
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    mode: 0644
+    owner: "{{ lookup('env', 'USER') }}"
+  notify: "secure ssh"
 
 - name: Install eureciclo VM ssh key
   tags:
@@ -20,18 +32,6 @@
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     owner: "{{ lookup('env', 'USER') }}"
     mode: 0600
-
-- name: Install ssh key public
-  tags:
-    - full-install
-    - light-install
-    - ssh
-  ansible.builtin.copy:
-    src: personal_id_ed25519_2023-05.pub
-    dest: "{{ lookup('env', 'HOME') }}/.ssh"
-    mode: 0644
-    owner: "{{ lookup('env', 'USER') }}"
-  notify: "secure ssh"
 
 - name: Copy config file
   tags:
