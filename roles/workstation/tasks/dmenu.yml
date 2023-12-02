@@ -7,6 +7,7 @@
   ansible.builtin.git:
     version: master
     repo: git@github.com:andre-gonzalez/dmenu.git
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
     dest: "{{ lookup('env', 'HOME') }}/.config/dmenu"
   ignore_errors: true
 

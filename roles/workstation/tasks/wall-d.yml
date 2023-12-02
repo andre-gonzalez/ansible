@@ -18,6 +18,7 @@
   ansible.builtin.git:
     version: main
     repo: git@github.com:andre-gonzalez/wall-d.git
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
     dest: "{{ lookup('env', 'HOME') }}/.config/wall-d"
     accept_hostkey: true
   ignore_errors: true
