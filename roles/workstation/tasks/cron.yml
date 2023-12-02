@@ -61,7 +61,7 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "Update fish history"
     minute: "*/10"
-    disabled: false
+    disabled: true
     job: "/bin/sh {{ lookup('env', 'HOME') }}/.scripts/backup-fish-history.sh \
           2>> {{ lookup('env', 'HOME') }}/.cron-errors/backup-fish-history-error-logs.txt \
           1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-fish-history-stdout-logs.txt"
@@ -76,7 +76,7 @@
     user: "{{ lookup('env', 'USER') }}"
     name: "update vm inventory ip"
     special_time: reboot
-    disabled: false
+    disabled: true
     job: "cd {{ lookup('env', 'HOME') }}/eureciclo/datalake-infra/main-datalake-infra/ && /bin/sh ansible/update-inventory-ip.sh \
           2>> {{ lookup('env', 'HOME') }}/.cron-errors/update-inventory-ip-error-logs.txt \
           1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/update-inventory-ip-stdout-logs.txt"
