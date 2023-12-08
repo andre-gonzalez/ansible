@@ -1,8 +1,8 @@
-<Configuration ID="00391471-a31f-4138-b52e-eb81e8bbc002">
+<Configuration ID="3dd8f125-6741-4257-b7b8-d63e99e56467">
   <Add OfficeClientEdition="64" Channel="MonthlyEnterprise">
     <Product ID="O365BusinessRetail">
-      <Language ID="pt-br" />
       <Language ID="en-us" />
+      <Language ID="pt-br" />
       <ExcludeApp ID="Access" />
       <ExcludeApp ID="Groove" />
       <ExcludeApp ID="Lync" />
@@ -12,13 +12,19 @@
       <ExcludeApp ID="Publisher" />
       <ExcludeApp ID="Teams" />
       <ExcludeApp ID="Word" />
+      <ExcludeApp ID="Bing" />
     </Product>
-    <Product ID="AccessRuntimeRetail">
-      <Language ID="pt-br" />
+    <Product ID="LanguagePack">
       <Language ID="en-us" />
+      <Language ID="pt-br" />
+      <ExcludeApp ID="Bing" />
+    </Product>
+    <Product ID="ProofingTools">
+      <Language ID="pt-br" />
     </Product>
   </Add>
   <Updates Enabled="TRUE" />
   <RemoveMSI />
+  </AppSettings>
   <Display Level="Full" AcceptEULA="TRUE" />
 </Configuration>
