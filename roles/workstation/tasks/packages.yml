@@ -80,6 +80,7 @@
       - ansible-lint
       - npm # Necessary to install gramarly language server in neovim play
       - qutebrowser
+      - python-adblock # To enable adblocking on qutebrowser
       - unzip
       - "{{ liberation_font }}"
       - "{{ postgres }}"
