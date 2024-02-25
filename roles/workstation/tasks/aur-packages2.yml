@@ -17,6 +17,8 @@
       - mysql
       - insomnia-bin
       - ferdium-bin
+      - btrfs-assistant
+      - btrfsmaintenance
     use: yay
     state: present
     update_cache: true
