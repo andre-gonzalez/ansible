@@ -117,6 +117,8 @@
       - redshift # Adapt brightness and color of the screen at night
       - inetutils # Hostname command necessary for fish prompt
       - ntfs-3g # To mount drives formated as NTFS
+      - zathura # Pdf reader
+      - zathura-pdf-poppler # pdf reader
     state: present
     update_cache: true
   become: true
