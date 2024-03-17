@@ -19,16 +19,16 @@
     pulseaudio_bluetooth: pulseaudio-module-bluetooth
   when: ansible_distribution == "Ubuntu"
 
-- name: Install pulseaudio-bluetooth
-  tags:
-    - never
-    - pulseaudio
-  ansible.builtin.package:
-    name:
-      - "{{ pulseaudio_bluetooth }}"
-    state: present
-    update_cache: false
-  become: true
+# - name: Install pulseaudio-bluetooth
+#   tags:
+#     - never
+#     - pulseaudio
+#   ansible.builtin.package:
+#     name:
+#       - "{{ pulseaudio_bluetooth }}"
+#     state: present
+#     update_cache: false
+#   become: true
 
 - name: Install bluetooth packages
   tags:
