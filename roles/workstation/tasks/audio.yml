@@ -1,30 +1,30 @@
 ---
-- name: Install pulseaudio packages
-  tags:
-    - pulseaudio
-    - never
-  ansible.builtin.package:
-    name:
-      - pulseaudio
-      - alsa-utils
-      - pavucontrol
-      - pulseaudio-bluetooth
-      - pulseaudio-alsa
-    state: present
-  become: true
-  notify: "restart pulseaudio"
+# - name: Install pulseaudio packages
+#   tags:
+#     - pulseaudio
+#     - never
+#   ansible.builtin.package:
+#     name:
+#       - pulseaudio
+#       - alsa-utils
+#       - pavucontrol
+#       - pulseaudio-bluetooth
+#       - pulseaudio-alsa
+#     state: present
+#   become: true
+#   notify: "restart pulseaudio"
 
-- name: Set pulseaudio to automatically change to the bluetooth once connected
-  tags:
-    - pulseaudio
-    - never
-  ansible.builtin.lineinfile:
-    path: /etc/pulse/default.pa
-    line: 'load-module module-switch-on-connect'
-    create: yes
-    backrefs: true
-    state: present
-  become: true
+# - name: Set pulseaudio to automatically change to the bluetooth once connected
+#   tags:
+#     - pulseaudio
+#     - never
+#   ansible.builtin.lineinfile:
+#     path: /etc/pulse/default.pa
+#     line: 'load-module module-switch-on-connect'
+#     create: yes
+#     backrefs: true
+#     state: present
+#   become: true
 
 - name: Install pipewire packages
   tags:
