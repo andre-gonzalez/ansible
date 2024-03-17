@@ -8,7 +8,7 @@
     name:
       - python-pandas # Datascience Dataframes
       - python-numpy # Datascience
-      - python-scrapy # Webscraping
+      - scrapy # Webscraping
       - python-bs4 # Beautiful Soup - Webscraping
       - python-apache-airflow # Data pipelines orchestration
       - python-awscli # Aws cli interface
