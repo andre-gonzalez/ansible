@@ -11,7 +11,7 @@
       - scrapy # Webscraping
       - python-beautifulsoup4 # Beautiful Soup - Webscraping
       - python-requests # API calls
-      - python-SQLAlchemy # Database connect utiliy
+      - python-sqlalchemy # Database connect utiliy
       - python-ipdb # Debug python code
       - python-psycopg2 # Postgresql database adapter
       - python-mysql-connector # Mysql database adapter
