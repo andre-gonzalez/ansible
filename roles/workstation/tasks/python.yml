@@ -10,15 +10,11 @@
       - python-numpy # Datascience
       - scrapy # Webscraping
       - python-beautifulsoup4 # Beautiful Soup - Webscraping
-      - python-apache-airflow # Data pipelines orchestration
-      - python-awscli # Aws cli interface
-      - python-jupyter # Jupyter notebooks
       - python-requests # API calls
       - python-SQLAlchemy # Database connect utiliy
       - python-ipdb # Debug python code
-      - python-psycopg2-binary # Postgresql database adapter
-      - python-mysql-connector-python # Mysql database adapter
+      - python-psycopg2 # Postgresql database adapter
+      - python-mysql-connector # Mysql database adapter
       - python-virtualenv # Python virtual environments
       - python-mysqlclient
-      - python-virtualenv
     state: present
