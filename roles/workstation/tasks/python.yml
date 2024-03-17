@@ -9,7 +9,7 @@
       - python-pandas # Datascience Dataframes
       - python-numpy # Datascience
       - scrapy # Webscraping
-      - python-bs4 # Beautiful Soup - Webscraping
+      - python-beautifulsoup4 # Beautiful Soup - Webscraping
       - python-apache-airflow # Data pipelines orchestration
       - python-awscli # Aws cli interface
       - python-jupyter # Jupyter notebooks
