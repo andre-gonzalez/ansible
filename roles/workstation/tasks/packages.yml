@@ -119,6 +119,7 @@
       - ntfs-3g # To mount drives formated as NTFS
       - zathura # Pdf reader
       - zathura-pdf-poppler # pdf reader
+      - newsboat # RSS feed reader
     state: present
     update_cache: true
   become: true
