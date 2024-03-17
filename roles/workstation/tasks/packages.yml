@@ -120,6 +120,10 @@
       - zathura # Pdf reader
       - zathura-pdf-poppler # pdf reader
       - newsboat # RSS feed reader
+      - neomutt # Terminal email client
+      - isync # Download and sync email for neomutt
+      - msmtp # Send email for neomutt
+      - pass # Encrypt password for neomutt
     state: present
     update_cache: true
   become: true

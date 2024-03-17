@@ -19,6 +19,7 @@
       - ferdium-bin
       - btrfs-assistant
       - btrfsmaintenance
+      - mutt-wizard # Configures email for neomutt
     use: yay
     state: present
     update_cache: true
