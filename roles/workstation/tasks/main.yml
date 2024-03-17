@@ -113,16 +113,16 @@
     - full-install
     - light-install
     - python
-- include_tasks: tasks/databricks.yml
-  tags:
-    - full-install
-    - light-install
-    - databricks
-- include_tasks: tasks/eureciclo.yml
-  tags:
-    - full-install
-    - light-install
-    - eureciclo
+# - include_tasks: tasks/databricks.yml
+#   tags:
+#     - full-install
+#     - light-install
+#     - databricks
+# - include_tasks: tasks/eureciclo.yml
+#   tags:
+#     - full-install
+#     - light-install
+#     - eureciclo
 - include_tasks: tasks/dbeaver.yml
   tags:
     - full-install
@@ -133,17 +133,17 @@
     - full-install
     - light-install
     - anki
-- include_tasks: tasks/aws.yml
-  tags:
-    - full-install
-    - light-install
-    - aws
-- include_tasks: tasks/drives.yml
-  tags:
-    - full-install
-    - light-install
-    - drives
-    - samsung-expert
+# - include_tasks: tasks/aws.yml
+#   tags:
+#     - full-install
+#     - light-install
+#     - aws
+# - include_tasks: tasks/drives.yml
+#   tags:
+#     - full-install
+#     - light-install
+#     - drives
+#     - samsung-expert
 - include_tasks: tasks/rsync.yml
   tags:
     - full-install
@@ -156,10 +156,10 @@
     - aur
     - collections-install
     - ufw
-- include_tasks: tasks/samba.yml
-  tags:
-    - never
-    - samba
+# - include_tasks: tasks/samba.yml
+#   tags:
+#     - never
+#     - samba
 - include_tasks: tasks/neovim.yml
   tags:
     - full-install
@@ -194,17 +194,17 @@
     - light-install
     - dwmblocks
     - aur
-- include_tasks: tasks/terraform.yml
-  tags:
-    - full-install
-    - light-install
-    - aur
-    - terraform
-    - neovim
-- include_tasks: tasks/gcloud.yml
-  tags:
-    - gcloud
-    - aur
+# - include_tasks: tasks/terraform.yml
+#   tags:
+#     - full-install
+#     - light-install
+#     - aur
+#     - terraform
+#     - neovim
+# - include_tasks: tasks/gcloud.yml
+#   tags:
+#     - gcloud
+#     - aur
 - include_tasks: tasks/lfub.yml
   tags:
     - never
@@ -238,11 +238,11 @@
   tags:
     - aur
     - never
-- include_tasks: tasks/portmaster.yml
-  tags:
-    - aur
-    - never
-    - portmaster
+# - include_tasks: tasks/portmaster.yml
+#   tags:
+#     - aur
+#     - never
+#     - portmaster
 - include_tasks: tasks/doas.yml
   tags:
     - full-install
