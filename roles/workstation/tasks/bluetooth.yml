@@ -30,7 +30,7 @@
 #     update_cache: false
 #   become: true
 
-- name: Install bluetooth packages
+- name: Install bluetooth packages | Arch
   tags:
     - full-install
     - light-install
@@ -43,6 +43,21 @@
     state: present
     update_cache: false
   become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Install bluetooth packages 
+  tags:
+    - full-install
+    - light-install
+    - bluetooth
+  ansible.builtin.package:
+    name:
+      - bluez
+      - bluez-tools
+    state: present
+    update_cache: false
+  become: true
+  when: ansible_distribution == "Debian"
 
 - name: Activate bluetooth experimental features (to get headset battery)
   tags:
