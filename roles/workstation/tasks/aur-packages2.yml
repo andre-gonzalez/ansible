@@ -13,7 +13,6 @@
       - dashbinsh
       - htim
       - tmux-bash-completion-git
-      - whatsapp-nativefier
       - mysql
       - insomnia-bin
       - ferdium-bin
@@ -41,4 +40,3 @@
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
   notify: Mark all informant news as read
-
