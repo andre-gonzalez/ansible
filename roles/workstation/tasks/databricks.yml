@@ -14,20 +14,22 @@
     - full-install
     - light-install
     - databricks
-  ansible.builtin.pip:
+  kewlfft.aur.aur:
     name:
-      - databricks-cli
+      - databricks-cli-bin 
+    use: yay
     state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
 
-- name: Install databricks-connect
-  tags:
-    - full-install
-    - light-install
-    - databricks
-  ansible.builtin.pip:
-    name: databricks-connect
-    version: 11.3.*
-    state: latest
+# - name: Install databricks-connect
+#   tags:
+#     - full-install
+#     - light-install
+#     - databricks
+#   ansible.builtin.pip:
+#     name: databricks-connect
+#     state: latest
 
 - name: Copy Databricks configuration files
   tags:
