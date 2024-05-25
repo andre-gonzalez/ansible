@@ -8,6 +8,18 @@
     type: collection
     name: community.libvirt
 
+- name: install packages that i still have not set in ubuntu 
+  tags:
+    - full-install
+    - windows-vm
+  ansible.builtin.package:
+    name:
+      - python-lxml
+    state: present
+    update_cache: true
+  become: true
+  when: ansible_distribution == "Archlinux"
+
 - name: Define a VM
   tags:
     - full-install
@@ -16,5 +28,5 @@
     command: define
     autostart: false
     name: win10
-    xml: "{{ lookup('template', 'win10.xml') }}"
+    xml: "win10.xml"
     uri: 'qemu:///system'
