@@ -39,7 +39,7 @@
     liberation_font: fonts-liberation
     postgres: postgresql
     fd: fd-find
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: install packages and update cache
   tags:
@@ -80,7 +80,6 @@
       - ansible-lint
       - npm # Necessary to install gramarly language server in neovim play
       - qutebrowser
-      - python-adblock # To enable adblocking on qutebrowser
       - unzip
       - "{{ liberation_font }}"
       - "{{ postgres }}"
@@ -124,6 +123,7 @@
       - isync # Download and sync email for neomutt
       - msmtp # Send email for neomutt
       - pass # Encrypt password for neomutt
+      - python-adblock # To enable adblocking on qutebrowser
     state: present
     update_cache: true
   become: true
