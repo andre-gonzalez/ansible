@@ -108,11 +108,6 @@
 #   tags:
 #     - full-install
 #     - docker
-- include_tasks: tasks/python.yml
-  tags:
-    - full-install
-    - light-install
-    - python
 # - include_tasks: tasks/databricks.yml
 #   tags:
 #     - full-install
