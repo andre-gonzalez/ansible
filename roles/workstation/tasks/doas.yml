@@ -22,16 +22,3 @@
     group: root
     mode: 0644
   become: true
-
-# Gotta learn to run ansible with doas before getting rid of sudo
-# - name: uninstall sudo
-#   tags:
-#     - full-install
-#     - light-install
-#     - doas
-# ansible.builtin.package:
-#     name:
-#       - sudo
-#     state: absent
-#     update_cache: no
-#   become: true
