@@ -45,7 +45,7 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Install bluetooth packages 
+- name: Install bluetooth packages | Debian
   tags:
     - full-install
     - light-install
