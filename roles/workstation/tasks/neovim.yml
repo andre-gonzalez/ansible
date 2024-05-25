@@ -1,18 +1,10 @@
 ---
-- name: Install nvim plugins
-  tags:
-    - full-install
-    - light-install
-    - neovim
-  ansible.builtin.command: nvim --headless +PlugInstall +qa
-
 - name: Install treesitter support for python
   tags:
     - full-install
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall python +qa
-  listen: Install treesitter
 
 - name: Install treesitter support for bash
   tags:
@@ -20,7 +12,6 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall bash +qa
-  listen: Install treesitter
 
 - name: Install treesitter support for json
   tags:
@@ -28,7 +19,6 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall json +qa
-  listen: Install treesitter
 
 - name: Install treesitter support for markdown
   tags:
@@ -36,7 +26,6 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall markdown +qa
-  listen: Install treesitter
 
 - name: Install treesitter support for yaml
   tags:
@@ -44,15 +33,6 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall yaml +qa
-  listen: Install treesitter
-
-- name: Install treesitter support for fish
-  tags:
-    - full-install
-    - light-install
-    - neovim
-  ansible.builtin.command: nvim --headless +TSInstall fish +qa
-  listen: Install treesitter
 
 - name: Install treesitter support for regex
   tags:
@@ -60,15 +40,6 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall regex +qa
-  listen: Install treesitter
-
-- name: Install treesitter support for latex
-  tags:
-    - full-install
-    - light-install
-    - neovim
-  ansible.builtin.command: nvim --headless +TSInstall latex +qa
-  listen: Install treesitter
 
 - name: Install treesitter support for html
   tags:
@@ -76,7 +47,6 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall html +qa
-  listen: Install treesitter
 
 - name: Install treesitter support for graphql
   tags:
@@ -84,7 +54,6 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall graphql +qa
-  listen: Install treesitter
 
 - name: Install treesitter support for docker
   tags:
@@ -92,7 +61,6 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall dockerfile +qa
-  listen: Install treesitter
 
 - name: Install treesitter support for css
   tags:
@@ -100,7 +68,6 @@
     - light-install
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall css +qa
-  listen: Install treesitter
 
 - name: Install language servers packages
   tags:
@@ -129,20 +96,20 @@
   become: true
   when: ansible_distribution == "Ubuntu"
 
-- name: Install sql-language-server and ansible-language-server package
-  tags:
-    - aur
-    - never
-  kewlfft.aur.aur:
-    name:
-      - sqls-bin
-      - ansible-language-server
-      - terraform-ls
-    use: yay
-    state: present
-    update_cache: true
-  when: ansible_distribution == "Archlinux"
-  ignore_errors: true
+# - name: Install sql-language-server and ansible-language-server package
+# tags:
+#    - aur
+#    - never
+# kewlfft.aur:
+#   name:
+#     - sqls-bin
+#     - ansible-language-server
+#     - terraform-ls
+#   use: yay
+#   state: present
+#   update_cache: true
+# when: ansible_distribution == "Archlinux"
+# ignore_errors: true
 
 # - name: Install grammarly-languageserver and json language server
 #   tags:
@@ -178,17 +145,6 @@
     state: directory
     recurse: true
     mode: 0o700
-    owner: "{{ lookup('env', 'USER') }}"
-
-- name: Install vim-plug
-  tags:
-    - full-install
-    - light-install
-    - neovim
-  ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    dest: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/autoload/plug.vim"
-    mode: 0600
     owner: "{{ lookup('env', 'USER') }}"
 
 - name: copy sql-language-server file to .config
