@@ -75,6 +75,18 @@
     line: 'uri_default = "qemu:///system"'
   become: true
 
+- name: Ensure libvirt directory exists in .config
+  tags:
+    - full-install
+    - light-install
+    - libvirt
+  ansible.builtin.file:
+    dest: "{{ lookup('env', 'HOME') }}/.config/libvirt/" 
+    mode: 0770
+    group: "{{ lookup('env', 'USER') }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    state: directory
+
 - name: Copy libvirt conf to user .config directory
   tags:
     - full-install
