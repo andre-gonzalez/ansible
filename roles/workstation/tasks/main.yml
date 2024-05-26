@@ -40,8 +40,6 @@
     - full-install
     - light-install
     - cron
-    - eureciclo
-    - fish
     - auto-adjust-brightness
 - include_tasks: tasks/git.yml
   tags:
