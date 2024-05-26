@@ -16,5 +16,5 @@
     - aws
   ansible.builtin.copy: src={{ item.src }} dest={{ item.dest }}
   with_items:
-    - { src: 'credentials-aws', dest: '{{ lookup('env', 'HOME') }}/.config/aws/credentials', mode: 0600 }
-    - { src: 'config-aws', dest: '{{ lookup('env', 'HOME') }}/.config/aws/config', mode: 0600 }
+    - { src: 'credentials-aws', dest: "{{ lookup('env', 'HOME') }}/.config/aws/credentials", mode: 0600 }
+    - { src: 'config-aws', dest: "{{ lookup('env', 'HOME') }}/.config/aws/config", mode: 0600 }
