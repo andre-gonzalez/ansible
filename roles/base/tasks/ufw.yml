@@ -8,6 +8,15 @@
     name: ufw
   become: true
 
+- name: Disable ufw
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  community.general.ufw:
+    state: disabled
+  become: true
+
 - name: Set logging on
   tags:
     - full-install
