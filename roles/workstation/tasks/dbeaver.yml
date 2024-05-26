@@ -11,7 +11,18 @@
     update_cache: false
   become: true
 
-- name: Copy DBeaver configuration files
+- name: Ensure dbeaver directory exists in .config
+  tags:
+    - full-install 
+    - light-install 
+    - libvirt
+  ansible.builtin.file:
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver/"  
+    mode: 0770
+    owner: "{{ lookup('env', 'USER') }}"
+    state: directory
+
+- name: Copy DBeaver configuration files 
   tags:
     - full-install
     - light-install
