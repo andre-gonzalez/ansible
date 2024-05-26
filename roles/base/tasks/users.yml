@@ -18,11 +18,19 @@
     state: present
 
 - name: Set fact for Debian
+  tags:
+    - full-install
+    - light-install
+    - users
   set_fact:
     sudo_group: sudo
   when: ansible_os_family == "Debian"
 
 - name: Set fact for ArchLinux
+  tags:
+    - full-install
+    - light-install
+    - users
   set_fact:
     sudo_group: wheel
   when: ansible_os_family == "Archlinux"
@@ -37,7 +45,6 @@
     group: frank
     groups: adm,{{ sudo_group }}
     state: present
-    # password: "{{ frank_passwd }}"
 
 - name: create ansible user
   tags:
