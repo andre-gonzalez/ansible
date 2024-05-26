@@ -20,18 +20,6 @@
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0644
     owner: "{{ lookup('env', 'USER') }}"
-  notify: "secure ssh"
-
-- name: Install eureciclo VM ssh key
-  tags:
-    - full-install
-    - light-install
-    - ssh
-  ansible.builtin.copy:
-    src: eureciclo-2023-06
-    dest: "{{ lookup('env', 'HOME') }}/.ssh"
-    owner: "{{ lookup('env', 'USER') }}"
-    mode: 0600
 
 - name: Copy config file
   tags:
@@ -43,4 +31,45 @@
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: 0600
     owner: "{{ lookup('env', 'USER') }}"
-  notify: "secure ssh"
+  register: restart_ssh
+
+- name: Disable root login via ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: "PermitRootLogin no"
+    state: present
+    backup: true
+  become: true
+  register: restart_ssh2
+
+- name: Disable password login via ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: "PasswordAuthentication no"
+    state: present
+    backup: true
+  become: true
+  register: restart_ssh3
+
+- name: restart ssh
+  tags:
+    - full-install
+    - light-install
+    - security
+    - ssh
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+  become: true
+  when: restart_ssh is changed or restart_ssh2 is changed or restart_ssh3 is changed

@@ -247,5 +247,3 @@
   tags:
     - full-install
     - docker
-# handlers:
-# - import_tasks: handlers/main.yml

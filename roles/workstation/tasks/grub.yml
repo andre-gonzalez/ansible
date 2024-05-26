@@ -34,7 +34,7 @@
     line: 'GRUB_TIMEOUT=0'
     backrefs: true
   become: true
-  notify: update grub
+  notify: update_grub
 
 - name: Change grub timeout to hidden
   tags:
@@ -47,7 +47,7 @@
     line: 'GRUB_TIMEOUT_STYLE=hidden'
     backrefs: true
   become: true
-  notify: update grub
+  notify: update_grub2
 
 - name: Speed up linux systems for workstations disabling mitigations - https://christitus.com/speedup-linux/
   tags:
@@ -61,7 +61,7 @@
     backrefs: true
   become: true
   when: ansible_memtotal_mb > 16000
-  notify: update grub
+  notify: update_grub3
 
 - name: Speed up linux systems for workstations disabling mitigations and enable zswap compression - https://christitus.com/speedup-linux/
   tags:
@@ -75,7 +75,7 @@
     backrefs: true
   become: true
   when: ansible_memtotal_mb <= 16000
-  notify: update grub
+  notify: update_grub4
 
 - name: Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
   tags:
@@ -88,7 +88,7 @@
     line: 'GRUB_DEFAULT=saved'
     backrefs: true
   become: true
-  notify: update grub
+  notify: update_grub5
 
 - name: Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
   tags:
@@ -101,4 +101,18 @@
     line: 'GRUB_SAVEDEFAULT=true'
     backrefs: true
   become: true
-  notify: update grub
+  notify: update_grub6
+
+- name: copy file update-grub
+  tags:
+    - full-install
+    - light-install
+    - grub
+  ansible.builtin.copy:
+    src: update-grub
+    dest: /usr/sbin
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+  when: update_grub is changed or update_grub2 is changed or update_grub3 is changed or update_grub4 is changed or update_grub5 is changed or update_grub6 is changed

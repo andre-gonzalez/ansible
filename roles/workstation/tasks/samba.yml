@@ -66,3 +66,36 @@
     rule: allow
     name: Samba
   become: true
+
+- name: Create samba password and the user {{ lookup('env', 'USER') }}
+  tags:
+    - full-install
+    - samba
+  ansible.builtin.shell: "(echo '{{ samba_pass }}'; echo '{{ samba_pass }}') | smbpasswd -s -a {{ lookup('env', 'USER') }}"
+  register: smbpasswd
+  changed_when: "'Added user' in smbpasswd.stdout"
+  become: true
+  listen: "finish samba configuration"
+
+- name: start samba (smb) service
+  tags:
+    - full-install
+    - samba
+  ansible.builtin.service:
+    name: smb
+    state: restarted
+    enabled: true
+  become: true
+  listen: "finish samba configuration"
+
+- name: start samba (nmb) service
+  tags:
+    - full-install
+    - samba
+  ansible.builtin.service:
+    name: nmb
+    state: restarted
+    enabled: true
+  become: true
+  listen: "finish samba configuration"
+

@@ -27,7 +27,7 @@
     state: present
     update_cache: false
   become: true
-  notify: "finish libvirt configuration"
+  register: "finish_libvirt_configuration1"
 
 - name: Ensure group libvirt exists
   tags:
@@ -49,7 +49,7 @@
     groups: libvirtd
     append: true
   become: true
-  notify: "finish libvirt configuration"
+  register: "finish_libvirt_configuration2"
 
 - name: copy file qemu.conf to /etc/libvirt
   tags:
@@ -63,18 +63,7 @@
     group: root
     mode: 0644
   become: true
-  notify: "finish libvirt configuration"
-
-- name: change libvirt.conf to allow non root user to start a VM
-  tags:
-    - full-install
-    - light-install
-    - libvirt
-  ansible.builtin.lineinfile:
-    path: /etc/libvirt/libvirt.conf
-    state: present
-    line: 'uri_default = "qemu:///system"'
-  become: true
+  register: "finish_libvirt_configuration3"
 
 - name: Ensure libvirt directory exists in .config
   tags:
@@ -82,7 +71,7 @@
     - light-install
     - libvirt
   ansible.builtin.file:
-    dest: "{{ lookup('env', 'HOME') }}/.config/libvirt/" 
+    dest: "{{ lookup('env', 'HOME') }}/.config/libvirt/"
     mode: 0770
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
@@ -98,3 +87,35 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/libvirt/libvirt.conf"
     mode: 0644
   become: true
+
+- name: change libvirt.conf to allow non root user to start a VM
+  tags:
+    - full-install
+    - light-install
+    - libvirt
+  ansible.builtin.lineinfile:
+    path: /etc/libvirt/libvirt.conf
+    state: present
+    line: 'uri_default = "qemu:///system"'
+  become: true
+
+- name: restart libvirt
+  tags:
+    - full-install
+    - light-install
+    - libvirt
+  ansible.builtin.service:
+    name: libvirtd
+    state: restarted
+    enabled: true
+  become: true
+  when:  finish_libvirt_configuration1 is changed or finish_libvirt_configuration2 is changed or finish_libvirt_configuration3 is changed
+
+- name: virsh start
+  tags:
+    - full-install
+    - light-install
+    - libvirt
+  ansible.builtin.command: virsh net-autostart default && virsh net-start default
+  become: true
+  when:  finish_libvirt_configuration1 is changed or finish_libvirt_configuration2 is changed or finish_libvirt_configuration3 is changed

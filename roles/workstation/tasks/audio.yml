@@ -12,7 +12,7 @@
 #       - pulseaudio-alsa
 #     state: present
 #   become: true
-#   notify: "restart pulseaudio"
+#   register: restart_pulseaudio
 
 # - name: Set pulseaudio to automatically change to the bluetooth once connected
 #   tags:
@@ -25,6 +25,18 @@
 #     backrefs: true
 #     state: present
 #   become: true
+
+# - name: restart pulseaudio
+#   tags:
+#     - full-install
+#     - light-install
+#     - pulseaudio
+#   ansible.builtin.service:
+#     name: pulseaudio
+#     state: restarted
+#     enabled: true
+#   become: true
+#   when: restart_pulseaudio is changed
 
 - name: Install pipewire packages | Arch
   tags:
