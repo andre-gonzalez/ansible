@@ -27,5 +27,7 @@
     - docker
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
-    group: docker
+    groups: docker
+    append: yes
+    create_home: false
   become: true

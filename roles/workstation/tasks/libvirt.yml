@@ -46,7 +46,8 @@
     - libvirt
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
-    group: libvirtd
+    groups: libvirtd
+    append: true
   become: true
   notify: "finish libvirt configuration"
 
