@@ -103,11 +103,6 @@
     - full-install
     - light-install
     - eureciclo
-- include_tasks: tasks/anki.yml
-  tags:
-    - full-install
-    - light-install
-    - anki
 - include_tasks: tasks/aws.yml
   tags:
     - full-install
@@ -127,6 +122,11 @@
   tags:
     - full-install
     - docker
+- include_tasks: tasks/anki.yml
+  tags:
+    - full-install
+    - light-install
+    - anki
 - include_tasks: tasks/dbeaver.yml
   tags:
     - full-install
