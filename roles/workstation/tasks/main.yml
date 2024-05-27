@@ -68,6 +68,11 @@
     - light-install
     - packages
     - nvidia
+- include_tasks: tasks/notas.yml
+  tags:
+    - full-install
+    - light-install
+    - notas
 - include_tasks: tasks/dwm.yml
   tags:
     - full-install
