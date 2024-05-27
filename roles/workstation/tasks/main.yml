@@ -132,6 +132,11 @@
     - full-install
     - light-install
     - dbeaver
+- include_tasks: tasks/rsync.yml
+  tags:
+    - full-install
+    - light-install
+    - rsync
 - include_tasks: tasks/collections-install.yml
   tags:
     - full-install
@@ -143,6 +148,45 @@
   tags:
     - aur
     - never
+- include_tasks: tasks/brave.yml
+  tags:
+    - never
+    - aur
+    - brave
+- include_tasks: tasks/pritunl-vpn.yml
+  tags:
+    - full-install
+    - light-install
+    - pritunl-vpn
+    - eureciclo
+- include_tasks: tasks/neovim.yml
+  tags:
+    - full-install
+    - light-install
+    - neovim
+    - git
+    - aur
+- include_tasks: tasks/dwmblocks.yml
+  tags:
+    - full-install
+    - light-install
+    - dwmblocks
+    - aur
+- include_tasks: tasks/lfub.yml
+  tags:
+    - never
+    - aur
+    - lf
+- include_tasks: tasks/preload.yml
+  tags:
+    - never
+    - aur
+    - preload
+- include_tasks: tasks/timeshift.yml
+  tags:
+    - never
+    - aur
+    - timeshift
 - include_tasks: tasks/libvirt.yml
   tags:
     - full-install
@@ -165,22 +209,10 @@
 #     - light-install
 #     - drives
 #     - samsung-expert
-- include_tasks: tasks/rsync.yml
-  tags:
-    - full-install
-    - light-install
-    - rsync
 # - include_tasks: tasks/samba.yml
 #   tags:
 #     - never
 #     - samba
-- include_tasks: tasks/neovim.yml
-  tags:
-    - full-install
-    - light-install
-    - neovim
-    - git
-    - aur
 - include_tasks: tasks/network.yml
   tags:
     - full-install
@@ -198,12 +230,6 @@
     - powertop
     - aur
     - samsung-expert
-- include_tasks: tasks/dwmblocks.yml
-  tags:
-    - full-install
-    - light-install
-    - dwmblocks
-    - aur
 - include_tasks: tasks/terraform.yml
   tags:
     - full-install
@@ -215,26 +241,6 @@
   tags:
     - gcloud
     - aur
-- include_tasks: tasks/lfub.yml
-  tags:
-    - never
-    - aur
-    - lf
-- include_tasks: tasks/preload.yml
-  tags:
-    - never
-    - aur
-    - preload
-- include_tasks: tasks/brave.yml
-  tags:
-    - never
-    - aur
-    - brave
-- include_tasks: tasks/timeshift.yml
-  tags:
-    - never
-    - aur
-    - timeshift
 # - include_tasks: tasks/smtpd.yml
 #   tags:
 #     - never
@@ -253,9 +259,3 @@
     - full-install
     - light-install
     - doas
-- include_tasks: tasks/pritunl-vpn.yml
-  tags:
-    - full-install
-    - light-install
-    - pritunl-vpn
-    - eureciclo
