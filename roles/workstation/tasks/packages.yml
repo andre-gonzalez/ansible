@@ -125,6 +125,7 @@
       - msmtp # Send email for neomutt
       - pass # Encrypt password for neomutt
       - python-adblock # To enable adblocking on qutebrowser
+      - libreoffice-still # Office application
     state: present
     update_cache: true
   become: true
