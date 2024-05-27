@@ -50,4 +50,4 @@
   ansible.builtin.command: informant read --all
   become: true
   ignore_errors: true
-  register: install_informant is changed
+  when: install_informant is changed
