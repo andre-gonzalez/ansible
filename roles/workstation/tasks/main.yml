@@ -248,3 +248,9 @@
     - full-install
     - light-install
     - doas
+- include_tasks: tasks/pritunl-vpn.yml
+  tags:
+    - full-install
+    - light-install
+    - pritunl-vpn
+    - eureciclo

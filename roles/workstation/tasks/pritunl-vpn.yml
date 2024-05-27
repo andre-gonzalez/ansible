@@ -9,7 +9,27 @@
     name: openvpn
   become: true
 
-- name: Install pritunl client
+- name: Add pritunl keys | part 1 (Arch)
+  tags:
+    - full-install
+    - light-install
+    - pritunl-vpn
+    - eureciclo
+  ansible.builtin.command: pacman-key --keyserver hkp://keyserver.ubuntu.com -r 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Add pritunl keys | part 2 (Arch)
+  tags:
+    - full-install
+    - light-install
+    - pritunl-vpn
+    - eureciclo
+  ansible.builtin.command: pacman-key --lsign-key 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Install pritunl client (Arch)
   tags:
     - full-install
     - light-install
