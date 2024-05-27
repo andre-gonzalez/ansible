@@ -98,6 +98,35 @@
     - full-install
     - light-install
     - eureciclo
+- include_tasks: tasks/anki.yml
+  tags:
+    - full-install
+    - light-install
+    - anki
+- include_tasks: tasks/aws.yml
+  tags:
+    - full-install
+    - light-install
+    - aws
+- include_tasks: tasks/stw.yml
+  tags:
+    - full-install
+    - light-install
+    - stw
+- include_tasks: tasks/wall-d.yml
+  tags:
+    - full-install
+    - light-install
+    - wall-d
+- include_tasks: tasks/docker.yml
+  tags:
+    - full-install
+    - docker
+- include_tasks: tasks/dbeaver.yml
+  tags:
+    - full-install
+    - light-install
+    - dbeaver
 - include_tasks: tasks/collections-install.yml
   tags:
     - full-install
@@ -118,26 +147,13 @@
     - full-install
     - collections-install
     - windows-vm
+    - aur
 - include_tasks: tasks/databricks.yml
   tags:
     - full-install
     - light-install
     - databricks
-- include_tasks: tasks/dbeaver.yml
-  tags:
-    - full-install
-    - light-install
-    - dbeaver
-- include_tasks: tasks/anki.yml
-  tags:
-    - full-install
-    - light-install
-    - anki
-- include_tasks: tasks/aws.yml
-  tags:
-    - full-install
-    - light-install
-    - aws
+    - aur
 # - include_tasks: tasks/drives.yml
 #   tags:
 #     - full-install
@@ -232,17 +248,3 @@
     - full-install
     - light-install
     - doas
-- include_tasks: tasks/stw.yml
-  tags:
-    - full-install
-    - light-install
-    - stw
-- include_tasks: tasks/wall-d.yml
-  tags:
-    - full-install
-    - light-install
-    - wall-d
-- include_tasks: tasks/docker.yml
-  tags:
-    - full-install
-    - docker
