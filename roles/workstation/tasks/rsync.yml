@@ -56,7 +56,7 @@
     minute: "0"
     hour: "8,21"
     weekday: "SAT"
-    disabled: false
+    disabled: true
     job: "{{ lookup('env', 'HOME') }}/.scripts/backup-to-internal-hard-drive.sh \
           2>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-internal-hard-drive-error-logs.txt \
           1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-internal-hard-drive-stdout-logs.txt"
@@ -72,7 +72,7 @@
     minute: "0"
     hour: "8,21"
     weekday: "SUN"
-    disabled: false
+    disabled: true
     job: "{{ lookup('env', 'HOME') }}/.scripts/backup-to-external-hard-drive.sh \
           2>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-external-hard-drive-error-logs.txt \
           1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-external-hard-drive-stdout-logs.txt"
