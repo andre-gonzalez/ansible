@@ -15,6 +15,7 @@
     update_cache: false
   become: true
   register: restart_tlp
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: mask systemd-rfkill.service to avoid conflicts with TLP
   tags:
@@ -26,6 +27,7 @@
     name: systemd-rfkill.service
     masked: true
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: mask systemd-rfkill.socket to avoid conflicts with TLP
   tags:
@@ -37,6 +39,7 @@
     name: systemd-rfkill.socket
     masked: true
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Add second HDD to the list of drives managed by TLP
   tags:
@@ -47,6 +50,7 @@
     line: 'DISK_DEVICES="ata-WDC_WDS240G2G0B-00EPW0_193994801333"'
     backrefs: true
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Stop second disk (HDD). Spin down after 1 minute (12 *5) when on battery
   tags:
@@ -57,6 +61,7 @@
     line: 'DISK_SPINDOWN_TIMEOUT_ON_BAT="0 12"'
     backrefs: true
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Set processor to performance when on AC (scaling)
   tags:
@@ -70,6 +75,7 @@
     line: 'CPU_SCALING_GOVERNOR_ON_AC=performance'
     backrefs: true
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Set processor to powersave when on Battery (scaling)
   tags:
@@ -83,6 +89,7 @@
     line: 'CPU_SCALING_GOVERNOR_ON_BAT=powersave'
     backrefs: true
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Set processor to performance when on AC (energy/performance policies)
   tags:
@@ -96,7 +103,7 @@
     line: 'CPU_ENERGY_PERF_POLICY_ON_AC=performance'
     backrefs: true
   become: true
-  when: '"GenuineIntel" in ansible_processor'
+  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
 
 - name: Set processor to powersave when on Battery (energy/performance policies)
   tags:
@@ -110,7 +117,7 @@
     line: 'CPU_ENERGY_PERF_POLICY_ON_BAT=power'
     backrefs: true
   become: true
-  when: '"GenuineIntel" in ansible_processor'
+  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
 
 - name: Enable processor boost on AC
   tags:
@@ -124,6 +131,7 @@
     line: 'CPU_BOOST_ON_AC=1'
     backrefs: true
   become: true
+  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
 
 - name: Disable processor boost on battery
   tags:
@@ -137,6 +145,7 @@
     line: 'CPU_BOOST_ON_BAT=0'
     backrefs: true
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Enable Intel CPU HWP dynamic boost when on AC
   tags:
@@ -150,7 +159,8 @@
     line: 'CPU_HWP_DYN_BOOST_ON_AC=1'
     backrefs: true
   become: true
-  when: '"GenuineIntel" in ansible_processor'
+  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
+
 
 - name: Disable Intel CPU HWP dynamic boost when on AC
   tags:
@@ -164,7 +174,7 @@
     line: 'CPU_HWP_DYN_BOOST_ON_BAT=0'
     backrefs: true
   become: true
-  when: '"GenuineIntel" in ansible_processor'
+  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
 
 - name: Disable minimize of number of used CPU cores/hyper-threads under light load conditions when on AC
   tags:
@@ -178,6 +188,7 @@
     line: 'SCHED_POWERSAVE_ON_AC=0'
     backrefs: true
   become: true
+  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
 
 - name: Enable minimize of number of used CPU cores/hyper-threads under light load conditions when on battery
   tags:
@@ -191,6 +202,7 @@
     line: 'SCHED_POWERSAVE_ON_BAT=1'
     backrefs: true
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Disable wifi and wwan on LAN connect
   tags:
@@ -204,6 +216,7 @@
     line: 'DEVICES_TO_DISABLE_ON_LAN_CONNECT="wifi wwan"'
     backrefs: true
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Enable wifi and wwan on LAN disconnect
   tags:
@@ -217,6 +230,7 @@
     line: 'DEVICES_TO_ENABLE_ON_LAN_DISCONNECT="wifi wwan"'
     backrefs: true
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: install powertop package
   tags:
@@ -231,6 +245,7 @@
     update_cache: false
   become: true
   register: calibrate_powertop
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Install aur packages
   tags:
@@ -247,6 +262,7 @@
     update_cache: true
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: restart tlp
   tags:
