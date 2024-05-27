@@ -81,10 +81,7 @@
 
 - name: Enable apparmor in kernel parameters with audit enabled on Archlinux
   tags:
-    - full-install
-    - light-install
-    - security
-    - apparmor
+    - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: '.*GRUB_CMDLINE_LINUX_DEFAULT=.*'
