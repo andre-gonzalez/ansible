@@ -96,6 +96,7 @@
     name:
       - pamixer # missing ubuntu
       - ttf-nerd-fonts-symbols-mono # missing ubuntu
+      - ttf-nerd-fonts-symbols-common
       - ttf-joypixels # missing ubuntu
       - ttf-linux-libertine # missing ubuntu
       - arc-gtk-theme # missing ubuntu
