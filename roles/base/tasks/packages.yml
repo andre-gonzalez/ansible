@@ -110,7 +110,7 @@
     - nvidia
     - never
   ansible.builtin.package:
-    name: nvidia
+    name: nvidia-dkms
     state: present
   when: ansible_distribution == "Archlinux"
   become: true
