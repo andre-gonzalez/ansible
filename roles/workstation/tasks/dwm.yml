@@ -14,7 +14,7 @@
   become: true
   when: ansible_distribution == "Ubuntu"
 
-- name: Clone dwm
+- name: Clone dwm (Laptop)
   tags:
     - full-install
     - light-install
@@ -22,7 +22,20 @@
   ansible.builtin.git:
     version: main
     repo: git@github.com:andre-gonzalez/dwm.git
-    dest: "{{ lookup('env', 'HOME') }}/.config/dwm"
+    dest: "{{ lookup('env', 'HOME') }}/.config/dwm/laptop-dwm/"
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
+    accept_hostkey: true
+  ignore_errors: true
+
+- name: Clone dwm (Ultra wide screen)
+  tags:
+    - full-install
+    - light-install
+    - dwm
+  ansible.builtin.git:
+    version: ultra-wide-dwm
+    repo: git@github.com:andre-gonzalez/dwm.git
+    dest: "{{ lookup('env', 'HOME') }}/.config/dwm/ultra-wide-dwm/"
     key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
     accept_hostkey: true
   ignore_errors: true
@@ -33,6 +46,6 @@
     - light-install
     - dwm
   community.general.make:
-    chdir: "{{ lookup('env', 'HOME') }}/.config/dwm"
+    chdir: "{{ lookup('env', 'HOME') }}/.config/dwm/laptop-dwm/"
     target: install
   become: true
