@@ -81,3 +81,4 @@
           2>> {{ lookup('env', 'HOME') }}/.cron-errors/auto-adjust-brightness-error-logs.txt \
           1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/auto-adjust-brightness-stdout-logs.txt"
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
