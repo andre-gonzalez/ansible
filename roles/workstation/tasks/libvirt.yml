@@ -116,6 +116,6 @@
     - full-install
     - light-install
     - libvirt
-  ansible.builtin.command: virsh net-autostart default && virsh net-start default
+  ansible.builtin.command: "virsh net-autostart default && virsh net-start default"
   become: true
   when:  finish_libvirt_configuration1 is changed or finish_libvirt_configuration2 is changed or finish_libvirt_configuration3 is changed
