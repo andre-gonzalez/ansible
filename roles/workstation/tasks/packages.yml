@@ -99,6 +99,7 @@
       - pamixer # missing ubuntu
       - ttf-nerd-fonts-symbols-mono # missing ubuntu
       - ttf-nerd-fonts-symbols-common
+      - ttf-nerd-fonts-symbols
       - ttf-joypixels # missing ubuntu
       - ttf-linux-libertine # missing ubuntu
       - arc-gtk-theme # missing ubuntu
