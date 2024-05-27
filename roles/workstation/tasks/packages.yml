@@ -83,6 +83,7 @@
       - unzip
       - "{{ liberation_font }}"
       - "{{ postgres }}"
+      - mpv # Terminal based video player
     state: present
     update_cache: true
   become: true
