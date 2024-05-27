@@ -68,15 +68,6 @@
     - light-install
     - packages
     - nvidia
-- include_tasks: tasks/libvirt.yml
-  tags:
-    - full-install
-    - libvirt
-- include_tasks: tasks/windows-vm.yml
-  tags:
-    - full-install
-    - collections-install
-    - windows-vm
 - include_tasks: tasks/dwm.yml
   tags:
     - full-install
@@ -102,22 +93,41 @@
     - full-install
     - light-install
     - slock
-- include_tasks: tasks/databricks.yml
-  tags:
-    - full-install
-    - light-install
-    - databricks
 - include_tasks: tasks/eureciclo.yml
   tags:
     - full-install
     - light-install
     - eureciclo
+- include_tasks: tasks/collections-install.yml
+  tags:
+    - full-install
+    - light-install
+    - aur
+    - collections-install
+    - ufw
+- include_tasks: tasks/aur-packages.yml
+  tags:
+    - aur
+    - never
+- include_tasks: tasks/libvirt.yml
+  tags:
+    - full-install
+    - libvirt
+- include_tasks: tasks/windows-vm.yml
+  tags:
+    - full-install
+    - collections-install
+    - windows-vm
+- include_tasks: tasks/databricks.yml
+  tags:
+    - full-install
+    - light-install
+    - databricks
 - include_tasks: tasks/dbeaver.yml
   tags:
     - full-install
     - light-install
     - dbeaver
-
 - include_tasks: tasks/anki.yml
   tags:
     - full-install
@@ -139,13 +149,6 @@
     - full-install
     - light-install
     - rsync
-- include_tasks: tasks/collections-install.yml
-  tags:
-    - full-install
-    - light-install
-    - aur
-    - collections-install
-    - ufw
 # - include_tasks: tasks/samba.yml
 #   tags:
 #     - never
@@ -165,10 +168,6 @@
     - netbook
     - samsung-expert
     - aur
-- include_tasks: tasks/aur-packages.yml
-  tags:
-    - aur
-    - never
 - include_tasks: tasks/save-battery.yml
   tags:
     - full-install
