@@ -69,7 +69,7 @@
       - ripgrep
       - "{{ fd }}"
       - fzf
-      - lxsession
+      - lxsession # polkit agent to fill password when launching applications with my run launcher
       - flameshot
       - bat
       - dunst
