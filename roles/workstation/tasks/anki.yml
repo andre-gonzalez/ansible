@@ -1,5 +1,5 @@
 ---
-- name: Ensure anki directory exists.
+- name: Ensure anki directory exists
   tags:
     - full-install
     - light-install
@@ -46,8 +46,8 @@
     - full-install
     - light-install
     - anki
-  ansible.builtin.script:
+  ansible.builtin.shell:
     chdir: "{{ lookup('env', 'HOME') }}/.config/anki/install-files/{{ json_reponse.json.assets.2.name | regex_replace( '\\.\\w*\\.\\w*$', '')  }}"
-    cmd: "{{ lookup('env', 'HOME') }}/.config/anki/install-files/{{ json_reponse.json.assets.2.name | regex_replace( '\\.\\w*\\.\\w*$', '')  }}/install.sh"
+    cmd: ./install.sh
   become: true
   when: proceed_anki_installation is changed
