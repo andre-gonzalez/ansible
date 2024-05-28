@@ -137,6 +137,11 @@
     - full-install
     - light-install
     - rsync
+- include_tasks: tasks/syncthing.yml
+  tags:
+    - full-install
+    - light-install
+    - syncthing
 - include_tasks: tasks/collections-install.yml
   tags:
     - full-install

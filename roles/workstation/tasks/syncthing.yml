@@ -16,7 +16,7 @@
     - syncthing
   ansible.builtin.copy:
     src: syncthing-ufw
-    dest: /etc/ufw/applications.d/syncthing
+    dest: /etc/ufw/applications.d/ufw-syncthing
     owner: root
     group: root
     mode: 0644
@@ -43,13 +43,24 @@
     mode: 0644
   become: true
 
+- name: Ensure syncthing directory exists
+  tags:
+    - full-install
+    - syncthing
+  ansible.builtin.file:
+    dest: "{{ lookup('env', 'HOME') }}/.config/syncthing/"
+    mode: 0770
+    group: "{{ lookup('env', 'USER') }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    state: directory
+
 - name: (Syncthing) Copy syncthing config file
   tags:
     - full-install
     - syncthing
   ansible.builtin.copy:
     src: syncthing-config.xml
-    dest: "{{ lookup('env', 'HOME') }}"/.config/syncthing/config.xml"
+    dest: "{{ lookup('env', 'HOME') }}/.config/syncthing/config.xml"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
     mode: 0600
@@ -64,4 +75,3 @@
     name: syncthing
     scope: user
     enabled: true
-  become: true
