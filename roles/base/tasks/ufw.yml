@@ -118,3 +118,14 @@
   community.general.ufw:
     state: enabled
   become: true
+
+- name: Enable ufw in systemd
+  tags:
+    - full-install
+    - light-install
+    - ufw
+  ansible.builtin.service:
+    name: ufw
+    state: started
+    enabled: true
+  become: true
