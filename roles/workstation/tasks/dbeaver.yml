@@ -13,16 +13,17 @@
 
 - name: Ensure dbeaver directory exists in .config
   tags:
-    - full-install 
-    - light-install 
-    - libvirt
+    - full-install
+    - light-install
+    - dbeaver
   ansible.builtin.file:
-    dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver/"  
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver/"
     mode: 0770
+    group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
 
-- name: Copy DBeaver configuration files 
+- name: Copy DBeaver configuration files
   tags:
     - full-install
     - light-install
@@ -33,5 +34,4 @@
     owner: "{{ lookup('env', 'USER') }}"
     mode: 0644
   loop:
-    - { src: "data-sources.json", dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver" }
-    - { src: "project-metadata.json", dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver" }
+    - { src: "data-sources.json", dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver/data-sources.json" }
