@@ -1,12 +1,11 @@
 ---
-- name: install neomutt and its dependencies
+- name: Install neomutt (mutt-wizard) dependencies
   tags:
     - full-install
     - light-install
     - neomutt
   ansible.builtin.package:
     name:
-      - neomutt # Terminal based email client
       - pass # Encrypt password for neomutt
       - isync # Download and sync email for neomutt
       - msmtp # Send email for neomutt
@@ -15,7 +14,18 @@
       - gettext # Writes config files
   become: true
 
-- name: install optional neomutt dependencies
+- name: Install neomutt
+  tags:
+    - full-install
+    - light-install
+    - neomutt
+  ansible.builtin.package:
+    name:
+      - neomutt # Terminal based email client
+  become: true
+  register: configure_neomutt
+
+- name: Install optional neomutt dependencies
   tags:
     - full-install
     - light-install
@@ -26,14 +36,13 @@
       - notmuch # Index and search mail
   become: true
 
-- name: Install mutt-wizard package
+- name: Install mutt-wizard dependencies
   tags:
     - full-install
     - light-install
     - neomutt
   kewlfft.aur.aur:
     name:
-      - mutt-wizard # Configures email for neomutt
       - pam-gnupg # Automatically logs you into your GPG key on login
       - abook # terminal based address book
       - urlview-git # outputs urls in mail to browser
@@ -42,3 +51,28 @@
     update_cache: true
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
+
+- name: Install mutt-wizard package
+  tags:
+    - full-install
+    - light-install
+    - neomutt
+  kewlfft.aur.aur:
+    name:
+      - mutt-wizard # Configures email for neomutt
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
+  register: configure_neomutt2
+
+- name: Configure neomutt
+  tags:
+    - full-install
+    - light-install
+    - neomutt
+  ansible.builtin.shell:
+    cmd: "mw -a {{ neomutt_email }} -i imap.gmail.com -s smtp.gmail.com -x {{ neomutt_password }}"
+  become: true
+  when: configure_neomutt is changed or configure_neomutt2 is changed

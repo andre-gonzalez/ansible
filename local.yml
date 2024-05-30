@@ -27,6 +27,14 @@
 
 - hosts: workstation
   tags: workstation
+  vars_prompt:
+    - name: neomutt_email
+      prompt: "What is the email you want in neomutt?"
+      private: no
+
+    - name: neomutt_password
+      prompt: "What is the password of your email in neomutt?"
+
   roles:
     - workstation
 
