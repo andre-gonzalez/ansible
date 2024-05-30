@@ -35,3 +35,4 @@
     mode: 0644
   loop:
     - { src: "data-sources.json", dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver/data-sources.json" }
+    - { src: "credentials-config.json", dest: "{{ lookup('env', 'HOME') }}/.local/share/DBeaverData/workspace6/General/.dbeaver/credentials-config.json" }
