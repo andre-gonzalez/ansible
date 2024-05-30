@@ -218,6 +218,11 @@
 #   tags:
 #     - never
 #     - samba
+- include_tasks: tasks/neomutt.yml
+  tags:
+    - full-install
+    - light-install
+    - neomutt
 - include_tasks: tasks/network.yml
   tags:
     - full-install

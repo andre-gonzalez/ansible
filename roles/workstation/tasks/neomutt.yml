@@ -1,0 +1,44 @@
+---
+- name: install neomutt and its dependencies
+  tags:
+    - full-install
+    - light-install
+    - neomutt
+  ansible.builtin.package:
+    name:
+      - neomutt # Terminal based email client
+      - pass # Encrypt password for neomutt
+      - isync # Download and sync email for neomutt
+      - msmtp # Send email for neomutt
+      - curl # Test email connection
+      - ca-certificates # Required for SSL
+      - gettext # Writes config files
+  become: true
+
+- name: install optional neomutt dependencies
+  tags:
+    - full-install
+    - light-install
+    - neomutt
+  ansible.builtin.package:
+    name:
+      - lynx # View HTML email in neomutt
+      - notmuch # Index and search mail
+  become: true
+
+- name: Install mutt-wizard package
+  tags:
+    - full-install
+    - light-install
+    - neomutt
+  kewlfft.aur.aur:
+    name:
+      - mutt-wizard # Configures email for neomutt
+      - pam-gnupg # Automatically logs you into your GPG key on login
+      - abook # terminal based address book
+      - urlview-git # outputs urls in mail to browser
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
