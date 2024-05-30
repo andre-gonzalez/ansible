@@ -1,13 +1,14 @@
 ---
-# - name: Make sure pyspark is uninstalled because it conflicts with databricks-connect
-#   tags:
-#     - full-install
-#     - light-install
-#     - databricks
-#   ansible.builtin.pip:
-#     name:
-#       - pyspark
-#     state: absent
+- name: Make sure pyspark is uninstalled because it conflicts with databricks-connect
+  tags:
+    - full-install
+    - light-install
+    - databricks
+  ansible.builtin.pip:
+    name:
+      - pyspark
+    state: absent
+    extra_args: "--break-system-packages"
 
 - name: Install databricks-cli
   tags:
@@ -16,20 +17,21 @@
     - databricks
   kewlfft.aur.aur:
     name:
-      - databricks-cli-bin 
+      - databricks-cli-bin
     use: yay
     state: present
     update_cache: true
   when: ansible_distribution == "Archlinux"
 
-# - name: Install databricks-connect
-#   tags:
-#     - full-install
-#     - light-install
-#     - databricks
-#   ansible.builtin.pip:
-#     name: databricks-connect
-#     state: latest
+- name: Install databricks-connect
+  tags:
+    - full-install
+    - light-install
+    - databricks
+  ansible.builtin.pip:
+    name: databricks-connect
+    state: latest
+    extra_args: "--break-system-packages"
 
 - name: Copy Databricks configuration files
   tags:
