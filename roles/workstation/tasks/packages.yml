@@ -131,3 +131,10 @@
     update_cache: true
   become: true
   when: ansible_distribution == "Archlinux"
+
+- name: Refresh fonts
+  tags:
+    - full-install
+    - light-install
+    - packages
+  ansible.builtin.shell: fc-cache
