@@ -285,4 +285,4 @@
     - powertop
   ansible.builtin.command: powertop --calibrate
   become: true
-  when: calibrate_powertop
+  when: calibrate_powertop is changed
