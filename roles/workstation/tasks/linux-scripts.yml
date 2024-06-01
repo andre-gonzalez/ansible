@@ -19,9 +19,6 @@
     - scripts
   ansible.builtin.copy: src={{ item.src }} dest={{ item.dest }}
   with_items:
-    - { src: 'qrc', dest: "{{ lookup('env', 'HOME') }}/.scripts", mode: 0700 }
-    - { src: 'qso', dest: "{{ lookup('env', 'HOME') }}/.scripts", mode: 0700 }
-    - { src: 'salesops-dw-access', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }
     - { src: 'redeciclo-corp-access', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }
     - { src: 'instapaper', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }
     - { src: 'mac-address-proxmox-server', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }
