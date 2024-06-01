@@ -19,6 +19,8 @@
   ansible.builtin.file:
     dest: "/mnt/hd-interno/"
     mode: 0755
+    group: "{{ lookup('env', 'USER') }}"
+    owner: "{{ lookup('env', 'USER') }}"
     state: directory
   become: true
 
@@ -30,6 +32,8 @@
   ansible.builtin.file:
     dest: "/mnt/hd-externo/"
     mode: 0755
+    group: "{{ lookup('env', 'USER') }}"
+    owner: "{{ lookup('env', 'USER') }}"
     state: directory
   become: true
 
