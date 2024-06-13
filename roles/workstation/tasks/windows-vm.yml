@@ -1,32 +1,23 @@
 ---
-- name: Install collection kewlfft.aur
+- name: Ensure syncthing directory exists
   tags:
     - full-install
-    - collections-install
     - windows-vm
-  community.general.ansible_galaxy_install:
-    type: collection
-    name: community.libvirt
+  ansible.builtin.file:
+    dest: "{{ lookup('env', 'HOME') }}/projects/windows-docker/"
+    mode: 0770
+    group: "{{ lookup('env', 'USER') }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    state: directory
 
-- name: install packages that i still have not set in ubuntu 
+- name: Clone windows_docker repo
   tags:
     - full-install
     - windows-vm
-  ansible.builtin.package:
-    name:
-      - python-lxml
-    state: present
-    update_cache: true
-  become: true
-  when: ansible_distribution == "Archlinux"
-
-- name: Define a VM
-  tags:
-    - full-install
-    - windows-vm
-  community.libvirt.virt:
-    command: define
-    autostart: false
-    name: win10
-    xml: "win10.xml"
-    uri: 'qemu:///system'
+  ansible.builtin.git:
+    version: main
+    repo: git@github.com:andre-gonzalez/windows_docker.git
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
+    dest: "{{ lookup('env', 'HOME') }}/projects/windows-docker/"
+    accept_hostkey: true
+  ignore_errors: true
