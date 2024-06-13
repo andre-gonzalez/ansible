@@ -49,3 +49,15 @@
     chdir: "{{ lookup('env', 'HOME') }}/.config/dwm/laptop-dwm/"
     target: install
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
+
+- name: Install dwm
+  tags:
+    - full-install
+    - light-install
+    - dwm
+  community.general.make:
+    chdir: "{{ lookup('env', 'HOME') }}/.config/dwm/ultra-wide-dwm/"
+    target: install
+  become: true
+  when: '"Notebook" not in ansible_facts["form_factor"]'
