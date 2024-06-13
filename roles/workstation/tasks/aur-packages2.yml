@@ -15,7 +15,6 @@
       - tmux-bash-completion-git
       - mysql
       - insomnia-bin
-      - ferdium-bin
       - btrfs-assistant
       - btrfsmaintenance
     use: yay
