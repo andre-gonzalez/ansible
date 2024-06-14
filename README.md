@@ -24,12 +24,12 @@ ansible-playbook -t [tag1, tag2] --ask-become local.yml
 ```
 
 # Scripts ready to run
-1. Vault password file on $HOME with tags light-install, netbook and processor-intel
+1. Light-workstation role install
 ```
 bash <(curl -L tinyurl.com/ansible-netbook)
 ```
 
-2. Vault password file on $HOME with tags full-install, samsung-expert, processor-intel and nvidia
+2. Samsung-workstation role install
 ```
 bash <(curl -L tinyurl.com/ansible-samsung)
 ```
