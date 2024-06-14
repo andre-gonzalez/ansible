@@ -35,13 +35,13 @@ bash <(curl -L tinyurl.com/ansible-samsung)
 ```
 
 # Roles structure
-- base
-    - This role runs on all machines. It set configurations that should be on every system
-- light-workstation
-    - This role set a light workstation, without applications that has a high resource usage
-- heavy-workstation
-    - This role set the high resource usage applications
-- work
-    - This role configure work related stuff
-- server
-    - This role configure a server
+### base
+- This role runs on all machines. It set configurations that should be on every system
+### light-workstation
+- This role set a light workstation, without applications that has a high resource usage
+### heavy-workstation
+- This role set the high resource usage applications
+### work
+- This role configure work related stuff
+### server
+- This role configure a server
