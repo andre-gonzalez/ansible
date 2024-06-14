@@ -1,0 +1,12 @@
+---
+- name: Install insync
+  tags:
+    - insync
+  kewlfft.aur.aur:
+    name:
+      - insync
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true

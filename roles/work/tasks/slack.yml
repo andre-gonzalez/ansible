@@ -1,0 +1,12 @@
+---
+- name: Install slack package
+  tags:
+    - slack
+  kewlfft.aur.aur:
+    name:
+      - slack-desktop
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true

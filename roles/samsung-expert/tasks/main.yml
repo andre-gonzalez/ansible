@@ -1,0 +1,7 @@
+---
+- include_tasks: tasks/drives.yml
+  tags:
+    - drives
+- include_tasks: tasks/network.yml
+  tags:
+    - network

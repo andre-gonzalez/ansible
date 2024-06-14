@@ -1,0 +1,10 @@
+---
+- name: Do not ask for the username in tty
+  tags:
+    - systemd
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/system/getty.target.wants/getty@tty1.service
+    regexp: '^ExecStart=.*'
+    line: "ExecStart=-/sbin/agetty -n -o {{ lookup('env', 'USER') }} %I"
+    backrefs: true
+  become: true

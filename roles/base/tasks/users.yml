@@ -1,8 +1,6 @@
 ---
 - name: create frank group
   tags:
-    - full-install
-    - light-install
     - users
   ansible.builtin.group:
     name: frank
@@ -10,8 +8,6 @@
 
 - name: Create ansible group
   tags:
-    - full-install
-    - light-install
     - users
   ansible.builtin.group:
     name: ansible
@@ -19,8 +15,6 @@
 
 - name: Set fact for Debian
   tags:
-    - full-install
-    - light-install
     - users
   set_fact:
     sudo_group: sudo
@@ -28,8 +22,6 @@
 
 - name: Set fact for ArchLinux
   tags:
-    - full-install
-    - light-install
     - users
   set_fact:
     sudo_group: wheel
@@ -37,8 +29,6 @@
 
 - name: users | frank | create user
   tags:
-    - full-install
-    - light-install
     - users
   user:
     name: frank
@@ -48,8 +38,6 @@
 
 - name: create ansible user
   tags:
-    - full-install
-    - light-install
     - users
     - ansible
   ansible.builtin.user:
@@ -59,10 +47,8 @@
 
 - name: copy sudoers_ansible
   tags:
-    - full-install
     - users
     - ansible
-    - light-install
   ansible.builtin.copy: src={{ item.src }} dest={{ item.dest }}
   with_items:
     - { src: 'sudoers_ansible', dest: '/etc/sudoers.d/ansible', mode: 0440 }

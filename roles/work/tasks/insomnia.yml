@@ -1,0 +1,12 @@
+---
+- name: Install insomnia package
+  tags:
+    - insomnia
+  kewlfft.aur.aur:
+    name:
+      - insomnia-bin
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true

@@ -1,0 +1,17 @@
+---
+- name: Clone dwmstatus
+  tags:
+    - dwmblocks
+  ansible.builtin.git:
+    version: master
+    repo: https://git.suckless.org/dwmstatus
+    dest: "{{ lookup('env', 'HOME') }}/.config/dwmstatus"
+  ignore_errors: true
+
+- name: Install dwmstatus
+  tags:
+    - dwmblocks
+  community.general.make:
+    chdir: "{{ lookup('env', 'HOME') }}/.config/dwmstatus"
+    target: install
+  become: true

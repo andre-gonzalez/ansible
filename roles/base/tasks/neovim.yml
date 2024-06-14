@@ -1,8 +1,6 @@
 ---
 - name: Install neovim
   tags:
-    - full-install
-    - light-install
     - neovim
   ansible.builtin.package:
     name:
@@ -13,8 +11,6 @@
 
 - name: Set neovim as default git editor
   tags:
-    - full-install
-    - light-install
     - neovim
     - git
   community.general.git_config:

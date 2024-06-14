@@ -1,8 +1,6 @@
 ---
 - name: install reflector
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.package:
     name: reflector
@@ -11,8 +9,6 @@
 
 - name: update pacman mirrorlist
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.script: choose-mirror.sh
   become: true
@@ -20,8 +16,6 @@
 
 - name: copy file pacman.conf to /etc
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.copy:
     src: pacman.conf
@@ -34,8 +28,6 @@
 
 - name: Set intel variable when distribution is Archlinux (if necessary)
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.set_fact:
     intel: intel-ucode
@@ -43,8 +35,6 @@
 
 - name: Set intel variable when distribution is Ubuntu (if necessary)
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.set_fact:
     intel: intel-microcode
@@ -52,8 +42,6 @@
 
 - name: Enable contrib, non-free and non-free-firmware repos
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.apt_repository:
     repo: '{{ item.repo }}'
@@ -67,8 +55,6 @@
 
 - name: Install microcode updates for intel (if necessary)
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.package:
     name: "{{ intel }}"
@@ -79,8 +65,6 @@
 
 - name: Set amd variable when distribution is Archlinux (if necessary)
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.set_fact:
     amd: amd-ucode
@@ -117,8 +101,6 @@
 
 - name: remove packages
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.package:
     name:
@@ -141,8 +123,6 @@
 
 - name: delete config files for cloud-init in Ubuntu
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.file:
     path:
@@ -154,8 +134,6 @@
 
 - name: install base packages
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.package:
     name:
@@ -167,8 +145,6 @@
 
 - name: install qemu-guest-agent when running on guest
   tags:
-    - full-install
-    - light-install
     - packages
   ansible.builtin.package:
     name:

@@ -1,8 +1,6 @@
 ---
 - name: Mark oh-my-fish installed with /etc/omf.installed
   tags:
-    - full-install
-    - light-install
     - fish
   ansible.builtin.file:
     path: /etc/omf.installed
@@ -11,8 +9,6 @@
 
 - name: restart fail2ban
   tags:
-    - full-install
-    - light-install
     - security
     - fail2ban
   ansible.builtin.service:
@@ -32,8 +28,6 @@
 
 - name: copy file update-grub
   tags:
-    - full-install
-    - light-install
     - grub
   ansible.builtin.copy:
     src: update-grub
@@ -46,8 +40,6 @@
 
 - name: run update grub
   tags:
-    - full-install
-    - light-install
     - grub
   ansible.builtin.command: update-grub
   become: true
@@ -55,8 +47,6 @@
 
 - name: restart ssh
   tags:
-    - full-install
-    - light-install
     - security
     - ssh
   ansible.builtin.service:
@@ -67,8 +57,6 @@
 
 - name: restart auditd
   tags:
-    - full-install
-    - light-install
     - security
     - apparmor
   ansible.builtin.service:
@@ -79,8 +67,6 @@
 
 - name: restart apparmor
   tags:
-    - full-install
-    - light-install
     - security
     - apparmor
   ansible.builtin.service:
@@ -94,8 +80,6 @@
 
 - name: restart tailscale service
   tags:
-    - full-install
-    - light-install
     - tailscale
   ansible.builtin.service:
     name: tailscale

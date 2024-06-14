@@ -1,32 +1,28 @@
-# ---
-# - name: Change default DNS server (Archlinux)
-#   tags:
-#     - full-install
-#     - light-install
-#     - network
-#   ansible.builtin.lineinfile:
-#     path: /etc/systemd/resolved.conf
-#     state: present
-#     insertafter: "{{ item.insertafter }}"
-#     line: "{{ item.line }}"
-#   loop:
-#     - { insertafter: '\[Resolve\]', line: 'DNS=1.1.1.2' }
-#     - { insertafter: 'DNS=1.1.1.2', line: 'FallbackDNS=1.0.0.2' }
-#   become: true
-#   when: ansible_distribution == "Archlinux"
+---
+- name: Change default DNS server (Archlinux)
+  tags:
+    - network
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/resolved.conf
+    state: present
+    insertafter: "{{ item.insertafter }}"
+    line: "{{ item.line }}"
+  loop:
+    - { insertafter: '\[Resolve\]', line: 'DNS=1.1.1.3' }
+    - { insertafter: 'DNS=1.1.1.3', line: 'FallbackDNS=1.0.0.3' }
+  become: true
+  when: ansible_distribution == "Archlinux"
 
-# - name: Change default DNS server (Debian and Ubuntu)
-#   tags:
-#     - full-install
-#     - light-install
-#     - network
-#   ansible.builtin.lineinfile:
-#     path: /etc/resolv.conf
-#     state: present
-#     line: "{{ item.line }}"
-#   loop:
-#     - { line: 'nameserver 1.1.1.3' }
-#     - { line: 'nameserver 1.0.0.3' }
-#     - { line: 'nameserver 1.0.0.3' }
-#   become: true
-#   when: ansible_distribution in ["Debian", "Ubuntu"]
+- name: Change default DNS server (Debian and Ubuntu)
+  tags:
+    - network
+  ansible.builtin.lineinfile:
+    path: /etc/resolv.conf
+    state: present
+    line: "{{ item.line }}"
+  loop:
+    - { line: 'nameserver 1.1.1.3' }
+    - { line: 'nameserver 1.0.0.3' }
+    - { line: 'nameserver 1.0.0.3' }
+  become: true
+  when: ansible_distribution in ["Debian", "Ubuntu"]

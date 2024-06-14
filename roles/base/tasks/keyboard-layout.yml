@@ -1,8 +1,6 @@
 ---
 - name: copy file vconsole.conf
   tags:
-    - full-install
-    - light-install
     - keyboard
   ansible.builtin.copy:
     src: vconsole.conf

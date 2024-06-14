@@ -1,0 +1,64 @@
+---
+- name: Install ssh key
+  tags:
+    - ssh
+  ansible.builtin.copy:
+    src: personal_id_ed25519_2023-11
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    owner: "{{ lookup('env', 'USER') }}"
+    mode: 0600
+
+- name: Install ssh key public
+  tags:
+    - ssh
+  ansible.builtin.copy:
+    src: personal_id_ed25519_2023-11.pub
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    mode: 0644
+    owner: "{{ lookup('env', 'USER') }}"
+
+- name: Copy config file
+  tags:
+    - ssh
+  ansible.builtin.copy:
+    src: config
+    dest: "{{ lookup('env', 'HOME') }}/.ssh"
+    mode: 0600
+    owner: "{{ lookup('env', 'USER') }}"
+  register: restart_ssh
+
+- name: Disable root login via ssh
+  tags:
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: "PermitRootLogin no"
+    state: present
+    backup: true
+  become: true
+  register: restart_ssh2
+
+- name: Disable password login via ssh
+  tags:
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: "PasswordAuthentication no"
+    state: present
+    backup: true
+  become: true
+  register: restart_ssh3
+
+- name: restart ssh
+  tags:
+    - security
+    - ssh
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+  become: true
+  when: restart_ssh is changed or restart_ssh2 is changed or restart_ssh3 is changed

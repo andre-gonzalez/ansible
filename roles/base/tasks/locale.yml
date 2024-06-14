@@ -1,8 +1,6 @@
 ---
 - name: Install locale package when distribution is Ubuntu
   tags:
-    - full-install
-    - light-install
     - locale
   ansible.builtin.package:
     name:
@@ -13,8 +11,6 @@
 
 - name: Set timezone to "{{ timezone }}"
   tags:
-    - full-install
-    - light-install
     - timezone
   community.general.timezone:
     name: "{{ timezone }}"
@@ -22,8 +18,6 @@
 
 - name: Ensure the locale exists
   tags:
-    - full-install
-    - light-install
     - locale
   community.general.locale_gen:
     name: "{{ locale }}"

@@ -14,29 +14,52 @@
       apt: update_cache=yes
       changed_when: False
       when: ansible_distribution in ["Debian", "Ubuntu"]
+  vars_prompt:
+    - name: neomutt_email
+      prompt: "What is the email you want in neomutt?"
+      private: no
+    - name: neomutt_password
+      prompt: "What is the password of your email in neomutt?"
 
 # run roles
 - hosts: all
   tags:
     - base
-    - workstation
+    - light-workstation
+    - heavy-workstation
+    - samsung-expert
+    - work
     - server
   become: true
   roles:
     - base
 
-- hosts: workstation
-  tags: workstation
-  vars_prompt:
-    - name: neomutt_email
-      prompt: "What is the email you want in neomutt?"
-      private: no
-
-    - name: neomutt_password
-      prompt: "What is the password of your email in neomutt?"
-
+- hosts: light-workstation
+  tags:
+    - light-workstation
+    - heavy-workstation
+    - samsung-expert
   roles:
-    - workstation
+    - light-workstation
+
+- hosts: heavy-workstation
+  tags:
+    - heavy-workstation
+    - samsung-expert
+  roles:
+    - heavy-workstation
+
+- hosts: work
+  tags:
+    - work
+    - samsung-expert
+  roles:
+    - work
+
+- hosts: samsung-expert
+  tags: samsung-expert
+  roles:
+    - samsung-expert
 
 - hosts: server
   tags: server
