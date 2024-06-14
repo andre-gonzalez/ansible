@@ -1,0 +1,21 @@
+---
+- name: Clone linux-scripts
+  tags:
+    - scripts
+  ansible.builtin.git:
+    version: main
+    repo: git@github.com:andre-gonzalez/linux-scripts.git
+    dest: "{{ lookup('env', 'HOME') }}/.scripts"
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
+    accept_hostkey: true
+  ignore_errors: true
+
+- name: Copy files to .scripts
+  tags:
+    - scripts
+  ansible.builtin.copy: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'redeciclo-corp-access', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }
+    - { src: 'instapaper', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }
+    - { src: 'mac-address-proxmox-server', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }
+    - { src: 'ipinfo', dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: 0600 }

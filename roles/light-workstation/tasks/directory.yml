@@ -1,0 +1,20 @@
+---
+- name: Ensure gdrive-pessoal, not-up and iso directories exists.
+  tags:
+    - directories
+  ansible.builtin.file:
+    dest: "{{ lookup('env', 'HOME') }}/gdrive-pessoal/not-up/iso"
+    mode: 0770
+    group: "{{ lookup('env', 'USER') }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    state: directory
+
+- name: Ensure projects directory exists.
+  tags:
+    - directories
+  ansible.builtin.file:
+    dest: "{{ lookup('env', 'HOME') }}/projects/"
+    mode: 0770
+    group: "{{ lookup('env', 'USER') }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    state: directory

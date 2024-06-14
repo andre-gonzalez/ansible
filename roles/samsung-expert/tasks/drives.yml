@@ -1,0 +1,9 @@
+---
+- name: Mount internal hard-drive
+  tags:
+    - drives
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    state: present
+    line: "UUID=1b4f5a72-bc54-4f80-a27b-7b7542391825 /mnt/hd-interno ext4    defaults        0       0"
+  become: true

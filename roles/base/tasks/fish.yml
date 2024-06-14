@@ -1,8 +1,6 @@
 ---
 - name: install fish
   tags:
-    - full-install
-    - light-install
     - fish
   ansible.builtin.package:
     name: fish
@@ -12,8 +10,6 @@
 
 - name: Check if oh-my-fish is installed
   tags:
-    - full-install
-    - light-install
     - fish
   ansible.builtin.stat:
     path: '/etc/omf.installed'
@@ -21,8 +17,6 @@
 
 - name: Clone oh-my-fish repo
   tags:
-    - full-install
-    - light-install
     - fish
   ansible.builtin.git:
     version: master
@@ -33,8 +27,6 @@
 
 - name: Install oh-my-fish
   tags:
-    - full-install
-    - light-install
     - fish
   become: true
   become_user: "{{ lookup('env', 'USER') }}"
@@ -44,8 +36,6 @@
 
 - name: change user shell to fish
   tags:
-    - full-install
-    - light-install
     - fish
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
@@ -54,8 +44,6 @@
 
 # - name: Copy fish history file
 #   tags:
-#     - full-install
-#     - light-install
 #     - fish
 #   ansible.builtin.copy:
 #     src: fish_history

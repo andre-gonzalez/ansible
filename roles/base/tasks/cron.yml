@@ -1,8 +1,6 @@
 ---
 - name: Set cron variable when distribution is Archlinux
   tags:
-    - full-install
-    - light-install
     - cron
   ansible.builtin.set_fact:
     cron: cronie
@@ -10,8 +8,6 @@
 
 - name: Set cron variable when distribution is Ubuntu on Debian
   tags:
-    - full-install
-    - light-install
     - cron
   ansible.builtin.set_fact:
     cron: cron
@@ -19,8 +15,6 @@
 
 - name: Install cron
   tags:
-    - full-install
-    - light-install
     - cron
   ansible.builtin.package:
     name: "{{ cron }}"
@@ -30,8 +24,6 @@
 
 - name: start cron
   tags:
-    - full-install
-    - light-install
     - cron
   ansible.builtin.service:
     name: "{{ cron }}"

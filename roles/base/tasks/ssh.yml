@@ -1,8 +1,6 @@
 ---
 - name: Set ssh variable when distribution is Archlinux
   tags:
-    - full-install
-    - light-install
     - ssh
   ansible.builtin.set_fact:
     ssh_package: openssh
@@ -10,8 +8,6 @@
 
 - name: Set intel variable when distribution is Ubuntu or Debian
   tags:
-    - full-install
-    - light-install
     - ssh
   ansible.builtin.set_fact:
     ssh_package: openssh-server
@@ -19,8 +15,6 @@
 
 - name: Install openssh
   tags:
-    - full-install
-    - light-install
     - ssh
   ansible.builtin.package:
     name: "{{ ssh_package }}"
@@ -30,8 +24,6 @@
 
 - name: Ensure .ssh directory exists.
   tags:
-    - full-install
-    - light-install
     - ssh
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
@@ -40,8 +32,6 @@
 
 - name: Set authorized keys for {{ lookup('env', 'USER') }} from github
   tags:
-    - full-install
-    - light-install
     - ssh
   ansible.posix.authorized_key:
     user: "{{ lookup('env', 'USER') }}"
@@ -51,8 +41,6 @@
 
 - name: Change ssh port
   tags:
-    - full-install
-    - light-install
     - ssh
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -64,9 +52,8 @@
 
 - name: Disable root login via ssh
   tags:
-    - full-install
-    - light-install
     - security
+    - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: '^(#)PermitRootLogin .*'
@@ -78,8 +65,6 @@
 
 - name: Disable password login via ssh
   tags:
-    - full-install
-    - light-install
     - security
     - ssh
   ansible.builtin.lineinfile:
@@ -93,8 +78,6 @@
 
 - name: Only allow user {{ lookup('env', 'USER') }}
   tags:
-    - full-install
-    - light-install
     - security
     - ssh
   ansible.builtin.lineinfile:
@@ -108,8 +91,6 @@
 
 - name: Do not permit empty passwords on ssh
   tags:
-    - full-install
-    - light-install
     - security
     - ssh
   ansible.builtin.lineinfile:
@@ -123,8 +104,6 @@
 
 - name: Limit max auth tries to 6
   tags:
-    - full-install
-    - light-install
     - security
     - ssh
   ansible.builtin.lineinfile:
@@ -138,8 +117,6 @@
 
 - name: Block X11Forwarding on ssh
   tags:
-    - full-install
-    - light-install
     - security
     - ssh
   ansible.builtin.lineinfile:
@@ -153,8 +130,6 @@
 
 - name: Block TCP Forwarding on ssh
   tags:
-    - full-install
-    - light-install
     - security
     - ssh
   ansible.builtin.lineinfile:

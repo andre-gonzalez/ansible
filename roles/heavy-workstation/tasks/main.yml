@@ -1,0 +1,29 @@
+---
+- include_tasks: tasks/docker.yml
+  tags:
+    - docker
+- include_tasks: tasks/syncthing.yml
+  tags:
+    - syncthing
+- include_tasks: tasks/libvirt.yml
+  tags:
+    - libvirt
+- include_tasks: tasks/windows-vm.yml
+  tags:
+    - windows-vm
+# - include_tasks: tasks/samba.yml
+#   tags:
+#     - never
+#     - samba
+# - include_tasks: tasks/smtpd.yml # heavy
+#   tags:
+#     - never
+#     - opensmtpd
+- include_tasks: tasks/insync.yml # Mover alguns para o work e alguns para o heavy
+  tags:
+    - insync
+# - include_tasks: tasks/portmaster.yml # heavy
+#   tags:
+#     - aur
+#     - never
+#     - portmaster

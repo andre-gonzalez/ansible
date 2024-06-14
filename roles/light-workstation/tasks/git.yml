@@ -1,0 +1,33 @@
+---
+- name: Install git
+  tags:
+    - git
+  ansible.builtin.package:
+    name: git
+    state: present
+    update_cache: false
+  become: true
+
+- name: Git personal setup email
+  tags:
+    - git
+  community.general.git_config:
+    name: user.email
+    scope: global
+    value: "{{ personal_email }}"
+
+- name: Git personal setup name
+  tags:
+    - git
+  community.general.git_config:
+    name: user.name
+    scope: global
+    value: "{{ fullname }}"
+
+- name: Git default branch
+  tags:
+    - git
+  community.general.git_config:
+    name: init.defaultBranch
+    scope: global
+    value: main

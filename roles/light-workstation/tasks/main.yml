@@ -1,0 +1,111 @@
+---
+- include_tasks: tasks/directory.yml
+  tags:
+    - directories
+- include_tasks: tasks/ssh.yml
+  tags:
+    - ssh
+    - security
+- include_tasks: tasks/grub.yml
+  tags:
+    - grub
+- include_tasks: tasks/systemd.yml
+  tags:
+    - systemd
+- include_tasks: tasks/ansible.yml
+  tags:
+    - ansible
+- include_tasks: tasks/audio.yml
+  tags:
+    - pipewire
+    - pulseaudio
+- include_tasks: tasks/cron.yml
+  tags:
+    - cron
+    - auto-adjust-brightness
+- include_tasks: tasks/git.yml
+  tags:
+    - git
+- include_tasks: tasks/dotfiles.yml
+  tags:
+    - dotfiles
+- include_tasks: tasks/linux-scripts.yml
+  tags:
+    - scripts
+- include_tasks: tasks/bluetooth.yml
+  tags:
+    - bluetooth
+    - pulseaudio
+- include_tasks: tasks/packages.yml
+  tags:
+    - packages
+    - nvidia
+- include_tasks: tasks/notas.yml
+  tags:
+    - notas
+- include_tasks: tasks/dwm.yml
+  tags:
+    - dwm
+- include_tasks: tasks/st.yml
+  tags:
+    - st
+- include_tasks: tasks/dmenu.yml
+  tags:
+    - dmenu
+- include_tasks: tasks/dwmstatus.yml
+  tags:
+    - dwmblocks
+- include_tasks: tasks/slock.yml
+  tags:
+    - slock
+- include_tasks: tasks/stw.yml
+  tags:
+    - stw
+- include_tasks: tasks/wall-d.yml
+  tags:
+    - wall-d
+- include_tasks: tasks/anki.yml
+  tags:
+    - anki
+- include_tasks: tasks/rsync.yml
+  tags:
+    - rsync
+- include_tasks: tasks/collections-install.yml
+  tags:
+    - aur
+    - collections-install
+    - ufw
+- include_tasks: tasks/yay.yml
+  tags:
+    - aur
+    - yay
+- include_tasks: tasks/aur-packages.yml
+  tags:
+    - aur
+- include_tasks: tasks/brave.yml
+  tags:
+    - brave
+- include_tasks: tasks/neovim.yml
+  tags:
+    - neovim
+    - git
+- include_tasks: tasks/dwmblocks.yml
+  tags:
+    - dwmblocks
+- include_tasks: tasks/lfub.yml
+  tags:
+    - lf
+- include_tasks: tasks/preload.yml
+  tags:
+    - preload
+- include_tasks: tasks/timeshift.yml
+  tags:
+    - timeshift
+- include_tasks: tasks/save-battery.yml
+  tags:
+    - save-battery
+    - tlp
+    - powertop
+# - include_tasks: tasks/doas.yml
+#   tags:
+#     - doas

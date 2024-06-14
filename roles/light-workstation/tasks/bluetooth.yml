@@ -1,0 +1,81 @@
+---
+- name: Set bluez_utils and pulseaudio_bluetooth variable when distribution is Archlinux (if necessary)
+  tags:
+    - bluetooth
+  ansible.builtin.set_fact:
+    bluez_utils: bluez-utils
+    pulseaudio_bluetooth: pulseaudio-bluetooth
+  when: ansible_distribution == "Archlinux"
+
+- name: Set bluez_utils and pulseaudio_bluetooth variable when distribution is Ubuntu (if necessary)
+  tags:
+    - bluetooth
+  ansible.builtin.set_fact:
+    bluez_utils: bluez-alsa-utils
+    pulseaudio_bluetooth: pulseaudio-module-bluetooth
+  when: ansible_distribution == "Ubuntu"
+
+# - name: Install pulseaudio-bluetooth
+#   tags:
+#     - never
+#     - pulseaudio
+#   ansible.builtin.package:
+#     name:
+#       - "{{ pulseaudio_bluetooth }}"
+#     state: present
+#     update_cache: false
+#   become: true
+
+- name: Install bluetooth packages | Arch
+  tags:
+    - bluetooth
+  ansible.builtin.package:
+    name:
+      - bluez
+      - bluez-tools
+      - "{{ bluez_utils }}"
+    state: present
+    update_cache: false
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Install bluetooth packages | Debian
+  tags:
+    - bluetooth
+  ansible.builtin.package:
+    name:
+      - bluez
+      - bluez-tools
+    state: present
+    update_cache: false
+  become: true
+  when: ansible_distribution == "Debian"
+
+- name: Activate bluetooth experimental features (to get headset battery)
+  tags:
+    - bluetooth
+  ansible.builtin.lineinfile:
+    path: /etc/bluetooth/main.conf
+    regexp: '\b#?\s*?Experimental = (true|false)\b'
+    line: 'Experimental = true'
+    backrefs: true
+  become: true
+
+- name: Activate bluetooth kernel experimental features (to get headset battery)
+  tags:
+    - bluetooth
+  ansible.builtin.lineinfile:
+    path: /etc/bluetooth/main.conf
+    regexp: '\b#?\s*?KernelExperimental = (true|false)\b'
+    line: 'KernelExperimental = true'
+    backrefs: true
+  become: true
+
+- name: start bluetooth
+  tags:
+    - bluetooth
+  ansible.builtin.service:
+    name: bluetooth
+    state: started
+    enabled: true
+  become: true

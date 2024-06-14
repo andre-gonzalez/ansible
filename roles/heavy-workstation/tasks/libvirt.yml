@@ -1,0 +1,101 @@
+---
+- name: Uninstall iptables so it can install iptables-nft later
+  tags:
+    - libvirt
+  ansible.builtin.package:
+    name: iptables
+    state: absent
+    update_cache: false
+    force: true
+  become: true
+
+- name: Install KVM/QEMU packages
+  tags:
+    - libvirt
+  ansible.builtin.package:
+    name:
+      - qemu-base
+      - libvirt
+      - virt-manager
+      - spice-vdagent
+      - dnsmasq
+      - ebtables
+    state: present
+    update_cache: false
+  become: true
+  register: "finish_libvirt_configuration1"
+
+- name: Ensure group libvirt exists
+  tags:
+    - libvirt
+  ansible.builtin.group:
+    name: libvirtd
+    state: present
+  become: true
+
+- name: add the user {{ lookup('env', 'USER') }} to the libvirt group
+  tags:
+    - libvirt
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    groups: libvirtd
+    append: true
+  become: true
+  register: "finish_libvirt_configuration2"
+
+- name: copy file qemu.conf to /etc/libvirt
+  tags:
+    - libvirt
+  ansible.builtin.copy:
+    src: qemu.conf
+    dest: /etc/libvirt
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  register: "finish_libvirt_configuration3"
+
+- name: Ensure libvirt directory exists in .config
+  tags:
+    - libvirt
+  ansible.builtin.file:
+    dest: "{{ lookup('env', 'HOME') }}/.config/libvirt/"
+    mode: 0770
+    group: "{{ lookup('env', 'USER') }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    state: directory
+
+- name: Copy libvirt conf to user .config directory
+  tags:
+    - libvirt
+  ansible.builtin.copy:
+    src: /etc/libvirt/libvirt.conf
+    dest: "{{ lookup('env', 'HOME') }}/.config/libvirt/libvirt.conf"
+    mode: 0644
+  become: true
+
+- name: change libvirt.conf to allow non root user to start a VM
+  tags:
+    - libvirt
+  ansible.builtin.lineinfile:
+    path: /etc/libvirt/libvirt.conf
+    state: present
+    line: 'uri_default = "qemu:///system"'
+  become: true
+
+- name: restart libvirt
+  tags:
+    - libvirt
+  ansible.builtin.service:
+    name: libvirtd
+    state: restarted
+    enabled: true
+  become: true
+  when:  finish_libvirt_configuration1 is changed or finish_libvirt_configuration2 is changed or finish_libvirt_configuration3 is changed
+
+# - name: virsh start
+#   tags:
+#     - libvirt
+#   ansible.builtin.command: "virsh net-autostart default && virsh net-start default"
+#   become: true
+#   when:  finish_libvirt_configuration1 is changed or finish_libvirt_configuration2 is changed or finish_libvirt_configuration3 is changed

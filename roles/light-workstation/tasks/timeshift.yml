@@ -1,0 +1,34 @@
+---
+- name: Install timeshift packages
+  tags:
+    - timeshift
+  kewlfft.aur.aur:
+    name:
+      - timeshift
+      - timeshift-autosnap
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
+
+- name: copy file timeshift.json to /etc
+  tags:
+    - timeshift
+  ansible.builtin.copy:
+    src: timeshift.json
+    dest: /etc/timeshift/
+    owner: root
+    group: root
+    mode: 0666
+  become: true
+
+- name: Changed timeshift-autosnap to store only 2 backups
+  tags:
+    - timeshift
+  ansible.builtin.lineinfile:
+    path: /etc/timeshift-autosnap.conf
+    regexp: '.*maxSnapshots=.*'
+    line: 'maxSnapshots=2'
+    backrefs: true
+  become: true

@@ -34,63 +34,14 @@ bash <(curl -L tinyurl.com/ansible-netbook)
 bash <(curl -L tinyurl.com/ansible-samsung)
 ```
 
-# Tags structure
-The logic here is to work well with tags inheritance, so it become easier to run a whole script using less tags. That is why the tags are nested. The structure is shown below:
-- full-install
-  - docker
-  - libvirt
-  - light-install
-    - ansible
-    - apparmor
-    - audio
-    - auto-adjust-brightness
-    - aur
-    - authy
-    - aws
-    - bluetooth
-    - brave
-    - cron
-    - databricks
-    - dbeaver
-    - dmenu
-    - dotfiles
-    - drives
-    - dwm
-    - dwmblocks
-    - eureciclo
-    - fail2ban
-    - gcloud
-    - grub
-    - keyboard
-    - lf
-    - locale
-    - neovim
-    - network
-    - packages
-    - pipewire
-    - powertop
-    - preload
-    - pulseaudio
-    - python
-    - rsync
-    - samba
-    - save-battery
-    - security
-    - scripts
-    - slock
-    - ssh
-    - st
-    - systemd
-    - terraform
-    - timeshift
-    - timezone
-    - tlp
-    - ufw
-    - users
-- samsung-expert*
-- netbook*
-- nvidia*
-- opensmtpd*
-- windows-vm
-
-*These tags should always be specified manually because they are specific drivers for specific machines
+# Roles structure
+- base
+    - This role runs on all machines. It set configurations that should be on every system
+- light-workstation
+    - This role set a light workstation, without applications that has a high resource usage
+- heavy-workstation
+    - This role set the high resource usage applications
+- work
+    - This role configure work related stuff
+- server
+    - This role configure a server

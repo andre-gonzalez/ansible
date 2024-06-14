@@ -1,0 +1,33 @@
+---
+- name: Install wireless drivers (samsung-expert)
+  tags:
+    - network
+  ansible.builtin.package:
+    name:
+      - broadcom-wl
+      - iwd
+    state: present
+    update_cache: false
+  when: ansible_distribution in ["Archlinux"]
+  become: true
+  register: restart_network
+
+- name: restart systemd-networkd
+  tags:
+    - network
+  ansible.builtin.service:
+    name: systemd-networkd
+    state: restarted
+    enabled: true
+  become: true
+  when: restart_network is changed
+
+- name: start iwd
+  tags:
+    - network
+  ansible.builtin.service:
+    name: iwd
+    state: restarted
+    enabled: true
+  become: true
+  when: restart_network is changed

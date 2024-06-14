@@ -1,0 +1,113 @@
+---
+- name: Install packages necessary for dwmblocks | AUR
+  tags:
+    - dwmblocks
+  kewlfft.aur.aur:
+    name:
+      - checkupdates-with-aur
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
+
+- name: Install packages necessary for dwmblocks | Pacman
+  tags:
+    - dwmblocks
+  ansible.builtin.package:
+    name: playerctl
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Clone dwmblocks (Laptop)
+  tags:
+    - dwmblocks
+  ansible.builtin.git:
+    version: main
+    repo: git@github.com:andre-gonzalez/dwmblocks.git
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
+    dest: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/"
+    accept_hostkey: true
+  ignore_errors: true
+
+- name: Clone dwmblocks (Desktop)
+  tags:
+    - dwmblocks
+  ansible.builtin.git:
+    version: desktop-dwmblocks
+    repo: git@github.com:andre-gonzalez/dwmblocks.git
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
+    dest: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/"
+    accept_hostkey: true
+  ignore_errors: true
+
+- name: Install dwmblocks (Laptop)
+  tags:
+    - dwmblocks
+  community.general.make:
+    chdir: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/"
+    target: install
+  become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
+
+- name: Install dwmblocks (Desktop)
+  tags:
+    - dwmblocks
+  community.general.make:
+    chdir: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/"
+    target: install
+  become: true
+  when: '"Notebook" not in ansible_facts["form_factor"]'
+
+- name: Create symbolic links for the dwmblocks scripts (Laptop)
+  tags:
+    - dwmblocks
+  ansible.builtin.file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    state: link
+  loop:
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_packages", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_packages" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_spotify", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_spotify" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_systemd_networkd.sh", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_systemd_networkd" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_resources", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_resources" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_battery", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_battery" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_backlight", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_backlight" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_pulse", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_pulse" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_bluetooth", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_bluetooth" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_date", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_date" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_weather", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_weather" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_countdown", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_countdown" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_currency", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_currency" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_do_not_disturb", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_do_not_disturb" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_ufw", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_ufw" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_cron", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_cron" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_vpn.sh", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_vpn" }
+  become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
+
+- name: Create symbolic links for the dwmblocks scripts (Desktop)
+  tags:
+    - dwmblocks
+  ansible.builtin.file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    state: link
+  loop:
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/bar-functions/dwm_packages", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_packages" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/bar-functions/dwm_spotify", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_spotify" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/bar-functions/dwm_systemd_networkd.sh", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_systemd_networkd" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/bar-functions/dwm_resources", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_resources" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/bar-functions/dwm_pulse", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_pulse" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/bar-functions/dwm_bluetooth", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_bluetooth" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/bar-functions/dwm_date", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_date" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/bar-functions/dwm_weather", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_weather" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/bar-functions/dwm_countdown", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_countdown" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/bar-functions/dwm_do_not_disturb", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_do_not_disturb" }
+    - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/desktop-dwmblocks/bar-functions/dwm_ufw", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_ufw" }
+  become: true
+  when: '"Notebook" not in ansible_facts["form_factor"]'
