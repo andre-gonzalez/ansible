@@ -1,0 +1,20 @@
+---
+- name: Set faillock to deny access after 5 consecutive authentication failures
+  tags:
+    - faillock
+  ansible.builtin.lineinfile:
+    path: /etc/security/faillock.conf
+    regexp: '[#]?deny = *'
+    line: 'deny = 5'
+    backrefs: true
+  become: true
+
+- name: Set time to re-enable login after lock out to 300s
+  tags:
+    - faillock
+  ansible.builtin.lineinfile:
+    path: /etc/security/faillock.conf
+    regexp: '[#]\s?unlock_time = \d*'
+    line: 'unlock_time = 300'
+    backrefs: true
+  become: true

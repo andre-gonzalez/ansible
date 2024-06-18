@@ -12,6 +12,9 @@
 - include_tasks: tasks/systemd.yml
   tags:
     - systemd
+- include_tasks: tasks/faillock.yml
+  tags:
+    - faillock
 - include_tasks: tasks/ansible.yml
   tags:
     - ansible
