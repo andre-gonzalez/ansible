@@ -38,7 +38,7 @@
     path: /etc/sudoers.d/frank
     state: present
     regexp: "{{ lookup('env', 'USER') }} ALL = NOPASSWD: /usr/bin/rsync"
-    line: last
+    line: "{{ lookup('env', 'USER') }} ALL = NOPASSWD: /usr/bin/rsync"
   become: true
 
 - name: install cron job (Backup home directory with rsync to internal hard drive)
