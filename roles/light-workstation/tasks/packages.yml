@@ -119,6 +119,7 @@
       - libreoffice-still # Office application
       - noto-fonts # Google Fonts
       - noto-fonts-extra # Aditional variants of google fonts
+      - ncdu # Terminal disk space usage explorer utility
     state: present
     update_cache: true
   become: true
