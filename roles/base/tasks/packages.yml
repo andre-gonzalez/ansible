@@ -153,4 +153,12 @@
     update_cache: false
   when: ansible_virtualization_role == "guest"
   become: true
-  notify: "restart qemu-guest-agent"
+  register: restart_qemu-guest-agent
+
+- name: restart qemu-guest-agent
+  ansible.builtin.service:
+    name: qemu-guest-agent
+    state: restarted
+    enabled: true
+  become: true
+  when: restart_qemu-guest-agent is changed

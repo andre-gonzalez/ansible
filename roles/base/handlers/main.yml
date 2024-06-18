@@ -18,14 +18,6 @@
   become: true
   listen: "start fail2ban"
 
-- name: restart qemu-guest-agent
-  ansible.builtin.service:
-    name: qemu-guest-agent
-    state: restarted
-    enabled: true
-  become: true
-  listen: "restart qemu-guest-agent"
-
 - name: copy file update-grub
   tags:
     - grub
