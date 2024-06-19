@@ -17,7 +17,7 @@
   vars_prompt:
     - name: neomutt_email
       prompt: "What is the email you want in neomutt?"
-      private: no
+      private: false
     - name: neomutt_password
       prompt: "What is the password of your email in neomutt?"
 
@@ -74,13 +74,13 @@
   - name: Post-run | Cleanup package cache (debian and ubuntu)
     tags: always
     ansible.builtin.apt:
-      autoclean: yes
+      autoclean: true
     changed_when: false
     when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
 
   - name: Post-run | Autoremove orphan packages (debian and ubuntu)
     tags: always
     ansible.builtin.apt:
-      autoremove: yes
-      purge: yes
+      autoremove: true
+      purge: true
     when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
