@@ -15,7 +15,7 @@
     python_pip: pipenv
   when: ansible_distribution == "Ubuntu"
 
-- name: install ansible-galaxy collections install package dependencies
+- name: Install ansible-galaxy collections install package dependencies
   tags:
     - collections-install
   ansible.builtin.package:

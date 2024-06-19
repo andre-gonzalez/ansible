@@ -10,7 +10,7 @@
     update_cache: false
   become: true
 
-- name: start docker
+- name: Start docker
   tags:
     - docker
   ansible.builtin.service:
@@ -19,12 +19,12 @@
     enabled: true
   become: true
 
-- name: add the user {{ lookup('env', 'USER') }} to the docker group
+- name: Add the user {{ lookup('env', 'USER') }} to the docker group
   tags:
     - docker
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
     groups: docker
-    append: yes
+    append: true
     create_home: false
   become: true

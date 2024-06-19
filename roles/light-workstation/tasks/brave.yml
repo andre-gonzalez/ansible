@@ -1,5 +1,5 @@
 ---
-- name: required libraries for brave in Ubuntu
+- name: Required libraries for brave in Ubuntu
   tags:
     - brave
   ansible.builtin.package:

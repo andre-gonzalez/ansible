@@ -1,5 +1,5 @@
 ---
-- name: disable root login
+- name: Disable root login
   tags:
     - security
   ansible.builtin.user:
@@ -7,7 +7,7 @@
     shell: /sbin/nologin
   become: true
 
-- name: install fail2ban
+- name: Install fail2ban
   tags:
     - security
     - fail2ban
@@ -40,7 +40,7 @@
   become: true
   notify: "start fail2ban"
 
-- name: install apparmor on Archlinux
+- name: Install apparmor on Archlinux
   tags:
     - security
     - apparmor
@@ -53,7 +53,7 @@
   when: ansible_distribution == "Archlinux"
   notify: "start apparmor"
 
-- name: install apparmor on Ubuntu or Debian
+- name: Install apparmor on Ubuntu or Debian
   tags:
     - security
     - apparmor
@@ -86,7 +86,7 @@
     dest: "/etc/default/grub.d"
     mode: '0700'
     state: directory
-    recurse: yes
+    recurse: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: Ensure apparmor.cfg file exists on Debian and Ubuntu
@@ -109,7 +109,7 @@
   when: ansible_distribution in ["Ubuntu", "Debian"] and ansible_service_mgr == "grub"
   notify: update grub
 
-- name: install auditd package
+- name: Install auditd package
   tags:
     - security
     - apparmor
@@ -126,7 +126,7 @@
   ansible.builtin.group:
     name: audit
     state: present
-  become: yes
+  become: true
 
 - name: "Add the user {{ lookup('env', 'USER') }} to group audit"
   tags:
@@ -136,9 +136,9 @@
     name: "{{ lookup('env', 'USER') }}"
     groups: audit
     append: true
-  become: yes
+  become: true
 
-- name: add audit group to auditd.conf
+- name: Add audit group to auditd.conf
   tags:
     - security
     - apparmor
@@ -157,7 +157,7 @@
     mode: '0644'
     state: directory
 
-- name: copy apparmor-notify.desktop file to autostart apparmor notify
+- name: Copy apparmor-notify.desktop file to autostart apparmor notify
   tags:
     - security
     - apparmor
@@ -180,7 +180,7 @@
     backrefs: true
   become: true
 
-- name: install security updates automatically
+- name: Install security updates automatically
   tags:
     - security
   ansible.builtin.package:

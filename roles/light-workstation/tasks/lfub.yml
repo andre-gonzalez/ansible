@@ -20,7 +20,7 @@
   become: true
   when: ansible_distribution == "Ubuntu"
 
-- name: copy lfub to /usr/local/bin
+- name: Copy lfub to /usr/local/bin
   tags:
     - lf
   ansible.builtin.copy:
@@ -28,5 +28,5 @@
     dest: /usr/local/bin
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   become: true

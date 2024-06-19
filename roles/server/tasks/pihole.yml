@@ -51,7 +51,7 @@
     dest: "{{ lookup('env', 'HOME') }}/pihole/"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
-    mode: 0740
+    mode: '0740'
     state: directory
 
 - name: copy pihole docker compose file
@@ -62,7 +62,7 @@
     dest: "{{ lookup('env', 'HOME') }}/pihole/docker-compose.yml"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
-    mode: 0640
+    mode: '0640'
 
 - name: Deploy Docker Compose pihole
   tags:

@@ -3,16 +3,16 @@
   tags: always
   become: true
   pre_tasks:
-    - name: pre-run | update package cache (arch)
+    - name: Pre-run | update package cache (arch)
       tags: always
-      pacman: update_cache=yes
-      changed_when: False
+      community.general.pacman: update_cache=yes
+      changed_when: false
       when: ansible_distribution == "Archlinux"
 
-    - name: pre-run | update package cache (debian, etc)
+    - name: Pre-run | update package cache (debian, etc)
       tags: always
-      apt: update_cache=yes
-      changed_when: False
+      ansible.builtin.apt: update_cache=yes
+      changed_when: false
       when: ansible_distribution in ["Debian", "Ubuntu"]
   vars_prompt:
     - name: neomutt_email
@@ -71,16 +71,16 @@
 - hosts: all
   become: true
   tasks:
-  - name: cleanup package cache (debian and ubuntu)
+  - name: Post-run | Cleanup package cache (debian and ubuntu)
     tags: always
-    apt:
+    ansible.builtin.apt:
       autoclean: yes
     changed_when: false
     when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
 
-  - name: autoremove orphan packages (debian and ubuntu)
+  - name: Post-run | Autoremove orphan packages (debian and ubuntu)
     tags: always
-    apt:
+    ansible.builtin.apt:
       autoremove: yes
       purge: yes
     when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]

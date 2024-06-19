@@ -33,7 +33,7 @@
     state: present
   become: true
 
-- name: add the user {{ lookup('env', 'USER') }} to the libvirt group
+- name: Add the user {{ lookup('env', 'USER') }} to the libvirt group
   tags:
     - libvirt
   ansible.builtin.user:
@@ -43,7 +43,7 @@
   become: true
   register: "finish_libvirt_configuration2"
 
-- name: copy file qemu.conf to /etc/libvirt
+- name: Copy file qemu.conf to /etc/libvirt
   tags:
     - libvirt
   ansible.builtin.copy:
@@ -74,7 +74,7 @@
     mode: '0644'
   become: true
 
-- name: change libvirt.conf to allow non root user to start a VM
+- name: Change libvirt.conf to allow non root user to start a VM
   tags:
     - libvirt
   ansible.builtin.lineinfile:
@@ -83,7 +83,7 @@
     line: 'uri_default = "qemu:///system"'
   become: true
 
-- name: restart libvirt
+- name: Restart libvirt
   tags:
     - libvirt
   ansible.builtin.service:

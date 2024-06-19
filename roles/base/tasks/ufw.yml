@@ -1,5 +1,5 @@
 ---
-- name: install ufw
+- name: Install ufw
   tags:
     - ufw
   ansible.builtin.package:

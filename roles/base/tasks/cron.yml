@@ -22,7 +22,7 @@
     update_cache: false
   become: true
 
-- name: start cron
+- name: Start cron
   tags:
     - cron
   ansible.builtin.service:

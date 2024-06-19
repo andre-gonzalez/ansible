@@ -12,7 +12,7 @@
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
 
-- name: copy file timeshift.json to /etc
+- name: Copy file timeshift.json to /etc
   tags:
     - timeshift
   ansible.builtin.copy:
@@ -20,7 +20,7 @@
     dest: /etc/timeshift/
     owner: root
     group: root
-    mode: 0666
+    mode: '0666'
   become: true
 
 - name: Changed timeshift-autosnap to store only 2 backups

@@ -1,5 +1,5 @@
 ---
-- name: install rsync package
+- name: Install rsync package
   tags:
     - rsync
   ansible.builtin.package:
@@ -14,7 +14,7 @@
     - rsync
   ansible.builtin.file:
     dest: "/mnt/hd-interno/"
-    mode: 0755
+    mode: '0755'
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
@@ -25,7 +25,7 @@
     - rsync
   ansible.builtin.file:
     dest: "/mnt/hd-externo/"
-    mode: 0755
+    mode: '0755'
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
@@ -41,7 +41,7 @@
     line: "{{ lookup('env', 'USER') }} ALL = NOPASSWD: /usr/bin/rsync"
   become: true
 
-- name: install cron job (Backup home directory with rsync to internal hard drive)
+- name: Install cron job (Backup home directory with rsync to internal hard drive)
   tags:
     - rsync
   ansible.builtin.cron:
@@ -55,7 +55,7 @@
           2>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-internal-hard-drive-error-logs.txt \
           1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-internal-hard-drive-stdout-logs.txt"
 
-- name: install cron job (Backup home directory with rsync to external hard drive)
+- name: Install cron job (Backup home directory with rsync to external hard drive)
   tags:
     - rsync
   ansible.builtin.cron:

@@ -1,5 +1,5 @@
 ---
-- name: install fish
+- name: Install fish
   tags:
     - fish
   ansible.builtin.package:
@@ -34,7 +34,7 @@
   when: not omf.stat.exists
   notify: "Mark oh-my-fish installed with /etc/omf.installed"
 
-- name: change user shell to fish
+- name: Change user shell to fish
   tags:
     - fish
   ansible.builtin.user:

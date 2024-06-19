@@ -1,5 +1,5 @@
 ---
-- name: create frank group
+- name: Create frank group
   tags:
     - users
   ansible.builtin.group:
@@ -27,7 +27,7 @@
     sudo_group: wheel
   when: ansible_os_family == "Archlinux"
 
-- name: users | frank | create user
+- name: Users | frank | create user
   tags:
     - users
   user:
@@ -36,7 +36,7 @@
     groups: adm,{{ sudo_group }}
     state: present
 
-- name: create ansible user
+- name: Create ansible user
   tags:
     - users
     - ansible
@@ -45,7 +45,7 @@
     system: true
   become: true
 
-- name: copy sudoers_ansible
+- name: Copy sudoers_ansible
   tags:
     - users
     - ansible

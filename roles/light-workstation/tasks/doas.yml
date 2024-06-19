@@ -8,7 +8,7 @@
     update_cache: false
   become: true
 
-- name: copy file doas.conf to /etc
+- name: Copy file doas.conf to /etc
   tags:
     - doas
   ansible.builtin.copy:
@@ -16,5 +16,5 @@
     dest: /etc
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   become: true

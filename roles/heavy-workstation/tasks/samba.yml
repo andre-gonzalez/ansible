@@ -70,7 +70,7 @@
   become: true
   listen: "finish samba configuration"
 
-- name: start samba (smb) service
+- name: Start samba (smb) service
   tags:
     - samba
   ansible.builtin.service:
@@ -80,7 +80,7 @@
   become: true
   listen: "finish samba configuration"
 
-- name: start samba (nmb) service
+- name: Start samba (nmb) service
   tags:
     - samba
   ansible.builtin.service:

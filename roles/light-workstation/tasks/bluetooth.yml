@@ -71,7 +71,7 @@
     backrefs: true
   become: true
 
-- name: start bluetooth
+- name: Start bluetooth
   tags:
     - bluetooth
   ansible.builtin.service:

@@ -23,7 +23,7 @@
   when: ansible_distribution == "Ubuntu"
   register: restart_preload2
 
-- name: copy file preload.conf to /etc
+- name: Copy file preload.conf to /etc
   tags:
     - preload
   ansible.builtin.copy:
@@ -31,11 +31,11 @@
     dest: /etc
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   become: true
   register: restart_preload3
 
-- name: restart preload
+- name: Restart preload
   tags:
     - preload
   ansible.builtin.service:

@@ -15,14 +15,14 @@
 #   tags:
 #     - never
 #     - samba
-# - include_tasks: tasks/smtpd.yml # heavy
+# - include_tasks: tasks/smtpd.yml
 #   tags:
 #     - never
 #     - opensmtpd
-- include_tasks: tasks/insync.yml # Mover alguns para o work e alguns para o heavy
+- include_tasks: tasks/insync.yml
   tags:
     - insync
-# - include_tasks: tasks/portmaster.yml # heavy
+# - include_tasks: tasks/portmaster.yml
 #   tags:
 #     - aur
 #     - never

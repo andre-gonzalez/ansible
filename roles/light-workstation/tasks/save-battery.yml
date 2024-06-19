@@ -1,5 +1,5 @@
 ---
-- name: install tlp package
+- name: Install tlp package
   tags:
     - save-battery
     - tlp
@@ -15,7 +15,7 @@
   register: restart_tlp
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: mask systemd-rfkill.service to avoid conflicts with TLP
+- name: Mask systemd-rfkill.service to avoid conflicts with TLP
   tags:
     - save-battery
     - tlp
@@ -25,7 +25,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: mask systemd-rfkill.socket to avoid conflicts with TLP
+- name: Mask systemd-rfkill.socket to avoid conflicts with TLP
   tags:
     - save-battery
     - tlp
@@ -202,7 +202,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: install powertop package
+- name: Install powertop package
   tags:
     - save-battery
     - powertop
@@ -230,7 +230,7 @@
   ignore_errors: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: restart tlp
+- name: Restart tlp
   tags:
     - save-battery
     - tlp

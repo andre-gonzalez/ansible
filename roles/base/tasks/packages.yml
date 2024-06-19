@@ -1,5 +1,5 @@
 ---
-- name: install reflector
+- name: Install reflector
   tags:
     - packages
   ansible.builtin.package:
@@ -7,14 +7,14 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: update pacman mirrorlist
+- name: Update pacman mirrorlist
   tags:
     - packages
   ansible.builtin.script: choose-mirror.sh
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: copy file pacman.conf to /etc
+- name: Copy file pacman.conf to /etc
   tags:
     - packages
   ansible.builtin.copy:
@@ -99,7 +99,7 @@
   when: ansible_distribution == "Archlinux"
   become: true
 
-- name: remove packages
+- name: Remove packages
   tags:
     - packages
   ansible.builtin.package:
@@ -121,7 +121,7 @@
     update_cache: false
   become: true
 
-- name: delete config files for cloud-init in Ubuntu
+- name: Delete config files for cloud-init in Ubuntu
   tags:
     - packages
   ansible.builtin.file:
@@ -132,7 +132,7 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: install base packages
+- name: Install base packages
   tags:
     - packages
   ansible.builtin.package:
@@ -143,7 +143,7 @@
     update_cache: false
   become: true
 
-- name: install qemu-guest-agent when running on guest
+- name: Install qemu-guest-agent when running on guest
   tags:
     - packages
   ansible.builtin.package:
@@ -153,12 +153,12 @@
     update_cache: false
   when: ansible_virtualization_role == "guest"
   become: true
-  register: restart_qemu-guest-agent
+  register: restart_qemu_guest_agent
 
-- name: restart qemu-guest-agent
+- name: Restart qemu-guest-agent
   ansible.builtin.service:
     name: qemu-guest-agent
     state: restarted
     enabled: true
   become: true
-  when: restart_qemu-guest-agent is changed
+  when: restart_qemu_guest_agent is changed

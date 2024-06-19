@@ -7,11 +7,11 @@
 #     dest: /etc/default
 #     owner: root
 #     group: root
-#     mode: 0644
+#     mode: '0644'
 #   become: true
 #   when: ansible_distribution == "Archlinux"
 
-- name: install grub
+- name: Install grub
   tags:
     - grub
   ansible.builtin.package:
@@ -91,7 +91,7 @@
   when: ansible_service_mgr == "grub"
   register: update_grub6
 
-- name: copy file update-grub
+- name: Copy file update-grub
   tags:
     - grub
   ansible.builtin.copy:
@@ -99,6 +99,6 @@
     dest: /usr/bin
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   become: true
   when: update_grub is changed or update_grub2 is changed or update_grub3 is changed or update_grub4 is changed or update_grub5 is changed or update_grub6 is changed and ansible_service_mgr == "grub"

@@ -30,7 +30,7 @@
     line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
     create: true
     validate: 'visudo -cf %s'
-    mode: 0440
+    mode: '0440'
   become: true
   when: ansible_distribution == "Archlinux"
 
