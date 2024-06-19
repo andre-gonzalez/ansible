@@ -18,3 +18,11 @@
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
+
+- name: Ensure /mnt/hd-externo directory exists.
+  tags:
+    - directories
+  ansible.builtin.file:
+    dest: /mnt/hd-externo
+    mode: '0770'
+    state: directory
