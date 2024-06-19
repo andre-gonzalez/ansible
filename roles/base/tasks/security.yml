@@ -23,7 +23,7 @@
   ansible.builtin.file:
     dest: "/etc/fail2ban"
     group: root
-    mode: 1755
+    mode: '1755'
     state: directory
   become: true
 
@@ -36,7 +36,7 @@
     dest: /etc/fail2ban/jail.local
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   become: true
   notify: "start fail2ban"
 
@@ -84,7 +84,7 @@
     - ssh
   ansible.builtin.file:
     dest: "/etc/default/grub.d"
-    mode: 0700
+    mode: '0700'
     state: directory
     recurse: yes
   when: ansible_distribution in ["Ubuntu", "Debian"]
@@ -94,7 +94,7 @@
     - ssh
   ansible.builtin.file:
     dest: "/etc/default/grub.d/apparmor.cfg"
-    mode: 0700
+    mode: '0700'
     state: touch
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
@@ -154,7 +154,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/autostart/"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
-    mode: 0644
+    mode: '0644'
     state: directory
 
 - name: copy apparmor-notify.desktop file to autostart apparmor notify
@@ -166,7 +166,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/autostart"
     owner: "{{ lookup('env', 'USER') }}"
     group: audit
-    mode: 0644
+    mode: '0644'
   become: true
 
 - name: Enable write-cache to speed up apparmor

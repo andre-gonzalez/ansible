@@ -27,7 +27,7 @@
     - ssh
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
-    mode: 0700
+    mode: '0700'
     state: directory
 
 - name: Set authorized keys for {{ lookup('env', 'USER') }} from github

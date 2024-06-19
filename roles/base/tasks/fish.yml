@@ -49,4 +49,4 @@
 #     src: fish_history
 #     dest: "{{ lookup('env', 'HOME') }}/.local/share/fish/"
 #     owner: "{{ lookup('env', 'USER') }}"
-#     mode: 0600
+#     mode: '0600'

@@ -51,6 +51,6 @@
     - ansible
   ansible.builtin.copy: src={{ item.src }} dest={{ item.dest }}
   with_items:
-    - { src: 'sudoers_ansible', dest: '/etc/sudoers.d/ansible', mode: 0440 }
-    - { src: 'sudoers_frank', dest: '/etc/sudoers.d/frank', mode: 0440 }
+    - { src: 'sudoers_ansible', dest: '/etc/sudoers.d/ansible', mode: '0440' }
+    - { src: 'sudoers_frank', dest: '/etc/sudoers.d/frank', mode: '0440' }
   become: true

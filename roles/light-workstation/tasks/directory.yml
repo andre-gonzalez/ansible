@@ -4,7 +4,7 @@
     - directories
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/gdrive-pessoal/not-up/iso"
-    mode: 0770
+    mode: '0770'
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
@@ -14,7 +14,7 @@
     - directories
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/projects/"
-    mode: 0770
+    mode: '0770'
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory

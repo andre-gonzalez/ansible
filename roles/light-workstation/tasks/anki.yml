@@ -4,7 +4,7 @@
     - anki
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
-    mode: 0700
+    mode: '0700'
     state: directory
 
 - name: Get latest anki release
@@ -22,7 +22,7 @@
     url: "{{ json_reponse.json.assets.2.browser_download_url }}"
     dest: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
     force: true
-    mode: 0777
+    mode: '0777'
   register: "proceed_anki_installation"
 
 - name: Extract anki files

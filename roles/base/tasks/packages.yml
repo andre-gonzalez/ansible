@@ -22,7 +22,7 @@
     dest: /etc
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   become: true
   when: ansible_distribution == "Archlinux"
 

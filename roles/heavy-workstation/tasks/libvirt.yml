@@ -51,7 +51,7 @@
     dest: /etc/libvirt
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   become: true
   register: "finish_libvirt_configuration3"
 
@@ -60,7 +60,7 @@
     - libvirt
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/.config/libvirt/"
-    mode: 0770
+    mode: '0770'
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
@@ -71,7 +71,7 @@
   ansible.builtin.copy:
     src: /etc/libvirt/libvirt.conf
     dest: "{{ lookup('env', 'HOME') }}/.config/libvirt/libvirt.conf"
-    mode: 0644
+    mode: '0644'
   become: true
 
 - name: change libvirt.conf to allow non root user to start a VM
