@@ -1,0 +1,36 @@
+---
+- name: Install iwd
+  tags:
+    - wifi
+  ansible.builtin.package:
+    name:
+      - iwd
+    state: present
+    update_cache: false
+  become: true
+  register: restart_network
+
+- name: Copy wifi configuration files
+  tags:
+    - wifi
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: /var/lib/iwd
+    owner: root
+    group: root
+    mode: '0600'
+  loop:
+    - { src: "Lopes.psk" }
+    - { src: "LNAM5.psk" }
+    - { src: "QueWiFi2.psk" }
+  become: true
+
+- name: Start iwd
+  tags:
+    - wifi
+  ansible.builtin.service:
+    name: iwd
+    state: restarted
+    enabled: true
+  become: true
+  when: restart_network is changed

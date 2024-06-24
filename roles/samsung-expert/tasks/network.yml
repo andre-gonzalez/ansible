@@ -5,14 +5,13 @@
   ansible.builtin.package:
     name:
       - broadcom-wl
-      - iwd
     state: present
     update_cache: false
   when: ansible_distribution in ["Archlinux"]
   become: true
   register: restart_network
 
-- name: restart systemd-networkd
+- name: Restart systemd-networkd
   tags:
     - network
   ansible.builtin.service:
@@ -22,7 +21,7 @@
   become: true
   when: restart_network is changed
 
-- name: start iwd
+- name: Start iwd
   tags:
     - network
   ansible.builtin.service:

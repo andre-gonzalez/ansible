@@ -104,6 +104,9 @@
 - include_tasks: tasks/timeshift.yml
   tags:
     - timeshift
+- include_tasks: tasks/wifi.yml
+  tags:
+    - wifi
 - include_tasks: tasks/save-battery.yml
   tags:
     - save-battery
