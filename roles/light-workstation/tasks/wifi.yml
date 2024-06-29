@@ -24,6 +24,7 @@
     - { src: "LNAM5.psk" }
     - { src: "QueWiFi2.psk" }
     - { src: "CasaRio_5G.psk" }
+    - { src: "=51756520576966693f.psk" }
   become: true
 
 - name: Start iwd
