@@ -1,49 +1,74 @@
 ---
-- include_tasks: tasks/debug.yml
+- name: Base | Include tasks from debug play
+  ansible.builtin.include_tasks: tasks/debug.yml
   tags:
     - debug
-- include_tasks: tasks/users.yml
+
+- name: Base | Include tasks from users play
+  ansible.builtin.include_tasks: tasks/users.yml
   tags:
     - users
-- include_tasks: tasks/ssh.yml
+
+- name: Base | Include tasks from ssh play
+  ansible.builtin.include_tasks: tasks/ssh.yml
   tags:
     - ssh
-- include_tasks: tasks/keyboard-layout.yml
+
+- name: Base | Include tasks from keyboard play
+  ansible.builtin.include_tasks: tasks/keyboard-layout.yml
   tags:
     - keyboard
-- include_tasks: tasks/locale.yml
+
+- name: Base | Include tasks from locale play
+  ansible.builtin.include_tasks: tasks/locale.yml
   tags:
     - timezone
     - locale
-- include_tasks: tasks/cron.yml
+
+- name: Base | Include tasks from cron play
+  ansible.builtin.include_tasks: tasks/cron.yml
   tags:
     - cron
-- include_tasks: tasks/packages.yml
+
+- name: Base | Include tasks from packages play
+  ansible.builtin.include_tasks: tasks/packages.yml
   tags:
     - packages
     - nvidia
-- include_tasks: tasks/fish.yml
+
+- name: Base | Include tasks from fish play
+  ansible.builtin.include_tasks: tasks/fish.yml
   tags:
     - fish
-- include_tasks: tasks/security.yml
+
+- name: Base | Include tasks from security play
+  ansible.builtin.include_tasks: tasks/security.yml
   tags:
     - security
     - fail2ban
     - apparmor
-- include_tasks: tasks/ufw.yml
+
+- name: Base | Include tasks from ufw play
+  ansible.builtin.include_tasks: tasks/ufw.yml
   tags:
     - ufw
-- include_tasks: tasks/neovim.yml
+
+- name: Base | Include tasks from neovim play
+  ansible.builtin.include_tasks: tasks/neovim.yml
   tags:
     - neovim
     - git
     - aur
-- include_tasks: tasks/network.yml
+
+- name: Base | Include tasks from network play
+  ansible.builtin.include_tasks: tasks/network.yml
   tags:
     - network
     - netbook
     - samsung-expert
     - aur
-- include_tasks: tasks/tailscale.yml
+
+- name: Base | Include tasks from tailscale play
+  ansible.builtin.include_tasks: tasks/tailscale.yml
   tags:
     - tailscale

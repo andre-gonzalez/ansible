@@ -1,17 +1,20 @@
 # tasks to complete before running roles
-- hosts: all
+- name: Pre-run | Start pre-run tasks
+  hosts: all
   tags: always
   become: true
   pre_tasks:
-    - name: Pre-run | update package cache (arch)
+    - name: Pre-run | Update package cache (arch)
       tags: always
-      community.general.pacman: update_cache=yes
+      community.general.pacman:
+        update_cache: true
       changed_when: false
       when: ansible_distribution == "Archlinux"
 
-    - name: Pre-run | update package cache (debian, etc)
+    - name: Pre-run | Update package cache (debian, etc)
       tags: always
-      ansible.builtin.apt: update_cache=yes
+      ansible.builtin.apt:
+        update_cache: true
       changed_when: false
       when: ansible_distribution in ["Debian", "Ubuntu"]
   vars_prompt:
@@ -22,7 +25,8 @@
       prompt: "What is the password of your email in neomutt?"
 
 # run roles
-- hosts: all
+- name: Base Role | Run base role
+  hosts: all
   tags:
     - base
     - light-workstation
@@ -34,7 +38,8 @@
   roles:
     - base
 
-- hosts: light-workstation
+- name: Light-workstation Role | Run light-workstation role
+  hosts: light-workstation
   tags:
     - light-workstation
     - heavy-workstation
@@ -42,45 +47,50 @@
   roles:
     - light-workstation
 
-- hosts: heavy-workstation
+- name: Heavy-workstation Role | Run heavy-workstation role
+  hosts: heavy-workstation
   tags:
     - heavy-workstation
     - samsung-expert
   roles:
     - heavy-workstation
 
-- hosts: work
+- name: Work Role | Run work role
+  hosts: work
   tags:
     - work
     - samsung-expert
   roles:
     - work
 
-- hosts: samsung-expert
+- name: Samsung-expert Role | Run samsung-expert role
+  hosts: samsung-expert
   tags: samsung-expert
   roles:
     - samsung-expert
 
-- hosts: server
+- name: Server Role | Run server role
+  hosts: server
   tags: server
   become: true
   roles:
     - server
 
 # end of run cleanup
-- hosts: all
+- name: Post-run | Start post-run tasks
+  hosts: all
   become: true
   tasks:
-  - name: Post-run | Cleanup package cache (debian and ubuntu)
-    tags: always
-    ansible.builtin.apt:
-      autoclean: true
-    changed_when: false
-    when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+    - name: Post-run | Cleanup package cache (debian and ubuntu)
+      tags: always
+      ansible.builtin.apt:
+        autoclean: true
+      changed_when: false
+      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
 
-  - name: Post-run | Autoremove orphan packages (debian and ubuntu)
-    tags: always
-    ansible.builtin.apt:
-      autoremove: true
-      purge: true
-    when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+    - name: Post-run | Autoremove orphan packages (debian and ubuntu)
+      tags: always
+      ansible.builtin.apt:
+        autoremove: true
+        purge: true
+      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
