@@ -108,7 +108,7 @@
       - archinstall
       - brltty
       - nano
-      - htop
+      - btop
       - vim
       - grml-zsh-config
       - zsh
