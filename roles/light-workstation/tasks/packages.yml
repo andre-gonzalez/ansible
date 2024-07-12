@@ -9,6 +9,7 @@
       - xorg-xsetroot
       - xorg-xrandr
       - xorg-setxkbmap
+      - xorg-xinput # Used on configure-trackball script
     rfkill: util-linux-libs
     python_pip: python-pip
     base_devel: base-devel
@@ -28,6 +29,7 @@
       - libxrandr-dev
       - xorg
       - xorg
+      - xinput # Used on configure-trackball script
     rfkill: rfkill
     python_pip: pipenv
     base_devel: make
@@ -49,6 +51,7 @@
       - "{{ xorg[2] }}"
       - "{{ xorg[3] }}"
       - "{{ xorg[4] }}"
+      - "{{ xorg[5] }}"
       - xautolock
       - xbindkeys
       - arandr
