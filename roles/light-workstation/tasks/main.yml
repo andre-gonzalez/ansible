@@ -112,6 +112,13 @@
     - save-battery
     - tlp
     - powertop
-# - include_tasks: tasks/doas.yml
+
+- name: Light Workstation | Include tasks from zathura play
+  ansible.builtin.include_tasks: tasks/zathura.yml
+  tags:
+    - zathura
+
+# - name: Light Workstation | Include tasks from doas play
+#   ansible.builtin.include_tasks: tasks/doas.yml
 #   tags:
 #     - doas

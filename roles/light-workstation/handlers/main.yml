@@ -1,0 +1,3 @@
+---
+- name: Set zathura as default pdf reader
+  ansible.builtin.command: xdg-mime default org.pwmt.zathura.desktop application/pdf

@@ -1,0 +1,11 @@
+---
+- name: Zathura | Install zathura package
+  tags:
+    - zathura
+  ansible.builtin.package:
+    name:
+      - zathura
+      - zathura-pdf-poppler
+    state: present
+  become: true
+  notify: Set zathura as default pdf reader

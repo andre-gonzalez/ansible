@@ -116,8 +116,6 @@
       - redshift # Adapt brightness and color of the screen at night
       - inetutils # Hostname command necessary for fish prompt
       - ntfs-3g # To mount drives formated as NTFS
-      - zathura # Pdf reader
-      - zathura-pdf-poppler # pdf reader
       - newsboat # RSS feed reader
       - python-adblock # To enable adblocking on qutebrowser
       - libreoffice-still # Office application
