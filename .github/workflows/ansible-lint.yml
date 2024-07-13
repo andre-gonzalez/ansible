@@ -13,9 +13,3 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run ansible-lint
         uses: ansible/ansible-lint@v24.7.0
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: ansible-lint-report
-          path: ansible-lint-report/
-          retention-days: 30

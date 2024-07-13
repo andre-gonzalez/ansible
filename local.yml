@@ -1,3 +1,4 @@
+---
 # tasks to complete before running roles
 - name: Pre-run | Start pre-run tasks
   hosts: all
