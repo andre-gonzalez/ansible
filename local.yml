@@ -29,45 +29,45 @@
   hosts: all
   tags:
     - base
-    - light-workstation
-    - heavy-workstation
-    - samsung-expert
+    - light_workstation
+    - heavy_workstation
+    - samsung_expert
     - work
     - server
   become: true
   roles:
     - base
 
-- name: Light-workstation Role | Run light-workstation role
-  hosts: light-workstation
+- name: Light_workstation Role | Run light_workstation role
+  hosts: light_workstation
   tags:
-    - light-workstation
-    - heavy-workstation
-    - samsung-expert
+    - light_workstation
+    - heavy_workstation
+    - samsung_expert
   roles:
-    - light-workstation
+    - light_workstation
 
-- name: Heavy-workstation Role | Run heavy-workstation role
-  hosts: heavy-workstation
+- name: Heavy_workstation Role | Run heavy_workstation role
+  hosts: heavy_workstation
   tags:
-    - heavy-workstation
-    - samsung-expert
+    - heavy_workstation
+    - samsung_expert
   roles:
-    - heavy-workstation
+    - heavy_workstation
 
 - name: Work Role | Run work role
   hosts: work
   tags:
     - work
-    - samsung-expert
+    - samsung_expert
   roles:
     - work
 
-- name: Samsung-expert Role | Run samsung-expert role
-  hosts: samsung-expert
-  tags: samsung-expert
+- name: Samsung_expert Role | Run samsung_expert role
+  hosts: samsung_expert
+  tags: samsung_expert
   roles:
-    - samsung-expert
+    - samsung_expert
 
 - name: Server Role | Run server role
   hosts: server

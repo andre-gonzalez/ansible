@@ -1,5 +1,5 @@
 ---
-- name: Install wireless drivers (samsung-expert)
+- name: Install wireless drivers (samsung_expert)
   tags:
     - network
   ansible.builtin.package:

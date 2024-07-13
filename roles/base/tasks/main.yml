@@ -65,7 +65,7 @@
   tags:
     - network
     - netbook
-    - samsung-expert
+    - samsung_expert
     - aur
 
 - name: Base | Include tasks from tailscale play

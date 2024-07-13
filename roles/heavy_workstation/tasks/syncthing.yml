@@ -1,5 +1,5 @@
 ---
-- name: (Syncthing) Install syncthing package
+- name: Syncthing | Install syncthing package
   tags:
     - syncthing
   ansible.builtin.package:
@@ -9,7 +9,7 @@
     update_cache: true
   become: true
 
-- name: (Syncthing) Copy ufw syncthing rule file
+- name: Syncthing | Copy ufw syncthing rule file
   tags:
     - syncthing
   ansible.builtin.copy:
@@ -20,7 +20,7 @@
     mode: '0644'
   become: true
 
-- name: (Syncthing) Allow syncthing in ufw
+- name: Syncthing | Allow syncthing in ufw
   tags:
     - syncthing
   community.general.ufw:
@@ -28,7 +28,7 @@
     name: syncthing
   become: true
 
-- name: (Syncthing) Copy syncthing systemd file
+- name: Syncthing | Copy syncthing systemd file
   tags:
     - syncthing
   ansible.builtin.copy:
@@ -39,7 +39,7 @@
     mode: '0644'
   become: true
 
-- name: Ensure syncthing directory exists
+- name: Syncthing | Ensure syncthing directory exists
   tags:
     - syncthing
   ansible.builtin.file:
@@ -49,7 +49,7 @@
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
 
-- name: (Syncthing) Copy syncthing config file
+- name: Syncthing | Copy syncthing config file
   tags:
     - syncthing
   ansible.builtin.copy:
@@ -60,7 +60,7 @@
     mode: '0600'
   become: true
 
-- name: (Syncthing) Start syncthing
+- name: Syncthing | Start syncthing
   tags:
     - syncthing
   ansible.builtin.systemd:

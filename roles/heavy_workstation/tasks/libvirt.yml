@@ -1,5 +1,5 @@
 ---
-- name: Uninstall iptables so it can install iptables-nft later
+- name: Libvirt | Uninstall iptables so it can install iptables-nft later
   tags:
     - libvirt
   ansible.builtin.package:
@@ -9,7 +9,7 @@
     force: true
   become: true
 
-- name: Install KVM/QEMU packages
+- name: Libvirt | Install KVM/QEMU packages
   tags:
     - libvirt
   ansible.builtin.package:
@@ -25,7 +25,7 @@
   become: true
   register: "finish_libvirt_configuration1"
 
-- name: Ensure group libvirt exists
+- name: Libvirt | Ensure group libvirt exists
   tags:
     - libvirt
   ansible.builtin.group:
@@ -33,7 +33,7 @@
     state: present
   become: true
 
-- name: Add to the libvirt group the user {{ lookup('env', 'USER') }}
+- name: Libvirt | Add to the libvirt group the user {{ lookup('env', 'USER') }}
   tags:
     - libvirt
   ansible.builtin.user:
@@ -43,7 +43,7 @@
   become: true
   register: "finish_libvirt_configuration2"
 
-- name: Copy file qemu.conf to /etc/libvirt
+- name: Libvirt | Copy file qemu.conf to /etc/libvirt
   tags:
     - libvirt
   ansible.builtin.copy:
@@ -55,7 +55,7 @@
   become: true
   register: "finish_libvirt_configuration3"
 
-- name: Ensure libvirt directory exists in .config
+- name: Libvirt | Ensure libvirt directory exists in .config
   tags:
     - libvirt
   ansible.builtin.file:
@@ -65,7 +65,7 @@
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
 
-- name: Copy libvirt conf to user .config directory
+- name: Libvirt | Copy libvirt conf to user .config directory
   tags:
     - libvirt
   ansible.builtin.copy:
@@ -74,7 +74,7 @@
     mode: '0644'
   become: true
 
-- name: Change libvirt.conf to allow non root user to start a VM
+- name: Libvirt | Change libvirt.conf to allow non root user to start a VM
   tags:
     - libvirt
   ansible.builtin.lineinfile:
@@ -83,7 +83,7 @@
     line: 'uri_default = "qemu:///system"'
   become: true
 
-- name: Restart libvirt
+- name: Libvirt | Restart libvirt
   tags:
     - libvirt
   ansible.builtin.service:
@@ -93,7 +93,7 @@
   become: true
   when: finish_libvirt_configuration1 is changed or finish_libvirt_configuration2 is changed or finish_libvirt_configuration3 is changed
 
-# - name: virsh start
+# - name: Libvirt | virsh start
 #   tags:
 #     - libvirt
 #   ansible.builtin.command: "virsh net-autostart default && virsh net-start default"

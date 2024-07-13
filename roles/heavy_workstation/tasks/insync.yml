@@ -1,5 +1,5 @@
 ---
-- name: Install insync
+- name: Insync | Install insync
   tags:
     - insync
   kewlfft.aur.aur:

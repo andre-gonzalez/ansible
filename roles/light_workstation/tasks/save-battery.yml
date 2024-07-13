@@ -37,7 +37,7 @@
 
 - name: Save Battery | Add second HDD to the list of drives managed by TLP
   tags:
-    - samsung-expert
+    - samsung_expert
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
     regexp: '[#]?DISK_DEVICES=*'
@@ -48,7 +48,7 @@
 
 - name: Save Battery | Stop second disk (HDD). Spin down after 1 minute (12 *5) when on battery
   tags:
-    - samsung-expert
+    - samsung_expert
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
     regexp: '[#]?DISK_SPINDOWN_TIMEOUT_ON_BAT="*"'

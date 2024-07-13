@@ -1,5 +1,5 @@
 ---
-- name: Ensure windows-docker directory exists
+- name: Windows VM | Ensure windows-docker directory exists
   tags:
     - windows-vm
   ansible.builtin.file:
@@ -9,7 +9,7 @@
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
 
-- name: Clone windows_docker repo
+- name: Windows VM | Clone windows_docker repo
   tags:
     - windows-vm
   ansible.builtin.git:

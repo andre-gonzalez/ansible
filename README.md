@@ -13,7 +13,7 @@ This is my personal ansible playbook to install and configure my workstation and
 3. Install ansible on the machine you want to configure use `sudo pacman -Syy ansible`
 4. Run the following code:
 ```
-ansible-pull --vault-password-file [key file location] --ask-become -t "[full-install|light-install],[samsung-expert|netbook]" --become-method=[doas|sudo] -U https://github.com/andre-gonzalez/ansible.git
+ansible-pull --vault-password-file [key file location] --ask-become -t "[light_workstation|heavy_workstation],[samsung_expert]" --become-method=[doas|sudo] -U https://github.com/andre-gonzalez/ansible.git
 ```
 5. Sit back and relax
 
@@ -24,7 +24,7 @@ ansible-playbook -t [tag1, tag2] --ask-become local.yml
 ```
 
 # Scripts ready to run
-1. Light-workstation role install
+1. Light_workstation role install
 ```
 bash <(curl -L tinyurl.com/ansible-netbook)
 ```
@@ -37,9 +37,9 @@ bash <(curl -L tinyurl.com/ansible-samsung)
 # Roles structure
 ### base
 - This role runs on all machines. It set configurations that should be on every system
-### light-workstation
+### light_workstation
 - This role set a light workstation, without applications that has a high resource usage
-### heavy-workstation
+### heavy_workstation
 - This role set the high resource usage applications
 ### work
 - This role configure work related stuff
