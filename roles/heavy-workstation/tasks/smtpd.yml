@@ -1,5 +1,5 @@
 ---
-- name: install opensmtpd
+- name: SMTPD | Install opensmtpd
   tags:
     - opensmtpd
   ansible.builtin.package:
@@ -7,7 +7,7 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: restart opensmtpd
+- name: SMTPD | Restart opensmtpd
   tags:
     - opensmtpd
   ansible.builtin.service:

@@ -1,5 +1,5 @@
 ---
-- name: Ensure /mnt/hd-interno directory exists.
+- name: Drives | Ensure /mnt/hd-interno directory exists.
   tags:
     - drives
   ansible.builtin.file:
@@ -7,7 +7,7 @@
     mode: '0770'
     state: directory
 
-- name: Mount internal hard-drive
+- name: Drives | Mount internal hard-drive
   tags:
     - drives
   ansible.builtin.lineinfile:
@@ -19,7 +19,7 @@
     - { line: 'PARTUUID=72749a9f-5496-4700-ad5e-f4f2eaad8da5 /mnt/hd-interno ext4    defaults        0       0' }
   become: true
 
-- name: Ensure /mnt/ntfs-hd-interno directory exists.
+- name: Drives | Ensure /mnt/ntfs-hd-interno directory exists.
   tags:
     - drives
   ansible.builtin.file:
@@ -27,7 +27,7 @@
     mode: '0770'
     state: directory
 
-- name: Mount internal hard-drive
+- name: Drives | Mount internal hard-drive
   tags:
     - drives
   ansible.builtin.lineinfile:

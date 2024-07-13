@@ -1,5 +1,5 @@
 ---
-- name: Install mysql package
+- name: Mysql | Install mysql package
   tags:
     - mysql
   kewlfft.aur.aur:

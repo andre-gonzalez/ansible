@@ -1,5 +1,5 @@
 ---
-- name: Install ssh key
+- name: SSH | Install ssh key
   tags:
     - ssh
   ansible.builtin.copy:
@@ -8,7 +8,7 @@
     owner: "{{ lookup('env', 'USER') }}"
     mode: '0600'
 
-- name: Install ssh key public
+- name: SSH | Install ssh key public
   tags:
     - ssh
   ansible.builtin.copy:
@@ -17,7 +17,7 @@
     mode: '0644'
     owner: "{{ lookup('env', 'USER') }}"
 
-- name: Copy config file
+- name: SSH | Copy config file
   tags:
     - ssh
   ansible.builtin.copy:
@@ -27,7 +27,7 @@
     owner: "{{ lookup('env', 'USER') }}"
   register: restart_ssh
 
-- name: Disable root login via ssh
+- name: SSH | Disable root login via ssh
   tags:
     - security
     - ssh
@@ -40,7 +40,7 @@
   become: true
   register: restart_ssh2
 
-- name: Disable password login via ssh
+- name: SSH | Disable password login via ssh
   tags:
     - security
     - ssh
@@ -53,7 +53,7 @@
   become: true
   register: restart_ssh3
 
-- name: restart ssh
+- name: SSH | Restart ssh
   tags:
     - security
     - ssh

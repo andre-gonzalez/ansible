@@ -1,5 +1,5 @@
 ---
-- name: Install iwd
+- name: Wifi | Install iwd
   tags:
     - wifi
   ansible.builtin.package:
@@ -10,7 +10,7 @@
   become: true
   register: restart_network
 
-- name: Copy wifi configuration files
+- name: Wifi | Copy wifi configuration files
   tags:
     - wifi
   ansible.builtin.copy:
@@ -27,7 +27,7 @@
     - { src: "=51756520576966693f.psk" }
   become: true
 
-- name: Start iwd
+- name: Wifi | Start iwd
   tags:
     - wifi
   ansible.builtin.service:

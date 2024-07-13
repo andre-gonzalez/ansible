@@ -1,5 +1,5 @@
 ---
-- name: install docker
+- name: Docker | Install docker
   tags:
     - docker
     - pihole
@@ -8,7 +8,7 @@
       - docker-compose
   become: true
 
-- name: start docker
+- name: Docker | Start docker
   tags:
     - docker
     - pihole
@@ -18,7 +18,7 @@
     enabled: true
   become: true
 
-- name: add the user {{ lookup('env', 'USER') }} to the docker group
+- name: Docker | Add to the docker group the user {{ lookup('env', 'USER') }}
   tags:
     - docker
     - pihole

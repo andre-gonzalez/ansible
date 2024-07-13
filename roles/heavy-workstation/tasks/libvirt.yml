@@ -33,7 +33,7 @@
     state: present
   become: true
 
-- name: Add the user {{ lookup('env', 'USER') }} to the libvirt group
+- name: Add to the libvirt group the user {{ lookup('env', 'USER') }}
   tags:
     - libvirt
   ansible.builtin.user:
@@ -91,7 +91,7 @@
     state: restarted
     enabled: true
   become: true
-  when:  finish_libvirt_configuration1 is changed or finish_libvirt_configuration2 is changed or finish_libvirt_configuration3 is changed
+  when: finish_libvirt_configuration1 is changed or finish_libvirt_configuration2 is changed or finish_libvirt_configuration3 is changed
 
 # - name: virsh start
 #   tags:

@@ -1,5 +1,5 @@
 ---
-- name: Set python_pip variable when distribution is Archlinux (if necessary)
+- name: Collections Install | Set python_pip variable when distribution is Archlinux (if necessary)
   tags:
     - packages
     - collections-install
@@ -7,7 +7,7 @@
     python_pip: python-pip
   when: ansible_distribution == "Archlinux"
 
-- name: Set python_pip variable when distribution is Ubuntu (if necessary)
+- name: Collections Install | Set python_pip variable when distribution is Ubuntu (if necessary)
   tags:
     - packages
     - collections-install
@@ -15,7 +15,7 @@
     python_pip: pipenv
   when: ansible_distribution == "Ubuntu"
 
-- name: Install ansible-galaxy collections install package dependencies
+- name: Collections Install | Install ansible-galaxy collections install package dependencies
   tags:
     - collections-install
   ansible.builtin.package:
@@ -25,7 +25,7 @@
     update_cache: true
   become: true
 
-- name: Install collection kewlfft.aur
+- name: Collections Install | Install collection kewlfft.aur
   tags:
     - aur
     - collections-install
@@ -33,7 +33,7 @@
     type: collection
     name: kewlfft.aur
 
-- name: Install collection community.general (for ufw)
+- name: Collections Install | Install collection community.general (for ufw)
   tags:
     - ufw
   community.general.ansible_galaxy_install:

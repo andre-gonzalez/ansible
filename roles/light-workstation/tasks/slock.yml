@@ -1,5 +1,5 @@
 ---
-- name: Clone slock
+- name: Slock | Clone slock
   tags:
     - slock
   ansible.builtin.git:
@@ -10,7 +10,7 @@
     accept_hostkey: true
   ignore_errors: true
 
-- name: Install slock
+- name: Slock | Install slock
   tags:
     - slock
   community.general.make:

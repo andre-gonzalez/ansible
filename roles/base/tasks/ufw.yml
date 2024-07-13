@@ -1,19 +1,19 @@
 ---
-- name: Install ufw
+- name: UFW | Install ufw
   tags:
     - ufw
   ansible.builtin.package:
     name: ufw
   become: true
 
-- name: Disable ufw
+- name: UFW | Disable ufw
   tags:
     - ufw
   community.general.ufw:
     state: disabled
   become: true
 
-- name: Set logging on
+- name: UFW | Set logging on
   tags:
     - ufw
   community.general.ufw:
@@ -25,7 +25,7 @@
 # address has attempted to initiate 6 or more connections in the last
 # 30 seconds. See  http://www.debian-administration.org/articles/187
 # for details.
-# - name: Limit ssh
+# - name: UFW | Limit ssh
 #   tags:
 #     - ufw
 #     - ssh
@@ -35,7 +35,7 @@
 #     proto: tcp
 #   become: true
 
-- name: Allow ssh only to local network
+- name: UFW | Allow ssh only to local network
   tags:
     - ufw
     - ssh
@@ -46,7 +46,7 @@
     proto: tcp
   become: true
 
-# - name: Allow port range 80/tcp
+# - name: UFW | Allow port range 80/tcp
 #   tags:
 #     - ufw
 #   community.general.ufw:
@@ -55,7 +55,7 @@
 #     proto: tcp
 #   become: true
 
-# - name: Allow port range 443/tcp
+# - name: UFW | Allow port range 443/tcp
 #   tags:
 #     - ufw
 #   community.general.ufw:
@@ -64,7 +64,7 @@
 #     proto: tcp
 #   become: true
 
-- name: Default policy deny incoming
+- name: UFW | Default policy deny incoming
   tags:
     - ufw
   community.general.ufw:
@@ -72,7 +72,7 @@
     direction: incoming
   become: true
 
-- name: Default policy allow outgoing
+- name: UFW | Default policy allow outgoing
   tags:
     - ufw
   community.general.ufw:
@@ -80,7 +80,7 @@
     direction: outgoing
   become: true
 
-- name: Block computers from ping my ip address
+- name: UFW | Block computers from ping my ip address
   tags:
     - ufw
   ansible.builtin.lineinfile:
@@ -90,14 +90,14 @@
     line: "-A ufw-before-input -p icmp --icmp-type echo-request -j DROP"
   become: true
 
-- name: Enable ufw
+- name: UFW | Enable ufw
   tags:
     - ufw
   community.general.ufw:
     state: enabled
   become: true
 
-- name: Enable ufw in systemd
+- name: UFW | Enable ufw in systemd
   tags:
     - ufw
   ansible.builtin.service:

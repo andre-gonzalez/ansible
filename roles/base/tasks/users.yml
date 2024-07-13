@@ -16,21 +16,21 @@
 - name: Set fact for Debian
   tags:
     - users
-  set_fact:
+  ansible.builtin.set_fact:
     sudo_group: sudo
   when: ansible_os_family == "Debian"
 
 - name: Set fact for ArchLinux
   tags:
     - users
-  set_fact:
+  ansible.builtin.set_fact:
     sudo_group: wheel
   when: ansible_os_family == "Archlinux"
 
 - name: Users | frank | create user
   tags:
     - users
-  user:
+  ansible.builtin.user:
     name: frank
     group: frank
     groups: adm,{{ sudo_group }}
@@ -49,7 +49,10 @@
   tags:
     - users
     - ansible
-  ansible.builtin.copy: src={{ item.src }} dest={{ item.dest }}
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
   with_items:
     - { src: 'sudoers_ansible', dest: '/etc/sudoers.d/ansible', mode: '0440' }
     - { src: 'sudoers_frank', dest: '/etc/sudoers.d/frank', mode: '0440' }

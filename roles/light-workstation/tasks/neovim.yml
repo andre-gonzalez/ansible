@@ -1,55 +1,55 @@
 ---
-- name: Install treesitter support for python
+- name: Neovim | Install treesitter support for python
   tags:
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall python +qa
 
-- name: Install treesitter support for bash
+- name: Neovim | Install treesitter support for bash
   tags:
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall bash +qa
 
-- name: Install treesitter support for json
+- name: Neovim | Install treesitter support for json
   tags:
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall json +qa
 
-- name: Install treesitter support for markdown
+- name: Neovim | Install treesitter support for markdown
   tags:
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall markdown +qa
 
-- name: Install treesitter support for yaml
+- name: Neovim | Install treesitter support for yaml
   tags:
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall yaml +qa
 
-- name: Install treesitter support for regex
+- name: Neovim | Install treesitter support for regex
   tags:
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall regex +qa
 
-- name: Install treesitter support for html
+- name: Neovim | Install treesitter support for html
   tags:
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall html +qa
 
-- name: Install treesitter support for graphql
+- name: Neovim | Install treesitter support for graphql
   tags:
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall graphql +qa
 
-- name: Install treesitter support for docker
+- name: Neovim | Install treesitter support for docker
   tags:
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall dockerfile +qa
 
-- name: Install treesitter support for css
+- name: Neovim | Install treesitter support for css
   tags:
     - neovim
   ansible.builtin.command: nvim --headless +TSInstall css +qa
 
-- name: Install language servers packages
+- name: Neovim | Install language servers packages
   tags:
     - neovim
   ansible.builtin.package:
@@ -61,7 +61,7 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Install pyright (python language server via snap)
+- name: Neovim | Install pyright (python language server via snap)
   tags:
     - neovim
   community.general.snap:
@@ -72,7 +72,7 @@
   become: true
   when: ansible_distribution == "Ubuntu"
 
-# - name: Install sql-language-server and ansible-language-server package
+# - name: Neovim | Install sql-language-server and ansible-language-server package
 # tags:
 #    - neovim
 # kewlfft.aur:
@@ -86,7 +86,7 @@
 # when: ansible_distribution == "Archlinux"
 # ignore_errors: true
 
-# - name: Install grammarly-languageserver and json language server
+# - name: Neovim | Install grammarly-languageserver and json language server
 #   tags:
 #     - neovim
 #   community.general.npm:
@@ -97,7 +97,7 @@
 #     state: present
 #   become: true
 
-- name: Install ansible-language-server when distribution in Ubuntu or Debian
+- name: Neovim | Install ansible-language-server when distribution in Ubuntu or Debian
   tags:
     - neovim
   community.general.npm:
@@ -106,7 +106,7 @@
     state: present
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Create neovim directory for autoloading configurations
+- name: Neovim | Create neovim directory for autoloading configurations
   tags:
     - neovim
   ansible.builtin.file:
@@ -116,7 +116,7 @@
     mode: '0700'
     owner: "{{ lookup('env', 'USER') }}"
 
-- name: copy sql-language-server file to .config
+- name: Neovim | Copy sql-language-server file to .config
   tags:
     - neovim
   ansible.builtin.copy:

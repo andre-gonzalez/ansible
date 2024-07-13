@@ -1,5 +1,5 @@
 ---
-- name: Do not ask for the username in tty
+- name: Systemd | Do not ask for the username in tty
   tags:
     - systemd
   ansible.builtin.lineinfile:

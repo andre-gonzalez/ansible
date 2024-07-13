@@ -1,5 +1,5 @@
 ---
-- name: Install packages necessary for wall-d
+- name: Wall-d | Install packages necessary for wall-d
   tags:
     - wall-d
   ansible.builtin.package:
@@ -8,7 +8,7 @@
       - feh
   become: true
 
-- name: Clone wall-d
+- name: Wall-d | Clone wall-d
   tags:
     - wall-d
   ansible.builtin.git:
@@ -20,7 +20,7 @@
   ignore_errors: true
   register: clone_made
 
-- name: Install wall-d
+- name: Wall-d | Install wall-d
   tags:
     - wall-d
   ansible.builtin.shell: ./install.sh

@@ -1,5 +1,5 @@
 ---
-- name: install cron job (ansible-pull)
+- name: Cron | Install cron job (ansible-pull)
   tags:
     - cron
   ansible.builtin.cron:
@@ -12,7 +12,7 @@
           1>> {{ lookup('env', 'HOME') }}/.cron-errors//gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/ansible-pull-stdout-logs.txt"
   become: true
 
-- name: install cron job (profile-selector)
+- name: Cron | Install cron job (profile-selector)
   tags:
     - cron
   ansible.builtin.cron:
@@ -23,7 +23,7 @@
     job: "DISPLAY=:0 {{ lookup('env', 'HOME') }}/.scripts/profile-selector"
   become: true
 
-- name: install cron job (remove downloads folder)
+- name: Cron | Install cron job (remove downloads folder)
   tags:
     - cron
   ansible.builtin.cron:
@@ -33,7 +33,7 @@
     disabled: false
     job: "sleep 60 && rm -r {{ lookup('env', 'HOME') }}/Downloads"
 
-- name: install cron job (remove downloads folder)
+- name: Cron | Install cron job (remove downloads folder)
   tags:
     - cron
   ansible.builtin.cron:
@@ -43,7 +43,7 @@
     disabled: false
     job: "rm -r {{ lookup('env', 'HOME') }}/Downloads"
 
-- name: install cron job (push notes to git repository)
+- name: Cron | Install cron job (push notes to git repository)
   tags:
     - cron
   ansible.builtin.cron:
@@ -55,7 +55,7 @@
           2>> {{ lookup('env', 'HOME') }}/.cron-errors/push-new-notes-error-logs.txt \
           1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/push-new-notes-stdout-logs.txt"
 
-- name: install cron job (Auto adjust screen brightness)
+- name: Cron | Install cron job (Auto adjust screen brightness)
   tags:
     - cron
     - auto-adjust-brightness

@@ -1,5 +1,5 @@
 ---
-# - name: Install pulseaudio packages
+# - name: Audio | Install pulseaudio packages
 #   tags:
 #     - pulseaudio
 #   ansible.builtin.package:
@@ -13,7 +13,7 @@
 #   become: true
 #   register: restart_pulseaudio
 
-# - name: Set pulseaudio to automatically change to the bluetooth once connected
+# - name: Audio | Set pulseaudio to automatically change to the bluetooth once connected
 #   tags:
 #     - pulseaudio
 #   ansible.builtin.lineinfile:
@@ -24,7 +24,7 @@
 #     state: present
 #   become: true
 
-# - name: restart pulseaudio
+# - name: Audio | Restart pulseaudio
 #   tags:
 #     - pulseaudio
 #   ansible.builtin.service:
@@ -34,7 +34,7 @@
 #   become: true
 #   when: restart_pulseaudio is changed
 
-- name: Install pipewire packages | Arch
+- name: Audio | Install pipewire packages on Arch
   tags:
     - pipewire
   ansible.builtin.package:
@@ -53,7 +53,7 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Install pipewire packages | Debian
+- name: Audio | Install pipewire packages on Debian
   tags:
     - pipewire
   ansible.builtin.package:

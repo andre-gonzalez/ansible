@@ -1,5 +1,5 @@
 ---
-- name: Install neovim
+- name: Neovim | Install neovim
   tags:
     - neovim
   ansible.builtin.package:
@@ -9,7 +9,7 @@
     update_cache: false
   become: true
 
-- name: Set neovim as default git editor
+- name: Neovim | Set neovim as default git editor
   tags:
     - neovim
     - git

@@ -1,5 +1,5 @@
 ---
-- name: Cloning .dotfiles
+- name: Dotfiles | Cloning .dotfiles
   tags:
     - dotfiles
   ansible.builtin.git:
@@ -13,7 +13,7 @@
     key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
   register: dotfiles_repo
 
-- name: set up dotfiles
+- name: Dotfiles | Set up dotfiles
   tags:
     - dotfiles
   ansible.builtin.command: "/usr/bin/git --git-dir={{ lookup('env', 'HOME') }}/.config/dotfiles/ --work-tree={{ lookup('env', 'HOME') }} checkout -f"

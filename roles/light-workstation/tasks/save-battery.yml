@@ -1,5 +1,5 @@
 ---
-- name: Install tlp package
+- name: Save Battery | Install tlp package
   tags:
     - save-battery
     - tlp
@@ -15,7 +15,7 @@
   register: restart_tlp
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Mask systemd-rfkill.service to avoid conflicts with TLP
+- name: Save Battery | Mask systemd-rfkill.service to avoid conflicts with TLP
   tags:
     - save-battery
     - tlp
@@ -25,7 +25,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Mask systemd-rfkill.socket to avoid conflicts with TLP
+- name: Save Battery | Mask systemd-rfkill.socket to avoid conflicts with TLP
   tags:
     - save-battery
     - tlp
@@ -35,7 +35,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Add second HDD to the list of drives managed by TLP
+- name: Save Battery | Add second HDD to the list of drives managed by TLP
   tags:
     - samsung-expert
   ansible.builtin.lineinfile:
@@ -46,7 +46,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Stop second disk (HDD). Spin down after 1 minute (12 *5) when on battery
+- name: Save Battery | Stop second disk (HDD). Spin down after 1 minute (12 *5) when on battery
   tags:
     - samsung-expert
   ansible.builtin.lineinfile:
@@ -57,7 +57,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Set processor to performance when on AC (scaling)
+- name: Save Battery | Set processor to performance when on AC (scaling)
   tags:
     - save-battery
     - tlp
@@ -69,7 +69,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Set processor to powersave when on Battery (scaling)
+- name: Save Battery | Set processor to powersave when on Battery (scaling)
   tags:
     - save-battery
     - tlp
@@ -81,7 +81,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Set processor to performance when on AC (energy/performance policies)
+- name: Save Battery | Set processor to performance when on AC (energy/performance policies)
   tags:
     - save-battery
     - tlp
@@ -93,7 +93,7 @@
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
 
-- name: Set processor to powersave when on Battery (energy/performance policies)
+- name: Save Battery | Set processor to powersave when on Battery (energy/performance policies)
   tags:
     - save-battery
     - tlp
@@ -105,7 +105,7 @@
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
 
-- name: Enable processor boost on AC
+- name: Save Battery | Enable processor boost on AC
   tags:
     - save-battery
     - tlp
@@ -117,7 +117,7 @@
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
 
-- name: Disable processor boost on battery
+- name: Save Battery | Disable processor boost on battery
   tags:
     - save-battery
     - tlp
@@ -129,7 +129,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Enable Intel CPU HWP dynamic boost when on AC
+- name: Save Battery | Enable Intel CPU HWP dynamic boost when on AC
   tags:
     - save-battery
     - tlp
@@ -141,8 +141,7 @@
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
 
-
-- name: Disable Intel CPU HWP dynamic boost when on AC
+- name: Save Battery | Disable Intel CPU HWP dynamic boost when on AC
   tags:
     - save-battery
     - tlp
@@ -154,7 +153,7 @@
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
 
-- name: Disable minimize of number of used CPU cores/hyper-threads under light load conditions when on AC
+- name: Save Battery | Disable minimize of number of used CPU cores/hyper-threads under light load conditions when on AC
   tags:
     - save-battery
     - tlp
@@ -166,7 +165,7 @@
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
 
-- name: Enable minimize of number of used CPU cores/hyper-threads under light load conditions when on battery
+- name: Save Battery | Enable minimize of number of used CPU cores/hyper-threads under light load conditions when on battery
   tags:
     - save-battery
     - tlp
@@ -178,7 +177,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Disable wifi and wwan on LAN connect
+- name: Save Battery | Disable wifi and wwan on LAN connect
   tags:
     - save-battery
     - tlp
@@ -190,7 +189,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Enable wifi and wwan on LAN disconnect
+- name: Save Battery | Enable wifi and wwan on LAN disconnect
   tags:
     - save-battery
     - tlp
@@ -202,7 +201,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Install powertop package
+- name: Save Battery | Install powertop package
   tags:
     - save-battery
     - powertop
@@ -215,7 +214,7 @@
   register: calibrate_powertop
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Install aur packages
+- name: Save Battery | Install aur packages
   tags:
     - save-battery
     - aur
@@ -226,11 +225,10 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
   ignore_errors: true
-  when: '"Notebook" in ansible_facts["form_factor"]'
+  when: '"Notebook" in ansible_facts["form_factor"] and ansible_distribution == "Archlinux"'
 
-- name: Restart tlp
+- name: Save Battery | Restart tlp
   tags:
     - save-battery
     - tlp
@@ -241,7 +239,7 @@
   become: true
   when: restart_tlp is changed
 
-- name: Calibrate powertop
+- name: Save Battery | Calibrate powertop
   tags:
     - save-battery
     - powertop

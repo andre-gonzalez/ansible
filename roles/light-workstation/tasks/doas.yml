@@ -1,5 +1,5 @@
 ---
-- name: Install doas package
+- name: Doas | Install doas package
   tags:
     - doas
   ansible.builtin.package:
@@ -8,7 +8,7 @@
     update_cache: false
   become: true
 
-- name: Copy file doas.conf to /etc
+- name: Doas | Copy file doas.conf to /etc
   tags:
     - doas
   ansible.builtin.copy:

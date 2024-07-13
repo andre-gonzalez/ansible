@@ -1,5 +1,5 @@
 ---
-- name: Ensure anki directory exists
+- name: Anki | Ensure anki directory exists
   tags:
     - anki
   ansible.builtin.file:
@@ -7,7 +7,7 @@
     mode: '0700'
     state: directory
 
-- name: Get latest anki release
+- name: Anki | Get latest anki release
   tags:
     - anki
   ansible.builtin.uri:
@@ -15,7 +15,7 @@
     return_content: true
   register: json_reponse
 
-- name: Download anki installer
+- name: Anki | Download anki installer
   tags:
     - anki
   ansible.builtin.get_url:
@@ -25,7 +25,7 @@
     mode: '0777'
   register: "proceed_anki_installation"
 
-- name: Extract anki files
+- name: Anki | Extract anki files
   tags:
     - anki
   ansible.builtin.unarchive:
@@ -33,7 +33,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
   when: proceed_anki_installation is changed
 
-- name: Install anki
+- name: Anki | Install anki
   tags:
     - anki
   ansible.builtin.shell:

@@ -1,5 +1,5 @@
 ---
-- name: Install reflector
+- name: Packages | Install reflector
   tags:
     - packages
   ansible.builtin.package:
@@ -7,14 +7,14 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Update pacman mirrorlist
+- name: Packages | Update pacman mirrorlist
   tags:
     - packages
   ansible.builtin.script: choose-mirror.sh
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Copy file pacman.conf to /etc
+- name: Packages | Copy file pacman.conf to /etc
   tags:
     - packages
   ansible.builtin.copy:
@@ -26,21 +26,21 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Set intel variable when distribution is Archlinux (if necessary)
+- name: Packages | Set intel variable when distribution is Archlinux (if necessary)
   tags:
     - packages
   ansible.builtin.set_fact:
     intel: intel-ucode
   when: ansible_distribution == "Archlinux" and "GenuineIntel" in ansible_processor
 
-- name: Set intel variable when distribution is Ubuntu (if necessary)
+- name: Packages | Set intel variable when distribution is Ubuntu (if necessary)
   tags:
     - packages
   ansible.builtin.set_fact:
     intel: intel-microcode
   when: ansible_distribution in ["Ubuntu", "Debian"] and "GenuineIntel" in ansible_processor
 
-- name: Enable contrib, non-free and non-free-firmware repos
+- name: Packages | Enable contrib, non-free and non-free-firmware repos
   tags:
     - packages
   ansible.builtin.apt_repository:
@@ -53,7 +53,7 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Install microcode updates for intel (if necessary)
+- name: Packages | Install microcode updates for intel (if necessary)
   tags:
     - packages
   ansible.builtin.package:
@@ -63,14 +63,14 @@
   become: true
   when: '"GenuineIntel" in ansible_facts["processor"]'
 
-- name: Set amd variable when distribution is Archlinux (if necessary)
+- name: Packages | Set amd variable when distribution is Archlinux (if necessary)
   tags:
     - packages
   ansible.builtin.set_fact:
     amd: amd-ucode
   when: ansible_distribution == "Archlinux" and "AuthenticAMD" in ansible_processor
 
-- name: Set amd variable when distribution is Ubuntu (if necessary)
+- name: Packages | Set amd variable when distribution is Ubuntu (if necessary)
   tags:
     - processor-amd
     - never
@@ -78,7 +78,7 @@
     amd: amd64-microcode
   when: ansible_distribution == "Ubuntu" and "AuthenticAMD" in ansible_processor
 
-- name: Install microcode updates for amd (if necessary)
+- name: Packages | Install microcode updates for amd (if necessary)
   tags:
     - processor-amd
     - never
@@ -89,7 +89,7 @@
   become: true
   when: '"AuthenticAMD" in ansible_facts["processor"]'
 
-- name: Install nvidia drivers
+- name: Packages | Install nvidia drivers
   tags:
     - nvidia
     - never
@@ -99,7 +99,7 @@
   when: ansible_distribution == "Archlinux"
   become: true
 
-- name: Remove packages
+- name: Packages | Remove packages
   tags:
     - packages
   ansible.builtin.package:
@@ -121,7 +121,7 @@
     update_cache: false
   become: true
 
-- name: Delete config files for cloud-init in Ubuntu
+- name: Packages | Delete config files for cloud-init in Ubuntu
   tags:
     - packages
   ansible.builtin.file:
@@ -132,7 +132,7 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Install base packages
+- name: Packages | Install base packages
   tags:
     - packages
   ansible.builtin.package:
@@ -143,7 +143,7 @@
     update_cache: false
   become: true
 
-- name: Install qemu-guest-agent when running on guest
+- name: Packages | Install qemu-guest-agent when running on guest
   tags:
     - packages
   ansible.builtin.package:
@@ -155,7 +155,9 @@
   become: true
   register: restart_qemu_guest_agent
 
-- name: Restart qemu-guest-agent
+- name: Packages | Restart qemu-guest-agent
+  tags:
+    - packages
   ansible.builtin.service:
     name: qemu-guest-agent
     state: restarted

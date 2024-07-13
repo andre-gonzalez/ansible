@@ -1,5 +1,5 @@
 ---
-- name: Clone st
+- name: St | Clone st
   tags:
     - st
   ansible.builtin.git:
@@ -10,7 +10,7 @@
     accept_hostkey: true
   ignore_errors: true
 
-- name: Install st
+- name: St | Install st
   tags:
     - st
   community.general.make:

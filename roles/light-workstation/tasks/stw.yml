@@ -1,5 +1,5 @@
 ---
-- name: Clone stw
+- name: Stw | Clone stw
   tags:
     - stw
   ansible.builtin.git:
@@ -9,7 +9,7 @@
     accept_hostkey: true
   ignore_errors: true
 
-- name: Install stw
+- name: Stw | Install stw
   tags:
     - stw
   community.general.make:

@@ -1,5 +1,5 @@
 ---
-- name: Clone yay
+- name: Yay | Clone yay
   tags:
     - aur
     - yay
@@ -10,7 +10,7 @@
     update: true
   when: ansible_distribution == "Archlinux"
 
-- name: Create the `aur_builder` user
+- name: Yay | Create the `aur_builder` user
   tags:
     - aur
     - yay
@@ -21,7 +21,7 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Allow the `aur_builder` user to run `sudo pacman` without a password
+- name: Yay | Allow the `aur_builder` user to run `sudo pacman` without a password
   tags:
     - aur
     - yay
@@ -34,7 +34,7 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Build and install yay
+- name: Yay | Build and install yay
   tags:
     - aur
     - yay

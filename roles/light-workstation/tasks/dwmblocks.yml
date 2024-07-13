@@ -1,5 +1,5 @@
 ---
-- name: Install packages necessary for dwmblocks | AUR
+- name: Dwmblocks | Install packages necessary for dwmblocks | AUR
   tags:
     - dwmblocks
   kewlfft.aur.aur:
@@ -11,7 +11,7 @@
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
 
-- name: Install packages necessary for dwmblocks | Pacman
+- name: Dwmblocks | Install packages necessary for dwmblocks | Pacman
   tags:
     - dwmblocks
   ansible.builtin.package:
@@ -19,7 +19,7 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Clone dwmblocks (Laptop)
+- name: Dwmblocks | Clone dwmblocks (Laptop)
   tags:
     - dwmblocks
   ansible.builtin.git:
@@ -30,7 +30,7 @@
     accept_hostkey: true
   ignore_errors: true
 
-- name: Clone dwmblocks (Desktop)
+- name: Dwmblocks | Clone dwmblocks (Desktop)
   tags:
     - dwmblocks
   ansible.builtin.git:
@@ -41,7 +41,7 @@
     accept_hostkey: true
   ignore_errors: true
 
-- name: Install dwmblocks (Laptop)
+- name: Dwmblocks | Install dwmblocks (Laptop)
   tags:
     - dwmblocks
   community.general.make:
@@ -50,7 +50,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Install dwmblocks (Desktop)
+- name: Dwmblocks | Install dwmblocks (Desktop)
   tags:
     - dwmblocks
   community.general.make:
@@ -59,7 +59,7 @@
   become: true
   when: '"Notebook" not in ansible_facts["form_factor"]'
 
-- name: Create symbolic links for the dwmblocks scripts (Laptop)
+- name: Dwmblocks | Create symbolic links for the dwmblocks scripts (Laptop)
   tags:
     - dwmblocks
   ansible.builtin.file:
@@ -88,7 +88,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Create symbolic links for the dwmblocks scripts (Desktop)
+- name: Dwmblocks | Create symbolic links for the dwmblocks scripts (Desktop)
   tags:
     - dwmblocks
   ansible.builtin.file:

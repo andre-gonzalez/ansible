@@ -1,7 +1,10 @@
 ---
-- include_tasks: tasks/drives.yml
+- name: Samsung Expert | Include tasks from drives play
+  ansible.builtin.include_tasks: tasks/drives.yml
   tags:
     - drives
-- include_tasks: tasks/network.yml
+
+- name: Samsung Expert | Include tasks from network play
+  ansible.builtin.include_tasks: tasks/network.yml
   tags:
     - network

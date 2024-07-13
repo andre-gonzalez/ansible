@@ -1,10 +1,10 @@
 ---
-- name: install network managment packages
+- name: Network Packages | Install network managment packages
   tags:
     - network-packages
   ansible.builtin.package:
     name:
-    - net-tools
-    - iputils-ping
+      - net-tools
+      - iputils-ping
   become: true
   when: ansible_distribution == "Ubuntu"

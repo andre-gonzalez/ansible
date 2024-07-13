@@ -1,5 +1,5 @@
 ---
-- name: Install insomnia package
+- name: Insomnia | Install insomnia package
   tags:
     - insomnia
   kewlfft.aur.aur:

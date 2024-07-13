@@ -1,5 +1,5 @@
 ---
-- name: Install preload package when distribution is Archlinux
+- name: Preload | Install preload package when distribution is Archlinux
   tags:
     - preload
   kewlfft.aur.aur:
@@ -12,7 +12,7 @@
   ignore_errors: true
   register: restart_preload
 
-- name: Install preload package when distribution is Ubuntu
+- name: Preload | Install preload package when distribution is Ubuntu
   tags:
     - preload
   ansible.builtin.package:
@@ -23,7 +23,7 @@
   when: ansible_distribution == "Ubuntu"
   register: restart_preload2
 
-- name: Copy file preload.conf to /etc
+- name: Preload | Copy file preload.conf to /etc
   tags:
     - preload
   ansible.builtin.copy:
@@ -35,7 +35,7 @@
   become: true
   register: restart_preload3
 
-- name: Restart preload
+- name: Preload | Restart preload
   tags:
     - preload
   ansible.builtin.service:

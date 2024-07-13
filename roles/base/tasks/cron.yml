@@ -1,19 +1,19 @@
 ---
-- name: Set cron variable when distribution is Archlinux
+- name: Cron | Set cron variable when distribution is Archlinux
   tags:
     - cron
   ansible.builtin.set_fact:
     cron: cronie
   when: ansible_distribution == "Archlinux"
 
-- name: Set cron variable when distribution is Ubuntu on Debian
+- name: Cron | Set cron variable when distribution is Ubuntu on Debian
   tags:
     - cron
   ansible.builtin.set_fact:
     cron: cron
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: Install cron
+- name: Cron | Install cron
   tags:
     - cron
   ansible.builtin.package:
@@ -22,7 +22,7 @@
     update_cache: false
   become: true
 
-- name: Start cron
+- name: Cron | Start cron
   tags:
     - cron
   ansible.builtin.service:

@@ -1,5 +1,5 @@
 ---
-# - name: copy file grub config file
+# - name: Grub | Copy file grub config file
 #   tags:
 #     - grub
 #   ansible.builtin.copy:
@@ -11,7 +11,7 @@
 #   become: true
 #   when: ansible_distribution == "Archlinux"
 
-- name: Install grub
+- name: Grub | Install grub
   tags:
     - grub
   ansible.builtin.package:
@@ -19,7 +19,7 @@
   become: true
   when: ansible_distribution == "Archlinux" and ansible_service_mgr == "grub"
 
-- name: Change grub timeout to 0 second
+- name: Grub | Change grub timeout to 0 second
   tags:
     - grub
   ansible.builtin.lineinfile:
@@ -31,7 +31,7 @@
   when: ansible_service_mgr == "grub"
   register: update_grub
 
-- name: Change grub timeout to hidden
+- name: Grub | Change grub timeout to hidden
   tags:
     - grub
   ansible.builtin.lineinfile:
@@ -43,7 +43,7 @@
   when: ansible_service_mgr == "grub"
   register: update_grub2
 
-- name: Speed up linux systems for workstations disabling mitigations - https://christitus.com/speedup-linux/
+- name: Grub | Speed up linux systems for workstations disabling mitigations - https://christitus.com/speedup-linux/
   tags:
     - grub
   ansible.builtin.lineinfile:
@@ -55,7 +55,7 @@
   when: ansible_memtotal_mb > 16000 and ansible_service_mgr == "grub"
   register: update_grub3
 
-- name: Speed up linux systems for workstations disabling mitigations and enable zswap compression - https://christitus.com/speedup-linux/
+- name: Grub | Speed up linux systems for workstations disabling mitigations and enable zswap compression - https://christitus.com/speedup-linux/
   tags:
     - grub
   ansible.builtin.lineinfile:
@@ -67,7 +67,7 @@
   when: ansible_memtotal_mb <= 16000 and ansible_service_mgr == "grub"
   register: update_grub4
 
-- name: Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
+- name: Grub | Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
   tags:
     - grub
   ansible.builtin.lineinfile:
@@ -79,7 +79,7 @@
   when: ansible_service_mgr == "grub"
   register: update_grub5
 
-- name: Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
+- name: Grub | Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
   tags:
     - grub
   ansible.builtin.lineinfile:
@@ -91,7 +91,7 @@
   when: ansible_service_mgr == "grub"
   register: update_grub6
 
-- name: Copy file update-grub
+- name: Grub | Copy file update-grub
   tags:
     - grub
   ansible.builtin.copy:

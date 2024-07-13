@@ -1,5 +1,5 @@
 ---
-- name: Install timeshift packages
+- name: Timeshift | Install timeshift packages
   tags:
     - timeshift
   kewlfft.aur.aur:
@@ -12,7 +12,7 @@
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
 
-- name: Copy file timeshift.json to /etc
+- name: Timeshift | Copy file timeshift.json to /etc
   tags:
     - timeshift
   ansible.builtin.copy:
@@ -23,7 +23,7 @@
     mode: '0666'
   become: true
 
-- name: Changed timeshift-autosnap to store only 2 backups
+- name: Timeshift | Changed timeshift-autosnap to store only 2 backups
   tags:
     - timeshift
   ansible.builtin.lineinfile:

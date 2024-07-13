@@ -1,5 +1,5 @@
 ---
-- name: Set faillock to deny access after 5 consecutive authentication failures
+- name: Failock | Set faillock to deny access after 5 consecutive authentication failures
   tags:
     - faillock
   ansible.builtin.lineinfile:
@@ -9,7 +9,7 @@
     backrefs: true
   become: true
 
-- name: Set time to re-enable login after lock out to 300s
+- name: Failock | Set time to re-enable login after lock out to 300s
   tags:
     - faillock
   ansible.builtin.lineinfile:

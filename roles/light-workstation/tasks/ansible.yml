@@ -1,5 +1,5 @@
 ---
-- name: Clone ansible repository
+- name: Ansible | Clone ansible repository
   tags:
     - ansible
   ansible.builtin.git:

@@ -1,5 +1,5 @@
 ---
-- name: Install lf packages when distribution is Archlinux
+- name: Lf | Install lf packages when distribution is Archlinux
   tags:
     - lf
   kewlfft.aur.aur:
@@ -13,14 +13,14 @@
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
 
-- name: Install lf packages when distribution is Ubuntu
+- name: Lf | Install lf packages when distribution is Ubuntu
   tags:
     - lf
   ansible.builtin.shell: env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
   become: true
   when: ansible_distribution == "Ubuntu"
 
-- name: Copy lfub to /usr/local/bin
+- name: Lf | Copy lfub to /usr/local/bin
   tags:
     - lf
   ansible.builtin.copy:

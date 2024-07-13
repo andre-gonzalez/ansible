@@ -1,34 +1,55 @@
 ---
-- include_tasks: tasks/pritunl-vpn.yml
+- name: Work | Include tasks from Pritunl VPN play
+  ansible.builtin.include_tasks: tasks/pritunl-vpn.yml
   tags:
     - pritunl-vpn
-- include_tasks: tasks/dbeaver.yml
+
+- name: Work | Include tasks from Dbeaver play
+  ansible.builtin.include_tasks: tasks/dbeaver.yml
   tags:
     - dbeaver
-- include_tasks: tasks/aws.yml
+
+- name: Work | Include tasks from AWS play
+  ansible.builtin.include_tasks: tasks/aws.yml
   tags:
     - aws
-- include_tasks: tasks/databricks.yml
+
+- name: Work | Include tasks from Databricks play
+  ansible.builtin.include_tasks: tasks/databricks.yml
   tags:
     - databricks
-- include_tasks: tasks/terraform.yml
+
+- name: Work | Include tasks from Terraform play
+  ansible.builtin.include_tasks: tasks/terraform.yml
   tags:
     - terraform
-- include_tasks: tasks/gcloud.yml
+
+- name: Work | Include tasks from Gcloud play
+  ansible.builtin.include_tasks: tasks/gcloud.yml
   tags:
     - gcloud
-- include_tasks: tasks/repositories.yml
+
+- name: Work | Include tasks from Repositories play
+  ansible.builtin.include_tasks: tasks/repositories.yml
   tags:
     - repositories
-- include_tasks: tasks/neomutt.yml
+
+- name: Work | Include tasks from Neomutt play
+  ansible.builtin.include_tasks: tasks/neomutt.yml
   tags:
     - neomutt
-- include_tasks: tasks/slack.yml
+
+- name: Work | Include tasks from Slack play
+  ansible.builtin.include_tasks: tasks/slack.yml
   tags:
     - packages
-- include_tasks: tasks/mysql.yml
+
+- name: Work | Include tasks from Mysql play
+  ansible.builtin.include_tasks: tasks/mysql.yml
   tags:
     - packages
-- include_tasks: tasks/insomnia.yml
+
+- name: Work | Include tasks from Insomnia play
+  ansible.builtin.include_tasks: tasks/insomnia.yml
   tags:
     - insomnia

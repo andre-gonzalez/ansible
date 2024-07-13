@@ -1,19 +1,19 @@
 ---
-- name: Set ssh variable when distribution is Archlinux
+- name: SSH | Set ssh variable when distribution is Archlinux
   tags:
     - ssh
   ansible.builtin.set_fact:
     ssh_package: openssh
   when: ansible_distribution == "Archlinux"
 
-- name: Set intel variable when distribution is Ubuntu or Debian
+- name: SSH | Set intel variable when distribution is Ubuntu or Debian
   tags:
     - ssh
   ansible.builtin.set_fact:
     ssh_package: openssh-server
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Install openssh
+- name: SSH | Install openssh
   tags:
     - ssh
   ansible.builtin.package:
@@ -22,7 +22,7 @@
     update_cache: true
   become: true
 
-- name: Ensure .ssh directory exists.
+- name: SSH | Ensure .ssh directory exists.
   tags:
     - ssh
   ansible.builtin.file:
@@ -30,7 +30,7 @@
     mode: '0700'
     state: directory
 
-- name: Set authorized keys for {{ lookup('env', 'USER') }} from github
+- name: SSH | Set authorized keys from github to user {{ lookup('env', 'USER') }}
   tags:
     - ssh
   ansible.posix.authorized_key:
@@ -39,7 +39,7 @@
     key: "{{ lookup('url', 'https://github.com/andre-gonzalez.keys', split_lines=False) }}"
   notify: "restart ssh"
 
-- name: Change ssh port
+- name: SSH | Change ssh port
   tags:
     - ssh
   ansible.builtin.lineinfile:
@@ -50,7 +50,7 @@
   become: true
   notify: "restart ssh"
 
-- name: Disable root login via ssh
+- name: SSH | Disable root login via ssh
   tags:
     - security
     - ssh
@@ -63,7 +63,7 @@
   become: true
   notify: "restart ssh"
 
-- name: Disable password login via ssh
+- name: SSH | Disable password login via ssh
   tags:
     - security
     - ssh
@@ -76,7 +76,7 @@
   become: true
   notify: "restart ssh"
 
-- name: Only allow user {{ lookup('env', 'USER') }}
+- name: SSH | Only allow user {{ lookup('env', 'USER') }}
   tags:
     - security
     - ssh
@@ -89,7 +89,7 @@
   become: true
   notify: "restart ssh"
 
-- name: Do not permit empty passwords on ssh
+- name: SSH | Do not permit empty passwords on ssh
   tags:
     - security
     - ssh
@@ -102,7 +102,7 @@
   become: true
   notify: "restart ssh"
 
-- name: Limit max auth tries to 6
+- name: SSH | Limit max auth tries to 6
   tags:
     - security
     - ssh
@@ -115,7 +115,7 @@
   become: true
   notify: "restart ssh"
 
-- name: Block X11Forwarding on ssh
+- name: SSH | Block X11Forwarding on ssh
   tags:
     - security
     - ssh
@@ -128,7 +128,7 @@
   become: true
   notify: "restart ssh"
 
-- name: Block TCP Forwarding on ssh
+- name: SSH | Block TCP Forwarding on ssh
   tags:
     - security
     - ssh

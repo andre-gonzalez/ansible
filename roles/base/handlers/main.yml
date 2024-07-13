@@ -4,10 +4,11 @@
     - fish
   ansible.builtin.file:
     path: /etc/omf.installed
+    mode: "0644"
     state: touch
   become: true
 
-- name: restart fail2ban
+- name: Restart fail2ban
   tags:
     - security
     - fail2ban
@@ -18,7 +19,7 @@
   become: true
   listen: "start fail2ban"
 
-- name: copy file update-grub
+- name: Copy file update-grub
   tags:
     - grub
   ansible.builtin.copy:
@@ -30,14 +31,14 @@
   become: true
   listen: "update grub"
 
-- name: run update grub
+- name: Run update grub
   tags:
     - grub
   ansible.builtin.command: update-grub
   become: true
   listen: "update grub"
 
-- name: restart ssh
+- name: Restart ssh
   tags:
     - security
     - ssh
@@ -47,7 +48,7 @@
   become: true
   listen: "restart ssh"
 
-- name: restart auditd
+- name: Restart auditd
   tags:
     - security
     - apparmor
@@ -57,7 +58,7 @@
     enabled: true
   become: true
 
-- name: restart apparmor
+- name: Restart apparmor
   tags:
     - security
     - apparmor
@@ -70,7 +71,7 @@
 
 # Tailscale handlers
 
-- name: restart tailscale service
+- name: Restart tailscale service
   tags:
     - tailscale
   ansible.builtin.service:

@@ -1,5 +1,5 @@
 ---
-- name: Install gcc, libxft-dev, libxinerama-dev (dwm dependency)
+- name: DWM | Install gcc, libxft-dev, libxinerama-dev (dwm dependency)
   tags:
     - dwm
   ansible.builtin.package:
@@ -12,7 +12,7 @@
   become: true
   when: ansible_distribution == "Ubuntu"
 
-- name: Clone dwm (Laptop)
+- name: DWM | Clone dwm (Laptop)
   tags:
     - dwm
   ansible.builtin.git:
@@ -23,7 +23,7 @@
     accept_hostkey: true
   ignore_errors: true
 
-- name: Clone dwm (Ultra wide screen)
+- name: DWM | Clone dwm (Ultra wide screen)
   tags:
     - dwm
   ansible.builtin.git:
@@ -34,7 +34,7 @@
     accept_hostkey: true
   ignore_errors: true
 
-- name: Install dwm (laptop)
+- name: DWM | Install dwm (laptop)
   tags:
     - dwm
   community.general.make:
@@ -43,7 +43,7 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Install dwm (ultra-wide)
+- name: DWM | Install dwm (ultra-wide)
   tags:
     - dwm
   community.general.make:

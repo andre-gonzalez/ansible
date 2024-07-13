@@ -1,53 +1,31 @@
 ---
-- name: Install | CentOS and related families
-  tags:
-    - tailscale
-  when: >
-    ansible_distribution in tailscale_centos_family_distros
-    or (ansible_distribution == 'Amazon' and ansible_distribution_major_version | int < 2023)
-  ansible.builtin.include_tasks: ./roles/base/tasks/tailscale-centos.yml
-
-- name: Install | Debian and related families
+- name: Tailscale | Debian and related families
   tags:
     - tailscale
   when: ansible_distribution in tailscale_debian_family_distros
   ansible.builtin.include_tasks: ./roles/base/tasks/tailscale-debian.yml
 
-- name: Install | Fedora and related families
-  tags:
-    - tailscale
-  when: >
-    ansible_distribution == 'Fedora'
-    or (ansible_distribution == 'Amazon' and ansible_distribution_major_version | int >= 2023)
-  ansible.builtin.include_tasks: ./roles/base/tasks/tailscale-fedora.yml
-
-- name: Install | Arch
+- name: Tailscale | Arch
   tags:
     - tailscale
   when: ansible_distribution == 'Archlinux'
   ansible.builtin.include_tasks: ./roles/base/tasks/tailscale-arch.yml
 
-- name: Install | OpenSUSE
-  tags:
-    - tailscale
-  when: ansible_distribution in tailscale_opensuse_family_distros
-  ansible.builtin.include_tasks: ./roles/base/tasks/tailscale-opensuse.yml
-
-- name: Install | Remove legacy state folder
+- name: Tailscale | Remove legacy state folder
   tags:
     - tailscale
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.artis3n-tailscale"
     state: absent
 
-- name: Install | Determine state folder
+- name: Tailscale | Determine state folder
   tags:
     - tailscale
   ansible.builtin.set_fact:
     # Following https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
     tailscale_state_folder: "{{ ansible_env.XDG_STATE_HOME | default(ansible_env.HOME + '/.local/state') }}"
 
-- name: Install | Set state idempotency folder
+- name: Tailscale | Set state idempotency folder
   tags:
     - tailscale
   ansible.builtin.file:
@@ -60,7 +38,7 @@
     - "{{ tailscale_state_folder }}"
     - "{{ tailscale_state_folder }}/artis3n-tailscale"
 
-- name: Install | Store state idempotency README
+- name: Tailscale | Store state idempotency README
   tags:
     - tailscale
   ansible.builtin.copy:
@@ -70,7 +48,7 @@
     group: "{{ ansible_user_gid }}"
     mode: '0644'
 
-- name: Install | Enable Service
+- name: Tailscale | Enable Service
   tags:
     - tailscale
   become: true
@@ -79,14 +57,14 @@
     state: started
     enabled: true
 
-- name: Install | Fetch Tailscale status
+- name: Tailscale | Fetch Tailscale status
   tags:
     - tailscale
   ansible.builtin.command: tailscale status --json
   changed_when: false
   register: tailscale_status
 
-- name: Install | Parse status JSON
+- name: Tailscale | Parse status JSON
   tags:
     - tailscale
   vars:
@@ -95,14 +73,14 @@
     tailscale_is_online: "{{ status.Self.Online }}"
     tailscale_version: "{{ status.Version }}"
 
-- name: Install | Tailscale version and online status
+- name: Tailscale | Tailscale version and online status
   tags:
     - tailscale
   ansible.builtin.debug:
     msg: "Ver: {{ tailscale_version }} Online: {{ tailscale_is_online }}"
   when: verbose
 
-- name: Install | Save State
+- name: Tailscale | Save State
   tags:
     - tailscale
   ansible.builtin.template:
@@ -113,7 +91,7 @@
     mode: '0644'
   register: state_file
 
-- name: Install | Bring Tailscale Up
+- name: Tailscale | Bring Tailscale Up
   tags:
     - tailscale
   become: true
@@ -131,7 +109,7 @@
   async: 60
   poll: 5
 
-- name: Install | Report non-sensitive stdout from "tailscale up"  # noqa: no-handler
+- name: Tailscale | Report non-sensitive stdout from "tailscale up"  # noqa: no-handler
   tags:
     - tailscale
   ansible.builtin.debug:
@@ -141,7 +119,7 @@
     - tailscale_start.stdout | length > 0
   register: nonsensitive_stdout
 
-- name: Install | Pausing to highlight stdout message above
+- name: Tailscale | Pausing to highlight stdout message above
   tags:
     - tailscale
   ansible.builtin.pause:
@@ -157,7 +135,7 @@
   when:
     - tailscale_start is failed
 
-- name: Install | Report redacted failure from "tailscale up"  # noqa: no-handler
+- name: Tailscale | Report redacted failure from "tailscale up"  # noqa: no-handler
   tags:
     - tailscale
   ansible.builtin.fail:

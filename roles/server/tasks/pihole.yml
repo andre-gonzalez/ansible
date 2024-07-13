@@ -1,5 +1,5 @@
 ---
-- name: stop resolved service
+- name: Pihole | Stop resolved service
   tags:
     - pihole
   ansible.builtin.service:
@@ -8,7 +8,7 @@
     enabled: false
   become: true
 
-- name: Change /etc/resolv.conf nameserver to cloudflare DNS
+- name: Pihole | Change /etc/resolv.conf nameserver to cloudflare DNS
   tags:
     - pihole
   ansible.builtin.lineinfile:
@@ -18,7 +18,7 @@
     backrefs: true
   become: true
 
-- name: Pull pihole docker image
+- name: Pihole | Pull pihole docker image
   tags:
     - docker
     - pihole
@@ -29,7 +29,7 @@
       platform: amd64
   become: true
 
-- name: Allow ports 80, 53 and 67 on ufw for pihole
+- name: Pihole | Allow ports 80, 53 and 67 on ufw for pihole
   tags:
     - pihole
   community.general.ufw:
@@ -44,7 +44,7 @@
     - { port: '67', proto: 'udp' }
   become: true
 
-- name: Ensure pihole directory exists.
+- name: Pihole | Ensure pihole directory exists.
   tags:
     - pihole
   ansible.builtin.file:
@@ -54,7 +54,7 @@
     mode: '0740'
     state: directory
 
-- name: copy pihole docker compose file
+- name: Pihole | Copy pihole docker compose file
   tags:
     - pihole
   ansible.builtin.copy:
@@ -64,7 +64,7 @@
     group: "{{ lookup('env', 'USER') }}"
     mode: '0640'
 
-- name: Deploy Docker Compose pihole
+- name: Pihole | Deploy Docker Compose pihole
   tags:
     - pihole
   community.docker.docker_compose:

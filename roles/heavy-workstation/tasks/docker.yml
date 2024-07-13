@@ -1,5 +1,5 @@
 ---
-- name: Install docker packages
+- name: Docker | Install docker packages
   tags:
     - docker
   ansible.builtin.package:
@@ -10,7 +10,7 @@
     update_cache: false
   become: true
 
-- name: Start docker
+- name: Docker | Start docker
   tags:
     - docker
   ansible.builtin.service:
@@ -19,7 +19,7 @@
     enabled: true
   become: true
 
-- name: Add the user {{ lookup('env', 'USER') }} to the docker group
+- name: Docker | Add to the docker group the user {{ lookup('env', 'USER') }}
   tags:
     - docker
   ansible.builtin.user:

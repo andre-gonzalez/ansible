@@ -1,5 +1,5 @@
 ---
-- name: Ensure gdrive-pessoal, not-up and iso directories exists.
+- name: Directories | Ensure gdrive-pessoal, not-up and iso directories exists.
   tags:
     - directories
   ansible.builtin.file:
@@ -9,7 +9,7 @@
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
 
-- name: Ensure projects directory exists.
+- name: Directories | Ensure projects directory exists.
   tags:
     - directories
   ansible.builtin.file:
@@ -19,7 +19,7 @@
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
 
-- name: Ensure /mnt/hd-externo directory exists.
+- name: Directories | Ensure /mnt/hd-externo directory exists.
   tags:
     - directories
   ansible.builtin.file:

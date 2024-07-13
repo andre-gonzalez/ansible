@@ -1,18 +1,27 @@
 ---
-- include_tasks: tasks/debug.yml
+- name: Server | Include tasks from debug play
+  ansible.builtin.include_tasks: tasks/debug.yml
   tags:
     - debug
     - never
-- include_tasks: tasks/network-packages.yml
+
+- name: Server | Include tasks from Network Packages play
+  ansible.builtin.include_tasks: tasks/network-packages.yml
   tags:
     - network-packages
-- include_tasks: tasks/ssh.yml
+
+- name: Server | Include tasks from ssh play
+  ansible.builtin.include_tasks: tasks/ssh.yml
   tags:
     - ssh
-- include_tasks: tasks/docker.yml
+
+- name: Server | Include tasks from docker play
+  ansible.builtin.include_tasks: tasks/docker.yml
   tags:
     - docker
     - pihole
-- include_tasks: tasks/pihole.yml
+
+- name: Server | Include tasks from pihole play
+  ansible.builtin.include_tasks: tasks/pihole.yml
   tags:
     - pihole

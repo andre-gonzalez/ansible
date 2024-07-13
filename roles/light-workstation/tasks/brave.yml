@@ -1,5 +1,5 @@
 ---
-- name: Required libraries for brave in Ubuntu
+- name: Brave | Required libraries for brave in Ubuntu
   tags:
     - brave
   ansible.builtin.package:
@@ -7,16 +7,17 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Brave Browser archive-keyring.gpg download in Ubuntu
+- name: Brave | Brave Browser archive-keyring.gpg download in Ubuntu
   tags:
     - brave
   ansible.builtin.get_url:
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
+    mode: "0600"
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Brave Browser PPA setting in Ubuntu
+- name: Brave | Brave Browser PPA setting in Ubuntu
   tags:
     - brave
   ansible.builtin.shell: echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] >
@@ -24,7 +25,7 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Brave Browser apt installation in Ubuntu
+- name: Brave | Brave Browser apt installation in Ubuntu
   tags:
     - brave
   ansible.builtin.package:
@@ -33,7 +34,7 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Install brave via aur package
+- name: Brave | Install brave via aur package
   tags:
     - brave
   kewlfft.aur.aur:

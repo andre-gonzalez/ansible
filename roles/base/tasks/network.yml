@@ -1,5 +1,5 @@
 ---
-- name: Change default DNS server (Archlinux)
+- name: Network | Change default DNS server (Archlinux)
   tags:
     - network
   ansible.builtin.lineinfile:
@@ -13,7 +13,7 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Change default DNS server (Debian and Ubuntu)
+- name: Network | Change default DNS server (Debian and Ubuntu)
   tags:
     - network
   ansible.builtin.lineinfile:

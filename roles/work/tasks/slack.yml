@@ -1,5 +1,5 @@
 ---
-- name: Install slack package
+- name: Slack | Install slack package
   tags:
     - slack
   kewlfft.aur.aur:

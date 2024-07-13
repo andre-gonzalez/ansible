@@ -1,5 +1,5 @@
 ---
-- name: start sshd
+- name: SSH | Start sshd
   tags:
     - ssh
   ansible.builtin.service:
@@ -8,7 +8,7 @@
     enabled: true
   become: true
 
-- name: install cron job (stop ssh at night)
+- name: SSH | Install cron job (stop ssh at night)
   tags:
     - ssh
   ansible.builtin.cron:
@@ -19,7 +19,7 @@
     job: "systemctl stop sshd"
   become: true
 
-- name: install cron job (Start ssh at morning)
+- name: SSH | Install cron job (Start ssh at morning)
   tags:
     - ssh
   ansible.builtin.cron:

@@ -1,5 +1,5 @@
 ---
-- name: Set packages variables when distribution is Archlinux (if necessary)
+- name: Packages | Set packages variables when distribution is Archlinux (if necessary)
   tags:
     - packages
   ansible.builtin.set_fact:
@@ -19,7 +19,7 @@
     fd: fd
   when: ansible_distribution == "Archlinux"
 
-- name: Set packages variable when distribution is Ubuntu (if necessary)
+- name: Packages | Set packages variable when distribution is Ubuntu (if necessary)
   tags:
     - packages
   ansible.builtin.set_fact:
@@ -39,7 +39,7 @@
     fd: fd-find
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: install packages and update cache
+- name: Packages | Install packages and update cache
   tags:
     - packages
   ansible.builtin.package:
@@ -87,7 +87,7 @@
     update_cache: true
   become: true
 
-- name: install packages that i still have not set in ubuntu
+- name: Packages | Install packages that i still have not set in ubuntu
   tags:
     - packages
   ansible.builtin.package:
@@ -127,7 +127,7 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Refresh fonts
+- name: Packages | Refresh fonts
   tags:
     - packages
   ansible.builtin.shell: fc-cache

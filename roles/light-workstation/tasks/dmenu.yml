@@ -1,5 +1,5 @@
 ---
-- name: Clone dmenu
+- name: Dmenu | Clone dmenu
   tags:
     - dmenu
   ansible.builtin.git:
@@ -9,7 +9,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/dmenu"
   ignore_errors: true
 
-- name: Install dmenu
+- name: Dmenu | Install dmenu
   tags:
     - dmenu
   community.general.make:

@@ -1,5 +1,5 @@
 ---
-- name: Install aur packages
+- name: AUR | Install aur packages
   tags:
     - aur
   kewlfft.aur.aur:
@@ -15,7 +15,7 @@
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
 
-- name: Install informant
+- name: AUR | Install informant
   tags:
     - aur
   kewlfft.aur.aur:
@@ -28,7 +28,7 @@
   ignore_errors: true
   register: install_informant
 
-- name: Mark all informant news as read
+- name: AUR | Mark all informant news as read
   tags:
     - aur
   ansible.builtin.command: informant read --all

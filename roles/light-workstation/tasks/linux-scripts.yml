@@ -1,5 +1,5 @@
 ---
-- name: Clone linux-scripts
+- name: Linux Scripts | Clone linux-scripts
   tags:
     - scripts
   ansible.builtin.git:
@@ -10,7 +10,7 @@
     accept_hostkey: true
   ignore_errors: true
 
-- name: Copy files to .scripts
+- name: Linux Scripts | Copy files to .scripts
   tags:
     - scripts
   ansible.builtin.copy:
