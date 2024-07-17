@@ -23,8 +23,14 @@ mock_modules:
 #   # note the foo.bar is invalid as being neither a module or a collection
 #   - fake_namespace.fake_collection.fake_module
 #   - fake_namespace.fake_collection.fake_module.fake_submodule
-# mock_roles:
-#   - mocked_role
+mock_roles:
+  - base
+  - heavy_workstation
+  - light_workstation
+  - samsung_expert
+  - server
+  - work
+  - local
 #   - author.role_name # old standalone galaxy role
 #   - fake_namespace.fake_collection.fake_role # role within a collection
 
