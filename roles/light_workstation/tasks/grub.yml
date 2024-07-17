@@ -19,6 +19,14 @@
   become: true
   when: ansible_distribution == "Archlinux" and ansible_service_mgr == "grub"
 
+- name: Grub | Install grub-btrfs when rootfstype is btrfs
+  tags:
+    - grub
+  ansible.builtin.package:
+    name: grub-btrfs
+  become: true
+  when: ansible_service_mgr == "grub" and rootfstype == "btrfs"
+
 - name: Grub | Change grub timeout to 0 second
   tags:
     - grub
