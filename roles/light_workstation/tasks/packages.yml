@@ -83,6 +83,7 @@
       - mpv # Terminal based video player
       - yt-dlp # Download youtube videos, necessary to play youtube videos on mpv
       - plocate # Locate files faster than find
+      - pre-commit # To use with git to ensure format and linting before commits
     state: present
     update_cache: true
   become: true
