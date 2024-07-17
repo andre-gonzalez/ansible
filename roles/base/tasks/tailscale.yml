@@ -33,7 +33,7 @@
     state: directory
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
-    mode: '0700'
+    mode: "0700"
   loop:
     - "{{ tailscale_state_folder }}"
     - "{{ tailscale_state_folder }}/artis3n-tailscale"
@@ -46,7 +46,7 @@
     dest: "{{ tailscale_state_folder }}/artis3n-tailscale/README.md"
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
-    mode: '0644'
+    mode: "0644"
 
 - name: Tailscale | Enable Service
   tags:
@@ -88,14 +88,14 @@
     dest: "{{ tailscale_state_folder }}/artis3n-tailscale/state"
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
-    mode: '0644'
+    mode: "0644"
   register: state_file
 
 - name: Tailscale | Bring Tailscale Up
   tags:
     - tailscale
   become: true
-  ansible.builtin.command: "tailscale up {{ tailscale_args | trim }} --authkey={{ tailscale_authkey }}"
+  ansible.builtin.command: tailscale up {{ tailscale_args | trim }} --authkey={{ tailscale_authkey }}
   # Since the auth key is included in this task's output, we do not want to log output
   no_log: "{{ not (insecurely_log_authkey | bool) }}"
   changed_when: true
@@ -109,7 +109,7 @@
   async: 60
   poll: 5
 
-- name: Tailscale | Report non-sensitive stdout from "tailscale up"  # noqa: no-handler
+- name: Tailscale | Report non-sensitive stdout from "tailscale up" # noqa: no-handler
   tags:
     - tailscale
   ansible.builtin.debug:
@@ -135,7 +135,7 @@
   when:
     - tailscale_start is failed
 
-- name: Tailscale | Report redacted failure from "tailscale up"  # noqa: no-handler
+- name: Tailscale | Report redacted failure from "tailscale up" # noqa: no-handler
   tags:
     - tailscale
   ansible.builtin.fail:

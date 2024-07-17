@@ -27,7 +27,7 @@
     - ssh
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
-    mode: '0700'
+    mode: "0700"
     state: directory
 
 - name: SSH | Set authorized keys from github to user {{ lookup('env', 'USER') }}
@@ -37,18 +37,18 @@
     user: "{{ lookup('env', 'USER') }}"
     state: present
     key: "{{ lookup('url', 'https://github.com/andre-gonzalez.keys', split_lines=False) }}"
-  notify: "restart ssh"
+  notify: restart ssh
 
 - name: SSH | Change ssh port
   tags:
     - ssh
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: '#Port .*'
-    line: 'Port {{ ssh_port }}'
+    regexp: "#Port .*"
+    line: Port {{ ssh_port }}
     backrefs: true
   become: true
-  notify: "restart ssh"
+  notify: restart ssh
 
 - name: SSH | Disable root login via ssh
   tags:
@@ -56,12 +56,12 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^(#)PermitRootLogin .*'
-    line: "PermitRootLogin no"
+    regexp: ^(#)PermitRootLogin .*
+    line: PermitRootLogin no
     state: present
     backup: true
   become: true
-  notify: "restart ssh"
+  notify: restart ssh
 
 - name: SSH | Disable password login via ssh
   tags:
@@ -69,12 +69,12 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^(#)PasswordAuthentication .*'
-    line: "PasswordAuthentication no"
+    regexp: ^(#)PasswordAuthentication .*
+    line: PasswordAuthentication no
     state: present
     backup: true
   become: true
-  notify: "restart ssh"
+  notify: restart ssh
 
 - name: SSH | Only allow user {{ lookup('env', 'USER') }}
   tags:
@@ -82,12 +82,12 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^AllowUsers'
-    line: "AllowUsers {{ lookup('env', 'USER') }}"
+    regexp: ^AllowUsers
+    line: AllowUsers {{ lookup('env', 'USER') }}
     state: present
     backup: true
   become: true
-  notify: "restart ssh"
+  notify: restart ssh
 
 - name: SSH | Do not permit empty passwords on ssh
   tags:
@@ -95,12 +95,12 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^(#)PermitEmptyPasswords'
-    line: "PermitEmptyPasswords no"
+    regexp: ^(#)PermitEmptyPasswords
+    line: PermitEmptyPasswords no
     state: present
     backup: true
   become: true
-  notify: "restart ssh"
+  notify: restart ssh
 
 - name: SSH | Limit max auth tries to 6
   tags:
@@ -108,12 +108,12 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^(#)MaxAuthTries'
-    line: "MaxAuthTries 6"
+    regexp: ^(#)MaxAuthTries
+    line: MaxAuthTries 6
     state: present
     backup: true
   become: true
-  notify: "restart ssh"
+  notify: restart ssh
 
 - name: SSH | Block X11Forwarding on ssh
   tags:
@@ -121,12 +121,12 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^(#)X11Forwarding .*'
-    line: "X11Forwarding no"
+    regexp: ^(#)X11Forwarding .*
+    line: X11Forwarding no
     state: present
     backup: true
   become: true
-  notify: "restart ssh"
+  notify: restart ssh
 
 - name: SSH | Block TCP Forwarding on ssh
   tags:
@@ -134,9 +134,9 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^(#)AllowTcpForwarding'
-    line: "AllowTcpForwarding no"
+    regexp: ^(#)AllowTcpForwarding
+    line: AllowTcpForwarding no
     state: present
     backup: true
   become: true
-  notify: "restart ssh"
+  notify: restart ssh

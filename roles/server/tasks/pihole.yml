@@ -13,8 +13,8 @@
     - pihole
   ansible.builtin.lineinfile:
     path: /etc/resolv.conf
-    regexp: '.*nameserver.*'
-    line: 'nameserver 1.1.1.2'
+    regexp: .*nameserver.*
+    line: nameserver 1.1.1.2
     backrefs: true
   become: true
 
@@ -34,14 +34,14 @@
     - pihole
   community.general.ufw:
     rule: allow
-    port: '{{ item.port }}'
-    proto: '{{ item.proto }}'
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
   loop:
-    - { port: '80', proto: 'tcp' }
-    - { port: '53', proto: 'tcp' }
-    - { port: '53', proto: 'udp' }
-    - { port: '67', proto: 'tcp' }
-    - { port: '67', proto: 'udp' }
+    - { port: "80", proto: tcp }
+    - { port: "53", proto: tcp }
+    - { port: "53", proto: udp }
+    - { port: "67", proto: tcp }
+    - { port: "67", proto: udp }
   become: true
 
 - name: Pihole | Ensure pihole directory exists.
@@ -51,7 +51,7 @@
     dest: "{{ lookup('env', 'HOME') }}/pihole/"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
-    mode: '0740'
+    mode: "0740"
     state: directory
 
 - name: Pihole | Copy pihole docker compose file
@@ -62,7 +62,7 @@
     dest: "{{ lookup('env', 'HOME') }}/pihole/docker-compose.yml"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
-    mode: '0640'
+    mode: "0640"
 
 - name: Pihole | Deploy Docker Compose pihole
   tags:

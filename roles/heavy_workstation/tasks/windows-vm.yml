@@ -4,7 +4,7 @@
     - windows-vm
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/projects/windows-docker/"
-    mode: '0770'
+    mode: "0770"
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory

@@ -56,8 +56,8 @@
     - bluetooth
   ansible.builtin.lineinfile:
     path: /etc/bluetooth/main.conf
-    regexp: '\b#?\s*?Experimental = (true|false)\b'
-    line: 'Experimental = true'
+    regexp: \b#?\s*?Experimental = (true|false)\b
+    line: Experimental = true
     backrefs: true
   become: true
 
@@ -66,8 +66,8 @@
     - bluetooth
   ansible.builtin.lineinfile:
     path: /etc/bluetooth/main.conf
-    regexp: '\b#?\s*?KernelExperimental = (true|false)\b'
-    line: 'KernelExperimental = true'
+    regexp: \b#?\s*?KernelExperimental = (true|false)\b
+    line: KernelExperimental = true
     backrefs: true
   become: true
 

@@ -20,10 +20,10 @@
       when: ansible_distribution in ["Debian", "Ubuntu"]
   vars_prompt:
     - name: neomutt_email
-      prompt: "What is the email you want in neomutt?"
+      prompt: What is the email you want in neomutt?
       private: false
     - name: neomutt_password
-      prompt: "What is the password of your email in neomutt?"
+      prompt: What is the password of your email in neomutt?
 
 # run roles
 - name: Base Role | Run base role

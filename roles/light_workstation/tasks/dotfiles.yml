@@ -16,5 +16,5 @@
 - name: Dotfiles | Set up dotfiles
   tags:
     - dotfiles
-  ansible.builtin.command: "/usr/bin/git --git-dir={{ lookup('env', 'HOME') }}/.config/dotfiles/ --work-tree={{ lookup('env', 'HOME') }} checkout -f"
+  ansible.builtin.command: /usr/bin/git --git-dir={{ lookup('env', 'HOME') }}/.config/dotfiles/ --work-tree={{ lookup('env', 'HOME') }} checkout -f
   when: dotfiles_repo is changed

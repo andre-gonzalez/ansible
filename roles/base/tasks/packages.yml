@@ -22,7 +22,7 @@
     dest: /etc
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: true
   when: ansible_distribution == "Archlinux"
 
@@ -44,12 +44,12 @@
   tags:
     - packages
   ansible.builtin.apt_repository:
-    repo: '{{ item.repo }}'
+    repo: "{{ item.repo }}"
     state: present
   loop:
-    - { repo: 'deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware' }
-    - { repo: 'deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware' }
-    - { repo: 'deb http://security.debian.org bookworm-security main contrib non-free non-free-firmware' }
+    - { repo: deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware }
+    - { repo: deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware }
+    - { repo: deb http://security.debian.org bookworm-security main contrib non-free non-free-firmware }
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 

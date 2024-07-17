@@ -13,8 +13,8 @@
   tags:
     - rsync
   ansible.builtin.file:
-    dest: "/mnt/hd-interno/"
-    mode: '0755'
+    dest: /mnt/hd-interno/
+    mode: "0755"
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
@@ -24,8 +24,8 @@
   tags:
     - rsync
   ansible.builtin.file:
-    dest: "/mnt/hd-externo/"
-    mode: '0755'
+    dest: /mnt/hd-externo/
+    mode: "0755"
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
@@ -46,25 +46,23 @@
     - rsync
   ansible.builtin.cron:
     user: "{{ lookup('env', 'USER') }}"
-    name: "backup home directory to internal drive"
+    name: backup home directory to internal drive
     minute: "0"
-    hour: "8,21"
-    weekday: "SAT"
+    hour: 8,21
+    weekday: SAT
     disabled: true
-    job: "{{ lookup('env', 'HOME') }}/.scripts/backup-to-internal-hard-drive.sh \
-          2>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-internal-hard-drive-error-logs.txt \
-          1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-internal-hard-drive-stdout-logs.txt"
+    job: "{{ lookup('env', 'HOME') }}/.scripts/backup-to-internal-hard-drive.sh 2>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-internal-hard-drive-error-logs.txt
+      1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-internal-hard-drive-stdout-logs.txt"
 
 - name: Rsync | Install cron job (Backup home directory with rsync to external hard drive)
   tags:
     - rsync
   ansible.builtin.cron:
     user: "{{ lookup('env', 'USER') }}"
-    name: "backup home directory to external drive"
+    name: backup home directory to external drive
     minute: "0"
-    hour: "8,21"
-    weekday: "SUN"
+    hour: 8,21
+    weekday: SUN
     disabled: true
-    job: "{{ lookup('env', 'HOME') }}/.scripts/backup-to-external-hard-drive.sh \
-          2>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-external-hard-drive-error-logs.txt \
-          1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-external-hard-drive-stdout-logs.txt"
+    job: "{{ lookup('env', 'HOME') }}/.scripts/backup-to-external-hard-drive.sh 2>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-external-hard-drive-error-logs.txt
+      1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-external-hard-drive-stdout-logs.txt"

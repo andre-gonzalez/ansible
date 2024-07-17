@@ -20,7 +20,7 @@
     dest: /etc/timeshift/
     owner: root
     group: root
-    mode: '0666'
+    mode: "0666"
   become: true
 
 - name: Timeshift | Changed timeshift-autosnap to store only 2 backups
@@ -28,7 +28,7 @@
     - timeshift
   ansible.builtin.lineinfile:
     path: /etc/timeshift-autosnap.conf
-    regexp: '.*maxSnapshots=.*'
-    line: 'maxSnapshots=2'
+    regexp: .*maxSnapshots=.*
+    line: maxSnapshots=2
     backrefs: true
   become: true

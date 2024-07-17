@@ -4,7 +4,7 @@
     - drives
   ansible.builtin.file:
     dest: /mnt/hd-interno
-    mode: '0770'
+    mode: "0770"
     state: directory
 
 - name: Drives | Mount internal hard-drive
@@ -13,10 +13,10 @@
   ansible.builtin.lineinfile:
     path: /etc/fstab
     state: present
-    line: '{{ item.line }}'
+    line: "{{ item.line }}"
   loop:
-    - { line: '# /dev/sda2' }
-    - { line: 'PARTUUID=72749a9f-5496-4700-ad5e-f4f2eaad8da5 /mnt/hd-interno ext4    defaults        0       0' }
+    - { line: "# /dev/sda2" }
+    - { line: PARTUUID=72749a9f-5496-4700-ad5e-f4f2eaad8da5 /mnt/hd-interno ext4    defaults        0       0 }
   become: true
 
 - name: Drives | Ensure /mnt/ntfs-hd-interno directory exists.
@@ -24,7 +24,7 @@
     - drives
   ansible.builtin.file:
     dest: /mnt/ntfs-hd-interno
-    mode: '0770'
+    mode: "0770"
     state: directory
 
 - name: Drives | Mount internal hard-drive
@@ -33,8 +33,8 @@
   ansible.builtin.lineinfile:
     path: /etc/fstab
     state: present
-    line: '{{ item.line }}'
+    line: "{{ item.line }}"
   loop:
-    - { line: '# /dev/sda1' }
-    - { line: 'PARTUUID=f41cf00e-dbf1-431f-a833-9f9e20ebed89 /mnt/ntfs-hd-interno ntfs    defaults        0       0' }
+    - { line: "# /dev/sda1" }
+    - { line: PARTUUID=f41cf00e-dbf1-431f-a833-9f9e20ebed89 /mnt/ntfs-hd-interno ntfs    defaults        0       0 }
   become: true

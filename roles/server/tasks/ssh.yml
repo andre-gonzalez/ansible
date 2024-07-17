@@ -13,10 +13,10 @@
     - ssh
   ansible.builtin.cron:
     user: root
-    name: "stop ssh at night"
+    name: stop ssh at night
     hour: "0"
     disabled: false
-    job: "systemctl stop sshd"
+    job: systemctl stop sshd
   become: true
 
 - name: SSH | Install cron job (Start ssh at morning)
@@ -24,8 +24,8 @@
     - ssh
   ansible.builtin.cron:
     user: root
-    name: "Start ssh at morning"
+    name: Start ssh at morning
     hour: "6"
     disabled: false
-    job: "systemctl start sshd"
+    job: systemctl start sshd
   become: true

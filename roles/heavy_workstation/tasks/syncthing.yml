@@ -17,7 +17,7 @@
     dest: /etc/ufw/applications.d/ufw-syncthing
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: true
 
 - name: Syncthing | Allow syncthing in ufw
@@ -36,7 +36,7 @@
     dest: /etc/systemd/user/syncthing.service
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: true
 
 - name: Syncthing | Ensure syncthing directory exists
@@ -44,7 +44,7 @@
     - syncthing
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/.config/syncthing/"
-    mode: '0770'
+    mode: "0770"
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
@@ -57,7 +57,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/syncthing/config.xml"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
-    mode: '0600'
+    mode: "0600"
   become: true
 
 - name: Syncthing | Start syncthing

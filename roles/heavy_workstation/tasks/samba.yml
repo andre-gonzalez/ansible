@@ -24,9 +24,9 @@
   tags:
     - samba
   ansible.builtin.file:
-    dest: "/samba"
+    dest: /samba
     group: sambausers
-    mode: '1770'
+    mode: "1770"
     state: directory
   become: true
 
@@ -38,9 +38,9 @@
     dest: /etc/samba/smb.conf
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: true
-  notify: "finish samba configuration"
+  notify: finish samba configuration
 
 - name: File to Allow samba in ufw
   tags:
@@ -50,7 +50,7 @@
     dest: /etc/ufw/applications.d/samba
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: true
 
 - name: Allow samba in ufw
@@ -64,11 +64,11 @@
 - name: Create samba password and the user {{ lookup('env', 'USER') }}
   tags:
     - samba
-  ansible.builtin.shell: "(echo '{{ samba_pass }}'; echo '{{ samba_pass }}') | smbpasswd -s -a {{ lookup('env', 'USER') }}"
+  ansible.builtin.shell: (echo '{{ samba_pass }}'; echo '{{ samba_pass }}') | smbpasswd -s -a {{ lookup('env', 'USER') }}
   register: smbpasswd
   changed_when: "'Added user' in smbpasswd.stdout"
   become: true
-  listen: "finish samba configuration"
+  listen: finish samba configuration
 
 - name: Start samba (smb) service
   tags:
@@ -78,7 +78,7 @@
     state: restarted
     enabled: true
   become: true
-  listen: "finish samba configuration"
+  listen: finish samba configuration
 
 - name: Start samba (nmb) service
   tags:
@@ -88,4 +88,4 @@
     state: restarted
     enabled: true
   become: true
-  listen: "finish samba configuration"
+  listen: finish samba configuration

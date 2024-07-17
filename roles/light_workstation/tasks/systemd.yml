@@ -4,7 +4,7 @@
     - systemd
   ansible.builtin.lineinfile:
     path: /etc/systemd/system/getty.target.wants/getty@tty1.service
-    regexp: '^ExecStart=.*'
-    line: "ExecStart=-/sbin/agetty -n -o {{ lookup('env', 'USER') }} %I"
+    regexp: ^ExecStart=.*
+    line: ExecStart=-/sbin/agetty -n -o {{ lookup('env', 'USER') }} %I
     backrefs: true
   become: true

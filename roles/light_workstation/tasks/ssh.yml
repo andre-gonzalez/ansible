@@ -6,7 +6,7 @@
     src: personal_id_ed25519_2023-11
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     owner: "{{ lookup('env', 'USER') }}"
-    mode: '0600'
+    mode: "0600"
 
 - name: SSH | Install ssh key public
   tags:
@@ -14,7 +14,7 @@
   ansible.builtin.copy:
     src: personal_id_ed25519_2023-11.pub
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
-    mode: '0644'
+    mode: "0644"
     owner: "{{ lookup('env', 'USER') }}"
 
 - name: SSH | Copy config file
@@ -23,7 +23,7 @@
   ansible.builtin.copy:
     src: config
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
-    mode: '0600'
+    mode: "0600"
     owner: "{{ lookup('env', 'USER') }}"
   register: restart_ssh
 
@@ -33,8 +33,8 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^PermitRootLogin'
-    line: "PermitRootLogin no"
+    regexp: ^PermitRootLogin
+    line: PermitRootLogin no
     state: present
     backup: true
   become: true
@@ -46,8 +46,8 @@
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^PasswordAuthentication'
-    line: "PasswordAuthentication no"
+    regexp: ^PasswordAuthentication
+    line: PasswordAuthentication no
     state: present
     backup: true
   become: true

@@ -24,8 +24,8 @@
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '.*GRUB_TIMEOUT=.*'
-    line: 'GRUB_TIMEOUT=0'
+    regexp: .*GRUB_TIMEOUT=.*
+    line: GRUB_TIMEOUT=0
     backrefs: true
   become: true
   when: ansible_service_mgr == "grub"
@@ -36,8 +36,8 @@
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '.*GRUB_TIMEOUT_STYLE=.*'
-    line: 'GRUB_TIMEOUT_STYLE=hidden'
+    regexp: .*GRUB_TIMEOUT_STYLE=.*
+    line: GRUB_TIMEOUT_STYLE=hidden
     backrefs: true
   become: true
   when: ansible_service_mgr == "grub"
@@ -48,8 +48,8 @@
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '.*GRUB_CMDLINE_LINUX=.*'
-    line: 'GRUB_CMDLINE_LINUX="mitigations=off"'
+    regexp: .*GRUB_CMDLINE_LINUX=.*
+    line: GRUB_CMDLINE_LINUX="mitigations=off"
     backrefs: true
   become: true
   when: ansible_memtotal_mb > 16000 and ansible_service_mgr == "grub"
@@ -60,8 +60,8 @@
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '.*GRUB_CMDLINE_LINUX=.*'
-    line: 'GRUB_CMDLINE_LINUX="zswap.enabled=1 mitigations=off"'
+    regexp: .*GRUB_CMDLINE_LINUX=.*
+    line: GRUB_CMDLINE_LINUX="zswap.enabled=1 mitigations=off"
     backrefs: true
   become: true
   when: ansible_memtotal_mb <= 16000 and ansible_service_mgr == "grub"
@@ -72,8 +72,8 @@
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '.*GRUB_DEFAULT=.*'
-    line: 'GRUB_DEFAULT=saved'
+    regexp: .*GRUB_DEFAULT=.*
+    line: GRUB_DEFAULT=saved
     backrefs: true
   become: true
   when: ansible_service_mgr == "grub"
@@ -84,8 +84,8 @@
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '.*GRUB_SAVEDEFAULT=.*'
-    line: 'GRUB_SAVEDEFAULT=true'
+    regexp: .*GRUB_SAVEDEFAULT=.*
+    line: GRUB_SAVEDEFAULT=true
     backrefs: true
   become: true
   when: ansible_service_mgr == "grub"
@@ -99,6 +99,7 @@
     dest: /usr/bin
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
   become: true
-  when: update_grub is changed or update_grub2 is changed or update_grub3 is changed or update_grub4 is changed or update_grub5 is changed or update_grub6 is changed and ansible_service_mgr == "grub"
+  when: update_grub is changed or update_grub2 is changed or update_grub3 is changed or update_grub4 is changed or update_grub5 is changed or update_grub6 is changed
+    and ansible_service_mgr == "grub"

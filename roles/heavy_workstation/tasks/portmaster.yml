@@ -19,7 +19,7 @@
     create: true
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
-    mode: '0750'
+    mode: "0750"
     block: |
       #!/bin/sh
       /opt/safing/portmaster/portmaster-start app

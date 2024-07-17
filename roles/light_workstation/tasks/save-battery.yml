@@ -40,8 +40,8 @@
     - samsung_expert
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '[#]?DISK_DEVICES=*'
-    line: 'DISK_DEVICES="ata-WDC_WDS240G2G0B-00EPW0_193994801333"'
+    regexp: "[#]?DISK_DEVICES=*"
+    line: DISK_DEVICES="ata-WDC_WDS240G2G0B-00EPW0_193994801333"
     backrefs: true
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
@@ -52,7 +52,7 @@
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
     regexp: '[#]?DISK_SPINDOWN_TIMEOUT_ON_BAT="*"'
-    line: 'DISK_SPINDOWN_TIMEOUT_ON_BAT="0 12"'
+    line: DISK_SPINDOWN_TIMEOUT_ON_BAT="0 12"
     backrefs: true
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
@@ -63,8 +63,8 @@
     - tlp
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '[#]?CPU_SCALING_GOVERNOR_ON_AC=*'
-    line: 'CPU_SCALING_GOVERNOR_ON_AC=performance'
+    regexp: "[#]?CPU_SCALING_GOVERNOR_ON_AC=*"
+    line: CPU_SCALING_GOVERNOR_ON_AC=performance
     backrefs: true
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
@@ -75,8 +75,8 @@
     - tlp
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '[#]?CPU_SCALING_GOVERNOR_ON_BAT=*'
-    line: 'CPU_SCALING_GOVERNOR_ON_BAT=powersave'
+    regexp: "[#]?CPU_SCALING_GOVERNOR_ON_BAT=*"
+    line: CPU_SCALING_GOVERNOR_ON_BAT=powersave
     backrefs: true
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
@@ -87,8 +87,8 @@
     - tlp
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '[#]?CPU_ENERGY_PERF_POLICY_ON_AC=*'
-    line: 'CPU_ENERGY_PERF_POLICY_ON_AC=performance'
+    regexp: "[#]?CPU_ENERGY_PERF_POLICY_ON_AC=*"
+    line: CPU_ENERGY_PERF_POLICY_ON_AC=performance
     backrefs: true
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
@@ -99,8 +99,8 @@
     - tlp
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '[#]?CPU_ENERGY_PERF_POLICY_ON_BAT=*'
-    line: 'CPU_ENERGY_PERF_POLICY_ON_BAT=power'
+    regexp: "[#]?CPU_ENERGY_PERF_POLICY_ON_BAT=*"
+    line: CPU_ENERGY_PERF_POLICY_ON_BAT=power
     backrefs: true
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
@@ -111,8 +111,8 @@
     - tlp
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '[#]?CPU_BOOST_ON_AC=*'
-    line: 'CPU_BOOST_ON_AC=1'
+    regexp: "[#]?CPU_BOOST_ON_AC=*"
+    line: CPU_BOOST_ON_AC=1
     backrefs: true
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
@@ -123,8 +123,8 @@
     - tlp
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '[#]?CPU_BOOST_ON_BAT=*'
-    line: 'CPU_BOOST_ON_BAT=0'
+    regexp: "[#]?CPU_BOOST_ON_BAT=*"
+    line: CPU_BOOST_ON_BAT=0
     backrefs: true
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
@@ -135,8 +135,8 @@
     - tlp
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '[#]?CPU_HWP_DYN_BOOST_ON_AC=*'
-    line: 'CPU_HWP_DYN_BOOST_ON_AC=1'
+    regexp: "[#]?CPU_HWP_DYN_BOOST_ON_AC=*"
+    line: CPU_HWP_DYN_BOOST_ON_AC=1
     backrefs: true
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
@@ -147,8 +147,8 @@
     - tlp
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '[#]?CPU_HWP_DYN_BOOST_ON_BAT=*'
-    line: 'CPU_HWP_DYN_BOOST_ON_BAT=0'
+    regexp: "[#]?CPU_HWP_DYN_BOOST_ON_BAT=*"
+    line: CPU_HWP_DYN_BOOST_ON_BAT=0
     backrefs: true
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
@@ -159,8 +159,8 @@
     - tlp
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '[#]?SCHED_POWERSAVE_ON_AC=*'
-    line: 'SCHED_POWERSAVE_ON_AC=0'
+    regexp: "[#]?SCHED_POWERSAVE_ON_AC=*"
+    line: SCHED_POWERSAVE_ON_AC=0
     backrefs: true
   become: true
   when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
@@ -171,8 +171,8 @@
     - tlp
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
-    regexp: '[#]?SCHED_POWERSAVE_ON_BAT=*'
-    line: 'SCHED_POWERSAVE_ON_BAT=1'
+    regexp: "[#]?SCHED_POWERSAVE_ON_BAT=*"
+    line: SCHED_POWERSAVE_ON_BAT=1
     backrefs: true
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
@@ -184,7 +184,7 @@
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
     regexp: '[#]?DEVICES_TO_DISABLE_ON_LAN_CONNECT="*"'
-    line: 'DEVICES_TO_DISABLE_ON_LAN_CONNECT="wifi wwan"'
+    line: DEVICES_TO_DISABLE_ON_LAN_CONNECT="wifi wwan"
     backrefs: true
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
@@ -196,7 +196,7 @@
   ansible.builtin.lineinfile:
     path: /etc/tlp.conf
     regexp: '[#]?DEVICES_TO_ENABLE_ON_LAN_DISCONNECT="*"'
-    line: 'DEVICES_TO_ENABLE_ON_LAN_DISCONNECT="wifi wwan"'
+    line: DEVICES_TO_ENABLE_ON_LAN_DISCONNECT="wifi wwan"
     backrefs: true
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'

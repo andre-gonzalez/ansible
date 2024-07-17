@@ -113,7 +113,7 @@
     path: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/autoload/"
     state: directory
     recurse: true
-    mode: '0700'
+    mode: "0700"
     owner: "{{ lookup('env', 'USER') }}"
 
 - name: Neovim | Copy sql-language-server file to .config
@@ -123,4 +123,4 @@
     src: sqllsrc.json
     dest: "{{ lookup('env', 'HOME') }}/.config/sql-language-server/"
     owner: "{{ lookup('env', 'USER') }}"
-    mode: '0600'
+    mode: "0600"

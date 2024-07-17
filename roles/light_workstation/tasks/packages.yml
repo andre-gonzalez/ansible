@@ -130,4 +130,4 @@
 - name: Packages | Refresh fonts
   tags:
     - packages
-  ansible.builtin.shell: fc-cache
+  ansible.builtin.command: fc-cache

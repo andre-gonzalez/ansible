@@ -17,7 +17,7 @@
   tags:
     - ufw
   community.general.ufw:
-    logging: 'on'
+    logging: "on"
   become: true
 
 # ufw supports connection rate limiting, which is useful for protecting
@@ -87,7 +87,7 @@
     path: /etc/ufw/before.rules
     state: present
     insertafter: "# ok icmp codes for INPUT"
-    line: "-A ufw-before-input -p icmp --icmp-type echo-request -j DROP"
+    line: -A ufw-before-input -p icmp --icmp-type echo-request -j DROP
   become: true
 
 - name: UFW | Enable ufw

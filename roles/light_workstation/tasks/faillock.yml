@@ -4,8 +4,8 @@
     - faillock
   ansible.builtin.lineinfile:
     path: /etc/security/faillock.conf
-    regexp: '[#]?deny = *'
-    line: 'deny = 5'
+    regexp: "[#]?deny = *"
+    line: deny = 5
     backrefs: true
   become: true
 
@@ -14,7 +14,7 @@
     - faillock
   ansible.builtin.lineinfile:
     path: /etc/security/faillock.conf
-    regexp: '[#]\s?unlock_time = \d*'
-    line: 'unlock_time = 300'
+    regexp: "[#]\\s?unlock_time = \\d*"
+    line: unlock_time = 300
     backrefs: true
   become: true

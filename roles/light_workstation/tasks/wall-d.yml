@@ -23,7 +23,7 @@
 - name: Wall-d | Install wall-d
   tags:
     - wall-d
-  ansible.builtin.shell: ./install.sh
+  ansible.builtin.command: ./install.sh
   args:
     chdir: "{{ lookup('env', 'HOME') }}/.config/wall-d/"
   when: clone_made is changed

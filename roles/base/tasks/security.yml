@@ -14,16 +14,16 @@
   ansible.builtin.package:
     name: fail2ban
   become: true
-  notify: "start fail2ban"
+  notify: start fail2ban
 
 - name: Security | Ensure /etc/fail2ban directory exists
   tags:
     - security
     - fail2ban
   ansible.builtin.file:
-    dest: "/etc/fail2ban"
+    dest: /etc/fail2ban
     group: root
-    mode: '1755'
+    mode: "1755"
     state: directory
   become: true
 
@@ -36,9 +36,9 @@
     dest: /etc/fail2ban/jail.local
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: true
-  notify: "start fail2ban"
+  notify: start fail2ban
 
 - name: Security | Install apparmor on Archlinux
   tags:
@@ -51,7 +51,7 @@
       - python-notify2
   become: true
   when: ansible_distribution == "Archlinux"
-  notify: "start apparmor"
+  notify: start apparmor
 
 - name: Security | Install apparmor on Ubuntu or Debian
   tags:
@@ -65,15 +65,15 @@
       - apparmor-profiles
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
-  notify: "start apparmor"
+  notify: start apparmor
 
 - name: Security | Enable apparmor in kernel parameters with audit enabled on Archlinux
   tags:
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '.*GRUB_CMDLINE_LINUX_DEFAULT=.*'
-    line: 'GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf" audit=1'
+    regexp: .*GRUB_CMDLINE_LINUX_DEFAULT=.*
+    line: GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf" audit=1
     backrefs: true
   become: true
   when: ansible_distribution == "Archlinux" and ansible_service_mgr == "grub"
@@ -83,8 +83,8 @@
   tags:
     - ssh
   ansible.builtin.file:
-    dest: "/etc/default/grub.d"
-    mode: '0700'
+    dest: /etc/default/grub.d
+    mode: "0700"
     state: directory
     recurse: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
@@ -93,8 +93,8 @@
   tags:
     - ssh
   ansible.builtin.file:
-    dest: "/etc/default/grub.d/apparmor.cfg"
-    mode: '0700'
+    dest: /etc/default/grub.d/apparmor.cfg
+    mode: "0700"
     state: touch
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
@@ -104,7 +104,7 @@
     - apparmor
   ansible.builtin.lineinfile:
     path: /etc/default/grub.d/apparmor.cfg
-    line: 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT apparmor=1 security=apparmor"'
+    line: GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT apparmor=1 security=apparmor"
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"] and ansible_service_mgr == "grub"
   notify: update grub
@@ -128,7 +128,7 @@
     state: present
   become: true
 
-- name: "Security | Add to group audit the user {{ lookup('env', 'USER') }}"
+- name: Security | Add to group audit the user {{ lookup('env', 'USER') }}
   tags:
     - security
     - apparmor
@@ -144,7 +144,7 @@
     - apparmor
   ansible.builtin.lineinfile:
     path: /etc/audit/auditd.conf
-    line: 'log_group = audit'
+    line: log_group = audit
   become: true
 
 - name: Security | Ensure autostart directory exists.
@@ -154,7 +154,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/autostart/"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
-    mode: '0644'
+    mode: "0644"
     state: directory
 
 - name: Security | Copy apparmor-notify.desktop file to autostart apparmor notify
@@ -166,7 +166,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/autostart"
     owner: "{{ lookup('env', 'USER') }}"
     group: audit
-    mode: '0644'
+    mode: "0644"
   become: true
 
 - name: Security | Enable write-cache to speed up apparmor
@@ -175,8 +175,8 @@
     - apparmor
   ansible.builtin.lineinfile:
     path: /etc/apparmor/parser.conf
-    regexp: '#write-cache'
-    line: 'write-cache'
+    regexp: "#write-cache"
+    line: write-cache
     backrefs: true
   become: true
 

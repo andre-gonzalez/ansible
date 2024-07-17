@@ -27,10 +27,10 @@
     - yay
   ansible.builtin.lineinfile:
     path: /etc/sudoers.d/11-install-aur_builder
-    line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+    line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
     create: true
-    validate: 'visudo -cf %s'
-    mode: '0440'
+    validate: visudo -cf %s
+    mode: "0440"
   become: true
   when: ansible_distribution == "Archlinux"
 
@@ -40,6 +40,6 @@
     - yay
   ansible.builtin.command:
     chdir: "{{ lookup('env', 'HOME') }}/.config/yay"
-    cmd: "makepkg -sfi --noconfirm"
+    cmd: makepkg -sfi --noconfirm
     creates: /usr/bin/yay
   when: ansible_distribution == "Archlinux"

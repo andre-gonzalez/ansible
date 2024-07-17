@@ -16,7 +16,7 @@
 - name: Lf | Install lf packages when distribution is Ubuntu
   tags:
     - lf
-  ansible.builtin.shell: env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+  ansible.builtin.command: env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
   become: true
   when: ansible_distribution == "Ubuntu"
 
@@ -28,5 +28,5 @@
     dest: /usr/local/bin
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
   become: true

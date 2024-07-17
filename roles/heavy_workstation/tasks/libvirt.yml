@@ -23,7 +23,7 @@
     state: present
     update_cache: false
   become: true
-  register: "finish_libvirt_configuration1"
+  register: finish_libvirt_configuration1
 
 - name: Libvirt | Ensure group libvirt exists
   tags:
@@ -41,7 +41,7 @@
     groups: libvirtd
     append: true
   become: true
-  register: "finish_libvirt_configuration2"
+  register: finish_libvirt_configuration2
 
 - name: Libvirt | Copy file qemu.conf to /etc/libvirt
   tags:
@@ -51,16 +51,16 @@
     dest: /etc/libvirt
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   become: true
-  register: "finish_libvirt_configuration3"
+  register: finish_libvirt_configuration3
 
 - name: Libvirt | Ensure libvirt directory exists in .config
   tags:
     - libvirt
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/.config/libvirt/"
-    mode: '0770'
+    mode: "0770"
     group: "{{ lookup('env', 'USER') }}"
     owner: "{{ lookup('env', 'USER') }}"
     state: directory
@@ -71,7 +71,7 @@
   ansible.builtin.copy:
     src: /etc/libvirt/libvirt.conf
     dest: "{{ lookup('env', 'HOME') }}/.config/libvirt/libvirt.conf"
-    mode: '0644'
+    mode: "0644"
   become: true
 
 - name: Libvirt | Change libvirt.conf to allow non root user to start a VM
@@ -80,7 +80,7 @@
   ansible.builtin.lineinfile:
     path: /etc/libvirt/libvirt.conf
     state: present
-    line: 'uri_default = "qemu:///system"'
+    line: uri_default = "qemu:///system"
   become: true
 
 - name: Libvirt | Restart libvirt

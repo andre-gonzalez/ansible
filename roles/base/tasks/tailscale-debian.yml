@@ -21,7 +21,7 @@
   ansible.builtin.get_url:
     url: "{{ tailscale_apt_signkey }}"
     dest: "{{ tailscale_apt_keyring_path }}"
-    mode: '0644'
+    mode: "0644"
 
 - name: Debian | Add Tailscale Deb
   become: true
@@ -34,4 +34,4 @@
   ansible.builtin.apt:
     name: "{{ tailscale_package }}"
     cache_valid_time: 3600
-    state: '{{ state }}'
+    state: "{{ state }}"

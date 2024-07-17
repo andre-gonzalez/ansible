@@ -18,13 +18,13 @@
     dest: /var/lib/iwd
     owner: root
     group: root
-    mode: '0600'
+    mode: "0600"
   loop:
-    - { src: "Lopes.psk" }
-    - { src: "LNAM5.psk" }
-    - { src: "QueWiFi2.psk" }
-    - { src: "CasaRio_5G.psk" }
-    - { src: "=51756520576966693f.psk" }
+    - { src: Lopes.psk }
+    - { src: LNAM5.psk }
+    - { src: QueWiFi2.psk }
+    - { src: CasaRio_5G.psk }
+    - { src: =51756520576966693f.psk }
   become: true
 
 - name: Wifi | Start iwd

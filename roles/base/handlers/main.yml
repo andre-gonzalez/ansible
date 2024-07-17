@@ -17,7 +17,7 @@
     state: restarted
     enabled: true
   become: true
-  listen: "start fail2ban"
+  listen: start fail2ban
 
 - name: Copy file update-grub
   tags:
@@ -27,16 +27,16 @@
     dest: /usr/sbin
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
   become: true
-  listen: "update grub"
+  listen: update grub
 
 - name: Run update grub
   tags:
     - grub
   ansible.builtin.command: update-grub
   become: true
-  listen: "update grub"
+  listen: update grub
 
 - name: Restart ssh
   tags:
@@ -46,7 +46,7 @@
     name: sshd
     state: restarted
   become: true
-  listen: "restart ssh"
+  listen: restart ssh
 
 - name: Restart auditd
   tags:
@@ -67,7 +67,7 @@
     state: restarted
     enabled: true
   become: true
-  listen: "start apparmor"
+  listen: start apparmor
 
 # Tailscale handlers
 
