@@ -1,5 +1,5 @@
 ---
-profile: safety # min, basic, moderate, safety, shared, production
+profile: shared # min, basic, moderate, safety, shared, production
 
 # Allows dumping of results in SARIF format
 # sarif_file: result.sarif
