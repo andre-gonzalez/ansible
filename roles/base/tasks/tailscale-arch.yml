@@ -1,5 +1,5 @@
 ---
-- name: Arch | Install Tailscale
+- name: tailscale-arch | Tailscale | Install Tailscale
   become: true
   community.general.pacman:
     name: "{{ tailscale_package }}"

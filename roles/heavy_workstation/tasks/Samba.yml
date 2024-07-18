@@ -1,5 +1,5 @@
 ---
-- name: Install samba packages
+- name: Samba | Install samba packages
   tags:
     - samba
   ansible.builtin.package:
@@ -12,7 +12,7 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Ensure group sambausers exists
+- name: Samba | Ensure group sambausers exists
   tags:
     - samba
   ansible.builtin.group:
@@ -20,7 +20,7 @@
     state: present
   become: true
 
-- name: Ensure /samba directory exists
+- name: Samba | Ensure /samba directory exists
   tags:
     - samba
   ansible.builtin.file:
@@ -30,7 +30,7 @@
     state: directory
   become: true
 
-- name: Copy file smb.conf to /etc/samba/
+- name: Samba | Copy file smb.conf to /etc/samba/
   tags:
     - samba
   ansible.builtin.copy:
@@ -42,7 +42,7 @@
   become: true
   notify: finish samba configuration
 
-- name: File to Allow samba in ufw
+- name: Samba | File to Allow samba in ufw
   tags:
     - samba
   ansible.builtin.copy:
@@ -53,7 +53,7 @@
     mode: "0644"
   become: true
 
-- name: Allow samba in ufw
+- name: Samba | Allow samba in ufw
   tags:
     - samba
   community.general.ufw:
@@ -61,16 +61,16 @@
     name: Samba
   become: true
 
-- name: Create samba password and the user {{ lookup('env', 'USER') }}
+- name: Samba | Create samba password and the user {{ lookup('env', 'USER') }}
   tags:
     - samba
-  ansible.builtin.shell: (echo '{{ samba_pass }}'; echo '{{ samba_pass }}') | smbpasswd -s -a {{ lookup('env', 'USER') }}
+  ansible.builtin.shell: set -o pipefail && echo '{{ samba_pass }}'; echo '{{ samba_pass }}') | smbpasswd -s -a {{ lookup('env', 'USER') }}
   register: smbpasswd
   changed_when: "'Added user' in smbpasswd.stdout"
   become: true
   listen: finish samba configuration
 
-- name: Start samba (smb) service
+- name: Samba | Start samba (smb) service
   tags:
     - samba
   ansible.builtin.service:
@@ -80,7 +80,7 @@
   become: true
   listen: finish samba configuration
 
-- name: Start samba (nmb) service
+- name: Samba | Start samba (nmb) service
   tags:
     - samba
   ansible.builtin.service:

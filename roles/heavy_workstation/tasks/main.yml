@@ -1,16 +1,16 @@
 ---
 - name: Heavy Workstation | Include tasks from docker play
-  ansible.builtin.include_tasks: tasks/docker.yml
+  ansible.builtin.include_tasks: tasks/Docker.yml
   tags:
     - docker
 
 - name: Heavy Workstation | Include tasks from syncthing play
-  ansible.builtin.include_tasks: tasks/syncthing.yml
+  ansible.builtin.include_tasks: tasks/Syncthing.yml
   tags:
     - syncthing
 
 - name: Heavy Workstation | Include tasks from libvirt play
-  ansible.builtin.include_tasks: tasks/libvirt.yml
+  ansible.builtin.include_tasks: tasks/Libvirt.yml
   tags:
     - libvirt
 
@@ -20,24 +20,24 @@
     - windows-vm
 
 - name: Heavy Workstation | Include tasks from insync play
-  ansible.builtin.include_tasks: tasks/insync.yml
+  ansible.builtin.include_tasks: tasks/Insync.yml
   tags:
     - insync
 
 # - name: Heavy Workstation | Include tasks from samba play
-#   ansible.builtin.include_tasks: tasks/samba.yml
+#   ansible.builtin.include_tasks: tasks/Samba.yml
 #   tags:
 #     - never
 #     - samba
 
 # - name: Heavy Workstation | Include tasks from smtpd play
-#   ansible.builtin.include_tasks: tasks/smtpd.yml
+#   ansible.builtin.include_tasks: tasks/SMTPD.yml
 #   tags:
 #     - never
 #     - opensmtpd
 
 # - name: Heavy Workstation | Include tasks from portmaster play
-#   ansible.builtin.include_tasks: tasks/portmaster.yml
+#   ansible.builtin.include_tasks: tasks/Portmaster.yml
 #   tags:
 #     - aur
 #     - never

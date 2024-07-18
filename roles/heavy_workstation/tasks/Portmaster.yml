@@ -1,5 +1,5 @@
 ---
-- name: Install aur packages
+- name: Portmaster | Install aur packages
   tags:
     - portmaster
   kewlfft.aur.aur:
@@ -11,7 +11,7 @@
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
 
-- name: Generate a file to start portmaster
+- name: Portmaster | Generate a file to start portmaster
   tags:
     - portmaster
   ansible.builtin.blockinfile:

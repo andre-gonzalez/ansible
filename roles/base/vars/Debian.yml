@@ -1,2 +1,2 @@
 ---
-sudo_group: sudo
+base_sudo_group: sudo

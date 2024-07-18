@@ -20,8 +20,9 @@
 - name: Brave | Brave Browser PPA setting in Ubuntu
   tags:
     - brave
-  ansible.builtin.shell: echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] > https://brave-browser-apt-release.s3.brave.com/
-    stable main" | tee /etc/apt/sources.list.d/brave-browser-release.list
+  ansible.builtin.apt_repository:
+    repo: deb https://brave-browser-apt-release.s3.brave.com/ stable main
+    state: present
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 

@@ -1,5 +1,5 @@
 ---
-- name: Copy file vconsole.conf
+- name: keyboard-layout | Copy file vconsole.conf
   tags:
     - keyboard
   ansible.builtin.copy:

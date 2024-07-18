@@ -22,7 +22,7 @@
   community.general.git_config:
     name: user.name
     scope: global
-    value: "{{ fullname }}"
+    value: "{{ light_workstation_fullname }}"
 
 - name: Git | Set default branch
   tags:

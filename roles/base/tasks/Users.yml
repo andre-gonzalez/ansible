@@ -1,42 +1,42 @@
 ---
-- name: Create frank group
+- name: Users | Create frank group
   tags:
     - users
   ansible.builtin.group:
     name: frank
     state: present
 
-- name: Create ansible group
+- name: Users | Create ansible group
   tags:
     - users
   ansible.builtin.group:
     name: ansible
     state: present
 
-- name: Set fact for Debian
+- name: Users | Set fact for Debian
   tags:
     - users
   ansible.builtin.set_fact:
-    sudo_group: sudo
+    base_sudo_group: sudo
   when: ansible_os_family == "Debian"
 
-- name: Set fact for ArchLinux
+- name: Users | Set fact for ArchLinux
   tags:
     - users
   ansible.builtin.set_fact:
-    sudo_group: wheel
+    base_sudo_group: wheel
   when: ansible_os_family == "Archlinux"
 
-- name: Users | frank | create user
+- name: Users | Create user {{ lookup('env', 'USER') }}
   tags:
     - users
   ansible.builtin.user:
     name: frank
     group: frank
-    groups: adm,{{ sudo_group }}
+    groups: adm,{{ base_sudo_group }}
     state: present
 
-- name: Create ansible user
+- name: Users | Create ansible user
   tags:
     - users
     - ansible
@@ -45,7 +45,7 @@
     system: true
   become: true
 
-- name: Copy sudoers_ansible
+- name: Users | Copy sudoers_ansible
   tags:
     - users
     - ansible

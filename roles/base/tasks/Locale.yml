@@ -1,5 +1,5 @@
 ---
-- name: Install locale package when distribution is Ubuntu
+- name: Locale | Install locale package when distribution is Ubuntu
   tags:
     - locale
   ansible.builtin.package:
@@ -9,14 +9,14 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Set timezone to "{{ timezone }}"
+- name: Locale | Set timezone to "{{ timezone }}"
   tags:
     - timezone
   community.general.timezone:
     name: "{{ timezone }}"
   become: true
 
-- name: Ensure the locale exists
+- name: Locale | Ensure the locale exists
   tags:
     - locale
   community.general.locale_gen:

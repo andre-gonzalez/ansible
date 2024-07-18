@@ -1,16 +1,16 @@
 ---
 - name: Base | Include tasks from debug play
-  ansible.builtin.include_tasks: tasks/debug.yml
+  ansible.builtin.include_tasks: tasks/Debug.yml
   tags:
     - debug
 
 - name: Base | Include tasks from users play
-  ansible.builtin.include_tasks: tasks/users.yml
+  ansible.builtin.include_tasks: tasks/Users.yml
   tags:
     - users
 
 - name: Base | Include tasks from ssh play
-  ansible.builtin.include_tasks: tasks/ssh.yml
+  ansible.builtin.include_tasks: tasks/SSH.yml
   tags:
     - ssh
 
@@ -20,48 +20,48 @@
     - keyboard
 
 - name: Base | Include tasks from locale play
-  ansible.builtin.include_tasks: tasks/locale.yml
+  ansible.builtin.include_tasks: tasks/Locale.yml
   tags:
     - timezone
     - locale
 
 - name: Base | Include tasks from cron play
-  ansible.builtin.include_tasks: tasks/cron.yml
+  ansible.builtin.include_tasks: tasks/Cron.yml
   tags:
     - cron
 
 - name: Base | Include tasks from packages play
-  ansible.builtin.include_tasks: tasks/packages.yml
+  ansible.builtin.include_tasks: tasks/Packages.yml
   tags:
     - packages
     - nvidia
 
 - name: Base | Include tasks from fish play
-  ansible.builtin.include_tasks: tasks/fish.yml
+  ansible.builtin.include_tasks: tasks/Fish.yml
   tags:
     - fish
 
 - name: Base | Include tasks from security play
-  ansible.builtin.include_tasks: tasks/security.yml
+  ansible.builtin.include_tasks: tasks/Security.yml
   tags:
     - security
     - fail2ban
     - apparmor
 
 - name: Base | Include tasks from ufw play
-  ansible.builtin.include_tasks: tasks/ufw.yml
+  ansible.builtin.include_tasks: tasks/UFW.yml
   tags:
     - ufw
 
 - name: Base | Include tasks from neovim play
-  ansible.builtin.include_tasks: tasks/neovim.yml
+  ansible.builtin.include_tasks: tasks/Neovim.yml
   tags:
     - neovim
     - git
     - aur
 
 - name: Base | Include tasks from network play
-  ansible.builtin.include_tasks: tasks/network.yml
+  ansible.builtin.include_tasks: tasks/Network.yml
   tags:
     - network
     - netbook
@@ -69,6 +69,6 @@
     - aur
 
 - name: Base | Include tasks from tailscale play
-  ansible.builtin.include_tasks: tasks/tailscale.yml
+  ansible.builtin.include_tasks: tasks/Tailscale.yml
   tags:
     - tailscale

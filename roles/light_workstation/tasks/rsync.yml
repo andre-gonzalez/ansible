@@ -51,9 +51,10 @@
     hour: 8,21
     weekday: SAT
     disabled: true
-    job: "{{ lookup('env', 'HOME') }}/.scripts/backup-to-internal-hard-drive.sh 2>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-internal-hard-drive-error-logs.txt
+    job: >
+      "{{ lookup('env', 'HOME') }}/.scripts/backup-to-internal-hard-drive.sh
+      2>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-internal-hard-drive-error-logs.txt
       1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-internal-hard-drive-stdout-logs.txt"
-
 - name: Rsync | Install cron job (Backup home directory with rsync to external hard drive)
   tags:
     - rsync
@@ -64,5 +65,7 @@
     hour: 8,21
     weekday: SUN
     disabled: true
-    job: "{{ lookup('env', 'HOME') }}/.scripts/backup-to-external-hard-drive.sh 2>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-external-hard-drive-error-logs.txt
+    job: >
+      "{{ lookup('env', 'HOME') }}/.scripts/backup-to-external-hard-drive.sh
+      2>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/error-logs/backup-external-hard-drive-error-logs.txt
       1>> {{ lookup('env', 'HOME') }}/gdrive-pessoal/pessoal/programação/cron-logs/stdout-logs/backup-external-hard-drive-stdout-logs.txt"

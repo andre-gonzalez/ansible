@@ -109,5 +109,11 @@
     group: root
     mode: "0755"
   become: true
-  when: update_grub is changed or update_grub2 is changed or update_grub3 is changed or update_grub4 is changed or update_grub5 is changed or update_grub6 is changed
+  when: >
+    update_grub is changed
+    or update_grub2 is changed
+    or update_grub3 is changed
+    or update_grub4 is changed
+    or update_grub5 is changed
+    or update_grub6 is changed
     and ansible_service_mgr == "grub"
