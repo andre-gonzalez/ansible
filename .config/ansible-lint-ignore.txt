@@ -1,3 +1,11 @@
 # To skip a rule just enter filename and tag, like "playbook.yml package-latest"
 
 roles/light_workstation/handlers/main.yml command-instead-of-module
+roles/work/tasks/terraform.yml schema[tasks]
+roles/work/tasks/repositories.yml schema[tasks]
+roles/work/tasks/pritunl-vpn.yml schema[tasks]
+roles/work/tasks/neomutt.yml schema[tasks]
+roles/work/tasks/gcloud.yml schema[tasks]
+roles/work/tasks/dbeaver.yml schema[tasks]
+roles/work/tasks/databricks.yml schema[tasks]
+roles/work/tasks/aws.yml schema[tasks]
