@@ -18,12 +18,4 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/wall-d"
     accept_hostkey: true
   ignore_errors: true
-  register: clone_made
-
-- name: Wall-d | Install wall-d
-  tags:
-    - wall-d
-  ansible.builtin.command: ./install.sh
-  args:
-    chdir: "{{ lookup('env', 'HOME') }}/.config/wall-d/"
-  when: clone_made is changed
+  notify: install_wall-d

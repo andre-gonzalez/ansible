@@ -37,8 +37,8 @@
   ansible.builtin.command: update-grub
   become: true
   listen: update grub
-  register: grub_update
-  changed_when: grub_update.rc != 2
+  register: grub_output
+  changed_when: grub_output.rc != 2
 
 - name: Restart ssh
   tags:
@@ -106,11 +106,3 @@
   ansible.builtin.assert:
     that:
       - tailscale_is_online
-
-- name: Restart qemu-guest-agent
-  ansible.builtin.service:
-    name: qemu-guest-agent
-    state: restarted
-    enabled: true
-  become: true
-  when: ansible_virtualization_role == "guest"

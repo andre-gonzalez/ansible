@@ -12,7 +12,7 @@
     state: present
     update_cache: false
   become: true
-  register: restart_tlp
+  notify: restart_tlp
   when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Save Battery | Mask systemd-rfkill.service to avoid conflicts with TLP
@@ -211,7 +211,7 @@
     state: present
     update_cache: false
   become: true
-  register: calibrate_powertop
+  notify: calibrate_powertop
   when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Save Battery | Install aur packages
@@ -227,22 +227,3 @@
     update_cache: true
   ignore_errors: true
   when: '"Notebook" in ansible_facts["form_factor"] and ansible_distribution == "Archlinux"'
-
-- name: Save Battery | Restart tlp
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.service:
-    name: tlp
-    state: restarted
-    enabled: true
-  become: true
-  when: restart_tlp is changed
-
-- name: Save Battery | Calibrate powertop
-  tags:
-    - save-battery
-    - powertop
-  ansible.builtin.command: powertop --calibrate
-  become: true
-  when: calibrate_powertop is changed

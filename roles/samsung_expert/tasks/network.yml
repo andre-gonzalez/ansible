@@ -9,24 +9,4 @@
     update_cache: false
   when: ansible_distribution in ["Archlinux"]
   become: true
-  register: restart_network
-
-- name: Restart systemd-networkd
-  tags:
-    - network
-  ansible.builtin.service:
-    name: systemd-networkd
-    state: restarted
-    enabled: true
-  become: true
-  when: restart_network is changed
-
-- name: Start iwd
-  tags:
-    - network
-  ansible.builtin.service:
-    name: iwd
-    state: restarted
-    enabled: true
-  become: true
-  when: restart_network is changed
+  notify: restart_network

@@ -1,3 +1,3 @@
 # To skip a rule just enter filename and tag, like "playbook.yml package-latest"
 
-roles/light_workstation/tasks/dotfiles.yml command-instead-of-module
+roles/light_workstation/handlers/main.yml command-instead-of-module

@@ -19,6 +19,8 @@
   ansible.builtin.command: env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
   become: true
   when: ansible_distribution == "Ubuntu"
+  register: lf_install
+  changed_when: lf_install.rc != 2
 
 - name: Lf | Copy lfub to /usr/local/bin
   tags:

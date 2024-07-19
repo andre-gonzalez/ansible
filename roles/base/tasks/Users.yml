@@ -27,7 +27,7 @@
     base_sudo_group: wheel
   when: ansible_os_family == "Archlinux"
 
-- name: Users | Create user {{ lookup('env', 'USER') }}
+- name: Users | Create user frank
   tags:
     - users
   ansible.builtin.user:

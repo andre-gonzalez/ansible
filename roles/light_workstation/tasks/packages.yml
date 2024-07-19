@@ -132,3 +132,5 @@
   tags:
     - packages
   ansible.builtin.command: fc-cache
+  register: refresh_fonts
+  changed_when: refresh_fonts.rc != 2

@@ -8,7 +8,7 @@
     state: present
     update_cache: false
   become: true
-  register: restart_network
+  notify: restart_network
 
 - name: Wifi | Copy wifi configuration files
   tags:
@@ -26,13 +26,3 @@
     - { src: CasaRio_5G.psk }
     - { src: =51756520576966693f.psk }
   become: true
-
-- name: Wifi | Start iwd
-  tags:
-    - wifi
-  ansible.builtin.service:
-    name: iwd
-    state: restarted
-    enabled: true
-  become: true
-  when: restart_network is changed

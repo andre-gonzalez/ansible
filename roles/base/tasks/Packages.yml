@@ -153,14 +153,4 @@
     update_cache: false
   when: ansible_virtualization_role == "guest"
   become: true
-  register: restart_qemu_guest_agent
-
-- name: Packages | Restart qemu-guest-agent
-  tags:
-    - packages
-  ansible.builtin.service:
-    name: qemu-guest-agent
-    state: restarted
-    enabled: true
-  become: true
-  when: restart_qemu_guest_agent is changed
+  notify: Restart qemu-guest-agent
