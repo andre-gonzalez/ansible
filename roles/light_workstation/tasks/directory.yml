@@ -26,3 +26,4 @@
     dest: /mnt/hd-externo
     mode: "0770"
     state: directory
+  become: true
