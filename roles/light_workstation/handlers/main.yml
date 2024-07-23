@@ -1,16 +1,16 @@
 ---
-- name: Zathura | Set zathura as default pdf reader
+- name: Set zathura as default pdf reader
   ansible.builtin.command: xdg-mime default org.pwmt.zathura.desktop application/pdf
   register: zathura_xdg_mine
   changed_when: zathura_xdg_mine.rc != 2
 
-- name: Anki | Extract anki files
+- name: Extract anki files
   ansible.builtin.unarchive:
     src: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
     dest: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
   listen: proceed_anki_installation
 
-- name: Anki | Install anki
+- name: Install anki
   ansible.builtin.command:
     chdir: "{{ lookup('env', 'HOME') }}/.config/anki/install-files/{{ json_reponse.json.assets.2.name | regex_replace( '\\.\\w*\\.\\w*$', '')  }}"
     cmd: ./install.sh
@@ -19,7 +19,7 @@
   register: anki_install
   changed_when: anki_install.rc != 2
 
-- name: AUR | Mark all informant news as read
+- name: Mark all informant news as read
   tags:
     - aur
   ansible.builtin.command: informant read --all
@@ -29,7 +29,7 @@
   register: informant_read
   changed_when: informant_read.rc != 2
 
-- name: Dotfiles | Set up dotfiles
+- name: Set up dotfiles
   tags:
     - dotfiles
   ansible.builtin.command: /usr/bin/git --git-dir={{ lookup('env', 'HOME') }}/.config/dotfiles/ --work-tree={{ lookup('env', 'HOME') }} checkout -f
@@ -37,7 +37,7 @@
   register: dotfiles_set
   changed_when: dotfiles_set.rc != 2
 
-- name: Save Battery | Restart tlp
+- name: Restart tlp
   tags:
     - save-battery
     - tlp
@@ -48,7 +48,7 @@
   become: true
   listen: restart_tlp is changed
 
-- name: Save Battery | Calibrate powertop
+- name: Calibrate powertop
   tags:
     - save-battery
     - powertop
@@ -58,7 +58,7 @@
   register: calibrate_result
   changed_when: calibrate_result.rc != 2
 
-- name: Wall-d | Install wall-d
+- name: Install wall-d
   tags:
     - wall-d
   ansible.builtin.command: ./install.sh
@@ -68,7 +68,7 @@
   register: wall_d_installed
   changed_when: wall_d_installed.rc != 2
 
-- name: Wifi | Start iwd
+- name: Start iwd
   tags:
     - wifi
   ansible.builtin.service:
