@@ -64,12 +64,6 @@
     - bluetooth
     - pulseaudio
 
-- name: Light Workstation | Include tasks from packages play
-  ansible.builtin.include_tasks: tasks/packages.yml
-  tags:
-    - packages
-    - nvidia
-
 - name: Light Workstation | Include tasks from notas play
   ansible.builtin.include_tasks: tasks/notas.yml
   tags:
@@ -127,11 +121,33 @@
     - collections-install
     - ufw
 
+- name: Light Workstation | Include tasks from wifi play
+  ansible.builtin.include_tasks: tasks/wifi.yml
+  tags:
+    - wifi
+
+- name: Light Workstation | Include tasks from zathura play
+  ansible.builtin.include_tasks: tasks/zathura.yml
+  tags:
+    - zathura
+
 - name: Light Workstation | Include tasks from yay play
   ansible.builtin.include_tasks: tasks/yay.yml
   tags:
     - aur
     - yay
+
+- name: Light Workstation | Include tasks from neovim play
+  ansible.builtin.include_tasks: tasks/neovim.yml
+  tags:
+    - neovim
+    - git
+
+- name: Light Workstation | Include tasks from packages play
+  ansible.builtin.include_tasks: tasks/packages.yml
+  tags:
+    - packages
+    - nvidia
 
 - name: Light Workstation | Include tasks from aur-packages play
   ansible.builtin.include_tasks: tasks/aur-packages.yml
@@ -142,12 +158,6 @@
   ansible.builtin.include_tasks: tasks/brave.yml
   tags:
     - brave
-
-- name: Light Workstation | Include tasks from neovim play
-  ansible.builtin.include_tasks: tasks/neovim.yml
-  tags:
-    - neovim
-    - git
 
 - name: Light Workstation | Include tasks from dwmblocks play
   ansible.builtin.include_tasks: tasks/dwmblocks.yml
@@ -169,10 +179,6 @@
   tags:
     - timeshift
 
-- name: Light Workstation | Include tasks from wifi play
-  ansible.builtin.include_tasks: tasks/wifi.yml
-  tags:
-    - wifi
 
 - name: Light Workstation | Include tasks from save-battery play
   ansible.builtin.include_tasks: tasks/save-battery.yml
@@ -180,11 +186,6 @@
     - save-battery
     - tlp
     - powertop
-
-- name: Light Workstation | Include tasks from zathura play
-  ansible.builtin.include_tasks: tasks/zathura.yml
-  tags:
-    - zathura
 
 # - name: Light Workstation | Include tasks from doas play
 #   ansible.builtin.include_tasks: tasks/doas.yml
