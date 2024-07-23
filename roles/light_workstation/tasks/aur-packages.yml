@@ -9,6 +9,7 @@
       - tmux-bash-completion-git
       - btrfs-assistant
       - btrfsmaintenance
+      - yewtube # Search youtube videos from the terminal
     use: yay
     state: present
     update_cache: true
