@@ -20,6 +20,7 @@
       - spice-vdagent
       - dnsmasq
       - ebtables
+      - qemu-full
     state: present
     update_cache: false
   become: true
