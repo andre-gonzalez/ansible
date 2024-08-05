@@ -122,6 +122,7 @@
       - noto-fonts # Google Fonts
       - noto-fonts-extra # Aditional variants of google fonts
       - ncdu # Terminal disk space usage explorer utility
+      - git-delta # Better delta for git
     state: present
     update_cache: true
   become: true
