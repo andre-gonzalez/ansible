@@ -10,6 +10,8 @@
       - btrfs-assistant
       - btrfsmaintenance
       - yewtube # Search youtube videos from the terminal
+      - sent-git # Simple plain-text presentation tool
+      - farbfeld # Image viewer that i use with sent
     use: yay
     state: present
     update_cache: true
