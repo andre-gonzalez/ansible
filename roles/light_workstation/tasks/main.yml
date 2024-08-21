@@ -187,6 +187,11 @@
     - tlp
     - powertop
 
+- name: Light Workstation | Include tasks from ente-auth play
+  ansible.builtin.include_tasks: tasks/ente-auth.yml
+  tags:
+    - ente-auth
+
 # - name: Light Workstation | Include tasks from doas play
 #   ansible.builtin.include_tasks: tasks/doas.yml
 #   tags:

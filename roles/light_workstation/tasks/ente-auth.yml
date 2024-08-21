@@ -1,0 +1,22 @@
+---
+- name: ente-auth | Install gnome-keyring
+  tags:
+    - ente-auth
+  ansible.builtin.package:
+    name:
+      - gnome-keyring
+    state: present
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: ente-auth | Install ente-auth
+  tags:
+    - ente-auth
+  kewlfft.aur.aur:
+    name:
+      - ente-auth-bin
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
