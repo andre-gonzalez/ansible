@@ -53,3 +53,8 @@
   ansible.builtin.include_tasks: tasks/insomnia.yml
   tags:
     - insomnia
+
+- name: Work | Include tasks from Azure Devops play
+  ansible.builtin.include_tasks: tasks/azure_devops.yml
+  tags:
+    - azure_devops
