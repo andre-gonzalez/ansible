@@ -192,6 +192,11 @@
   tags:
     - ente-auth
 
+- name: Light Workstation | Include tasks from web_browser play
+  ansible.builtin.include_tasks: tasks/web_browser.yml
+  tags:
+    - web_browser
+
 # - name: Light Workstation | Include tasks from doas play
 #   ansible.builtin.include_tasks: tasks/doas.yml
 #   tags:

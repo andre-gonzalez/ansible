@@ -1,0 +1,30 @@
+---
+- name: Web Browser | Copy ufw web browsing rule file
+  tags:
+    - web_browser
+  ansible.builtin.copy:
+    src: webrowser-ufw
+    dest: /etc/ufw/applications.d/ufw-webrowser
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+
+- name: Web Browser | Allow web browsing in ufw
+  tags:
+    - web_browser
+  community.general.ufw:
+    rule: allow
+    name: webrowser
+    direction: out
+    state: enabled
+  become: true
+
+- name: Web Browser | Set default policy on ufw to deny outgoing traffic
+  tags:
+    - web_browser
+  community.general.ufw:
+    policy: deny
+    direction: outgoing
+    state: enabled
+  become: true

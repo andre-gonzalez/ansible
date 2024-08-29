@@ -1,0 +1,4 @@
+[webrowser]
+title=webrowser
+description=Web browser
+ports=80,443,53/tcp
