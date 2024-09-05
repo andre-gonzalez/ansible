@@ -23,7 +23,12 @@
   tags:
     - directories
   ansible.builtin.file:
-    dest: /mnt/hd-externo
+    dest: "{{ item.dest }}"
     mode: "0770"
     state: directory
+  loop:
+    - { dest: /mnt/hd-externo }
+    - { dest: /mnt/ntfs-hd-externo }
+    - { dest: /mnt/hd-interno }
+    - { dest: /mnt/ntfs-hd-interno }
   become: true
