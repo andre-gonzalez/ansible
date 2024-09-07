@@ -7,4 +7,4 @@
       - net-tools
       - iputils-ping
   become: true
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution in ["Debian", "Ubuntu"]
