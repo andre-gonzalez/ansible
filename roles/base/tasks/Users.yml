@@ -45,6 +45,24 @@
     system: true
   become: true
 
+- name: Users | Install sudo package
+  tags:
+    - users
+  ansible.builtin.package:
+    name: sudo
+  become: true
+
+- name: Users | Ensure sudoers.d directories exists.
+  tags:
+    - users
+  ansible.builtin.file:
+    dest: /etc/sudoers.d/
+    mode: "0750"
+    group: root
+    owner: root
+    state: directory
+  become: true
+
 - name: Users | Copy sudoers_ansible
   tags:
     - users
