@@ -89,16 +89,6 @@
   become: true
   when: '"AuthenticAMD" in ansible_facts["processor"]'
 
-- name: Packages | Install nvidia drivers
-  tags:
-    - nvidia
-    - never
-  ansible.builtin.package:
-    name: nvidia-dkms
-    state: present
-  when: ansible_distribution == "Archlinux"
-  become: true
-
 - name: Packages | Remove packages
   tags:
     - packages
