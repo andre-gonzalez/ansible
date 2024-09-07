@@ -117,7 +117,7 @@
     name: auditd
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
-  notify: restart auditd
+  notify: Restart auditd
 
 - name: Security | Ensure group audit exists
   tags:
