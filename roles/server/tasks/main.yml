@@ -21,7 +21,7 @@
     - docker
     - pihole
 
-- name: Server | Include tasks from pihole play
-  ansible.builtin.include_tasks: tasks/pihole.yml
-  tags:
-    - pihole
+# - name: Server | Include tasks from pihole play
+#   ansible.builtin.include_tasks: tasks/pihole.yml
+#   tags:
+#     - pihole
