@@ -187,3 +187,19 @@
     name: unattended-upgrades
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
+
+- name: Security | Install apt-listbugs to check if upgrades are safe on Debian and Ubuntu
+  tags:
+    - security
+  ansible.builtin.package:
+    name: apt-listbugs
+  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+
+- name: Security | Install libpam-tmpdir to improve security on tmp files
+  tags:
+    - security
+  ansible.builtin.package:
+    name: libpam-tmpdir
+  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
