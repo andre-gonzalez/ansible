@@ -219,3 +219,13 @@
     name: apt-show-versions
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
+
+- name: Security | Install rkhunter and chkrootkit as malware scanning tools
+  tags:
+    - security
+  ansible.builtin.package:
+    name:
+      - rkhunter
+      - chkrootkit
+  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
