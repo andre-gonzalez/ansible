@@ -203,3 +203,19 @@
     name: libpam-tmpdir
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
+
+- name: Security | Install debsums to improve security verifying packages with known good database
+  tags:
+    - security
+  ansible.builtin.package:
+    name: debsums
+  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+
+- name: Security | Install apt-show-versions for patch managment
+  tags:
+    - security
+  ansible.builtin.package:
+    name: apt-show-versions
+  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
