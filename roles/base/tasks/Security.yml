@@ -220,12 +220,19 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Security | Install rkhunter and chkrootkit as malware scanning tools
+- name: Security | Install rkhunter as malware scanning tool
   tags:
     - security
   ansible.builtin.package:
     name:
       - rkhunter
+  become: true
+
+- name: Security | Install chkrootkit as malware scanning tools
+  tags:
+    - security
+  ansible.builtin.package:
+    name:
       - chkrootkit
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
