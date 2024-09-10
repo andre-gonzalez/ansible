@@ -76,6 +76,32 @@
   become: true
   notify: restart ssh
 
+- name: SSH | Sets the number of client alive messages without receive messages back to 2
+  tags:
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: ^(#)ClientAliveCountMax .*
+    line: ClientAliveCountMax 2
+    state: present
+    backup: true
+  become: true
+  notify: restart ssh
+
+- name: SSH | Set LogLevel to verbose
+  tags:
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: ^(#)LogLevel .*
+    line: LogLevel VERBOSE
+    state: present
+    backup: true
+  become: true
+  notify: restart ssh
+
 - name: SSH | Only allow user {{ lookup('env', 'USER') }}
   tags:
     - security
