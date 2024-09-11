@@ -271,18 +271,50 @@
     create: true
   become: true
 
-# - name: Security | Install cracklib package to check passwords
-#   tags:
-#     - security
-#   ansible.builtin.package:
-#     name: libpam-cracklib
-#   become: true
-#   when: ansible_distribution in ["Ubuntu", "Debian"]
+- name: Security | Install cracklib package to check passwords
+  tags:
+    - security
+  ansible.builtin.package:
+    name: cracklib-runtime
+  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
-# - name: Security | Install cracklib package to check passwords
-#   tags:
-#     - security
-#   ansible.builtin.package:
-#     name: cracklib
-#   become: true
-#   when: ansible_distribution == "Archlinux"
+- name: Security | Install cracklib package to check passwords
+  tags:
+    - security
+  ansible.builtin.package:
+    name: cracklib
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Security | Configure password strength testing
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/common-password
+    line: password requisite pam_cracklib.so retry=3 minlen=12 difok=3
+    mode: "0644"
+    create: true
+  become: true
+
+- name: Security | Set maximum number of days a password can be used to 180
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: ^PASS_MAX_DAYS\t\d*$
+    line: PASS_MAX_DAYS   180
+    mode: "0644"
+    create: true
+  become: true
+
+- name: Security | Set password warning to begin 30 days before expiration date
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: ^PASS_WARN_AGE\t\d*$
+    line: PASS_WARN_AGE   30
+    mode: "0644"
+    create: true
+  become: true
