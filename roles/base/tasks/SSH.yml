@@ -128,14 +128,14 @@
   become: true
   notify: restart ssh
 
-- name: SSH | Limit max auth tries to 6
+- name: SSH | Limit max auth tries to 3
   tags:
     - security
     - ssh
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: ^(#)MaxAuthTries
-    line: MaxAuthTries 6
+    line: MaxAuthTries 3
     state: present
     backup: true
   become: true
