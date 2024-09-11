@@ -154,6 +154,19 @@
   become: true
   notify: restart ssh
 
+- name: SSH | Set MaxSessions to 2
+  tags:
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: ^(#)MaxSessions
+    line: MaxSessions 2
+    state: present
+    backup: true
+  become: true
+  notify: restart ssh
+
 - name: SSH | Block TCP Forwarding on ssh
   tags:
     - security
