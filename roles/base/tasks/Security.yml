@@ -236,3 +236,53 @@
       - chkrootkit
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
+
+- name: Security | Add legal banners
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: "{{ item.path }}"
+    line: Unauthorized access is prohibited. All activity is monitored.
+    mode: "0644"
+    create: true
+  loop:
+    - {path: /etc/issue }
+    - {path: /etc/issue.net }
+  become: true
+
+- name: Security | Disable core dumps
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/security/limits.conf
+    line: "* hard core 0"
+    mode: "0644"
+    create: true
+  become: true
+
+- name: Security | Configure Password Hashing Rounds to a minimum of 5000
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: ^(#)SHA_CRYPT_MIN_ROUNDS
+    line: SHA_CRYPT_MIN_ROUNDS 5000
+    mode: "0644"
+    create: true
+  become: true
+
+# - name: Security | Install cracklib package to check passwords
+#   tags:
+#     - security
+#   ansible.builtin.package:
+#     name: libpam-cracklib
+#   become: true
+#   when: ansible_distribution in ["Ubuntu", "Debian"]
+
+# - name: Security | Install cracklib package to check passwords
+#   tags:
+#     - security
+#   ansible.builtin.package:
+#     name: cracklib
+#   become: true
+#   when: ansible_distribution == "Archlinux"
