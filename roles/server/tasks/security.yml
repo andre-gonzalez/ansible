@@ -1,0 +1,66 @@
+---
+- name: Security | Blacklist dccp protocol
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/modprobe.d/blacklist.conf
+    line: blacklist dccp
+    mode: "0644"
+    create: true
+  become: true
+  notify: Update intramfs
+
+- name: Security | Blacklist sctp protocol
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/modprobe.d/blacklist.conf
+    line: blacklist sctp
+    mode: "0644"
+    create: true
+  become: true
+  notify: Update intramfs
+
+- name: Security | Blacklist rds protocol
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/modprobe.d/blacklist.conf
+    line: blacklist rds
+    mode: "0644"
+    create: true
+  become: true
+  notify: Update intramfs
+
+- name: Security | Blacklist tipc protocol
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/modprobe.d/blacklist.conf
+    line: blacklist tipc
+    mode: "0644"
+    create: true
+  become: true
+  notify: Update intramfs
+
+- name: Security | Blacklist firewire-core protocol
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/modprobe.d/blacklist.conf
+    line: blacklist firewire-core
+    mode: "0644"
+    create: true
+  become: true
+  notify: Update intramfs
+
+- name: Security | Blacklist usb-storage protocol
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/modprobe.d/blacklist.conf
+    line: blacklist usb-storage
+    mode: "0644"
+    create: true
+  become: true
+  notify: Update intramfs

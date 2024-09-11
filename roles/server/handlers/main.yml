@@ -1,0 +1,13 @@
+---
+- name: Update intramfs
+  ansible.builtin.command:
+    cmd: update-initramfs -u
+  become: true
+  notify: Restart system if required
+
+- name: Restart system if required
+  ansible.builtin.reboot:
+    msg: "Rebooting the system to apply changes."
+    connect_timeout: 5
+    reboot_timeout: 600
+    pre_reboot_delay: 5

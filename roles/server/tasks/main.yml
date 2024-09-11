@@ -5,6 +5,12 @@
     - debug
     - never
 
+
+- name: Server | Include tasks from Security play
+  ansible.builtin.include_tasks: tasks/security.yml
+  tags:
+    - security
+
 - name: Server | Include tasks from Network Packages play
   ansible.builtin.include_tasks: tasks/network-packages.yml
   tags:
