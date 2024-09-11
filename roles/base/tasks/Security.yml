@@ -311,3 +311,14 @@
     mode: "0644"
     create: true
   become: true
+
+- name: Security | Set minimum password days to 1
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: ^PASS_MIN_DAYS\t\d*$
+    line: PASS_MIN_DAYS   1
+    mode: "0644"
+    create: true
+  become: true
