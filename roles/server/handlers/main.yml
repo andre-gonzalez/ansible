@@ -11,3 +11,10 @@
     connect_timeout: 5
     reboot_timeout: 600
     pre_reboot_delay: 5
+
+- name: Restart ssh
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+  become: true
+  listen: restart ssh

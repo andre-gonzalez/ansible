@@ -29,3 +29,15 @@
     disabled: false
     job: systemctl start sshd
   become: true
+
+- name: SSH | Disable Compression on ssh to increase security
+  tags:
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: ^(#)Compression
+    line: Compression no
+    state: present
+    backup: true
+  become: true
+  notify: Restart ssh
