@@ -11,6 +11,11 @@
   tags:
     - security
 
+- name: Server | Include tasks from Process Accounting play
+  ansible.builtin.include_tasks: tasks/process-accounting.yml
+  tags:
+    - process-accounting
+
 - name: Server | Include tasks from Network Packages play
   ansible.builtin.include_tasks: tasks/network-packages.yml
   tags:
