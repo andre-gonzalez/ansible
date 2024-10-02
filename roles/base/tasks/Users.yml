@@ -43,6 +43,7 @@
     - ansible
   ansible.builtin.user:
     name: ansible
+    umask: "0027"
     system: true
   become: true
 
