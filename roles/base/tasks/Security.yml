@@ -250,6 +250,19 @@
     - {path: /etc/issue.net }
   become: true
 
+- name: SSH | Add legal banner to ssh
+  tags:
+    - security
+    - ssh
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: ^(#)Banner.*
+    line: Banner /etc/issue.net
+    state: present
+    backup: true
+  become: true
+  notify: restart ssh
+
 - name: Security | Disable core dumps
   tags:
     - security
