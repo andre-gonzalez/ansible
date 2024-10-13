@@ -28,6 +28,8 @@
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: "0700"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
     state: directory
 
 - name: SSH | Set authorized keys from github to user {{ lookup('env', 'USER') }}
