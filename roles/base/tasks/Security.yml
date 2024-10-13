@@ -343,3 +343,13 @@
     mode: "0644"
     create: true
   become: true
+
+- name: Security | Set umask to 027
+  tags:
+    - security
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: ^UMASK.*$
+    line: UMASK           027
+    mode: "0644"
+  become: true
