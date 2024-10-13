@@ -12,6 +12,7 @@
       - yewtube # Search youtube videos from the terminal
       - sent-git # Simple plain-text presentation tool
       - farbfeld # Image viewer that i use with sent
+      - aur-auto-vote-git # Package to auto vote on AUR packages
     use: yay
     state: present
     update_cache: true
