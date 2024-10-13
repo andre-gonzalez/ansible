@@ -114,3 +114,11 @@
     enabled: true
   become: true
   when: ansible_virtualization_role == "guest"
+
+- name: Restart sysstat
+  ansible.builtin.service:
+    name: sysstat
+    state: restarted
+    enabled: true
+  become: true
+  listen: start sysstat

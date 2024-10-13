@@ -353,3 +353,12 @@
     line: UMASK           027
     mode: "0644"
   become: true
+
+- name: Security | Install sysstat
+  tags:
+    - security
+    - sysstat
+  ansible.builtin.package:
+    name: sysstat
+  become: true
+  notify: Restart sysstat
