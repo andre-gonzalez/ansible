@@ -8,3 +8,14 @@
     line: ExecStart=-/sbin/agetty -n -o {{ lookup('env', 'USER') }} %I
     backrefs: true
   become: true
+
+- name: Systemd | Set autologin
+  tags:
+    - never
+    - autologin
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/system/getty.target.wants/getty@tty1.service
+    regexp: ^ExecStart=.*
+    line: ExecStart=-/sbin/agetty -a frank - $TERM
+    backrefs: true
+  become: true

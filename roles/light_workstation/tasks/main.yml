@@ -20,6 +20,7 @@
   ansible.builtin.include_tasks: tasks/systemd.yml
   tags:
     - systemd
+    - autologin
 
 - name: Light Workstation | Include tasks from failock play
   ansible.builtin.include_tasks: tasks/faillock.yml
