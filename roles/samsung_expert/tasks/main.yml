@@ -9,7 +9,7 @@
   tags:
     - network
 
-- name: Samsung Expert | Include tasks from nvidia play
-  ansible.builtin.include_tasks: tasks/nvidia.yml
+- name: Samsung Expert | Include tasks from intel graphics play
+  ansible.builtin.include_tasks: tasks/intel-graphics.yml
   tags:
-    - nvidia
+    - intel-graphics

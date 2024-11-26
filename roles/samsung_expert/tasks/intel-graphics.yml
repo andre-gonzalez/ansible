@@ -1,0 +1,8 @@
+---
+- name: Packages | Install intel-media-driver package for hardware video acceleration
+  tags:
+    - intel-graphics
+  ansible.builtin.package:
+    name: intel-media-driver
+  become: true
+  when: ansible_distribution == "Archlinux"
