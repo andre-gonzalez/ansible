@@ -1,0 +1,4 @@
+---
+- name: Run mkinitcpio
+  command: mkinitcpio -P
+  become: true

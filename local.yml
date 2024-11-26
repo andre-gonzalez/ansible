@@ -70,6 +70,12 @@
   roles:
     - samsung_expert
 
+- name: nvidia Role | Run nvidia role
+  hosts: nvidia
+  tags: nvidia
+  roles:
+    - nvidia
+
 - name: Server Role | Run server role
   hosts: server
   tags: server

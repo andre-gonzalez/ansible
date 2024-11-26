@@ -1,0 +1,115 @@
+---
+- name: Run lspci command to get GPU information
+  tags:
+    - nvidia
+  ansible.builtin.shell: lspci -k -d ::03xx
+  register: lspci_output
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Determine the package to install
+  tags:
+    - nvidia
+  ansible.builtin.set_fact:
+    nvidia_package: >-
+      {{
+        (
+          "nvidia-open" if 'TU' in lspci_output.stdout and
+                          lspci_output.stdout.find('TU') + 5 < lspci_output.stdout|length and
+                          lspci_output.stdout[lspci_output.stdout.find('TU') + 2: lspci_output.stdout.find('TU') + 5].isdigit() and
+                          ansible_kernel | regex_search('^[5,6,7].*')
+          else "nvidia-open-dkms" if 'TU' in lspci_output.stdout and
+                                     lspci_output.stdout.find('TU') + 5 < lspci_output.stdout|length and
+                                     lspci_output.stdout[lspci_output.stdout.find('TU') + 2: lspci_output.stdout.find('TU') + 5].isdigit()
+          else "nvidia" if ('GM' in lspci_output.stdout or 'AD' in lspci_output.stdout) and
+                          (lspci_output.stdout.find('GM') + 5 < lspci_output.stdout|length and
+                           lspci_output.stdout[lspci_output.stdout.find('GM') + 2: lspci_output.stdout.find('GM') + 5].isdigit() or
+                           lspci_output.stdout.find('AD') + 5 < lspci_output.stdout|length and
+                           lspci_output.stdout[lspci_output.stdout.find('AD') + 2: lspci_output.stdout.find('AD') + 5].isdigit()) and
+                          ansible_kernel | regex_search('^[5,6,7].*')
+          else "nvidia-lts" if ('GM' in lspci_output.stdout or 'AD' in lspci_output.stdout) and
+                              (lspci_output.stdout.find('GM') + 5 < lspci_output.stdout|length and
+                               lspci_output.stdout[lspci_output.stdout.find('GM') + 2: lspci_output.stdout.find('GM') + 5].isdigit() or
+                               lspci_output.stdout.find('AD') + 5 < lspci_output.stdout|length and
+                               lspci_output.stdout[lspci_output.stdout.find('AD') + 2: lspci_output.stdout.find('AD') + 5].isdigit()) and
+                              ansible_kernel | regex_search('lts')
+          else "nvidia-dkms" if ('GM' in lspci_output.stdout or 'AD' in lspci_output.stdout) and
+                               (lspci_output.stdout.find('GM') + 5 < lspci_output.stdout|length and
+                                lspci_output.stdout[lspci_output.stdout.find('GM') + 2: lspci_output.stdout.find('GM') + 5].isdigit() or
+                                lspci_output.stdout.find('AD') + 5 < lspci_output.stdout|length and
+                                lspci_output.stdout[lspci_output.stdout.find('AD') + 2: lspci_output.stdout.find('AD') + 5].isdigit())
+          else "none"
+        )
+      }}
+  when: ansible_distribution == "Archlinux"
+
+- name: Show selected package
+  tags:
+    - nvidia
+  ansible.builtin.debug:
+    msg: "Selected package to install: {{ nvidia_package }}"
+  when: ansible_distribution == "Archlinux"
+
+- name: Uninstall unselected Nvidia packages
+  tags:
+    - nvidia
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - nvidia-open
+    - nvidia
+    - nvidia-dkms
+    - nvidia-470xx-dkms
+    - nvidia-390xx-dkms
+    - nvidia-340xx-dkms
+  become: true
+  when: item != nvidia_package and nvidia_package != "none" and ansible_distribution == "Archlinux"
+
+- name: Install the properly Nvidia package
+  tags:
+    - nvidia
+  ansible.builtin.package:
+    name: "{{ nvidia_package }}"
+    state: present
+  become: true
+  when:
+    - ansible_distribution == "Archlinux"
+    - nvidia_package not in ['nvidia-470xx-dkms', 'nvidia-390xx-dkms', 'nvidia-340xx-dkms']
+    - nvidia_package != "none"
+  notify: Run mkinitcpio
+
+- name: Install the properly Nvidia package (AUR)
+  kewlfft.aur.aur:
+    name: "{{ nvidia_package }}"
+    state: present
+  when: nvidia_package in ['nvidia-470xx-dkms', 'nvidia-390xx-dkms', 'nvidia-340xx-dkms'] and ansible_distribution == "Archlinux"
+
+- name: Fail if no suitable package was found
+  tags:
+    - nvidia
+  ansible.builtin.fail:
+    msg: "No suitable package found for the detected GPU."
+  when: nvidia_package == "none" and ansible_distribution == "Archlinux"
+
+- name: Packages | Install nvidia utilities
+  tags:
+    - nvidia
+  ansible.builtin.package:
+    name:
+      - nvidia-settings
+      - nvidia-utils
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Copy file nvidia pacman hook
+  tags:
+    - nvidia
+  ansible.builtin.copy:
+    src: nvidia.hook
+    dest: /etc/pacman.d/hooks/nvidia.hook
+    owner: root
+    group: root
+    mode: "0744"
+  become: true
+  when: ansible_distribution == "Archlinux"
