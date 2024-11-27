@@ -99,6 +99,7 @@
     name:
       - nvidia-settings
       - nvidia-utils
+      - bbswitch
   become: true
   when: ansible_distribution == "Archlinux"
 
