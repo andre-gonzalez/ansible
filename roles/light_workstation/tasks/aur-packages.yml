@@ -13,6 +13,7 @@
       - sent-git # Simple plain-text presentation tool
       - farbfeld # Image viewer that i use with sent
       - aur-auto-vote-git # Package to auto vote on AUR packages
+      - zen-browser-avx2-bin # Zen browser optimized for newer CPUs
     use: yay
     state: present
     update_cache: true
