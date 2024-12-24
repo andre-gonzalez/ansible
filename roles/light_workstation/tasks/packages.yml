@@ -86,6 +86,7 @@
       - mpv # Terminal based video player
       - yt-dlp # Download youtube videos, necessary to play youtube videos on mpv
       - pre-commit # To use with git to ensure format and linting before commits
+      - rclone # I use to backup my data to AWS S3
     state: present
     update_cache: true
   become: true
