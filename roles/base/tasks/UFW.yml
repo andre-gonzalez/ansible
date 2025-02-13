@@ -46,6 +46,16 @@
     proto: tcp
   become: true
 
+- name: UFW | Allow connections from tailscale
+  tags:
+    - ufw
+    - ssh
+  community.general.ufw:
+    rule: limit
+    interface: tailscale0
+    direction: in
+  become: true
+
 # - name: UFW | Allow port range 80/tcp
 #   tags:
 #     - ufw
