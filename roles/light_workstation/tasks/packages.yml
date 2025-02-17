@@ -137,3 +137,9 @@
   ansible.builtin.command: fc-cache
   register: refresh_fonts
   changed_when: refresh_fonts.rc != 2
+
+
+- name: Set feh as default image viewer
+  tags:
+    - packages
+  ansible.builtin.command: xdg-mime default feh.desktop image/png ; xdg-mime default feh.desktop image/jpeg
