@@ -198,6 +198,11 @@
   tags:
     - web_browser
 
+- name: Light Workstation | Include tasks from calibre play
+  ansible.builtin.include_tasks: tasks/calibre.yml
+  tags:
+    - calibre
+
 # - name: Light Workstation | Include tasks from doas play
 #   ansible.builtin.include_tasks: tasks/doas.yml
 #   tags:

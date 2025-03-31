@@ -1,0 +1,29 @@
+---
+- name: Calibre | Install calibre
+  tags:
+    - calibre
+  ansible.builtin.package:
+    name: calibre
+  become: true
+
+- name: Calibre | Allow calibre wireless devices on local network on ufw
+  tags:
+    - calibre
+  community.general.ufw:
+    rule: limit
+    from_ip: 192.168.1.0/24
+    port: 9090
+    proto: tcp
+    comment: calibre wireless
+  become: true
+
+- name: Calibre | Allow calibre calibre automated discovery protocol on local network on ufw
+  tags:
+    - calibre
+  community.general.ufw:
+    rule: limit
+    from_ip: 192.168.1.0/24
+    port: 54982
+    proto: udp
+    comment: calibre discovery
+  become: true
