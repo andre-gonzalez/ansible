@@ -36,6 +36,7 @@
     rule: allow
     port: "{{ item.port }}"
     proto: "{{ item.proto }}"
+    comment: pihole ports
   loop:
     - { port: "80", proto: tcp }
     - { port: "53", proto: tcp }

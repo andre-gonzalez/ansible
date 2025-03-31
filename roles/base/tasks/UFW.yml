@@ -44,6 +44,7 @@
     from_ip: 192.168.1.0/24
     port: "{{ ssh_port }}"
     proto: tcp
+    comment: ssh to local network
   become: true
 
 - name: UFW | Allow connections from tailscale
@@ -54,6 +55,7 @@
     rule: limit
     interface: tailscale0
     direction: in
+    comment: connections from tailscale
   become: true
 
 # - name: UFW | Allow port range 80/tcp
