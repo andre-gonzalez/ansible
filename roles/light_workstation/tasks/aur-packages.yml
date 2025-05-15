@@ -15,6 +15,7 @@
       - aur-auto-vote-git # Package to auto vote on AUR packages
       - zen-browser-bin # Zen browser optimized for newer CPUs
       - thorium-browser-bin
+      - advcpmv # Add progress bar to cp and mv commands
     use: yay
     state: present
     update_cache: true
