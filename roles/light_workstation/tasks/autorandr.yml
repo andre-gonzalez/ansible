@@ -1,0 +1,33 @@
+---
+- name: Autorandr | Install autorandr
+  tags:
+    - autorandr
+  ansible.builtin.package:
+    name: autorandr
+  become: true
+
+- name: Autorandr | Ensure autorandr config directory exists
+  tags:
+    - autorandr
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/autorandr"
+    state: directory
+    mode: '0755'
+
+- name: Autorandr | Copy autorandr profiles
+  tags:
+    - autorandr
+  ansible.builtin.copy:
+    src: "files/autorandr/"
+    dest: "{{ lookup('env', 'HOME') }}/.config/autorandr/"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: '0644'
+
+- name: Autorandr | Ensure autorandr is called on X startup
+  tags:
+    - autorandr
+  ansible.builtin.lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.xinitrc"
+    line: "autorandr --change &"
+    insertafter: BOF

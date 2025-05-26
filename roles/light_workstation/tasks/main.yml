@@ -150,6 +150,11 @@
     - packages
     - nvidia
 
+- name: Light Workstation | Include tasks from autorandr play
+  ansible.builtin.include_tasks: tasks/autorandr.yml
+  tags:
+    - autorandr
+
 - name: Light Workstation | Include tasks from aur-packages play
   ansible.builtin.include_tasks: tasks/aur-packages.yml
   tags:
