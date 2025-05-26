@@ -127,6 +127,7 @@
       - noto-fonts-extra # Aditional variants of google fonts
       - ncdu # Terminal disk space usage explorer utility
       - git-delta # Better delta for git
+      - pkgstats # Send list of installed packages to arch developers
     state: present
     update_cache: true
   become: true
