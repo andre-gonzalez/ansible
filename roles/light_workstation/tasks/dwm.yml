@@ -7,6 +7,7 @@
       - gcc
       - libxft-dev
       - libxinerama-dev
+      - xwininfo # Necessary for my profile selector script
     state: present
     update_cache: true
   become: true
