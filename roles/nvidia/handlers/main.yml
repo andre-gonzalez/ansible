@@ -1,4 +1,4 @@
 ---
 - name: Run mkinitcpio
-  command: mkinitcpio -P
+  ansible.builtin.command: mkinitcpio -P
   become: true

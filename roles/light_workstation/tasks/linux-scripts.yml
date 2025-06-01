@@ -29,4 +29,5 @@
   ansible.builtin.copy:
     dest: /etc/profile.d/scripts.sh
     content: 'PATH=$PATH:{{ scripts_path }}'
+    mode: '0644'
   become: true

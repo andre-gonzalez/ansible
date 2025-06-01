@@ -108,7 +108,7 @@
       - noto-fonts-emoji # missing ubuntu
       - bleachbit # Utility to free space on disk
       - aws-cli
-      - python-debugpy # Pythan debugger dependencie for nvim-dap-python
+      - python-debugpy # Pythan debugger dependency for nvim-dap-python
       - spotify-launcher
       - trash-cli
       - nethogs
@@ -119,12 +119,12 @@
       - wol # provide Wake-on-Lan functionality
       - redshift # Adapt brightness and color of the screen at night
       - inetutils # Hostname command necessary for fish prompt
-      - ntfs-3g # To mount drives formated as NTFS
+      - ntfs-3g # To mount drives formatted as NTFS
       - newsboat # RSS feed reader
       - python-adblock # To enable adblocking on qutebrowser
       - libreoffice-still # Office application
       - noto-fonts # Google Fonts
-      - noto-fonts-extra # Aditional variants of google fonts
+      - noto-fonts-extra # Additional variants of google fonts
       - ncdu # Terminal disk space usage explorer utility
       - git-delta # Better delta for git
       - pkgstats # Send list of installed packages to arch developers
