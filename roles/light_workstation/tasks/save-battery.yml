@@ -227,3 +227,27 @@
     update_cache: true
   ignore_errors: true
   when: '"Notebook" in ansible_facts["form_factor"] and ansible_distribution == "Archlinux"'
+
+- name: Save Battery | Install intel-undervolt package
+  tags:
+    - save-battery
+    - intel-undervolt
+  ansible.builtin.package:
+    name:
+      - intel-undervolt
+    state: present
+    update_cache: false
+  become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
+
+- name: Save Battery | Copy file intel-undervolt.conf
+  tags:
+    - save-battery
+    - intel-undervolt
+  ansible.builtin.copy:
+    src: intel-undervolt.conf
+    dest: /etc
+    owner: root
+    group: root
+    mode: "0644"
+  become: true

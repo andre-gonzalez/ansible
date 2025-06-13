@@ -192,6 +192,7 @@
     - save-battery
     - tlp
     - powertop
+    - intel-undervolt
 
 - name: Light Workstation | Include tasks from ente-auth play
   ansible.builtin.include_tasks: tasks/ente-auth.yml
