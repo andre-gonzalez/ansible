@@ -251,3 +251,4 @@
     group: root
     mode: "0644"
   become: true
+  when: '"Notebook" in ansible_facts["form_factor"]'
