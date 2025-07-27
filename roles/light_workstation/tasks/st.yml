@@ -1,4 +1,12 @@
 ---
+- name: St | Install DejaVu font
+  tags:
+    - st
+  ansible.builtin.package:
+    name: ttf-dejavu
+  become: true
+  when: ansible_distribution == "Archlinux"
+
 - name: St | Clone st
   tags:
     - st

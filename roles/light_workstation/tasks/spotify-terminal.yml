@@ -1,0 +1,10 @@
+---
+- name: Packages | Install spotifyd and spotify_player
+  tags:
+    - spotify
+  ansible.builtin.package:
+    name:
+      - spotifyd
+      - spotify_player
+  become: true
+  when: ansible_distribution == "Archlinux"
