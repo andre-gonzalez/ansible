@@ -8,6 +8,7 @@
       - libxft-dev
       - libxinerama-dev
       - xwininfo # Necessary for my profile selector script
+      - ttf-dejavu # Font I choosed in my config
     state: present
     update_cache: true
   become: true
