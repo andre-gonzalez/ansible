@@ -208,6 +208,7 @@
   ansible.builtin.include_tasks: tasks/calibre.yml
   tags:
     - calibre
+    - ufw
 
 # - name: Light Workstation | Include tasks from doas play
 #   ansible.builtin.include_tasks: tasks/doas.yml
