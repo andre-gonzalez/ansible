@@ -210,6 +210,11 @@
     - calibre
     - ufw
 
+- name: Light Workstation | Include tasks from spotify play
+  ansible.builtin.include_tasks: tasks/spotify.yml
+  tags:
+    - spotify
+
 # - name: Light Workstation | Include tasks from doas play
 #   ansible.builtin.include_tasks: tasks/doas.yml
 #   tags:

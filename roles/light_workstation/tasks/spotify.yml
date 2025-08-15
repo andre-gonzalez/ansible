@@ -1,0 +1,28 @@
+---
+- name: Spotify | Install spotify-player and spotifyd
+  tags:
+    - spotify
+  ansible.builtin.package:
+    name:
+      - spotifyd
+      - spotify-player
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Spotify | Copy file spotify-player
+  tags:
+    - spotify
+  ansible.builtin.copy:
+    src: spotify-player.toml
+    dest: "{{ lookup('env', 'HOME') }}/.config/app.toml"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: "0640"
+
+- name: Spotify | Enable spotifyd service for user
+  tags:
+    - spotify
+  ansible.builtin.service:
+    name: spotifyd
+    enabled: true
+    scope: user
