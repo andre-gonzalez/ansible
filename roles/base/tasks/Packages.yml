@@ -40,17 +40,42 @@
     intel: intel-microcode
   when: ansible_distribution in ["Ubuntu", "Debian"] and "GenuineIntel" in ansible_processor
 
-- name: Packages | Enable contrib, non-free and non-free-firmware repos
+- name: Packages | Enable contrib, non-free and non-free-firmware repos on debian-main
   tags:
     - packages
-  ansible.builtin.apt_repository:
-    repo: "{{ item.repo }}"
+  ansible.builtin.deb822_repository:
+    name: debian-main
+    types: [deb]
+    uris: http://deb.debian.org/debian
+    suites: [trixie]
+    components: [main, contrib, non-free, non-free-firmware]
     state: present
-  loop:
-    - { repo: deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware }
-    - { repo: deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware }
-    - { repo: deb http://security.debian.org bookworm-security main contrib non-free non-free-firmware }
-  become: true
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+
+
+- name: Packages | Enable contrib, non-free and non-free-firmware updates repo on debian-updates
+  tags:
+    - packages
+  ansible.builtin.deb822_repository:
+    name: debian-updates
+    types: [deb]
+    uris: http://deb.debian.org/debian
+    suites: [trixie-updates]
+    components: [main, contrib, non-free, non-free-firmware]
+    state: present
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+
+
+- name: Packages | Enable contrib, non-free and non-free-firmware security repo on debian-security
+  tags:
+    - packages
+  ansible.builtin.deb822_repository:
+    name: debian-security
+    types: [deb]
+    uris: http://security.debian.org
+    suites: [trixie-security]
+    components: [main, contrib, non-free, non-free-firmware]
+    state: present
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: Packages | Install microcode updates for intel (if necessary)
