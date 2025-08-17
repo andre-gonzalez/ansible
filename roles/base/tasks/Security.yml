@@ -292,13 +292,13 @@
   become: true
   when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Security | Install aide to monitor file changes
-  tags:
-    - security
-  ansible.builtin.package:
-    name: aide
-  become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+# - name: Security | Install aide to monitor file changes
+#   tags:
+#     - security
+#   ansible.builtin.package:
+#     name: aide
+#   become: true
+#   when: ansible_distribution in ["Ubuntu", "Debian"]
 
 - name: Security | Configure password strength testing
   tags:
