@@ -54,7 +54,6 @@
       - "{{ xorg[3] }}"
       - "{{ xorg[4] }}"
       - "{{ xorg[5] }}"
-      - xautolock
       - xbindkeys
       - arandr
       - numlockx
