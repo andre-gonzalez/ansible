@@ -121,9 +121,7 @@
     name:
       - arch-install-scripts
       - archinstall
-      - brltty
       - nano
-      - btop
       - vim
       - grml-zsh-config
       - zsh
@@ -154,6 +152,7 @@
     name:
       - ansible
       - git
+      - btop
     state: present
     update_cache: false
   become: true
