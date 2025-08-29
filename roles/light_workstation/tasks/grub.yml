@@ -1,15 +1,10 @@
 ---
-# - name: Grub | Copy file grub config file
-#   tags:
-#     - grub
-#   ansible.builtin.copy:
-#     src: grub
-#     dest: /etc/default
-#     owner: root
-#     group: root
-#     mode: '0644'
-#   become: true
-#   when: ansible_distribution == "Archlinux"
+- name: Check if grub is installed
+  tags:
+    - grub
+  ansible.builtin.stat:
+    path: /boot/grub
+  register: grub_dir
 
 - name: Grub | Install grub
   tags:
@@ -17,7 +12,15 @@
   ansible.builtin.package:
     name: grub
   become: true
-  when: ansible_distribution == "Archlinux" and ansible_service_mgr == "grub"
+  when: ansible_distribution == "Archlinux" and grub_dir.stat.exists
+
+- name: Get root filesystem type
+  tags:
+    - grub
+  set_fact:
+    rootfstype: "{{ item.fstype }}"
+  loop: "{{ ansible_mounts }}"
+  when: item.mount == "/"
 
 - name: Grub | Install grub-btrfs when rootfstype is btrfs
   tags:
@@ -25,7 +28,7 @@
   ansible.builtin.package:
     name: grub-btrfs
   become: true
-  when: ansible_service_mgr == "grub" and rootfstype == "btrfs"
+  when: grub_dir.stat.exists and rootfstype == "btrfs"
 
 - name: Grub | Change grub timeout to 0 second
   tags:
@@ -33,10 +36,10 @@
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: .*GRUB_TIMEOUT=.*
-    line: GRUB_TIMEOUT=0
+    line: GRUB_TIMEOUT=1
     backrefs: true
   become: true
-  when: ansible_service_mgr == "grub"
+  when: grub_dir.stat.exists
   register: update_grub
 
 - name: Grub | Change grub timeout to hidden
@@ -48,7 +51,7 @@
     line: GRUB_TIMEOUT_STYLE=hidden
     backrefs: true
   become: true
-  when: ansible_service_mgr == "grub"
+  when: grub_dir.stat.exists
   register: update_grub2
 
 - name: Grub | Speed up linux systems for workstations disabling mitigations - https://christitus.com/speedup-linux/
@@ -60,7 +63,7 @@
     line: GRUB_CMDLINE_LINUX="mitigations=off"
     backrefs: true
   become: true
-  when: ansible_memtotal_mb > 16000 and ansible_service_mgr == "grub"
+  when: ansible_memtotal_mb > 16000 and grub_dir.stat.exists
   register: update_grub3
 
 - name: Grub | Speed up linux systems for workstations disabling mitigations and enable zswap compression - https://christitus.com/speedup-linux/
@@ -72,7 +75,7 @@
     line: GRUB_CMDLINE_LINUX="zswap.enabled=1 mitigations=off"
     backrefs: true
   become: true
-  when: ansible_memtotal_mb <= 16000 and ansible_service_mgr == "grub"
+  when: ansible_memtotal_mb <= 16000 and grub_dir.stat.exists
   register: update_grub4
 
 - name: Grub | Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
@@ -84,7 +87,7 @@
     line: GRUB_DEFAULT=saved
     backrefs: true
   become: true
-  when: ansible_service_mgr == "grub"
+  when: grub_dir.stat.exists
   register: update_grub5
 
 - name: Grub | Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
@@ -96,7 +99,7 @@
     line: GRUB_SAVEDEFAULT=true
     backrefs: true
   become: true
-  when: ansible_service_mgr == "grub"
+  when: grub_dir.stat.exists
   register: update_grub6
 
 - name: Grub | Copy file update-grub
@@ -116,4 +119,4 @@
     or update_grub4 is changed
     or update_grub5 is changed
     or update_grub6 is changed
-    and ansible_service_mgr == "grub"
+    and grub_dir.stat.exists
