@@ -1,4 +1,12 @@
 ---
+- name: Web Browser | Install chromium
+  tags:
+    - web_browser
+  ansible.builtin.package:
+    name: chromium
+  become: true
+  when: ansible_distribution == "Archlinux"
+
 - name: Web Browser | Copy ufw web browsing rule file
   tags:
     - web_browser
