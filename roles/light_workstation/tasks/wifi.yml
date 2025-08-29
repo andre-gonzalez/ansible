@@ -25,4 +25,5 @@
     - { src: QueWiFi2.psk }
     - { src: CasaRio_5G.psk }
     - { src: =51756520576966693f.psk }
+    - { src: Davi.psk }
   become: true
