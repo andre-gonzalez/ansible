@@ -1,5 +1,5 @@
 ---
-- name: Run lspci command to get GPU information
+- name: Nvidia | Run lspci command to get GPU information
   tags:
     - nvidia
   ansible.builtin.shell: lspci -k -d ::03xx
@@ -43,7 +43,7 @@
       }}
   when: ansible_distribution == "Archlinux"
 
-- name: Show selected package
+- name: Nvidia | Show selected package
   tags:
     - nvidia
   ansible.builtin.debug:
@@ -66,7 +66,7 @@
   become: true
   when: item != nvidia_package and nvidia_package != "none" and ansible_distribution == "Archlinux"
 
-- name: Install the properly Nvidia package
+- name: Nvidia | Install the properly Nvidia package
   tags:
     - nvidia
   ansible.builtin.package:
@@ -79,20 +79,20 @@
     - nvidia_package != "none"
   notify: Run mkinitcpio
 
-- name: Install the properly Nvidia package (AUR)
+- name: Nvidia | Install the properly Nvidia package (AUR)
   kewlfft.aur.aur:
     name: "{{ nvidia_package }}"
     state: present
   when: nvidia_package in ['nvidia-470xx-dkms', 'nvidia-390xx-dkms', 'nvidia-340xx-dkms'] and ansible_distribution == "Archlinux"
 
-- name: Fail if no suitable package was found
+- name: Nvidia | Fail if no suitable package was found
   tags:
     - nvidia
   ansible.builtin.fail:
     msg: "No suitable package found for the detected GPU."
   when: nvidia_package == "none" and ansible_distribution == "Archlinux"
 
-- name: Packages | Install nvidia utilities
+- name: Nvidia | Install nvidia utilities
   tags:
     - nvidia
   ansible.builtin.package:
@@ -100,11 +100,33 @@
       - nvidia-settings
       - nvidia-utils
       - bbswitch
-      - envycontrol # Dinamically change between integrated graphics and nvidia GPU
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Copy file nvidia pacman hook
+- name: Nvidia | Install envycontrol from AUR
+  tags:
+    - aur
+  kewlfft.aur.aur:
+    name: envycontrol # Dinamically change between integrated graphics and nvidia GPU
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
+
+- name: Nvidia | Ensure pacman hook directory exists
+  tags:
+    - nvidia
+  ansible.builtin.file:
+    path: /etc/pacman.d/hooks
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Nvidia | Copy file nvidia pacman hook
   tags:
     - nvidia
   ansible.builtin.copy:
