@@ -18,7 +18,6 @@
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
   with_items:
-    - { src: redeciclo-corp-access, dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: "0600" }
     - { src: instapaper, dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: "0600" }
     - { src: mac-address-proxmox-server, dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: "0600" }
     - { src: ipinfo, dest: "{{ lookup('env', 'HOME') }}/.scripts/.env/", mode: "0600" }
