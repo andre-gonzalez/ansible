@@ -36,3 +36,12 @@
     content: |
       gtk-launch awsvpnclient
     mode: '0755'
+
+- name: AWS VPN | Enable AWS VPN service
+  tags:
+    - aws-vpn
+  ansible.builtin.service:
+    name: awsvpnclient
+    state: started
+    enabled: true
+  become: true
