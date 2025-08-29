@@ -1,14 +1,4 @@
 ---
-- name: Work | Include tasks from Pritunl VPN play
-  ansible.builtin.include_tasks: tasks/pritunl-vpn.yml
-  tags:
-    - pritunl-vpn
-
-- name: Work | Include tasks from Dbeaver play
-  ansible.builtin.include_tasks: tasks/dbeaver.yml
-  tags:
-    - dbeaver
-
 - name: Work | Include tasks from AWS play
   ansible.builtin.include_tasks: tasks/aws.yml
   tags:
@@ -18,21 +8,6 @@
   ansible.builtin.include_tasks: tasks/databricks.yml
   tags:
     - databricks
-
-- name: Work | Include tasks from Terraform play
-  ansible.builtin.include_tasks: tasks/terraform.yml
-  tags:
-    - terraform
-
-- name: Work | Include tasks from Gcloud play
-  ansible.builtin.include_tasks: tasks/gcloud.yml
-  tags:
-    - gcloud
-
-- name: Work | Include tasks from Repositories play
-  ansible.builtin.include_tasks: tasks/repositories.yml
-  tags:
-    - repositories
 
 - name: Work | Include tasks from Neomutt play
   ansible.builtin.include_tasks: tasks/neomutt.yml
@@ -44,17 +19,17 @@
   tags:
     - packages
 
-- name: Work | Include tasks from Mysql play
-  ansible.builtin.include_tasks: tasks/mysql.yml
+- name: Work | Include tasks from datagrip play
+  ansible.builtin.include_tasks: tasks/datagrip.yml
   tags:
-    - packages
+    - datagrip
 
-- name: Work | Include tasks from Insomnia play
-  ansible.builtin.include_tasks: tasks/insomnia.yml
+- name: Work | Include tasks from aws-vpn play
+  ansible.builtin.include_tasks: tasks/aws-vpn.yml
   tags:
-    - insomnia
+    - aws-vpn
 
-- name: Work | Include tasks from Azure Devops play
-  ansible.builtin.include_tasks: tasks/azure_devops.yml
+- name: Work | Include tasks from one-password play
+  ansible.builtin.include_tasks: tasks/one-password.yml
   tags:
-    - azure_devops
+    - 1password

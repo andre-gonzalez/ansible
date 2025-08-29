@@ -1,0 +1,38 @@
+---
+- name: Packages | Install open vpn package
+  tags:
+    - aws-vpn
+  ansible.builtin.package:
+    name:
+      - openvpn
+    state: present
+    update_cache: true
+  become: true
+
+- name: AWS VPN | Install AWS VPN package
+  tags:
+    - aws-vpn
+  kewlfft.aur.aur:
+    name:
+      - awsvpnclient
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+
+- name: AWS VPN | Ensure ~/.local/bin exists
+  tags:
+    - aws-vpn
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/bin"
+    state: directory
+    mode: '0755'
+
+- name: AWS VPN | Create awsvpnclient script
+  tags:
+    - aws-vpn
+  ansible.builtin.copy:
+    dest: "{{ ansible_env.HOME }}/.local/bin/awsvpnclient"
+    content: |
+      gtk-launch awsvpnclient
+    mode: '0755'

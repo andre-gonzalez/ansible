@@ -1,0 +1,13 @@
+---
+- name: Datagrip | Install datagrip packages
+  tags:
+    - datagrip
+  kewlfft.aur.aur:
+    name:
+      - datagrip
+      - datagrip-jre
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
