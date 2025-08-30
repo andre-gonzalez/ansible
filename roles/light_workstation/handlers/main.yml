@@ -48,15 +48,15 @@
   become: true
   listen: restart_tlp is changed
 
-- name: Calibrate powertop
-  tags:
-    - save-battery
-    - powertop
-  ansible.builtin.command: powertop --calibrate
-  become: true
-  listen: calibrate_powertop
-  register: calibrate_result
-  changed_when: calibrate_result.rc != 2
+# - name: Calibrate powertop
+#   tags:
+#     - save-battery
+#     - powertop
+#   ansible.builtin.command: powertop --calibrate
+#   become: true
+#   listen: calibrate_powertop
+#   register: calibrate_result
+#   changed_when: calibrate_result.rc != 2
 
 - name: Install wall-d
   tags:
