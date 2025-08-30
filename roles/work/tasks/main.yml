@@ -9,10 +9,10 @@
   tags:
     - databricks
 
-- name: Work | Include tasks from Neomutt play
-  ansible.builtin.include_tasks: tasks/neomutt.yml
-  tags:
-    - neomutt
+# - name: Work | Include tasks from Neomutt play
+#   ansible.builtin.include_tasks: tasks/neomutt.yml
+#   tags:
+#     - neomutt
 
 - name: Work | Include tasks from Slack play
   ansible.builtin.include_tasks: tasks/slack.yml
