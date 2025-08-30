@@ -26,12 +26,12 @@ ansible-playbook -t [tag1, tag2] --ask-become local.yml
 # Scripts ready to run
 1. Light_workstation role install
 ```
-bash <(curl -L tinyurl.com/ansible-netbook)
+curl -L tinyurl.com/ansible-netbook | bash
 ```
 
 2. Samsung-workstation role install
 ```
-bash <(curl -L tinyurl.com/ansible-samsung)
+curl -L tinyurl.com/ansible-samsung | bash
 ```
 
 # Roles structure
