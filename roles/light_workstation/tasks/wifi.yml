@@ -8,7 +8,7 @@
     state: present
     update_cache: false
   become: true
-  notify: restart_network
+  # notify: restart_network
 
 - name: Wifi | Copy wifi configuration files
   tags:
