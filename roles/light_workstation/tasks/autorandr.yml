@@ -24,6 +24,14 @@
     group: "{{ lookup('env', 'USER') }}"
     mode: '0644'
 
+- name: Ensure .xinitrc file exists in home directory
+  tags:
+    - autorandr
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.xinitrc"
+    state: touch
+    mode: '0644'
+
 - name: Autorandr | Ensure autorandr is called on X startup
   tags:
     - autorandr
