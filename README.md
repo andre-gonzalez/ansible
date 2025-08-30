@@ -13,7 +13,7 @@ This is my personal ansible playbook to install and configure my workstation and
 3. Install ansible on the machine you want to configure use `sudo pacman -Syy ansible`
 4. Run the following code:
 ```
-ansible-pull --vault-password-file [key file location] --ask-become -t "[light_workstation|heavy_workstation],[samsung_expert]" --become-method=[doas|sudo] -U https://github.com/andre-gonzalez/ansible.git
+ansible-pull --vault-password-file [key file location] --ask-become -t "[light_workstation|heavy_workstation],[samsung_expert],[nvidia]" -U https://github.com/andre-gonzalez/ansible.git
 ```
 5. Sit back and relax
 
