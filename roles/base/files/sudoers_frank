@@ -1,1 +1,2 @@
 frank ALL=(ALL) NOPASSWD: ALL
+frank ALL = NOPASSWD: /usr/bin/rsync
