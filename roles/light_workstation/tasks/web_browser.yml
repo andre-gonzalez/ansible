@@ -27,12 +27,3 @@
     direction: out
     state: enabled
   become: true
-
-- name: Web Browser | Set default policy on ufw to deny outgoing traffic
-  tags:
-    - web_browser
-  community.general.ufw:
-    policy: deny
-    direction: outgoing
-    state: enabled
-  become: true
