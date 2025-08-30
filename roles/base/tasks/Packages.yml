@@ -6,13 +6,14 @@
     name: reflector
   become: true
   when: ansible_distribution == "Archlinux"
+  register: _update_mirrorlist
 
 - name: Packages | Update pacman mirrorlist
   tags:
     - packages
   ansible.builtin.script: choose-mirror.sh
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_distribution == "Archlinux" and _update_mirrorlist is changed
 
 - name: Packages | Copy file pacman.conf to /etc
   tags:
