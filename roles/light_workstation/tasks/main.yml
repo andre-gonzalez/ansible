@@ -179,11 +179,10 @@
   tags:
     - preload
 
-- name: Light Workstation | Include tasks from timeshift play
-  ansible.builtin.include_tasks: tasks/timeshift.yml
+- name: Light Workstation | Include tasks from snapper play
+  ansible.builtin.include_tasks: tasks/snapper.yml
   tags:
-    - timeshift
-
+    - snapper
 
 - name: Light Workstation | Include tasks from save-battery play
   ansible.builtin.include_tasks: tasks/save-battery.yml

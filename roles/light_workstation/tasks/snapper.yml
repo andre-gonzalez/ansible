@@ -1,0 +1,91 @@
+---
+- name: Snapper | Install snapper and related packages
+  tags:
+    - snapper
+  ansible.builtin.package:
+    name:
+      - snapper
+      - snap-pac
+      - grub-btrfs
+    state: present
+    update_cache: true
+  become: true
+
+- name: Snapper | Initialize snapper config for /
+  tags:
+    - snapper
+  ansible.builtin.command: snapper -c root create-config /
+  args:
+    creates: /etc/snapper/configs/root
+  become: true
+
+- name: Snapper | Initialize snapper config for /home
+  tags:
+    - snapper
+  ansible.builtin.command: snapper -c home create-config /home
+  args:
+    creates: /etc/snapper/configs/home
+  become: true
+
+- name: Snapper | Ensure snapper group exists
+  tags:
+    - snapper
+  ansible.builtin.group:
+    name: snapper
+    state: present
+  become: true
+
+- name: Snapper | Add user to snapper group
+  tags:
+    - snapper
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    groups: snapper
+    append: true
+  become: true
+
+- name: Snapper | Fix permissions on /.snapshots
+  tags:
+    - snapper
+  ansible.builtin.file:
+    path: /.snapshots
+    owner: root
+    group: snapper
+    mode: '0750'
+    state: directory
+  become: true
+
+- name: Snapper | Enable snapper timeline timer
+  tags:
+    - snapper
+  ansible.builtin.systemd:
+    name: snapper-timeline.timer
+    enabled: true
+    state: started
+  become: true
+
+- name: Snapper | Enable snapper cleanup timer
+  tags:
+    - snapper
+  ansible.builtin.systemd:
+    name: snapper-cleanup.timer
+    enabled: true
+    state: started
+  become: true
+
+- name: Snapper | Enable grub-btrfs.path for GRUB integration
+  tags:
+    - snapper
+  ansible.builtin.systemd:
+    name: grub-btrfsd.service
+    enabled: true
+    state: started
+  become: true
+  register: regenerate_grub
+
+- name: Snapper | Regenerate Grub
+  tags:
+    - snapper
+  ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
+  become: true
+  when: regenerate_grub is changed
