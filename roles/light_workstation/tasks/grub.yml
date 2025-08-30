@@ -30,7 +30,7 @@
   become: true
   when: grub_dir.stat.exists and rootfstype == "btrfs"
 
-- name: Grub | Change grub timeout to 0 second
+- name: Grub | Change grub timeout to 1 second
   tags:
     - grub
   ansible.builtin.lineinfile:
@@ -42,13 +42,13 @@
   when: grub_dir.stat.exists
   register: update_grub
 
-- name: Grub | Change grub timeout to hidden
+- name: Grub | Change grub timeout to menu
   tags:
     - grub
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: .*GRUB_TIMEOUT_STYLE=.*
-    line: GRUB_TIMEOUT_STYLE=hidden
+    line: GRUB_TIMEOUT_STYLE=menu
     backrefs: true
   become: true
   when: grub_dir.stat.exists
