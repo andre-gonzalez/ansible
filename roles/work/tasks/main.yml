@@ -33,3 +33,8 @@
   ansible.builtin.include_tasks: tasks/one-password.yml
   tags:
     - 1password
+
+- name: Work | Include tasks from cursor play
+  ansible.builtin.include_tasks: tasks/cursor.yml
+  tags:
+    - cursor

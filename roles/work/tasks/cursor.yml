@@ -1,0 +1,12 @@
+---
+- name: Cursor | Install cursor packages
+  tags:
+    - cursor
+  kewlfft.aur.aur:
+    name:
+      - cursor-bin
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
