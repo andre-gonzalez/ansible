@@ -13,8 +13,6 @@
       - sent-git # Simple plain-text presentation tool
       - farbfeld # Image viewer that i use with sent
       - aur-auto-vote-git # Package to auto vote on AUR packages
-      - zen-browser-bin # Zen browser optimized for newer CPUs
-      - thorium-browser-bin
       - advcpmv # Add progress bar to cp and mv commands
       - megasync-bin # Mega drive sync program
       - xautolock

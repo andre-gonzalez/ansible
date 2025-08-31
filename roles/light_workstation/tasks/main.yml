@@ -159,10 +159,10 @@
   tags:
     - aur
 
-- name: Light Workstation | Include tasks from brave play
-  ansible.builtin.include_tasks: tasks/brave.yml
-  tags:
-    - brave
+# - name: Light Workstation | Include tasks from brave play
+#   ansible.builtin.include_tasks: tasks/brave.yml
+#   tags:
+#     - brave
 
 - name: Light Workstation | Include tasks from dwmblocks play
   ansible.builtin.include_tasks: tasks/dwmblocks.yml
