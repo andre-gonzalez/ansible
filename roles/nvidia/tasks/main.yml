@@ -70,7 +70,9 @@
   tags:
     - nvidia
   ansible.builtin.package:
-    name: "{{ nvidia_package }}"
+    name:
+      - "{{ nvidia_package }}"
+      - libva-nvidia-driver # Driver for hardware-accelerated video decoding
     state: present
   become: true
   when:

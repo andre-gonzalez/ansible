@@ -27,3 +27,16 @@
     direction: out
     state: enabled
   become: true
+
+- name: Web Browser | Install widevine and ffmpeg
+  tags:
+    - web_browser
+  kewlfft.aur.aur:
+    name:
+      - chromium-widevine
+      - chromium-ffmpeg
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
