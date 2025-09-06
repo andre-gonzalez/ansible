@@ -9,3 +9,4 @@ roles/work/tasks/databricks.yml schema[tasks]
 roles/work/tasks/aws.yml schema[tasks]
 roles/work/tasks/neomutt.yml load-failure
 roles/work/tasks/aws.yml load-failure
+roles/work/tasks/databricks.yml package-latest
