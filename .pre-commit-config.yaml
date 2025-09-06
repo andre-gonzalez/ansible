@@ -10,7 +10,7 @@ ci:
   #   - ansible-lint
 repos:
   - repo: https://github.com/ansible/ansible-lint
-    rev: v24.7.0 # put latest release tag from https://github.com/ansible/ansible-lint/releases/
+    rev: v25.8.2 # put latest release tag from https://github.com/ansible/ansible-lint/releases/
     hooks:
       - id: ansible-lint
       # Uncomment if you need the full Ansible community bundle instead of ansible-core:
