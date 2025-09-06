@@ -70,6 +70,7 @@
       - lxsession # polkit agent to fill password when launching applications with my run launcher
       - flameshot
       - bat
+      - bat-extras
       - dunst
       - qt5ct # To set theme for qt applications
       - "{{ rfkill }}"
