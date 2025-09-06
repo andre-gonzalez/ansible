@@ -35,7 +35,7 @@
     group: frank
     groups: adm,{{ base_sudo_group }}
     umask: "0027"
-    append: yes
+    append: true
     state: present
 
 - name: Users | Create ansible user
