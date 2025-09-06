@@ -19,16 +19,6 @@
   register: anki_install
   changed_when: anki_install.rc != 2
 
-- name: Mark all informant news as read
-  tags:
-    - aur
-  ansible.builtin.command: informant read --all
-  become: true
-  ignore_errors: true
-  listen: install_informant
-  register: informant_read
-  changed_when: informant_read.rc != 2
-
 - name: Set up dotfiles
   tags:
     - dotfiles

@@ -37,4 +37,14 @@
     update_cache: false
   when: ansible_distribution == "Archlinux"
   ignore_errors: true
-  notify: install_informant
+  register: informant_install
+
+- name: Mark all informant news as read
+  tags:
+    - aur
+  ansible.builtin.command: informant read --all
+  become: true
+  ignore_errors: true
+  register: informant_read
+  changed_when: informant_read.rc != 2
+  when: informant_install is changed
