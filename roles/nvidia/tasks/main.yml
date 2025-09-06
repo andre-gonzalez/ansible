@@ -7,7 +7,7 @@
   become: true
   when: ansible_distribution == "Archlinux"
 
-- name: Determine the package to install
+- name: Nvidia | Determine the package to install
   tags:
     - nvidia
   ansible.builtin.set_fact:
@@ -21,6 +21,12 @@
           else "nvidia-open-dkms" if 'TU' in lspci_output.stdout and
                                      lspci_output.stdout.find('TU') + 5 < lspci_output.stdout|length and
                                      lspci_output.stdout[lspci_output.stdout.find('TU') + 2: lspci_output.stdout.find('TU') + 5].isdigit()
+          else "nvidia-dkms" if ('GM' in lspci_output.stdout or 'AD' in lspci_output.stdout) and
+                               (lspci_output.stdout.find('GM') + 5 < lspci_output.stdout|length and
+                                lspci_output.stdout[lspci_output.stdout.find('GM') + 2: lspci_output.stdout.find('GM') + 5].isdigit() or
+                                lspci_output.stdout.find('AD') + 5 < lspci_output.stdout|length and
+                                lspci_output.stdout[lspci_output.stdout.find('AD') + 2: lspci_output.stdout.find('AD') + 5].isdigit()) and
+                               ansible_kernel | regex_search('zen')
           else "nvidia" if ('GM' in lspci_output.stdout or 'AD' in lspci_output.stdout) and
                           (lspci_output.stdout.find('GM') + 5 < lspci_output.stdout|length and
                            lspci_output.stdout[lspci_output.stdout.find('GM') + 2: lspci_output.stdout.find('GM') + 5].isdigit() or
@@ -50,7 +56,7 @@
     msg: "Selected package to install: {{ nvidia_package }}"
   when: ansible_distribution == "Archlinux"
 
-- name: Uninstall unselected Nvidia packages
+- name: Nvidia | Uninstall unselected Nvidia packages
   tags:
     - nvidia
   ansible.builtin.package:
