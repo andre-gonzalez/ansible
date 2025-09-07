@@ -23,4 +23,18 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
     force: true
     mode: "0777"
-  notify: proceed_anki_installation
+  register: anki_installed
+
+- name: Extract anki files
+  ansible.builtin.unarchive:
+    src: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
+    dest: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
+  register: anki_extracted
+  when: anki_installed is changed
+
+- name: Install anki
+  ansible.builtin.command:
+    chdir: "{{ lookup('env', 'HOME') }}/.config/anki/install-files/{{ json_reponse.json.assets.2.name | regex_replace( '\\.\\w*\\.\\w*$', '')  }}"
+    cmd: ./install.sh
+  become: true
+  when: anki_extracted is changed
