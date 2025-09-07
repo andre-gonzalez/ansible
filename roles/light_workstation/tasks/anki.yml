@@ -1,40 +1,52 @@
 ---
-- name: Anki | Ensure anki directory exists
+# - name: Anki | Ensure anki directory exists
+#   tags:
+#     - anki
+#   ansible.builtin.file:
+#     dest: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
+#     mode: "0700"
+#     state: directory
+#
+# - name: Anki | Get latest anki release
+#   tags:
+#     - anki
+#   ansible.builtin.uri:
+#     url: https://api.github.com/repos/ankitects/anki/releases/latest
+#     return_content: true
+#   register: json_reponse
+#
+# - name: Anki | Download anki installer
+#   tags:
+#     - anki
+#   ansible.builtin.get_url:
+#     url: "{{ json_reponse.json.assets.2.browser_download_url }}"
+#     dest: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
+#     force: true
+#     mode: "0777"
+#   register: anki_installed
+#
+# - name: Extract anki files
+#   ansible.builtin.unarchive:
+#     src: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
+#     dest: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
+#   register: anki_extracted
+#   when: anki_installed is changed
+#
+# - name: Install anki
+#   ansible.builtin.command:
+#     chdir: "{{ lookup('env', 'HOME') }}/.config/anki/install-files/{{ json_reponse.json.assets.2.name | regex_replace( '\\.\\w*\\.\\w*$', '')  }}"
+#     cmd: ./install.sh
+#   become: true
+#   when: anki_extracted is changed
+
+- name: Anki | Install anki package
   tags:
     - anki
-  ansible.builtin.file:
-    dest: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
-    mode: "0700"
-    state: directory
-
-- name: Anki | Get latest anki release
-  tags:
-    - anki
-  ansible.builtin.uri:
-    url: https://api.github.com/repos/ankitects/anki/releases/latest
-    return_content: true
-  register: json_reponse
-
-- name: Anki | Download anki installer
-  tags:
-    - anki
-  ansible.builtin.get_url:
-    url: "{{ json_reponse.json.assets.2.browser_download_url }}"
-    dest: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
-    force: true
-    mode: "0777"
-  register: anki_installed
-
-- name: Extract anki files
-  ansible.builtin.unarchive:
-    src: "{{ lookup('env', 'HOME') }}/.config/anki/anki-installer.tar.zst"
-    dest: "{{ lookup('env', 'HOME') }}/.config/anki/install-files"
-  register: anki_extracted
-  when: anki_installed is changed
-
-- name: Install anki
-  ansible.builtin.command:
-    chdir: "{{ lookup('env', 'HOME') }}/.config/anki/install-files/{{ json_reponse.json.assets.2.name | regex_replace( '\\.\\w*\\.\\w*$', '')  }}"
-    cmd: ./install.sh
-  become: true
-  when: anki_extracted is changed
+  kewlfft.aur.aur:
+    name:
+      - anki
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Archlinux"
+  ignore_errors: true
