@@ -17,7 +17,7 @@
 - name: Get root filesystem type
   tags:
     - grub
-  sansible.builtin.set_fact:
+  ansible.builtin.set_fact:
     rootfstype: "{{ item.fstype }}"
   loop: "{{ ansible_mounts }}"
   when: item.mount == "/"
