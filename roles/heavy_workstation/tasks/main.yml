@@ -4,10 +4,10 @@
   tags:
     - docker
 
-- name: Heavy Workstation | Include tasks from syncthing play
-  ansible.builtin.include_tasks: tasks/Syncthing.yml
-  tags:
-    - syncthing
+# - name: Heavy Workstation | Include tasks from syncthing play
+#   ansible.builtin.include_tasks: tasks/Syncthing.yml
+#   tags:
+#     - syncthing
 
 - name: Heavy Workstation | Include tasks from libvirt play
   ansible.builtin.include_tasks: tasks/Libvirt.yml

@@ -4,10 +4,10 @@
   tags:
     - aws
 
-- name: Work | Include tasks from Databricks play
-  ansible.builtin.include_tasks: tasks/databricks.yml
-  tags:
-    - databricks
+# - name: Work | Include tasks from Databricks play
+#   ansible.builtin.include_tasks: tasks/databricks.yml
+#   tags:
+#     - databricks
 
 # - name: Work | Include tasks from Neomutt play
 #   ansible.builtin.include_tasks: tasks/neomutt.yml
