@@ -1,0 +1,59 @@
+---
+# This play add the GPU driver to mkinitcpio so I can unlock LUKS with
+# the external monitor
+- name: Mkinitcpio | Get GPU info
+  tags:
+    - mkinitcpio
+  ansible.builtin.command: lspci -nnk
+  register: gpu_info
+  changed_when: false
+
+- name: Mkinitcpio | Set GPU driver modules fact
+  tags:
+    - mkinitcpio
+  ansible.builtin.set_fact:
+    gpu_modules: >-
+      {{
+        (
+          (['i915'] if 'Intel' in gpu_info.stdout else []) +
+          (['amdgpu'] if 'AMD' in gpu_info.stdout else []) +
+          (['nouveau'] if 'NVIDIA' in gpu_info.stdout else [])
+        )
+      }}
+
+- name: Mkinitcpio | Read mkinitcpio.conf
+  tags:
+    - mkinitcpio
+  ansible.builtin.slurp:
+    src: /etc/mkinitcpio.conf
+  register: mkinitcpio_conf_raw
+
+- name: Mkinitcpio | Parse MODULES line
+  tags:
+    - mkinitcpio
+  ansible.builtin.set_fact:
+    current_modules: "{{ mkinitcpio_conf_raw['content'] | b64decode | regex_search('^MODULES=\\((.*?)\\)', '\\1', multiline=True) | first | default('') | split() }}"
+
+- name: Mkinitcpio | Merge GPU modules into current modules (deduplicated)
+  tags:
+    - mkinitcpio
+  ansible.builtin.set_fact:
+    merged_modules: "{{ (current_modules + gpu_modules) | unique }}"
+
+- name: Mkinitcpio | Update mkinitcpio.conf with merged modules
+  tags:
+    - mkinitcpio
+  ansible.builtin.lineinfile:
+    path: /etc/mkinitcpio.conf
+    regexp: '^MODULES='
+    line: "MODULES=({{ merged_modules | join(' ') }})"
+    backrefs: true
+  register: mkinitcpio_updated
+  become: true
+
+- name: Mkinitcpio | Rebuild initramfs
+  tags:
+    - mkinitcpio
+  command: mkinitcpio -P
+  when: mkinitcpio_updated is changed
+  become: true

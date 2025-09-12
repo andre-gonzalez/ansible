@@ -15,6 +15,11 @@
   tags:
     - grub
 
+- name: Light Workstation | Include tasks from mkinitcpio play
+  ansible.builtin.include_tasks: tasks/mkinitcpio.yml
+  tags:
+    - mkinitcpio
+
 - name: Light Workstation | Include tasks from systemd play
   ansible.builtin.include_tasks: tasks/systemd.yml
   tags:
