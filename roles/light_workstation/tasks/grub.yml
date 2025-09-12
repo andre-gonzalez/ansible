@@ -102,6 +102,18 @@
   when: grub_dir.stat.exists
   register: update_grub6
 
+- name: Grub | Set grub to use its own graphics terminal driver so I can type LUKS password on external monitor
+  tags:
+    - grub
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: .*GRUB_TERMINAL_OUTPUT=.*
+    line: GRUB_TERMINAL_OUTPUT=gfxterm
+    backrefs: true
+  become: true
+  when: grub_dir.stat.exists
+  register: update_grub7
+
 - name: Grub | Copy file update-grub
   tags:
     - grub
@@ -115,8 +127,9 @@
   when: >
     update_grub is changed
     or update_grub2 is changed
-    or update_grub3 is changed
-    or update_grub4 is changed
     or update_grub5 is changed
     or update_grub6 is changed
+    or update_grub7 is changed
     and grub_dir.stat.exists
+  # or update_grub3 is changed
+  # or update_grub4 is changed
