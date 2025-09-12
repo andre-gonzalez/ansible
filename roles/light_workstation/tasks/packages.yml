@@ -142,17 +142,23 @@
   changed_when: refresh_fonts.rc != 2
 
 
-- name: Set feh as default image viewer
+- name: Packages | Set feh as default image viewer
   tags:
     - packages
   ansible.builtin.command: xdg-mime default feh.desktop image/png ; xdg-mime default feh.desktop image/jpeg
   when: _set_defaults is changed
 
-- name: Set LibreOffice as default for MS Office formats
+- name: Packages | Set LibreOffice as default for MS Office formats
   tags:
     - packages
   ansible.builtin.command: >
     xdg-mime default libreoffice-impress.desktop application/vnd.openxmlformats-officedocument.presentationml.presentation ;
     xdg-mime default libreoffice-writer.desktop application/vnd.openxmlformats-officedocument.wordprocessingml.document ;
     xdg-mime default libreoffice-calc.desktop application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+  when: _set_defaults is changed
+
+- name: Packages | Update tldr
+  tags:
+    - packages
+  ansible.builtin.command: tldr --update
   when: _set_defaults is changed
