@@ -104,6 +104,7 @@
       - ttf-linux-libertine # missing ubuntu
       - clipmenu # missing ubuntu
       - noto-fonts-emoji # missing ubuntu
+      - noto-fonts-cjk # Chinese, Japanese and Korean fonts
       - bleachbit # Utility to free space on disk
       - aws-cli-v2
       - python-debugpy # Pythan debugger dependency for nvim-dap-python
