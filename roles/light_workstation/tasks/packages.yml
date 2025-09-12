@@ -10,6 +10,7 @@
       - xorg-xrandr
       - xorg-setxkbmap
       - xorg-xinput # Used on configure-trackball script
+      - xorg-xwininfo # Necessary for profile-selector script
     rfkill: util-linux-libs
     python_pip: python-pip
     base_devel: base-devel
