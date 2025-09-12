@@ -54,29 +54,29 @@
   when: grub_dir.stat.exists
   register: update_grub2
 
-- name: Grub | Speed up linux systems for workstations disabling mitigations - https://christitus.com/speedup-linux/
-  tags:
-    - grub
-  ansible.builtin.lineinfile:
-    path: /etc/default/grub
-    regexp: .*GRUB_CMDLINE_LINUX=.*
-    line: GRUB_CMDLINE_LINUX="mitigations=off"
-    backrefs: true
-  become: true
-  when: ansible_memtotal_mb > 16000 and grub_dir.stat.exists
-  register: update_grub3
+# - name: Grub | Speed up linux systems for workstations disabling mitigations - https://christitus.com/speedup-linux/
+#   tags:
+#     - grub
+#   ansible.builtin.lineinfile:
+#     path: /etc/default/grub
+#     regexp: .*GRUB_CMDLINE_LINUX=.*
+#     line: GRUB_CMDLINE_LINUX="mitigations=off"
+#     backrefs: true
+#   become: true
+#   when: ansible_memtotal_mb > 16000 and grub_dir.stat.exists
+#   register: update_grub3
 
-- name: Grub | Speed up linux systems for workstations disabling mitigations and enable zswap compression - https://christitus.com/speedup-linux/
-  tags:
-    - grub
-  ansible.builtin.lineinfile:
-    path: /etc/default/grub
-    regexp: .*GRUB_CMDLINE_LINUX=.*
-    line: GRUB_CMDLINE_LINUX="zswap.enabled=1 mitigations=off"
-    backrefs: true
-  become: true
-  when: ansible_memtotal_mb <= 16000 and grub_dir.stat.exists
-  register: update_grub4
+# - name: Grub | Speed up linux systems for workstations disabling mitigations and enable zswap compression - https://christitus.com/speedup-linux/
+#   tags:
+#     - grub
+#   ansible.builtin.lineinfile:
+#     path: /etc/default/grub
+#     regexp: .*GRUB_CMDLINE_LINUX=.*
+#     line: GRUB_CMDLINE_LINUX="zswap.enabled=1 mitigations=off"
+#     backrefs: true
+#   become: true
+#   when: ansible_memtotal_mb <= 16000 and grub_dir.stat.exists
+#   register: update_grub4
 
 - name: Grub | Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
   tags:
