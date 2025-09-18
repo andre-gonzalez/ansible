@@ -129,6 +129,7 @@
       - dash
       - xcompmgr # X11 Compositor
       - python-pipx
+      - 7zip
     state: present
     update_cache: true
   become: true
