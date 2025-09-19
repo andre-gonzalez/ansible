@@ -130,6 +130,7 @@
       - xcompmgr # X11 Compositor
       - python-pipx
       - 7zip
+      - tree # Utility to see directories structure in tree view
     state: present
     update_cache: true
   become: true
