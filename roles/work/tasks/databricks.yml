@@ -14,6 +14,7 @@
   kewlfft.aur.aur:
     name:
       - databricks-cli-bin
+      - python311 # Necessary for VSCode integration
     use: yay
     state: present
     update_cache: true
