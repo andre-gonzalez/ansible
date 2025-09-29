@@ -131,6 +131,7 @@
       - python-pipx
       - 7zip
       - tree # Utility to see directories structure in tree view
+      - nfs-utils # Necessary to mount nfs shares on the system
     state: present
     update_cache: true
   become: true
