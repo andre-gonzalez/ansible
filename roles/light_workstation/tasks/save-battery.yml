@@ -257,7 +257,7 @@
     state: present
     update_cache: false
   become: true
-  when: '"Notebook" in ansible_facts["form_factor"]'
+  when: '"Notebook" in ansible_facts["form_factor"] and "GenuineIntel" in ansible_facts["processor"]'
 
 - name: Save Battery | Copy file intel-undervolt.conf
   tags:
@@ -270,4 +270,4 @@
     group: root
     mode: "0644"
   become: true
-  when: '"Notebook" in ansible_facts["form_factor"]'
+  when: '"Notebook" in ansible_facts["form_factor"] and "GenuineIntel" in ansible_facts["processor"]'
