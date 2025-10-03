@@ -5,7 +5,7 @@ crtc 0
 mode 2560x1080
 pos 0x0
 primary
-rate 59.98
+rate 100.00
 x-prop-aspect_ratio Automatic
 x-prop-audio auto
 x-prop-broadcast_rgb Automatic

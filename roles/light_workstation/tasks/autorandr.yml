@@ -24,7 +24,7 @@
     group: "{{ lookup('env', 'USER') }}"
     mode: '0644'
 
-- name: Ensure .xinitrc file exists in home directory
+- name: Autorandr | Ensure .xinitrc file exists in home directory
   tags:
     - autorandr
   ansible.builtin.file:
@@ -37,5 +37,25 @@
     - autorandr
   ansible.builtin.lineinfile:
     path: "{{ lookup('env', 'HOME') }}/.xinitrc"
-    line: "autorandr --change &"
-    insertafter: BOF
+    line: "autorandr --change"
+    state: present
+
+- name: Autorandr | Deploy udev rule for monitor hotplug
+  tags:
+    - autorandr
+  ansible.builtin.copy:
+    dest: /etc/udev/rules.d/40-monitor-hotplug.rules
+    content: |
+      ACTION=="change", SUBSYSTEM=="drm", RUN+="/usr/bin/autorandr --change"
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  register: update_udev
+
+- name: Autorandr | Reload udev rules
+  tags:
+    - autorandr
+  ansible.builtin.command: udevadm control --reload-rules
+  become: true
+  when: update_udev is changed
