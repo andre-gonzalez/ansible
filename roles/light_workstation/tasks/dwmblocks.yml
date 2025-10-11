@@ -98,7 +98,7 @@
     - { src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_ufw", dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_ufw" }
     - src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_cron"
       dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_cron"
-    - src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_vpn.sh"
+    - src: "{{ lookup('env', 'HOME') }}/.config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_vpn"
       dest: "{{ lookup('env', 'HOME') }}/.scripts/dwm_vpn"
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
