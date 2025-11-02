@@ -213,6 +213,11 @@
     - calibre
     - ufw
 
+- name: Light Workstation | Include tasks from rclone play
+  ansible.builtin.include_tasks: tasks/rclone.yml
+  tags:
+    - rclone
+
 - name: Light Workstation | Include tasks from spotify play
   ansible.builtin.include_tasks: tasks/spotify.yml
   tags:

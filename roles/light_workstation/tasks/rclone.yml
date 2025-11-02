@@ -1,0 +1,20 @@
+---
+- name: Rclone | Install rclone package
+  tags:
+    - rclone
+  ansible.builtin.package:
+    name:
+      - rclone # I use to backup my data to AWS S3
+    state: present
+    update_cache: true
+  become: true
+
+- name: Rclone | Copy file rclone.config
+  tags:
+    - rclone
+  ansible.builtin.copy:
+    src: rclone.conf
+    dest: "{{ lookup('env', 'HOME') }}/.config/rclone/"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: "0640"
