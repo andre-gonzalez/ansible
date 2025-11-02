@@ -13,7 +13,7 @@
     - spotify
   ansible.builtin.copy:
     src: spotify-player.toml
-    dest: "{{ lookup('env', 'HOME') }}/.config/app.toml"
+    dest: "{{ lookup('env', 'HOME') }}/.config/spotify-player/app.toml"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
     mode: "0640"
