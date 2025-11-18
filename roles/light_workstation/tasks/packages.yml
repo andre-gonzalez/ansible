@@ -126,7 +126,7 @@
       - git-delta # Better delta for git
       - pkgstats # Send list of installed packages to arch developers
       - dash
-      - xcompmgr # X11 Compositor
+      - picom # X11 Compositor
       - python-pipx
       - 7zip
       - tree # Utility to see directories structure in tree view
