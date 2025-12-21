@@ -38,3 +38,8 @@
   ansible.builtin.include_tasks: tasks/cursor.yml
   tags:
     - cursor
+
+- name: Work | Include tasks from packages play
+  ansible.builtin.include_tasks: tasks/packages.yml
+  tags:
+    - packages

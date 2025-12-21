@@ -1,0 +1,11 @@
+
+---
+- name: Packages | Install packages and update cache
+  tags:
+    - packages
+  ansible.builtin.package:
+    name:
+      - drawio-desktop
+    state: present
+    update_cache: true
+  become: true
