@@ -24,7 +24,7 @@
     state: present
     update_cache: false
   become: true
-  register: finish_libvirt_configuration1
+  register: heavy_workstation_finish_libvirt_configuration1
 
 - name: Libvirt | Ensure group libvirt exists
   tags:
@@ -42,7 +42,7 @@
     groups: libvirt
     append: true
   become: true
-  register: finish_libvirt_configuration2
+  register: heavy_workstation_finish_libvirt_configuration2
 
 - name: Libvirt | Copy file qemu.conf to /etc/libvirt
   tags:
@@ -54,7 +54,7 @@
     group: root
     mode: "0644"
   become: true
-  register: finish_libvirt_configuration3
+  register: heavy_workstation_finish_libvirt_configuration3
 
 - name: Libvirt | Ensure libvirt directory exists in .config
   tags:
@@ -92,11 +92,11 @@
     state: restarted
     enabled: true
   become: true
-  when: finish_libvirt_configuration1 is changed or finish_libvirt_configuration2 is changed or finish_libvirt_configuration3 is changed
+  when: heavy_workstation_finish_libvirt_configuration1 is changed or heavy_workstation_finish_libvirt_configuration2 is changed or heavy_workstation_finish_libvirt_configuration3 is changed
 
 # - name: Libvirt | virsh start
 #   tags:
 #     - libvirt
 #   ansible.builtin.command: "virsh net-autostart default && virsh net-start default"
 #   become: true
-#   when:  finish_libvirt_configuration1 is changed or finish_libvirt_configuration2 is changed or finish_libvirt_configuration3 is changed
+#   when:  heavy_workstation_finish_libvirt_configuration1 is changed or heavy_workstation_finish_libvirt_configuration2 is changed or heavy_workstation_finish_libvirt_configuration3 is changed
