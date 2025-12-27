@@ -35,7 +35,7 @@
     update_cache: false
   when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true
-  register: informant_install
+  register: light_workstation_informant_install
 
 - name: Mark all informant news as read
   tags:
@@ -43,6 +43,6 @@
   ansible.builtin.command: informant read --all
   become: true
   ignore_errors: true
-  register: informant_read
-  changed_when: informant_read.rc != 2
-  when: informant_install is changed
+  register: light_workstation_informant_read
+  changed_when: light_workstation_informant_read.rc != 2
+  when: light_workstation_informant_install is changed

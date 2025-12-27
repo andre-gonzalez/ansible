@@ -81,11 +81,11 @@
     enabled: true
     state: started
   become: true
-  register: regenerate_grub
+  register: light_workstation_regenerate_grub
 
 - name: Snapper | Regenerate Grub
   tags:
     - snapper
   ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
   become: true
-  when: regenerate_grub is changed
+  when: light_workstation_regenerate_grub is changed

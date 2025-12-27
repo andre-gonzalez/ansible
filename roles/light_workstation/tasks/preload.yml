@@ -10,7 +10,7 @@
     update_cache: true
   when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true
-  register: restart_preload
+  register: light_workstation_restart_preload
 
 - name: Preload | Install preload package when distribution is Ubuntu
   tags:
@@ -21,7 +21,7 @@
     state: present
   become: true
   when: ansible_facts["distribution"] == "Ubuntu"
-  register: restart_preload2
+  register: light_workstation_restart_preload2
 
 - name: Preload | Copy file preload.conf to /etc
   tags:
@@ -33,7 +33,7 @@
     group: root
     mode: "0644"
   become: true
-  register: restart_preload3
+  register: light_workstation_restart_preload3
 
 - name: Preload | Restart preload
   tags:
@@ -43,4 +43,4 @@
     state: restarted
     enabled: true
   become: true
-  when: restart_preload is changed or restart_preload2 is changed or restart_preload3 is changed
+  when: light_workstation_restart_preload is changed or light_workstation_restart_preload2 is changed or light_workstation_restart_preload3 is changed

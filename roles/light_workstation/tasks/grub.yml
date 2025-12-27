@@ -4,7 +4,7 @@
     - grub
   ansible.builtin.stat:
     path: /boot/grub
-  register: grub_dir
+  register: light_workstation_grub_dir
 
 - name: Grub | Install grub
   tags:
@@ -12,13 +12,13 @@
   ansible.builtin.package:
     name: grub
   become: true
-  when: ansible_facts["distribution"] == "Archlinux" and grub_dir.stat.exists
+  when: ansible_facts["distribution"] == "Archlinux" and light_workstation_grub_dir.stat.exists
 
 - name: Get root filesystem type
   tags:
     - grub
   ansible.builtin.set_fact:
-    rootfstype: "{{ item.fstype }}"
+    light_workstation_rootfstype: "{{ item.fstype }}"
   loop: "{{ ansible_mounts }}"
   when: item.mount == "/"
 
@@ -28,7 +28,7 @@
   ansible.builtin.package:
     name: grub-btrfs
   become: true
-  when: grub_dir.stat.exists and rootfstype == "btrfs"
+  when: light_workstation_grub_dir.stat.exists and light_workstation_rootfstype == "btrfs"
 
 - name: Grub | Change grub timeout to 1 second
   tags:
@@ -39,8 +39,8 @@
     line: GRUB_TIMEOUT=1
     backrefs: true
   become: true
-  when: grub_dir.stat.exists
-  register: update_grub
+  when: light_workstation_grub_dir.stat.exists
+  register: light_workstation_update_grub
 
 - name: Grub | Change grub timeout to menu
   tags:
@@ -51,8 +51,8 @@
     line: GRUB_TIMEOUT_STYLE=menu
     backrefs: true
   become: true
-  when: grub_dir.stat.exists
-  register: update_grub2
+  when: light_workstation_grub_dir.stat.exists
+  register: light_workstation_update_grub2
 
 # - name: Grub | Speed up linux systems for workstations disabling mitigations - https://christitus.com/speedup-linux/
 #   tags:
@@ -87,8 +87,8 @@
     line: GRUB_DEFAULT=saved
     backrefs: true
   become: true
-  when: grub_dir.stat.exists
-  register: update_grub5
+  when: light_workstation_grub_dir.stat.exists
+  register: light_workstation_update_grub5
 
 - name: Grub | Set grub to keep the latest kernel that were started (LTS or Bleeding edge)
   tags:
@@ -99,8 +99,8 @@
     line: GRUB_SAVEDEFAULT=true
     backrefs: true
   become: true
-  when: grub_dir.stat.exists
-  register: update_grub6
+  when: light_workstation_grub_dir.stat.exists
+  register: light_workstation_update_grub6
 
 - name: Grub | Set grub to use its own graphics terminal driver so I can type LUKS password on external monitor
   tags:
@@ -111,8 +111,8 @@
     line: GRUB_TERMINAL_OUTPUT=gfxterm
     backrefs: true
   become: true
-  when: grub_dir.stat.exists
-  register: update_grub7
+  when: light_workstation_grub_dir.stat.exists
+  register: light_workstation_update_grub7
 
 - name: Grub | Copy file update-grub
   tags:
@@ -125,11 +125,11 @@
     mode: "0755"
   become: true
   when: >
-    update_grub is changed
-    or update_grub2 is changed
-    or update_grub5 is changed
-    or update_grub6 is changed
-    or update_grub7 is changed
-    and grub_dir.stat.exists
+    (light_workstation_update_grub is changed
+    or light_workstation_update_grub2 is changed
+    or light_workstation_update_grub5 is changed
+    or light_workstation_update_grub6 is changed
+    or light_workstation_update_grub7 is changed)
+    and light_workstation_grub_dir.stat.exists
   # or update_grub3 is changed
   # or update_grub4 is changed

@@ -3,16 +3,16 @@
   tags:
     - bluetooth
   ansible.builtin.set_fact:
-    bluez_utils: bluez-utils
-    pulseaudio_bluetooth: pulseaudio-bluetooth
+    light_workstation_bluez_utils: bluez-utils
+    light_workstation_pulseaudio_bluetooth: pulseaudio-bluetooth
   when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Bluetooth | Set bluez_utils and pulseaudio_bluetooth variable when distribution is Ubuntu (if necessary)
   tags:
     - bluetooth
   ansible.builtin.set_fact:
-    bluez_utils: bluez-alsa-utils
-    pulseaudio_bluetooth: pulseaudio-module-bluetooth
+    light_workstation_bluez_utils: bluez-alsa-utils
+    light_workstation_pulseaudio_bluetooth: pulseaudio-module-bluetooth
   when: ansible_facts["distribution"] == "Ubuntu"
 
 # - name: Bluetooth | Install pulseaudio-bluetooth
@@ -33,7 +33,7 @@
     name:
       - bluez
       - bluez-tools
-      - "{{ bluez_utils }}"
+      - "{{ light_workstation_bluez_utils }}"
     state: present
     update_cache: false
   become: true

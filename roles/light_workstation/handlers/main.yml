@@ -1,16 +1,16 @@
 ---
 - name: Set zathura as default pdf reader
   ansible.builtin.command: xdg-mime default org.pwmt.zathura.desktop application/pdf
-  register: zathura_xdg_mine
-  changed_when: zathura_xdg_mine.rc != 2
+  register: light_workstation_zathura_xdg_mine
+  changed_when: light_workstation_zathura_xdg_mine.rc != 2
 
 - name: Set up dotfiles
   tags:
     - dotfiles
   ansible.builtin.command: /usr/bin/git --git-dir={{ lookup('env', 'HOME') }}/.config/dotfiles/ --work-tree={{ lookup('env', 'HOME') }} checkout -f
   listen: set_up_dotfiles
-  register: dotfiles_set
-  changed_when: dotfiles_set.rc != 2
+  register: light_workstation_dotfiles_set
+  changed_when: light_workstation_dotfiles_set.rc != 2
 
 - name: Install wall-d
   tags:
@@ -19,8 +19,8 @@
   args:
     chdir: "{{ lookup('env', 'HOME') }}/.config/wall-d/"
   listen: install_wall-d
-  register: wall_d_installed
-  changed_when: wall_d_installed.rc != 2
+  register: light_workstation_wall_d_installed
+  changed_when: light_workstation_wall_d_installed.rc != 2
 
 - name: Start iwd
   tags:

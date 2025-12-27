@@ -51,11 +51,11 @@
     group: root
     mode: '0644'
   become: true
-  register: update_udev
+  register: light_workstation_update_udev
 
 - name: Autorandr | Reload udev rules
   tags:
     - autorandr
   ansible.builtin.command: udevadm control --reload-rules
   become: true
-  when: update_udev is changed
+  when: light_workstation_update_udev is changed

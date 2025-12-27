@@ -3,7 +3,7 @@
   tags:
     - packages
   ansible.builtin.set_fact:
-    xorg:
+    light_workstation_xorg:
       - xorg-server
       - xorg-xinit
       - xorg-xsetroot
@@ -11,35 +11,35 @@
       - xorg-setxkbmap
       - xorg-xinput # Used on configure-trackball script
       - xorg-xwininfo # Necessary for profile-selector script
-    rfkill: util-linux-libs
-    python_pip: python-pip
-    base_devel: base-devel
-    wpa_supplicant: wpa_supplicant
-    liberation_font: ttf-liberation
-    postgres: postgresql-libs
-    fd: fd
-    notify: libnotify
+    light_workstation_rfkill: util-linux-libs
+    light_workstation_python_pip: python-pip
+    light_workstation_base_devel: base-devel
+    light_workstation_wpa_supplicant: wpa_supplicant
+    light_workstation_liberation_font: ttf-liberation
+    light_workstation_postgres: postgresql-libs
+    light_workstation_fd: fd
+    light_workstation_notify: libnotify
   when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Packages | Set packages variable when distribution is Ubuntu (if necessary)
   tags:
     - packages
   ansible.builtin.set_fact:
-    xorg:
+    light_workstation_xorg:
       - xorg
       - libxrandr2
       - libxrandr-dev
       - xorg
       - xorg
       - xinput # Used on configure-trackball script
-    rfkill: rfkill
-    python_pip: pipenv
-    base_devel: make
-    wpa_supplicant: wpasupplicant
-    liberation_font: fonts-liberation
-    postgres: postgresql
-    fd: fd-find
-    notify: libnotify-bin
+    light_workstation_rfkill: rfkill
+    light_workstation_python_pip: pipenv
+    light_workstation_base_devel: make
+    light_workstation_wpa_supplicant: wpasupplicant
+    light_workstation_liberation_font: fonts-liberation
+    light_workstation_postgres: postgresql
+    light_workstation_fd: fd-find
+    light_workstation_notify: libnotify-bin
   when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Packages | Install packages and update cache
@@ -49,24 +49,24 @@
     name:
       - tmux
       - tmuxp
-      - "{{ xorg[0] }}"
-      - "{{ xorg[1] }}"
-      - "{{ xorg[2] }}"
-      - "{{ xorg[3] }}"
-      - "{{ xorg[4] }}"
-      - "{{ xorg[5] }}"
+      - "{{ light_workstation_xorg[0] }}"
+      - "{{ light_workstation_xorg[1] }}"
+      - "{{ light_workstation_xorg[2] }}"
+      - "{{ light_workstation_xorg[3] }}"
+      - "{{ light_workstation_xorg[4] }}"
+      - "{{ light_workstation_xorg[5] }}"
       - xbindkeys
       - arandr
       - numlockx
-      - "{{ python_pip }}"
+      - "{{ light_workstation_python_pip }}"
       - feh
       - unclutter
-      - "{{ base_devel }}"
+      - "{{ light_workstation_base_devel }}"
       - xclip
       - brightnessctl
-      - "{{ wpa_supplicant }}"
+      - "{{ light_workstation_wpa_supplicant }}"
       - ripgrep
-      - "{{ fd }}"
+      - "{{ light_workstation_fd }}"
       - fzf
       - lxsession # polkit agent to fill password when launching applications with my run launcher
       - flameshot
@@ -74,14 +74,14 @@
       - bat-extras
       - dunst
       - qt5ct # To set theme for qt applications
-      - "{{ rfkill }}"
+      - "{{ light_workstation_rfkill }}"
       - yamllint
       - ansible-lint
       - qutebrowser
       - unzip
-      - "{{ liberation_font }}"
-      - "{{ postgres }}"
-      - "{{ notify }}"
+      - "{{ light_workstation_liberation_font }}"
+      - "{{ light_workstation_postgres }}"
+      - "{{ light_workstation_notify }}"
       - mpv # Terminal based video player
       - yt-dlp # Download youtube videos, necessary to play youtube videos on mpv
       - pre-commit # To use with git to ensure format and linting before commits
@@ -135,21 +135,21 @@
     update_cache: true
   become: true
   when: ansible_facts["distribution"] == "Archlinux"
-  register: _set_defaults
+  register: light_workstation_set_defaults
 
 - name: Packages | Refresh fonts
   tags:
     - packages
   ansible.builtin.command: fc-cache
-  register: refresh_fonts
-  changed_when: refresh_fonts.rc != 2
+  register: light_workstation_refresh_fonts
+  changed_when: light_workstation_refresh_fonts.rc != 2
 
 
 - name: Packages | Set feh as default image viewer
   tags:
     - packages
   ansible.builtin.command: xdg-mime default feh.desktop image/png ; xdg-mime default feh.desktop image/jpeg
-  when: _set_defaults is changed
+  when: light_workstation_set_defaults is changed
 
 - name: Packages | Set LibreOffice as default for MS Office formats
   tags:
@@ -158,10 +158,10 @@
     xdg-mime default libreoffice-impress.desktop application/vnd.openxmlformats-officedocument.presentationml.presentation ;
     xdg-mime default libreoffice-writer.desktop application/vnd.openxmlformats-officedocument.wordprocessingml.document ;
     xdg-mime default libreoffice-calc.desktop application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-  when: _set_defaults is changed
+  when: light_workstation_set_defaults is changed
 
 - name: Packages | Update tldr
   tags:
     - packages
   ansible.builtin.command: tldr --update
-  when: _set_defaults is changed
+  when: light_workstation_set_defaults is changed

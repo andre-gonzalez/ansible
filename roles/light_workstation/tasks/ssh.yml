@@ -25,7 +25,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.ssh"
     mode: "0600"
     owner: "{{ lookup('env', 'USER') }}"
-  register: restart_ssh
+  register: light_workstation_restart_ssh
 
 - name: SSH | Disable root login via ssh
   tags:
@@ -38,7 +38,7 @@
     state: present
     backup: true
   become: true
-  register: restart_ssh2
+  register: light_workstation_restart_ssh2
 
 - name: SSH | Disable password login via ssh
   tags:
@@ -51,7 +51,7 @@
     state: present
     backup: true
   become: true
-  register: restart_ssh3
+  register: light_workstation_restart_ssh3
 
 - name: SSH | Restart ssh
   tags:
@@ -61,4 +61,4 @@
     name: sshd
     state: restarted
   become: true
-  when: restart_ssh is changed or restart_ssh2 is changed or restart_ssh3 is changed
+  when: light_workstation_restart_ssh is changed or light_workstation_restart_ssh2 is changed or light_workstation_restart_ssh3 is changed

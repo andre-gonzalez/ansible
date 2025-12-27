@@ -4,7 +4,7 @@
     - packages
     - collections-install
   ansible.builtin.set_fact:
-    python_pip: python-pip
+    light_workstation_python_pip: python-pip
   when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Collections Install | Set python_pip variable when distribution is Ubuntu (if necessary)
@@ -12,7 +12,7 @@
     - packages
     - collections-install
   ansible.builtin.set_fact:
-    python_pip: pipenv
+    light_workstation_python_pip: pipenv
   when: ansible_facts["distribution"] == "Ubuntu"
 
 - name: Collections Install | Install ansible-galaxy collections install package dependencies
@@ -20,7 +20,7 @@
     - collections-install
   ansible.builtin.package:
     name:
-      - "{{ python_pip }}"
+      - "{{ light_workstation_python_pip }}"
     state: present
     update_cache: true
   become: true
