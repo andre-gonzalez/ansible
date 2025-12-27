@@ -5,6 +5,7 @@
   ansible.builtin.get_url:
     url: terraform.gpg https://apt.releases.hashicorp.com/gpg
     dest: /usr/share/keyrings/terraform-archive-keyring.gpg
+    mode: "0644"
   become: true
   when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
