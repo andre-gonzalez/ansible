@@ -28,6 +28,6 @@
     - scripts
   ansible.builtin.copy:
     dest: /etc/profile.d/scripts.sh
-    content: 'PATH=$PATH:{{ light_workstation_scripts_path }}'
+    content: 'PATH=$PATH:{{ base_scripts_path }}'
     mode: '0644'
   become: true
