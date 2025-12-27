@@ -3,7 +3,7 @@
   tags:
     - nvidia
   ansible.builtin.shell: lspci -k -d ::03xx
-  register: lspci_output
+  register: nvidia_lspci_output
   become: true
   when: ansible_facts["distribution"] == "Archlinux"
 
@@ -14,25 +14,25 @@
     nvidia_package: >-
       {{
         (
-          "nvidia-open" if 'TU' in lspci_output.stdout and
-                          lspci_output.stdout.find('TU') + 5 < lspci_output.stdout|length and
-                          lspci_output.stdout[lspci_output.stdout.find('TU') + 2: lspci_output.stdout.find('TU') + 5].isdigit() and
+          "nvidia-open" if 'TU' in nvidia_lspci_output.stdout and
+                          nvidia_lspci_output.stdout.find('TU') + 5 < nvidia_lspci_output.stdout|length and
+                          nvidia_lspci_output.stdout[nvidia_lspci_output.stdout.find('TU') + 2: nvidia_lspci_output.stdout.find('TU') + 5].isdigit() and
                           ansible_kernel | regex_search('^[5,6,7].*') and
                           not (ansible_kernel | regex_search('lts'))
-          else "nvidia-open-lts" if 'TU' in lspci_output.stdout and
-                                   lspci_output.stdout.find('TU') + 5 < lspci_output.stdout|length and
-                                   lspci_output.stdout[lspci_output.stdout.find('TU') + 2: lspci_output.stdout.find('TU') + 5].isdigit() and
+          else "nvidia-open-lts" if 'TU' in nvidia_lspci_output.stdout and
+                                   nvidia_lspci_output.stdout.find('TU') + 5 < nvidia_lspci_output.stdout|length and
+                                   nvidia_lspci_output.stdout[nvidia_lspci_output.stdout.find('TU') + 2: nvidia_lspci_output.stdout.find('TU') + 5].isdigit() and
                                    ansible_kernel | regex_search('lts')
-          else "nvidia-open-dkms" if 'TU' in lspci_output.stdout and
-                                     lspci_output.stdout.find('TU') + 5 < lspci_output.stdout|length and
-                                     lspci_output.stdout[lspci_output.stdout.find('TU') + 2: lspci_output.stdout.find('TU') + 5].isdigit()
-          else "nvidia-580xx-dkms" if (('GM' in lspci_output.stdout or 'AD' in lspci_output.stdout or 'GP' in lspci_output.stdout) and
-                                       ((lspci_output.stdout.find('GM') + 5 < lspci_output.stdout|length and
-                                         lspci_output.stdout[lspci_output.stdout.find('GM') + 2: lspci_output.stdout.find('GM') + 5].isdigit()) or
-                                        (lspci_output.stdout.find('AD') + 5 < lspci_output.stdout|length and
-                                         lspci_output.stdout[lspci_output.stdout.find('AD') + 2: lspci_output.stdout.find('AD') + 5].isdigit()) or
-                                        (lspci_output.stdout.find('GP') + 5 < lspci_output.stdout|length and
-                                         lspci_output.stdout[lspci_output.stdout.find('GP') + 2: lspci_output.stdout.find('GP') + 5].isdigit())))
+          else "nvidia-open-dkms" if 'TU' in nvidia_lspci_output.stdout and
+                                     nvidia_lspci_output.stdout.find('TU') + 5 < nvidia_lspci_output.stdout|length and
+                                     nvidia_lspci_output.stdout[nvidia_lspci_output.stdout.find('TU') + 2: nvidia_lspci_output.stdout.find('TU') + 5].isdigit()
+          else "nvidia-580xx-dkms" if (('GM' in nvidia_lspci_output.stdout or 'AD' in nvidia_lspci_output.stdout or 'GP' in nvidia_lspci_output.stdout) and
+                                       ((nvidia_lspci_output.stdout.find('GM') + 5 < nvidia_lspci_output.stdout|length and
+                                         nvidia_lspci_output.stdout[nvidia_lspci_output.stdout.find('GM') + 2: nvidia_lspci_output.stdout.find('GM') + 5].isdigit()) or
+                                        (nvidia_lspci_output.stdout.find('AD') + 5 < nvidia_lspci_output.stdout|length and
+                                         nvidia_lspci_output.stdout[nvidia_lspci_output.stdout.find('AD') + 2: nvidia_lspci_output.stdout.find('AD') + 5].isdigit()) or
+                                        (nvidia_lspci_output.stdout.find('GP') + 5 < nvidia_lspci_output.stdout|length and
+                                         nvidia_lspci_output.stdout[nvidia_lspci_output.stdout.find('GP') + 2: nvidia_lspci_output.stdout.find('GP') + 5].isdigit())))
           else "none"
         )
       }}
