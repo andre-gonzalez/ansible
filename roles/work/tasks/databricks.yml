@@ -25,7 +25,6 @@
     - databricks
   ansible.builtin.pip:
     name: databricks-connect
-    state: latest
     extra_args: "--break-system-packages"
 
 - name: Databricks | Copy Databricks configuration files
