@@ -91,21 +91,21 @@
 - name: Parse status JSON
   listen: Confirm Tailscale is Connected
   vars:
-    status: "{{ tailscale_status.stdout | from_json }}"
+    base_status: "{{ tailscale_status.stdout | from_json }}"
   ansible.builtin.set_fact:
-    tailscale_is_online: "{{ status.Self.Online }}"
+    base_tailscale_is_online: "{{ base_status.Self.Online }}"
 
 - name: Tailscale online status
   listen: Confirm Tailscale is Connected
   ansible.builtin.debug:
-    msg: "Online: {{ tailscale_is_online }}"
+    msg: "Online: {{ base_tailscale_is_online }}"
   when: verbose
 
 - name: Assert Tailscale is Connected
   listen: Confirm Tailscale is Connected
   ansible.builtin.assert:
     that:
-      - tailscale_is_online
+      - base_tailscale_is_online
 
 - name: Restart qemu-guest-agent
   ansible.builtin.service:

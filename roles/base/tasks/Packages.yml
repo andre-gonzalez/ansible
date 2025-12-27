@@ -31,14 +31,14 @@
   tags:
     - packages
   ansible.builtin.set_fact:
-    intel: intel-ucode
+    base_intel: intel-ucode
   when: ansible_facts["distribution"] == "Archlinux" and "GenuineIntel" in ansible_processor
 
 - name: Packages | Set intel variable when distribution is Ubuntu (if necessary)
   tags:
     - packages
   ansible.builtin.set_fact:
-    intel: intel-microcode
+    base_intel: intel-microcode
   when: ansible_facts["distribution"] in ["Ubuntu", "Debian"] and "GenuineIntel" in ansible_processor
 
 - name: Packages | Enable contrib, non-free and non-free-firmware repos on debian-main
@@ -83,7 +83,7 @@
   tags:
     - packages
   ansible.builtin.package:
-    name: "{{ intel }}"
+    name: "{{ base_intel }}"
     state: present
     update_cache: true
   become: true
@@ -93,7 +93,7 @@
   tags:
     - packages
   ansible.builtin.set_fact:
-    amd: amd-ucode
+    base_amd: amd-ucode
   when: ansible_facts["distribution"] == "Archlinux" and "AuthenticAMD" in ansible_processor
 
 - name: Packages | Set amd variable when distribution is Ubuntu (if necessary)
@@ -101,7 +101,7 @@
     - processor-amd
     - never
   ansible.builtin.set_fact:
-    amd: amd64-microcode
+    base_amd: amd64-microcode
   when: ansible_facts["distribution"] == "Ubuntu" and "AuthenticAMD" in ansible_processor
 
 - name: Packages | Install microcode updates for amd (if necessary)
@@ -109,7 +109,7 @@
     - processor-amd
     - never
   ansible.builtin.package:
-    name: "{{ amd }}"
+    name: "{{ base_amd }}"
     state: present
     update_cache: true
   become: true
