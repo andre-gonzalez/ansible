@@ -13,7 +13,7 @@
     - fish
   ansible.builtin.stat:
     path: /etc/omf.installed
-  register: omf
+  register: base_omf
 
 - name: Fish | Clone oh-my-fish repo
   tags:
@@ -23,7 +23,7 @@
     repo: https://github.com/oh-my-fish/oh-my-fish
     dest: /tmp/omf
     clone: true
-  when: not omf.stat.exists
+  when: not base_omf.stat.exists
 
 - name: Fish | Install oh-my-fish
   tags:
@@ -31,7 +31,7 @@
   become: true
   become_user: "{{ lookup('env', 'USER') }}"
   ansible.builtin.command: /tmp/omf/bin/install -y --offline --noninteractive
-  when: not omf.stat.exists
+  when: not base_omf.stat.exists
   changed_when: true
   notify: Mark oh-my-fish installed with /etc/omf.installed
 

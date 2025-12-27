@@ -62,13 +62,13 @@
     - tailscale
   ansible.builtin.command: tailscale status --json
   changed_when: false
-  register: tailscale_status
+  register: base_tailscale_status
 
 - name: Tailscale | Parse status JSON
   tags:
     - tailscale
   vars:
-    base_status: "{{ tailscale_status.stdout | from_json }}"
+    base_status: "{{ base_tailscale_status.stdout | from_json }}"
   ansible.builtin.set_fact:
     base_tailscale_is_online: "{{ base_status.Self.Online }}"
     base_tailscale_version: "{{ base_status.Version }}"
@@ -89,7 +89,7 @@
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
     mode: "0644"
-  register: state_file
+  register: base_state_file
 
 - name: Tailscale | Bring Tailscale Up
   tags:
@@ -99,12 +99,12 @@
   # Since the auth key is included in this task's output, we do not want to log output
   no_log: "{{ not (insecurely_log_authkey | bool) }}"
   changed_when: true
-  register: tailscale_start
+  register: base_tailscale_start
   # If a failure occurred due to state changes, we still want to log a redacted version of the error if "no_log" is true
   ignore_errors: true
   when:
     - not tailscale_up_skip
-    - state_file is changed or not base_tailscale_is_online
+    - base_state_file is changed or not base_tailscale_is_online
   notify: Confirm Tailscale is Connected
   async: 60
   poll: 5
@@ -113,18 +113,18 @@
   tags:
     - tailscale
   ansible.builtin.debug:
-    msg: "{{ tailscale_start.stdout | replace(tailscale_authkey, 'REDACTED') | regex_replace('\\t', '') | split('\n') }}"
+    msg: "{{ base_tailscale_start.stdout | replace(tailscale_authkey, 'REDACTED') | regex_replace('\\t', '') | split('\n') }}"
   when:
-    - tailscale_start is failed
-    - tailscale_start.stdout | length > 0
-  register: nonsensitive_stdout
+    - base_tailscale_start is failed
+    - base_tailscale_start.stdout | length > 0
+  register: base_nonsensitive_stdout
 
 - name: Tailscale | Pausing to highlight stdout message above
   tags:
     - tailscale
   ansible.builtin.pause:
     seconds: 5
-  when: nonsensitive_stdout is not skipped
+  when: base_nonsensitive_stdout is not skipped
 
 - name: Tailscale | Clear State Upon Error
   tags:
@@ -133,12 +133,12 @@
     path: "{{ base_tailscale_state_folder }}/artis3n-tailscale/state"
     state: absent
   when:
-    - tailscale_start is failed
+    - base_tailscale_start is failed
 
 - name: Tailscale | Report redacted failure from "tailscale up" # noqa: no-handler
   tags:
     - tailscale
   ansible.builtin.fail:
-    msg: "{{ tailscale_start.stderr | default () | regex_replace('tskey.*\\s', 'REDACTED ') | regex_replace('\\t', '') | split('\n') }}"
+    msg: "{{ base_tailscale_start.stderr | default () | regex_replace('tskey.*\\s', 'REDACTED ') | regex_replace('\\t', '') | split('\n') }}"
   when:
-    - tailscale_start is failed
+    - base_tailscale_start is failed

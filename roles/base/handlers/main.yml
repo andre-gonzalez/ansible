@@ -37,8 +37,8 @@
   ansible.builtin.command: update-grub
   become: true
   listen: update grub
-  register: grub_update
-  changed_when: grub_update.rc != 2
+  register: base_grub_update
+  changed_when: base_grub_update.rc != 2
 
 - name: Restart ssh
   tags:
@@ -86,12 +86,12 @@
   listen: Confirm Tailscale is Connected
   ansible.builtin.command: tailscale status --json
   changed_when: false
-  register: tailscale_status
+  register: base_tailscale_status
 
 - name: Parse status JSON
   listen: Confirm Tailscale is Connected
   vars:
-    base_status: "{{ tailscale_status.stdout | from_json }}"
+    base_status: "{{ base_tailscale_status.stdout | from_json }}"
   ansible.builtin.set_fact:
     base_tailscale_is_online: "{{ base_status.Self.Online }}"
 
