@@ -26,11 +26,11 @@
   tags:
     - ssh
 
-- name: Server | Include tasks from docker play
-  ansible.builtin.include_tasks: tasks/docker.yml
-  tags:
-    - docker
-    - pihole
+# - name: Server | Include tasks from docker play
+#   ansible.builtin.include_tasks: tasks/docker.yml
+#   tags:
+#     - docker
+#     - pihole
 
 # - name: Server | Include tasks from pihole play
 #   ansible.builtin.include_tasks: tasks/pihole.yml
