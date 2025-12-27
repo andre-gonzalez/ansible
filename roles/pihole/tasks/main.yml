@@ -68,7 +68,7 @@
 - name: Pihole | Deploy Docker Compose pihole
   tags:
     - pihole
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ lookup('env', 'HOME') }}/pihole"
     files: docker-compose.yml
   become: true
