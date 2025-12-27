@@ -5,7 +5,7 @@
   ansible.builtin.shell: lspci -k -d ::03xx
   register: lspci_output
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Nvidia | Determine the package to install
   tags:
@@ -17,44 +17,33 @@
           "nvidia-open" if 'TU' in lspci_output.stdout and
                           lspci_output.stdout.find('TU') + 5 < lspci_output.stdout|length and
                           lspci_output.stdout[lspci_output.stdout.find('TU') + 2: lspci_output.stdout.find('TU') + 5].isdigit() and
-                          ansible_kernel | regex_search('^[5,6,7].*')
+                          ansible_kernel | regex_search('^[5,6,7].*') and
+                          not (ansible_kernel | regex_search('lts'))
+          else "nvidia-open-lts" if 'TU' in lspci_output.stdout and
+                                   lspci_output.stdout.find('TU') + 5 < lspci_output.stdout|length and
+                                   lspci_output.stdout[lspci_output.stdout.find('TU') + 2: lspci_output.stdout.find('TU') + 5].isdigit() and
+                                   ansible_kernel | regex_search('lts')
           else "nvidia-open-dkms" if 'TU' in lspci_output.stdout and
                                      lspci_output.stdout.find('TU') + 5 < lspci_output.stdout|length and
                                      lspci_output.stdout[lspci_output.stdout.find('TU') + 2: lspci_output.stdout.find('TU') + 5].isdigit()
-          else "nvidia-dkms" if ('GM' in lspci_output.stdout or 'AD' in lspci_output.stdout) and
-                               (lspci_output.stdout.find('GM') + 5 < lspci_output.stdout|length and
-                                lspci_output.stdout[lspci_output.stdout.find('GM') + 2: lspci_output.stdout.find('GM') + 5].isdigit() or
-                                lspci_output.stdout.find('AD') + 5 < lspci_output.stdout|length and
-                                lspci_output.stdout[lspci_output.stdout.find('AD') + 2: lspci_output.stdout.find('AD') + 5].isdigit()) and
-                               ansible_kernel | regex_search('zen')
-          else "nvidia" if ('GM' in lspci_output.stdout or 'AD' in lspci_output.stdout) and
-                          (lspci_output.stdout.find('GM') + 5 < lspci_output.stdout|length and
-                           lspci_output.stdout[lspci_output.stdout.find('GM') + 2: lspci_output.stdout.find('GM') + 5].isdigit() or
-                           lspci_output.stdout.find('AD') + 5 < lspci_output.stdout|length and
-                           lspci_output.stdout[lspci_output.stdout.find('AD') + 2: lspci_output.stdout.find('AD') + 5].isdigit()) and
-                          ansible_kernel | regex_search('^[5,6,7].*')
-          else "nvidia-lts" if ('GM' in lspci_output.stdout or 'AD' in lspci_output.stdout) and
-                              (lspci_output.stdout.find('GM') + 5 < lspci_output.stdout|length and
-                               lspci_output.stdout[lspci_output.stdout.find('GM') + 2: lspci_output.stdout.find('GM') + 5].isdigit() or
-                               lspci_output.stdout.find('AD') + 5 < lspci_output.stdout|length and
-                               lspci_output.stdout[lspci_output.stdout.find('AD') + 2: lspci_output.stdout.find('AD') + 5].isdigit()) and
-                              ansible_kernel | regex_search('lts')
-          else "nvidia-dkms" if ('GM' in lspci_output.stdout or 'AD' in lspci_output.stdout) and
-                               (lspci_output.stdout.find('GM') + 5 < lspci_output.stdout|length and
-                                lspci_output.stdout[lspci_output.stdout.find('GM') + 2: lspci_output.stdout.find('GM') + 5].isdigit() or
-                                lspci_output.stdout.find('AD') + 5 < lspci_output.stdout|length and
-                                lspci_output.stdout[lspci_output.stdout.find('AD') + 2: lspci_output.stdout.find('AD') + 5].isdigit())
+          else "nvidia-580xx-dkms" if (('GM' in lspci_output.stdout or 'AD' in lspci_output.stdout or 'GP' in lspci_output.stdout) and
+                                       ((lspci_output.stdout.find('GM') + 5 < lspci_output.stdout|length and
+                                         lspci_output.stdout[lspci_output.stdout.find('GM') + 2: lspci_output.stdout.find('GM') + 5].isdigit()) or
+                                        (lspci_output.stdout.find('AD') + 5 < lspci_output.stdout|length and
+                                         lspci_output.stdout[lspci_output.stdout.find('AD') + 2: lspci_output.stdout.find('AD') + 5].isdigit()) or
+                                        (lspci_output.stdout.find('GP') + 5 < lspci_output.stdout|length and
+                                         lspci_output.stdout[lspci_output.stdout.find('GP') + 2: lspci_output.stdout.find('GP') + 5].isdigit())))
           else "none"
         )
       }}
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Nvidia | Show selected package
   tags:
     - nvidia
   ansible.builtin.debug:
     msg: "Selected package to install: {{ nvidia_package }}"
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Nvidia | Uninstall unselected Nvidia packages
   tags:
@@ -64,13 +53,14 @@
     state: absent
   with_items:
     - nvidia-open
-    - nvidia
-    - nvidia-dkms
+    - nvidia-open-lts
+    - nvidia-open-dkms
+    - nvidia-580xx-dkms
     - nvidia-470xx-dkms
     - nvidia-390xx-dkms
     - nvidia-340xx-dkms
   become: true
-  when: item != nvidia_package and nvidia_package != "none" and ansible_distribution == "Archlinux"
+  when: item != nvidia_package and nvidia_package != "none" and ansible_facts["distribution"] == "Archlinux"
 
 - name: Nvidia | Install the properly Nvidia package
   tags:
@@ -82,8 +72,8 @@
     state: present
   become: true
   when:
-    - ansible_distribution == "Archlinux"
-    - nvidia_package not in ['nvidia-470xx-dkms', 'nvidia-390xx-dkms', 'nvidia-340xx-dkms']
+    - ansible_facts["distribution"] == "Archlinux"
+    - nvidia_package not in ['nvidia-580xx-dkms', 'nvidia-470xx-dkms', 'nvidia-390xx-dkms', 'nvidia-340xx-dkms']
     - nvidia_package != "none"
   notify: Run mkinitcpio
 
@@ -91,16 +81,27 @@
   kewlfft.aur.aur:
     name: "{{ nvidia_package }}"
     state: present
-  when: nvidia_package in ['nvidia-470xx-dkms', 'nvidia-390xx-dkms', 'nvidia-340xx-dkms'] and ansible_distribution == "Archlinux"
+  when: nvidia_package in ['nvidia-580xx-dkms', 'nvidia-470xx-dkms', 'nvidia-390xx-dkms', 'nvidia-340xx-dkms'] and ansible_facts["distribution"] == "Archlinux"
 
 - name: Nvidia | Fail if no suitable package was found
   tags:
     - nvidia
   ansible.builtin.fail:
     msg: "No suitable package found for the detected GPU."
-  when: nvidia_package == "none" and ansible_distribution == "Archlinux"
+  when: nvidia_package == "none" and ansible_facts["distribution"] == "Archlinux"
 
-- name: Nvidia | Install nvidia utilities
+- name: Nvidia | Install nvidia utilities (legacy packages)
+  tags:
+    - nvidia
+  kewlfft.aur.aur:
+    name: nvidia-580xx-settings
+    state: present
+  when:
+    - ansible_facts["distribution"] == "Archlinux"
+    - nvidia_package == "nvidia-580xx-dkms"
+  # Note: nvidia-580xx-utils is automatically installed as part of nvidia-580xx-dkms package base
+
+- name: Nvidia | Install nvidia utilities (modern packages)
   tags:
     - nvidia
   ansible.builtin.package:
@@ -108,7 +109,10 @@
       - nvidia-settings
       - nvidia-utils
   become: true
-  when: ansible_distribution == "Archlinux"
+  when:
+    - ansible_facts["distribution"] == "Archlinux"
+    - nvidia_package not in ['nvidia-580xx-dkms', 'nvidia-470xx-dkms', 'nvidia-390xx-dkms', 'nvidia-340xx-dkms']
+    - nvidia_package != "none"
 
 - name: Nvidia | Install envycontrol from AUR
   tags:
@@ -118,7 +122,7 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true
 
 - name: Nvidia | Ensure pacman hook directory exists
@@ -131,7 +135,7 @@
     group: root
     mode: "0755"
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Nvidia | Copy file nvidia pacman hook
   tags:
@@ -143,4 +147,4 @@
     group: root
     mode: "0744"
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"

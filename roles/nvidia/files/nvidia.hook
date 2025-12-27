@@ -3,10 +3,11 @@ Operation=Install
 Operation=Upgrade
 Operation=Remove
 Type=Package
-# Uncomment the installed NVIDIA package
-Target=nvidia
-#Target=nvidia-open
-#Target=nvidia-lts
+# NVIDIA packages - hook triggers on any of these
+Target=nvidia-open
+Target=nvidia-open-lts
+Target=nvidia-open-dkms
+Target=nvidia-580xx-dkms
 # If running a different kernel, modify below to match
 Target=linux
 
