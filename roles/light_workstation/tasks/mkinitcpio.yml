@@ -59,6 +59,6 @@
 - name: Mkinitcpio | Rebuild initramfs
   tags:
     - mkinitcpio
-  command: mkinitcpio -P
+  ansible.builtin.command: mkinitcpio -P
   when: light_workstation_mkinitcpio_updated is changed
   become: true
