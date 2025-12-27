@@ -12,5 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - name: Create vault password file
+        run: |
+          echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > .vault_key
+          chmod 600 .vault_key
       - name: Run ansible-lint
         uses: ansible/ansible-lint@v25.12.2

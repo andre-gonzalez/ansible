@@ -1,6 +1,15 @@
 # Automated ArchLinux workstation and server configuration
 This is my personal ansible playbook to install and configure my workstation and configure my server.
 
+# GitHub Actions CI/CD Setup
+For the ansible-lint validation pipeline to work in GitHub Actions, you need to configure a repository secret:
+1. Go to your GitHub repository Settings → Secrets and variables → Actions
+2. Click "New repository secret"
+3. Name: `ANSIBLE_VAULT_PASSWORD`
+4. Value: Your Ansible vault password
+5. Click "Add secret"
+
+The workflow will use this secret to create the `.vault_key` file needed by `ansible.cfg` during CI runs.
 
 # Encrypting ssh file
 1. Run `ansible-vault encrypt --vault-password-file [path_to_key_file] id_rsa`
