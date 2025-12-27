@@ -32,7 +32,12 @@
   tags:
     - mkinitcpio
   ansible.builtin.set_fact:
-    current_modules: "{{ mkinitcpio_conf_raw['content'] | b64decode | regex_search('^MODULES=\\((.*?)\\)', '\\1', multiline=True) | first | default('') | split() }}"
+    current_modules: >-
+      {{
+        mkinitcpio_conf_raw['content'] | b64decode |
+        regex_search('^MODULES=\\((.*?)\\)', '\\1', multiline=True) |
+        first | default('') | split()
+      }}
 
 - name: Mkinitcpio | Merge GPU modules into current modules (deduplicated)
   tags:
