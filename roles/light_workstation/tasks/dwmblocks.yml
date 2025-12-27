@@ -8,7 +8,7 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true
 
 - name: Dwmblocks | Install packages necessary for dwmblocks | Pacman
@@ -17,7 +17,7 @@
   ansible.builtin.package:
     name: playerctl
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Dwmblocks | Clone dwmblocks (Laptop)
   tags:

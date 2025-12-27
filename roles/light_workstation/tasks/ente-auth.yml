@@ -7,7 +7,7 @@
       - gnome-keyring
     state: present
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: ente-auth | Install ente-auth
   tags:
@@ -18,5 +18,5 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true

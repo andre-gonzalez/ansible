@@ -4,14 +4,14 @@
     - cron
   ansible.builtin.set_fact:
     cron: cronie
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Cron | Set cron variable when distribution is Ubuntu on Debian
   tags:
     - cron
   ansible.builtin.set_fact:
     cron: cron
-  when: ansible_distribution in ["Debian", "Ubuntu"]
+  when: ansible_facts["distribution"] in ["Debian", "Ubuntu"]
 
 - name: Cron | Install cron
   tags:

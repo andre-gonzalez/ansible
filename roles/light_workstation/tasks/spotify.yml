@@ -6,7 +6,7 @@
     name:
       - spotify-player
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Spotify | Copy file spotify-player
   tags:

@@ -18,7 +18,7 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: AWS VPN | Ensure ~/.local/bin exists
   tags:

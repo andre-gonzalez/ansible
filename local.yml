@@ -10,14 +10,14 @@
       community.general.pacman:
         update_cache: true
       changed_when: false
-      when: ansible_distribution == "Archlinux"
+      when: ansible_facts["distribution"] == "Archlinux"
 
     - name: Pre-run | Update package cache (debian, etc)
       tags: always
       ansible.builtin.apt:
         update_cache: true
       changed_when: false
-      when: ansible_distribution in ["Debian", "Ubuntu"]
+      when: ansible_facts["distribution"] in ["Debian", "Ubuntu"]
   # vars_prompt:
   #   - name: neomutt_email
   #     prompt: What is the email you want in neomutt?
@@ -93,11 +93,11 @@
       ansible.builtin.apt:
         autoclean: true
       changed_when: false
-      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+      when: ansible_facts["distribution"] in ["Debian", "Pop!_OS", "Ubuntu"]
 
     - name: Post-run | Autoremove orphan packages (debian and ubuntu)
       tags: always
       ansible.builtin.apt:
         autoremove: true
         purge: true
-      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+      when: ansible_facts["distribution"] in ["Debian", "Pop!_OS", "Ubuntu"]

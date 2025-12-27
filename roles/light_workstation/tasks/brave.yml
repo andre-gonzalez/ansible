@@ -5,7 +5,7 @@
   ansible.builtin.package:
     name: [curl, apt-transport-https]
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Brave | Brave Browser archive-keyring.gpg download in Ubuntu
   tags:
@@ -15,7 +15,7 @@
     dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
     mode: "0600"
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Brave | Brave Browser PPA setting in Ubuntu
   tags:
@@ -24,7 +24,7 @@
     repo: deb https://brave-browser-apt-release.s3.brave.com/ stable main
     state: present
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Brave | Brave Browser apt installation in Ubuntu
   tags:
@@ -33,7 +33,7 @@
     name: brave-browser
     update_cache: true
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Brave | Install brave via aur package
   tags:
@@ -44,5 +44,5 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true

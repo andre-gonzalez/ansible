@@ -10,7 +10,7 @@
       - openresolv
       - samba
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Samba | Ensure group sambausers exists
   tags:

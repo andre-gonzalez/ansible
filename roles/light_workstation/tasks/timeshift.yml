@@ -9,7 +9,7 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true
 
 - name: Timeshift | Copy file timeshift.json to /etc

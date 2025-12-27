@@ -6,14 +6,14 @@
     url: terraform.gpg https://apt.releases.hashicorp.com/gpg
     dest: /usr/share/keyrings/terraform-archive-keyring.gpg
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Terraform | Terraform PPA setting
   tags:
     - terraform
   ansible.builtin.shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/terraform-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" > /etc/apt/sources.list.d/terraform.list
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Terraform | Terraform apt installation
   tags:
@@ -22,7 +22,7 @@
     name: terraform
     update_cache: true
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Terraform | Install Terraform package
   tags:
@@ -33,7 +33,7 @@
     state: present
     update_cache: true
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Terraform | Install terraform language server
   tags:
@@ -44,7 +44,7 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true
 
 - name: Terraform | Install treesitter support for HCL (Terraform language)

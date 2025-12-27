@@ -2,13 +2,13 @@
 - name: Tailscale | Debian and related families
   tags:
     - tailscale
-  when: ansible_distribution in tailscale_debian_family_distros
+  when: ansible_facts["distribution"] in tailscale_debian_family_distros
   ansible.builtin.include_tasks: ./roles/base/tasks/tailscale-debian.yml
 
 - name: Tailscale | Arch
   tags:
     - tailscale
-  when: ansible_distribution == 'Archlinux'
+  when: ansible_facts["distribution"] == 'Archlinux'
   ansible.builtin.include_tasks: ./roles/base/tasks/tailscale-arch.yml
 
 - name: Tailscale | Remove legacy state folder

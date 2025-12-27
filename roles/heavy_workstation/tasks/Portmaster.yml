@@ -8,7 +8,7 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true
 
 - name: Portmaster | Generate a file to start portmaster
@@ -24,4 +24,4 @@
       #!/bin/sh
       /opt/safing/portmaster/portmaster-start app
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"

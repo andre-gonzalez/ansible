@@ -7,7 +7,7 @@
       - locales
     state: present
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Locale | Set timezone to "{{ timezone }}"
   tags:

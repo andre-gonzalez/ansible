@@ -21,7 +21,7 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true
 
 - name: AUR | Install informant
@@ -33,7 +33,7 @@
     use: yay
     state: present
     update_cache: false
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true
   register: informant_install
 

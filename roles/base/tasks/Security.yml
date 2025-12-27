@@ -50,7 +50,7 @@
       - audit
       - python-notify2
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   notify: start apparmor
 
 - name: Security | Install apparmor on Ubuntu or Debian
@@ -64,7 +64,7 @@
       - apparmor-profiles-extra
       - apparmor-profiles
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
   notify: start apparmor
 
 - name: Security | Enable apparmor in kernel parameters with audit enabled on Archlinux
@@ -76,7 +76,7 @@
     line: GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf" audit=1
     backrefs: true
   become: true
-  when: ansible_distribution == "Archlinux" and ansible_service_mgr == "grub"
+  when: ansible_facts["distribution"] == "Archlinux" and ansible_service_mgr == "grub"
   notify: update grub
 
 - name: Security | Ensure grub.d directory exists on Debian and Ubuntu
@@ -87,7 +87,7 @@
     mode: "0700"
     state: directory
     recurse: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Security | Ensure apparmor.cfg file exists on Debian and Ubuntu
   tags:
@@ -96,7 +96,7 @@
     dest: /etc/default/grub.d/apparmor.cfg
     mode: "0700"
     state: touch
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Security | Enable apparmor in kernel parameters with audit enabled on Debian and ubuntu
   tags:
@@ -106,7 +106,7 @@
     path: /etc/default/grub.d/apparmor.cfg
     line: GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT apparmor=1 security=apparmor"
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"] and ansible_service_mgr == "grub"
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"] and ansible_service_mgr == "grub"
   notify: update grub
 
 - name: Security | Install auditd package
@@ -116,7 +116,7 @@
   ansible.builtin.package:
     name: auditd
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
   notify: Restart auditd
 
 - name: Security | Ensure group audit exists
@@ -186,7 +186,7 @@
   ansible.builtin.package:
     name: unattended-upgrades
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Security | Install apt-listbugs to check if upgrades are safe on Debian and Ubuntu
   tags:
@@ -194,7 +194,7 @@
   ansible.builtin.package:
     name: apt-listbugs
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Security | Install libpam-tmpdir to improve security on tmp files
   tags:
@@ -202,7 +202,7 @@
   ansible.builtin.package:
     name: libpam-tmpdir
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Security | Install debsums to improve security verifying packages with known good database
   tags:
@@ -210,7 +210,7 @@
   ansible.builtin.package:
     name: debsums
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Security | Install apt-show-versions for patch managment
   tags:
@@ -218,7 +218,7 @@
   ansible.builtin.package:
     name: apt-show-versions
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Security | Install rkhunter as malware scanning tool
   tags:
@@ -235,7 +235,7 @@
     name:
       - chkrootkit
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Security | Add legal banners
   tags:
@@ -290,7 +290,7 @@
   ansible.builtin.package:
     name: libpam-passwdqc
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 # - name: Security | Install aide to monitor file changes
 #   tags:
@@ -298,7 +298,7 @@
 #   ansible.builtin.package:
 #     name: aide
 #   become: true
-#   when: ansible_distribution in ["Ubuntu", "Debian"]
+#   when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Security | Configure password strength testing
   tags:
@@ -309,7 +309,7 @@
     mode: "0644"
     create: true
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Security | Set maximum number of days a password can be used to 180
   tags:

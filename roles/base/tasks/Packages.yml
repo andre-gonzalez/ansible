@@ -5,7 +5,7 @@
   ansible.builtin.package:
     name: reflector
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   register: _update_mirrorlist
 
 - name: Packages | Update pacman mirrorlist
@@ -13,7 +13,7 @@
     - packages
   ansible.builtin.script: choose-mirror.sh
   become: true
-  when: ansible_distribution == "Archlinux" and _update_mirrorlist is changed
+  when: ansible_facts["distribution"] == "Archlinux" and _update_mirrorlist is changed
 
 - name: Packages | Copy file pacman.conf to /etc
   tags:
@@ -25,21 +25,21 @@
     group: root
     mode: "0644"
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Packages | Set intel variable when distribution is Archlinux (if necessary)
   tags:
     - packages
   ansible.builtin.set_fact:
     intel: intel-ucode
-  when: ansible_distribution == "Archlinux" and "GenuineIntel" in ansible_processor
+  when: ansible_facts["distribution"] == "Archlinux" and "GenuineIntel" in ansible_processor
 
 - name: Packages | Set intel variable when distribution is Ubuntu (if necessary)
   tags:
     - packages
   ansible.builtin.set_fact:
     intel: intel-microcode
-  when: ansible_distribution in ["Ubuntu", "Debian"] and "GenuineIntel" in ansible_processor
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"] and "GenuineIntel" in ansible_processor
 
 - name: Packages | Enable contrib, non-free and non-free-firmware repos on debian-main
   tags:
@@ -51,7 +51,7 @@
     suites: [trixie]
     components: [main, contrib, non-free, non-free-firmware]
     state: present
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 
 - name: Packages | Enable contrib, non-free and non-free-firmware updates repo on debian-updates
@@ -64,7 +64,7 @@
     suites: [trixie-updates]
     components: [main, contrib, non-free, non-free-firmware]
     state: present
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 
 - name: Packages | Enable contrib, non-free and non-free-firmware security repo on debian-security
@@ -77,7 +77,7 @@
     suites: [trixie-security]
     components: [main, contrib, non-free, non-free-firmware]
     state: present
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Packages | Install microcode updates for intel (if necessary)
   tags:
@@ -94,7 +94,7 @@
     - packages
   ansible.builtin.set_fact:
     amd: amd-ucode
-  when: ansible_distribution == "Archlinux" and "AuthenticAMD" in ansible_processor
+  when: ansible_facts["distribution"] == "Archlinux" and "AuthenticAMD" in ansible_processor
 
 - name: Packages | Set amd variable when distribution is Ubuntu (if necessary)
   tags:
@@ -102,7 +102,7 @@
     - never
   ansible.builtin.set_fact:
     amd: amd64-microcode
-  when: ansible_distribution == "Ubuntu" and "AuthenticAMD" in ansible_processor
+  when: ansible_facts["distribution"] == "Ubuntu" and "AuthenticAMD" in ansible_processor
 
 - name: Packages | Install microcode updates for amd (if necessary)
   tags:
@@ -144,7 +144,7 @@
       - /var/lib/cloud/
     state: absent
   become: true
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Packages | Install base packages
   tags:

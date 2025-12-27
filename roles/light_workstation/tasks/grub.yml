@@ -12,7 +12,7 @@
   ansible.builtin.package:
     name: grub
   become: true
-  when: ansible_distribution == "Archlinux" and grub_dir.stat.exists
+  when: ansible_facts["distribution"] == "Archlinux" and grub_dir.stat.exists
 
 - name: Get root filesystem type
   tags:

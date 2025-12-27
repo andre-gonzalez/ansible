@@ -5,4 +5,4 @@
   ansible.builtin.package:
     name: intel-media-driver
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"

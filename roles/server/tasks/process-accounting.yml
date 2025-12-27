@@ -6,7 +6,7 @@
     name: acct
     state: present
   become: true
-  when: ansible_distribution in ["Debian", "Ubuntu"]
+  when: ansible_facts["distribution"] in ["Debian", "Ubuntu"]
 
 - name: Process Accounting | Enable and strat acct process
   tags:

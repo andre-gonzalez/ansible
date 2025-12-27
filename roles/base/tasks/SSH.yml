@@ -4,14 +4,14 @@
     - ssh
   ansible.builtin.set_fact:
     ssh_package: openssh
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: SSH | Set intel variable when distribution is Ubuntu or Debian
   tags:
     - ssh
   ansible.builtin.set_fact:
     ssh_package: openssh-server
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: SSH | Install openssh
   tags:

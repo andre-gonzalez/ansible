@@ -19,7 +19,7 @@
     postgres: postgresql-libs
     fd: fd
     notify: libnotify
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Packages | Set packages variable when distribution is Ubuntu (if necessary)
   tags:
@@ -40,7 +40,7 @@
     postgres: postgresql
     fd: fd-find
     notify: libnotify-bin
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Packages | Install packages and update cache
   tags:
@@ -134,7 +134,7 @@
     state: present
     update_cache: true
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   register: _set_defaults
 
 - name: Packages | Refresh fonts

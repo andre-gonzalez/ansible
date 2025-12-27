@@ -245,7 +245,7 @@
     state: present
     update_cache: true
   ignore_errors: true
-  when: '"Notebook" in ansible_facts["form_factor"] and ansible_distribution == "Archlinux"'
+  when: '"Notebook" in ansible_facts["form_factor"] and ansible_facts["distribution"] == "Archlinux"'
 
 - name: Save Battery | Install intel-undervolt package
   tags:

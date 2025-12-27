@@ -8,7 +8,7 @@
     repo: https://aur.archlinux.org/yay-bin.git
     dest: "{{ lookup('env', 'HOME') }}/.config/yay"
     update: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Yay | Create the `aur_builder` user
   tags:
@@ -19,7 +19,7 @@
     create_home: true
     group: wheel
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Yay | Allow the `aur_builder` user to run `sudo pacman` without a password
   tags:
@@ -32,7 +32,7 @@
     validate: visudo -cf %s
     mode: "0440"
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Yay | Build and install yay
   tags:
@@ -42,4 +42,4 @@
     chdir: "{{ lookup('env', 'HOME') }}/.config/yay"
     cmd: makepkg -sfi --noconfirm
     creates: /usr/bin/yay
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"

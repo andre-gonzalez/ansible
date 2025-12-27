@@ -7,6 +7,6 @@
       - broadcom-wl
     state: present
     update_cache: false
-  when: ansible_distribution in ["Archlinux"]
+  when: ansible_facts["distribution"] in ["Archlinux"]
   become: true
   # notify: restart_network

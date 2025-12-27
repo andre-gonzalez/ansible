@@ -5,7 +5,7 @@
   ansible.builtin.package:
     name: chromium
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Web Browser | Copy ufw web browsing rule file
   tags:
@@ -38,5 +38,5 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true

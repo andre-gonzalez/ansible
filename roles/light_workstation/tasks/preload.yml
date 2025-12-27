@@ -8,7 +8,7 @@
     use: yay
     state: present
     update_cache: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
   ignore_errors: true
   register: restart_preload
 
@@ -20,7 +20,7 @@
       - preload
     state: present
   become: true
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_facts["distribution"] == "Ubuntu"
   register: restart_preload2
 
 - name: Preload | Copy file preload.conf to /etc

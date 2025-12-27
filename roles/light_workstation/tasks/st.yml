@@ -5,7 +5,7 @@
   ansible.builtin.package:
     name: ttf-dejavu
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: St | Clone st
   tags:

@@ -79,7 +79,7 @@
     state: present
     update_cache: false
   become: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts["distribution"] == "Archlinux"
 
 - name: Neovim | Install pyright (python language server via snap)
   tags:
@@ -90,7 +90,7 @@
     state: present
     classic: true
   become: true
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_facts["distribution"] == "Ubuntu"
 
 # - name: Neovim | Install sql-language-server and ansible-language-server package
 # tags:
@@ -103,7 +103,7 @@
 #   use: yay
 #   state: present
 #   update_cache: true
-# when: ansible_distribution == "Archlinux"
+# when: ansible_facts["distribution"] == "Archlinux"
 # ignore_errors: true
 
 # - name: Neovim | Install grammarly-languageserver and json language server
@@ -124,7 +124,7 @@
     name: ansible-language-server
     global: true
     state: present
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
 - name: Neovim | Create neovim directory for autoloading configurations
   tags:

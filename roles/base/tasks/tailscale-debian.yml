@@ -11,10 +11,10 @@
   ansible.builtin.apt:
     name: "{{ tailscale_legacy_apt_dependencies }}"
   when:
-    - ansible_distribution_major_version | int < 11
+    - ansible_facts["distribution"]_major_version | int < 11
     # Prelease versions of debian tend to not have a version integer yet
-    - ansible_distribution_major_version != "testing"
-    - ansible_distribution_major_version != "n/a"
+    - ansible_facts["distribution"]_major_version != "testing"
+    - ansible_facts["distribution"]_major_version != "n/a"
 
 - name: tailscale-debian | Tailscale | Add Tailscale Signing Key
   become: true
