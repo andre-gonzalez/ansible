@@ -223,6 +223,7 @@
 - name: Security | Install rkhunter as malware scanning tool
   tags:
     - security
+    - rkhunter
   ansible.builtin.package:
     name:
       - rkhunter
@@ -231,6 +232,7 @@
 - name: Security | Install chkrootkit as malware scanning tools
   tags:
     - security
+    - chkrootkit
   ansible.builtin.package:
     name:
       - chkrootkit
