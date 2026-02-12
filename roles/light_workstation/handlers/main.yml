@@ -41,3 +41,11 @@
     enabled: true
   become: true
   when: restart_network is changed
+
+- name: Reload systemd daemon
+  tags:
+    - systemd
+    - autologin
+  ansible.builtin.systemd:
+    daemon_reload: true
+  become: true

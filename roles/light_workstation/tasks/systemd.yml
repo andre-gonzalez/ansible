@@ -1,21 +1,42 @@
 ---
+- name: Systemd | Create getty@tty1 drop-in directory
+  tags:
+    - systemd
+  ansible.builtin.file:
+    path: /etc/systemd/system/getty@tty1.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+
 - name: Systemd | Do not ask for the username in tty
   tags:
     - systemd
-  ansible.builtin.lineinfile:
-    path: /etc/systemd/system/getty.target.wants/getty@tty1.service
-    regexp: ^ExecStart=.*
-    line: ExecStart=-/sbin/agetty -n -o {{ lookup('env', 'USER') }} %I
-    backrefs: true
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/getty@tty1.service.d/override.conf
+    content: |
+      [Service]
+      ExecStart=
+      ExecStart=-/sbin/agetty -n -o {{ lookup('env', 'USER') }} %I
+    owner: root
+    group: root
+    mode: "0644"
   become: true
+  notify: Reload systemd daemon
 
 - name: Systemd | Set autologin
   tags:
     - never
     - autologin
-  ansible.builtin.lineinfile:
-    path: /etc/systemd/system/getty.target.wants/getty@tty1.service
-    regexp: ^ExecStart=.*
-    line: ExecStart=-/sbin/agetty -a frank - $TERM
-    backrefs: true
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/getty@tty1.service.d/override.conf
+    content: |
+      [Service]
+      ExecStart=
+      ExecStart=-/sbin/agetty -a {{ lookup('env', 'USER') }} - $TERM
+    owner: root
+    group: root
+    mode: "0644"
   become: true
+  notify: Reload systemd daemon
