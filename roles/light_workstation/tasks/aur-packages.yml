@@ -18,6 +18,7 @@
       - arc-gtk-theme # Set theme for gtk apps
       - ttf-joypixels
       - checkupdates-with-aur
+      - noisetorch-bin # Noise supression program for web calls
     use: yay
     state: present
     update_cache: true
