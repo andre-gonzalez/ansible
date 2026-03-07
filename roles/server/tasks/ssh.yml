@@ -15,7 +15,7 @@
     user: root
     name: stop ssh at night
     hour: "0"
-    disabled: false
+    disabled: true
     job: systemctl stop sshd
   become: true
 
@@ -26,7 +26,7 @@
     user: root
     name: Start ssh at morning
     hour: "5"
-    disabled: false
+    disabled: true
     job: systemctl start sshd
   become: true
 
