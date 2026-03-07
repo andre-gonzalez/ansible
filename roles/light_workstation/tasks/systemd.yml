@@ -2,6 +2,7 @@
 - name: Systemd | Create getty@tty1 drop-in directory
   tags:
     - systemd
+    - autologin
   ansible.builtin.file:
     path: /etc/systemd/system/getty@tty1.service.d
     state: directory
@@ -13,6 +14,7 @@
 - name: Systemd | Do not ask for the username in tty
   tags:
     - systemd
+    - autologin
   ansible.builtin.copy:
     dest: /etc/systemd/system/getty@tty1.service.d/override.conf
     content: |
