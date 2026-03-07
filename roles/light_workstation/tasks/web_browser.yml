@@ -1,11 +1,15 @@
 ---
-- name: Web Browser | Install chromium
+- name: Web Browser | Install helium
   tags:
-    - web_browser
-  ansible.builtin.package:
-    name: chromium
-  become: true
+    - aur
+  kewlfft.aur.aur:
+    name:
+      - helium-browser-bin
+    use: yay
+    state: present
+    update_cache: true
   when: ansible_facts["distribution"] == "Archlinux"
+  ignore_errors: true
 
 - name: Web Browser | Copy ufw web browsing rule file
   tags:
