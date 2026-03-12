@@ -1,2 +1,4 @@
 frank ALL=(ALL) NOPASSWD: ALL
 frank ALL = NOPASSWD: /usr/bin/rsync
+frank ALL=(ALL) NOPASSWD: /usr/bin/umount /mnt/hd-externo
+frank ALL=(ALL) NOPASSWD: /usr/bin/umount /mnt/ntfs-hd-externo
