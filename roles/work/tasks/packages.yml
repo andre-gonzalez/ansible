@@ -1,5 +1,5 @@
 ---
-- name: Packages | Install packages and update cache
+- name: Packages | Install drawio
   tags:
     - packages
   ansible.builtin.package:
@@ -8,3 +8,15 @@
     state: present
     update_cache: true
   become: true
+
+- name: Packages | Install claude-code
+  tags:
+    - aur
+  kewlfft.aur.aur:
+    name:
+      - claude-code
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_facts["distribution"] == "Archlinux"
+  ignore_errors: true
