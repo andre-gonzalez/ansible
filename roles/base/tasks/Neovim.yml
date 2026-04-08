@@ -5,6 +5,7 @@
   ansible.builtin.package:
     name:
       - neovim
+      - tree-sitter-cli
     state: present
     update_cache: false
   become: true
