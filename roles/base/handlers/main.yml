@@ -19,26 +19,14 @@
   become: true
   listen: start fail2ban
 
-- name: Copy file update-grub
+- name: Run grub-mkconfig
   tags:
     - grub
-  ansible.builtin.copy:
-    src: update-grub
-    dest: /usr/sbin
-    owner: root
-    group: root
-    mode: "0755"
-  become: true
-  listen: update grub
-
-- name: Run update grub
-  tags:
-    - grub
-  ansible.builtin.command: update-grub
+  ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
   become: true
   listen: update grub
   register: base_grub_update
-  changed_when: base_grub_update.rc != 2
+  changed_when: base_grub_update.rc != 0
 
 - name: Restart ssh
   tags:
