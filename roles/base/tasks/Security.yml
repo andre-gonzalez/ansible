@@ -236,7 +236,7 @@
   ansible.builtin.find:
     paths: /etc/apparmor.d
     patterns: "*.apparmor.d"
-  register: apparmor_d_profiles
+  register: base_apparmor_d_profiles
   become: true
 
 - name: Security | Remove system profiles conflicting with apparmor.d package
@@ -246,7 +246,20 @@
   ansible.builtin.file:
     path: "/etc/apparmor.d/{{ item.path | basename | regex_replace('\\.apparmor\\.d$', '') }}"
     state: absent
-  loop: "{{ apparmor_d_profiles.files }}"
+  loop: "{{ base_apparmor_d_profiles.files }}"
+  become: true
+  notify: start apparmor
+
+- name: Security | Copy apparmor local override for git to allow lowercase projects dir
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.copy:
+    src: apparmor-local-git
+    dest: /etc/apparmor.d/local/git
+    owner: root
+    group: root
+    mode: "0644"
   become: true
   notify: start apparmor
 
@@ -262,6 +275,12 @@
     mode: "0644"
   become: true
   notify: start apparmor
+
+- name: Security | Flush handlers to reload AppArmor before enforcing profiles
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.meta: flush_handlers
 
 - name: Security | Enforce apparmor profiles for high-risk applications
   tags:
@@ -285,9 +304,9 @@
     - obsidian
     - vscode
   become: true
-  register: aa_enforce_result
-  changed_when: "'Setting' in aa_enforce_result.stdout"
-  failed_when: aa_enforce_result.rc != 0 and 'No such file' not in aa_enforce_result.stderr
+  register: base_aa_enforce_result
+  changed_when: "'Setting' in base_aa_enforce_result.stdout"
+  failed_when: base_aa_enforce_result.rc != 0 and 'No such file' not in base_aa_enforce_result.stderr
 
 - name: Security | Install security updates automatically
   tags:
