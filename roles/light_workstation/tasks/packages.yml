@@ -87,6 +87,7 @@
       - pre-commit # To use with git to ensure format and linting before commits
       - bc # Terminal calculator
       - shellcheck # Shell script static analysis tool
+	  - shfmt # Format shell programs
     state: present
     update_cache: true
   become: true
