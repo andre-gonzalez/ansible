@@ -5,6 +5,12 @@ owner @{HOME}/projects/**/.git/hooks/* rix,
 owner @{HOME}/athenaworks/uberall/repos rw,
 owner @{HOME}/athenaworks/uberall/repos/** rwkl -> @{HOME}/projects/**,
 owner @{HOME}/athenaworks/uberall/repos/**/.git/hooks/* rix,
+owner @{HOME}/.scripts/ rw,
+owner @{HOME}/.scripts/** rwkl -> @{HOME}/projects/**,
+owner @{HOME}/.scripts/**/.git/hooks/* rix,
+owner @{HOME}/.config/ rw,
+owner @{HOME}/.config/** rwkl -> @{HOME}/projects/**,
+owner @{HOME}/.config/**/.git/hooks/* rix,
 
 # Allow delta as pager
 @{bin}/delta ix,
