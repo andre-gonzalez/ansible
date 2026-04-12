@@ -1,0 +1,10 @@
+# Allow access to lowercase ~/projects/ directory
+owner @{HOME}/projects/ rw,
+owner @{HOME}/projects/** rwkl -> @{HOME}/projects/**,
+owner @{HOME}/projects/**/.git/hooks/* rix,
+owner @{HOME}/athenaworks/uberall/repos rw,
+owner @{HOME}/athenaworks/uberall/repos/** rwkl -> @{HOME}/projects/**,
+owner @{HOME}/athenaworks/uberall/repos/**/.git/hooks/* rix,
+
+# Allow delta as pager
+@{bin}/delta ix,
