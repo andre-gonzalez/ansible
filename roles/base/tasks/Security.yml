@@ -276,6 +276,32 @@
   become: true
   notify: start apparmor
 
+- name: Security | Copy apparmor profile for slack
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.copy:
+    src: apparmor-slack
+    dest: /etc/apparmor.d/slack
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: start apparmor
+
+- name: Security | Copy apparmor local override for slack
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.copy:
+    src: apparmor-local-slack
+    dest: /etc/apparmor.d/local/slack
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: start apparmor
+
 - name: Security | Flush handlers to reload AppArmor before enforcing profiles
   tags:
     - security

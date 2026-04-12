@@ -1,0 +1,18 @@
+# /etc access needed by libuv
+/etc/ r,
+/etc/lsb-release r,
+
+# Crashpad uses 'Crashpad/' not 'Crash Reports/' (chromium abstraction default)
+owner @{user_config_dirs}/Slack/Crashpad/ r,
+owner @{user_config_dirs}/Slack/Crashpad/** rwk,
+
+# Terminal access (slack writes startup output to the launching terminal)
+owner /dev/pts/[0-9]* rw,
+
+# Native node modules inside asar unpacked dir need executable mmap
+/usr/lib/slack/resources/app.asar.unpacked/**  r,
+/usr/lib/slack/resources/app.asar.unpacked/**.node mr,
+
+# Vulkan implicit layers in ~/.config (not covered by vulkan-strict abstraction)
+owner @{user_config_dirs}/vulkan/ r,
+owner @{user_config_dirs}/vulkan/** r,

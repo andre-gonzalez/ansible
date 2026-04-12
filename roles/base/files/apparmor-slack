@@ -1,0 +1,23 @@
+abi <abi/4.0>,
+include <tunables/global>
+
+@{name}        = slack
+@{domain}      = com.slack.Slack org.chromium.Chromium
+@{lib_dirs}    = /usr/lib/slack
+@{config_dirs} = @{user_config_dirs}/Slack
+@{cache_dirs}  = @{user_cache_dirs}/Slack
+@{att}         = /att/slack/
+
+@{exec_path} = @{lib_dirs}/slack
+
+profile slack @{exec_path} {
+  include <abstractions/base>
+  include <abstractions/app/chromium>
+
+  userns,
+
+  @{exec_path}                           mrix,
+  @{lib_dirs}/chrome_crashpad_handler    ix,
+
+  include if exists <local/slack>
+}
