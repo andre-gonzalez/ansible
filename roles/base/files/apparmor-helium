@@ -1,11 +1,23 @@
-# This profile allows everything and only exists to give the
-# application a name instead of having the label "unconfined"
-
 abi <abi/4.0>,
 include <tunables/global>
 
+@{name}        = helium
+@{domain}      = net.imput.helium org.chromium.Chromium
+@{lib_dirs}    = /opt/helium-browser-bin
+@{config_dirs} = @{user_config_dirs}/@{domain}
+@{cache_dirs}  = @{user_cache_dirs}/@{domain}
+@{att}         = /att/helium/
+
+@{exec_path} = @{lib_dirs}/helium
+
 profile helium /opt/helium-browser-bin/helium {
+  include <abstractions/base>
+  include <abstractions/app/chromium>
+
   userns,
+
+  @{exec_path}                              mrix,
+  @{lib_dirs}/helium_crashpad_handler       px -> helium//&helium//crashpad_handler,
 
   # Site-specific additions and overrides. See local/README for details.
   include if exists <local/helium>
