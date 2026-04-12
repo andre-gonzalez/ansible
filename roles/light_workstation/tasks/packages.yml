@@ -86,6 +86,7 @@
       - yt-dlp # Download youtube videos, necessary to play youtube videos on mpv
       - pre-commit # To use with git to ensure format and linting before commits
       - bc # Terminal calculator
+      - shellcheck # Shell script static analysis tool
     state: present
     update_cache: true
   become: true
