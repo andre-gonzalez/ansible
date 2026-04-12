@@ -17,4 +17,4 @@ jobs:
           echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > .vault_key
           chmod 600 .vault_key
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@v26.3.0
+        uses: ansible/ansible-lint@v26.4.0
