@@ -160,6 +160,30 @@
     line: log_group = audit
   become: true
 
+- name: Security | Configure audit rules for hardening
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.copy:
+    dest: /etc/audit/rules.d/hardening.rules
+    owner: root
+    group: root
+    mode: "0640"
+    content: |
+      # Monitor privileged command execution
+      -a always,exit -F arch=b64 -S execve -F euid=0 -k root_commands
+      # Monitor sudo use
+      -w /etc/sudoers -p wa -k sudoers_changes
+      # Monitor SSH config changes
+      -w /etc/ssh/sshd_config -p wa -k sshd_config
+      # Monitor passwd/shadow changes
+      -w /etc/passwd -p wa -k passwd_changes
+      -w /etc/shadow -p wa -k shadow_changes
+      # Monitor AppArmor policy changes
+      -w /etc/apparmor.d/ -p wa -k apparmor_policy
+  become: true
+  notify: Restart auditd
+
 - name: Security | Ensure autostart directory exists.
   tags:
     - pihole
@@ -192,6 +216,29 @@
     line: write-cache
     backrefs: true
   become: true
+
+- name: Security | Enforce apparmor profiles for high-risk applications
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.command:
+    cmd: aa-enforce {{ item }}
+  loop:
+    - firefox
+    - brave
+    - chrome
+    - chromium
+    - thunderbird
+    - signal-desktop
+    - discord
+    - slack
+    - qutebrowser
+    - transmission
+    - unprivileged_userns
+  become: true
+  register: aa_enforce_result
+  changed_when: "'Setting' in aa_enforce_result.stdout"
+  failed_when: aa_enforce_result.rc != 0 and 'No such file' not in aa_enforce_result.stderr
 
 - name: Security | Install security updates automatically
   tags:
