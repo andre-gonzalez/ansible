@@ -1,0 +1,3 @@
+# Allow picom to read its config file
+owner @{user_config_dirs}/picom/picom.conf r,
+/etc/xdg/picom.conf r,

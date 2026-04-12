@@ -1,0 +1,4 @@
+# Allow network socket creation needed for nameservice resolution (glibc NSS)
+network netlink raw,
+network inet    dgram,
+network inet6   dgram,

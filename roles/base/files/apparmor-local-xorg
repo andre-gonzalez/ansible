@@ -1,0 +1,10 @@
+# Allow receiving DRI and input device file descriptors passed from logind via SCM_RIGHTS.
+# When attach_disconnected.path is set, received fds get the /att/xorg/ prefix.
+@{att}dev/dri/card@{int}     rw,
+@{att}dev/dri/renderD@{int}  rw,
+@{att}dev/input/event@{int}  rw,
+@{att}dev/input/mice         rw,
+@{att}dev/input/mouse@{int}  rw,
+
+# Allow Xorg to read its own process stats
+owner @{PROC}/@{pid}/stat r,

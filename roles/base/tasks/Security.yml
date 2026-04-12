@@ -250,6 +250,44 @@
   become: true
   notify: start apparmor
 
+- name: Security | Copy apparmor local overrides for X11 stack
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - {src: apparmor-local-xorg,  dest: /etc/apparmor.d/local/xorg}
+    - {src: apparmor-local-xinit, dest: /etc/apparmor.d/local/xinit}
+    - {src: apparmor-local-xauth, dest: /etc/apparmor.d/local/xauth}
+    - {src: apparmor-local-picom, dest: /etc/apparmor.d/local/picom}
+  become: true
+  notify: start apparmor
+
+- name: Security | Set X11 utility profiles to complain mode
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.command:
+    cmd: aa-complain {{ item }}
+  loop:
+    - xrandr
+    - numlockx
+    - rfkill
+    - xautolock
+    - xdg-user-dirs-update
+    - lsb-release
+    - nvidia_modprobe
+    - child-modprobe-nvidia
+  become: true
+  register: base_aa_complain_result
+  changed_when: "'Setting' in base_aa_complain_result.stdout"
+  failed_when: base_aa_complain_result.rc != 0 and 'No such file' not in base_aa_complain_result.stderr
+
 - name: Security | Copy apparmor local override for git to allow lowercase projects dir
   tags:
     - security
@@ -296,6 +334,45 @@
   ansible.builtin.copy:
     src: apparmor-local-slack
     dest: /etc/apparmor.d/local/slack
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: start apparmor
+
+- name: Security | Copy apparmor local override for xinit to allow tty, /usr/local/bin and home scripts
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.copy:
+    src: apparmor-local-xinit
+    dest: /etc/apparmor.d/local/xinit
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: start apparmor
+
+- name: Security | Copy apparmor local override for xorg to allow DRI file_receive via logind
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.copy:
+    src: apparmor-local-xorg
+    dest: /etc/apparmor.d/local/xorg
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: start apparmor
+
+- name: Security | Copy apparmor local override for xauth to allow nameservice sockets
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.copy:
+    src: apparmor-local-xauth
+    dest: /etc/apparmor.d/local/xauth
     owner: root
     group: root
     mode: "0644"
