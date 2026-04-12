@@ -53,6 +53,17 @@
   when: ansible_facts["distribution"] == "Archlinux"
   notify: start apparmor
 
+- name: Security | Ensure apparmor service is enabled and started on Archlinux
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.service:
+    name: apparmor
+    state: started
+    enabled: true
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
 - name: Security | Install apparmor on Ubuntu or Debian
   tags:
     - security
@@ -70,13 +81,15 @@
 - name: Security | Enable apparmor in kernel parameters with audit enabled on Archlinux
   tags:
     - grub
+    - security
+    - apparmor
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: .*GRUB_CMDLINE_LINUX_DEFAULT=.*
-    line: GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf" audit=1
+    line: GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf audit=1"
     backrefs: true
   become: true
-  when: ansible_facts["distribution"] == "Archlinux" and ansible_service_mgr == "grub"
+  when: ansible_facts["distribution"] == "Archlinux"
   notify: update grub
 
 - name: Security | Ensure grub.d directory exists on Debian and Ubuntu
