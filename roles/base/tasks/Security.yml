@@ -217,6 +217,52 @@
     backrefs: true
   become: true
 
+- name: Security | Install apparmor.d profile collection from AUR
+  tags:
+    - security
+    - apparmor
+    - aur
+  kewlfft.aur.aur:
+    name: apparmor.d-enforced
+    state: present
+    use: yay
+  when: ansible_facts["distribution"] == "Archlinux"
+  become: false
+
+- name: Security | Find system profiles superseded by apparmor.d package
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.find:
+    paths: /etc/apparmor.d
+    patterns: "*.apparmor.d"
+  register: apparmor_d_profiles
+  become: true
+
+- name: Security | Remove system profiles conflicting with apparmor.d package
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.file:
+    path: "/etc/apparmor.d/{{ item.path | basename | regex_replace('\\.apparmor\\.d$', '') }}"
+    state: absent
+  loop: "{{ apparmor_d_profiles.files }}"
+  become: true
+  notify: start apparmor
+
+- name: Security | Copy apparmor profile for helium browser
+  tags:
+    - security
+    - apparmor
+  ansible.builtin.copy:
+    src: apparmor-helium
+    dest: /etc/apparmor.d/helium
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: start apparmor
+
 - name: Security | Enforce apparmor profiles for high-risk applications
   tags:
     - security
@@ -225,16 +271,19 @@
     cmd: aa-enforce {{ item }}
   loop:
     - firefox
+    - helium
     - brave
     - chrome
     - chromium
     - thunderbird
     - signal-desktop
-    - discord
+    - Discord
     - slack
     - qutebrowser
     - transmission
     - unprivileged_userns
+    - obsidian
+    - vscode
   become: true
   register: aa_enforce_result
   changed_when: "'Setting' in aa_enforce_result.stdout"
