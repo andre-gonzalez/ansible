@@ -61,4 +61,4 @@
     name: sshd
     state: restarted
   become: true
-  when: light_workstation_restart_ssh is changed or light_workstation_restart_ssh2 is changed or light_workstation_restart_ssh3 is changed
+  when: light_workstation_restart_ssh | default({}) is changed or light_workstation_restart_ssh2 | default({}) is changed or light_workstation_restart_ssh3 | default({}) is changed
