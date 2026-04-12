@@ -298,7 +298,6 @@
     - signal-desktop
     - Discord
     - slack
-    - qutebrowser
     - transmission
     - unprivileged_userns
     - obsidian
