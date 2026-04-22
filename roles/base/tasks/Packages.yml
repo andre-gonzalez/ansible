@@ -154,6 +154,7 @@
       - ansible
       - git
       - btop
+      - lnav # To better parse logs
     state: present
     update_cache: false
   become: true
