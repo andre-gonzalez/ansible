@@ -42,6 +42,14 @@
   become: true
   when: restart_network is changed
 
+- name: Apply sysctl settings
+  tags:
+    - security
+    - kernel-hardening
+  ansible.builtin.command: sysctl --system
+  become: true
+  changed_when: true
+
 - name: Reload systemd daemon
   tags:
     - systemd

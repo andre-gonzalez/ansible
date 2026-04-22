@@ -189,6 +189,12 @@
   tags:
     - snapper
 
+- name: Light Workstation | Include tasks from kernel-hardening play
+  ansible.builtin.include_tasks: tasks/kernel-hardening.yml
+  tags:
+    - security
+    - kernel-hardening
+
 - name: Light Workstation | Include tasks from save-battery play
   ansible.builtin.include_tasks: tasks/save-battery.yml
   tags:

@@ -1,0 +1,21 @@
+---
+- name: Kernel-hardening | Deploy sysctl hardening configuration
+  tags:
+    - security
+    - kernel-hardening
+  ansible.builtin.copy:
+    dest: /etc/sysctl.d/99-kernel-hardening.conf
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      # Ignore broadcast ICMP (prevents smurf attacks)
+      net.ipv4.icmp_echo_ignore_broadcasts = 1
+
+      # Do not send ICMP redirects (not acting as a router)
+      net.ipv4.conf.all.send_redirects = 0
+
+      # Enable full ASLR (memory protection)
+      kernel.randomize_va_space = 2
+  become: true
+  notify: Apply sysctl settings
