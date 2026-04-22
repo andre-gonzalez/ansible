@@ -516,6 +516,33 @@
     create: true
   become: true
 
+- name: Security | Install libpwquality on Archlinux
+  tags:
+    - security
+  ansible.builtin.package:
+    name: libpwquality
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+- name: Security | Install libpam-pwquality on Debian and Ubuntu
+  tags:
+    - security
+  ansible.builtin.package:
+    name: libpam-pwquality
+  become: true
+  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
+
+- name: Security | Copy pwquality configuration file
+  tags:
+    - security
+  ansible.builtin.copy:
+    src: pwquality.conf
+    dest: /etc/security/pwquality.conf
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+
 - name: Security | Install libpam-passwdqc package to check passwords
   tags:
     - security
