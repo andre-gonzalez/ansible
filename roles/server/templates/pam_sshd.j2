@@ -1,0 +1,8 @@
+# PAM configuration for SSH with TOTP 2FA (managed by Ansible)
+auth required pam_google_authenticator.so
+
+account required pam_nologin.so
+
+@include common-account
+@include common-session
+@include common-session-noninteractive

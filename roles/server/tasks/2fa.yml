@@ -1,0 +1,72 @@
+---
+- name: 2FA | Install google-authenticator packages
+  tags:
+    - 2fa
+  ansible.builtin.apt:
+    name:
+      - libpam-google-authenticator
+      - qrencode
+    state: present
+    update_cache: true
+  become: true
+
+- name: 2FA | Deploy PAM sshd configuration
+  tags:
+    - 2fa
+  ansible.builtin.template:
+    src: pam_sshd.j2
+    dest: /etc/pam.d/sshd
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  become: true
+  notify: Restart ssh
+
+- name: 2FA | Enable KbdInteractiveAuthentication in sshd_config
+  tags:
+    - 2fa
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: ^#?KbdInteractiveAuthentication
+    line: KbdInteractiveAuthentication yes
+    state: present
+    backup: true
+  become: true
+  notify: Restart ssh
+
+- name: 2FA | Enable ChallengeResponseAuthentication in sshd_config
+  tags:
+    - 2fa
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: ^#?ChallengeResponseAuthentication
+    line: ChallengeResponseAuthentication yes
+    state: present
+    backup: true
+  become: true
+  notify: Restart ssh
+
+- name: 2FA | Enable UsePAM in sshd_config
+  tags:
+    - 2fa
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: ^#?UsePAM
+    line: UsePAM yes
+    state: present
+    backup: true
+  become: true
+  notify: Restart ssh
+
+- name: 2FA | Set AuthenticationMethods to require key + TOTP
+  tags:
+    - 2fa
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: ^#?AuthenticationMethods
+    line: AuthenticationMethods publickey,keyboard-interactive
+    state: present
+    backup: true
+  become: true
+  notify: Restart ssh
