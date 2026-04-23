@@ -142,6 +142,11 @@
     - aur
     - yay
 
+- name: Light Workstation | Include tasks from fuzzy-pkg-finder play
+  ansible.builtin.include_tasks: tasks/fuzzy-pkg-finder.yml
+  tags:
+    - fuzzy-pkg-finder
+
 - name: Light Workstation | Include tasks from neovim play
   ansible.builtin.include_tasks: tasks/neovim.yml
   tags:

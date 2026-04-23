@@ -1,0 +1,19 @@
+---
+- name: Fuzzy-pkg-finder | Clone fuzzy-pkg-finder
+  tags:
+    - fuzzy-pkg-finder
+  ansible.builtin.git:
+    version: main
+    repo: https://github.com/andre-gonzalez/fuzzy-pkg-finder.git
+    dest: "{{ lookup('env', 'HOME') }}/.config/fuzzy-pkg-finder"
+    update: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+- name: Fuzzy-pkg-finder | Build and install fuzzy-pkg-finder
+  tags:
+    - fuzzy-pkg-finder
+  ansible.builtin.command:
+    chdir: "{{ lookup('env', 'HOME') }}/.config/fuzzy-pkg-finder"
+    cmd: makepkg -srici --noconfirm
+    creates: /usr/bin/fuzzy-pkg-finder
+  when: ansible_facts["distribution"] == "Archlinux"
