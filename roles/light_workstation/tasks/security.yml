@@ -1,4 +1,14 @@
 ---
+- name: Security | Install net-tools dependency to chkrootkit
+  tags:
+    - security
+    - chkrootkit
+  ansible.builtin.package:
+    name: net-tools
+    state: present
+    update_cache: true
+  become: true
+
 - name: Security | Install chkrootkit as malware scanning tool in Arch
   tags:
     - security
