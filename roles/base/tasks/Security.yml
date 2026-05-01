@@ -459,7 +459,20 @@
       - rkhunter
   become: true
 
-- name: Security | Install chkrootkit as malware scanning tools
+- name: Security | Copy rkhunter configuration file on Archlinux
+  tags:
+    - security
+    - rkhunter
+  ansible.builtin.copy:
+    src: rkhunter.conf
+    dest: /etc/rkhunter.conf
+    owner: root
+    group: root
+    mode: "0640"
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+- name: Security | Install chkrootkit as malware scanning tools in Debian and Ubuntu
   tags:
     - security
     - chkrootkit
