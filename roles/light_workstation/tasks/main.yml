@@ -234,6 +234,13 @@
   tags:
     - spotify
 
+- name: Light Workstation | Include tasks from security play
+  ansible.builtin.include_tasks: tasks/security.yml
+  tags:
+    - security
+    - chkrootkit
+    - clamav
+
 # - name: Light Workstation | Include tasks from doas play
 #   ansible.builtin.include_tasks: tasks/doas.yml
 #   tags:

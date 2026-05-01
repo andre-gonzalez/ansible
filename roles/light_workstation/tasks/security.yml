@@ -1,0 +1,22 @@
+---
+- name: Security | Install chkrootkit as malware scanning tool in Arch
+  tags:
+    - security
+    - chkrootkit
+  kewlfft.aur.aur:
+    name: chkrootkit
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_facts["distribution"] == "Archlinux"
+  ignore_errors: true
+
+- name: Security | Install ClamAV as malware scanning tool
+  tags:
+    - security
+    - clamav
+  ansible.builtin.package:
+    name: clamav
+    state: present
+    update_cache: true
+  become: true
