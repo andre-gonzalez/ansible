@@ -30,3 +30,4 @@
     state: present
     update_cache: true
   become: true
+  notify: start clamav

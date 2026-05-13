@@ -57,3 +57,25 @@
   ansible.builtin.systemd:
     daemon_reload: true
   become: true
+
+- name: Enable clamav-daemon
+  tags:
+    - security
+    - clamav
+  ansible.builtin.service:
+    name: clamav-daemon
+    state: started
+    enabled: true
+  become: true
+  listen: start clamav
+
+- name: Enable clamav-freshclam
+  tags:
+    - security
+    - clamav
+  ansible.builtin.service:
+    name: clamav-freshclam
+    state: started
+    enabled: true
+  become: true
+  listen: start clamav
