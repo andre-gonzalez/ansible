@@ -1,0 +1,12 @@
+---
+- name: Sc-im | Install sc-im package
+  tags:
+    - sc-im
+  kewlfft.aur.aur:
+    name:
+      - sc-im
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_facts["distribution"] == "Archlinux"
+  notify: Set sc-im as default sc reader

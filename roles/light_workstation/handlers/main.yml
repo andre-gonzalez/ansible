@@ -4,6 +4,11 @@
   register: light_workstation_zathura_xdg_mine
   changed_when: light_workstation_zathura_xdg_mine.rc != 2
 
+- name: Set sc-im as default sc reader
+  ansible.builtin.command: xdg-mime default sc-im.desktop application/x-sc
+  register: light_workstation_scim_xdg_mime
+  changed_when: light_workstation_scim_xdg_mime.rc != 2
+
 - name: Set up dotfiles
   tags:
     - dotfiles
