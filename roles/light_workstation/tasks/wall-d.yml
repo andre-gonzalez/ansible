@@ -12,7 +12,7 @@
   tags:
     - wall-d
   ansible.builtin.git:
-    version: main
+    version: master
     repo: git@github.com:andre-gonzalez/wall-d.git
     key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
     dest: "{{ lookup('env', 'HOME') }}/.config/wall-d"
