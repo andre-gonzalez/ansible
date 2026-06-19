@@ -1,3 +1,5 @@
 .env/
 .env/.vault_key
 .vault_key
+.ansible/
+.config/.ansible/
