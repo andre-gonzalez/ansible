@@ -9,6 +9,7 @@
       - libxinerama-dev
       - xwininfo # Necessary for my profile selector script
       - ttf-dejavu # Font I choosed in my config
+      - base-devel # Necessary for make and other dependecies
     state: present
     update_cache: true
   become: true
