@@ -1,0 +1,22 @@
+---
+- name: keyboard | Create xorg.conf.d directory
+  tags:
+    - keyboard
+  ansible.builtin.file:
+    path: /etc/X11/xorg.conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+
+- name: keyboard | Copy file 00-keyboard.conf
+  tags:
+    - keyboard
+  ansible.builtin.copy:
+    src: 00-keyboard.conf
+    dest: /etc/X11/xorg.conf.d/00-keyboard.conf
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
