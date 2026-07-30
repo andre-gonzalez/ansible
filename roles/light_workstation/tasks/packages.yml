@@ -138,6 +138,8 @@
       - gst-plugins-bad # Multimedia codecs
       - gst-plugins-ugly # Multimedia codecs
       - ffmpeg
+      - cups # Printer drivers
+      - cups-pdf # Print to a pdf file
     state: present
     update_cache: true
   become: true
