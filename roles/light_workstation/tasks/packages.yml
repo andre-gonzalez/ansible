@@ -133,6 +133,11 @@
       - 7zip
       - tree # Utility to see directories structure in tree view
       - nfs-utils # Necessary to mount nfs shares on the system
+      - gst-libav # Multimedia codecs
+      - gst-plugins-good # Multimedia codecs
+      - gst-plugins-bad # Multimedia codecs
+      - gst-plugins-ugly # Multimedia codecs
+      - ffmpeg
     state: present
     update_cache: true
   become: true
