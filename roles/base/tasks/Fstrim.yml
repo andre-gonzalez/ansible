@@ -1,0 +1,57 @@
+---
+# Detect whether the machine boots from solid-state storage and, if so, let
+# systemd run a weekly `fstrim --all`. Rotational disks gain nothing from
+# discards, so the timer is left alone on those hosts.
+
+- name: Fstrim | Collect physical block devices
+  tags:
+    - fstrim
+    - storage
+  ansible.builtin.set_fact:
+    base_physical_disks: >-
+      {{ ansible_facts["devices"] | dict2items
+         | selectattr("key", "match", "^(sd|nvme|vd|xvd|hd|mmcblk)")
+         | selectattr("value.rotational", "defined")
+         | list }}
+
+# `rotational` is reported by the kernel: "0" for SSD/NVMe/eMMC, "1" for
+# spinning disks. Virtual devices (zram, loop, dm-*) also report "0", which is
+# why the list above is restricted to real disks.
+- name: Fstrim | Split disks into solid-state and rotational
+  tags:
+    - fstrim
+    - storage
+  ansible.builtin.set_fact:
+    base_ssd_disks: >-
+      {{ base_physical_disks | selectattr("value.rotational", "equalto", "0")
+         | map(attribute="key") | list }}
+    base_hdd_disks: >-
+      {{ base_physical_disks | selectattr("value.rotational", "equalto", "1")
+         | map(attribute="key") | list }}
+
+- name: Fstrim | Report detected storage
+  tags:
+    - fstrim
+    - storage
+  ansible.builtin.debug:
+    msg: "Solid-state: {{ base_ssd_disks | join(', ') | default('none', true) }} — rotational: {{ base_hdd_disks | join(', ') | default('none', true) }}"
+  when: verbose
+
+- name: Fstrim | Enable weekly fstrim on solid-state storage
+  tags:
+    - fstrim
+    - storage
+  ansible.builtin.systemd:
+    name: fstrim.timer
+    enabled: true
+    state: started
+  become: true
+  when: base_ssd_disks | length > 0
+
+- name: Fstrim | Skip fstrim on rotational-only storage
+  tags:
+    - fstrim
+    - storage
+  ansible.builtin.debug:
+    msg: No solid-state disk detected, leaving fstrim.timer untouched
+  when: base_ssd_disks | length == 0

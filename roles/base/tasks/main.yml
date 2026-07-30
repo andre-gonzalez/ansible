@@ -36,6 +36,12 @@
     - packages
     - nvidia
 
+- name: Base | Include tasks from fstrim play
+  ansible.builtin.include_tasks: tasks/Fstrim.yml
+  tags:
+    - fstrim
+    - storage
+
 - name: Base | Include tasks from fish play
   ansible.builtin.include_tasks: tasks/Fish.yml
   tags:
