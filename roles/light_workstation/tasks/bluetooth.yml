@@ -79,3 +79,12 @@
     state: started
     enabled: true
   become: true
+
+- name: Bluetooth | Start mpris-proxy (media key support for bluetooth headsets)
+  tags:
+    - bluetooth
+  ansible.builtin.systemd:
+    name: mpris-proxy
+    state: started
+    scope: user
+    enabled: true
