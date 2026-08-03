@@ -1,10 +1,11 @@
 ---
-- name: Packages | Install drawio
+- name: Packages | Install work packages
   tags:
     - packages
   ansible.builtin.package:
     name:
       - drawio-desktop
+      - ttf-ibm-plex # Fonts
     state: present
     update_cache: true
   become: true
