@@ -1,0 +1,13 @@
+---
+# Samsung Expert laptop — Intel, and the only host with a second SATA disk.
+# This used to live in roles/light_workstation/tasks/save-battery.yml, where it
+# was tagged `samsung_expert` but gated on `form_factor == Notebook`, so the
+# serial below was written to /etc/tlp.conf on every laptop including the T14.
+light_workstation_tlp_sata_disk_ids:
+  - ata-WDC_WDS240G2G0B-00EPW0_193994801333
+
+# Spin the second disk down after a minute on battery (12 * 5s).
+light_workstation_tlp_disk_spindown_on_bat: "0 12"
+
+# This machine has no ThinkPad-style charge thresholds; the template already
+# gates those on system_vendor == LENOVO, so nothing to disable here.

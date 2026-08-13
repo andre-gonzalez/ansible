@@ -12,7 +12,6 @@
     state: present
     update_cache: false
   become: true
-  register: light_workstation_restart_tlp
   when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Save Battery | Mask systemd-rfkill.service to avoid conflicts with TLP
@@ -35,182 +34,50 @@
   become: true
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Save Battery | Add second HDD to the list of drives managed by TLP
+# tlp.service declares Conflicts=power-profiles-daemon.service, so whenever PPD
+# is running TLP is never started and none of the settings below are applied.
+# Masking is required rather than disabling: the desktop D-Bus activates PPD on
+# demand, which brings it straight back.
+- name: Save Battery | Mask power-profiles-daemon to avoid conflicts with TLP
   tags:
-    - samsung_expert
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: "[#]?DISK_DEVICES=*"
-    line: DISK_DEVICES="ata-WDC_WDS240G2G0B-00EPW0_193994801333"
-    backrefs: true
+    - save-battery
+    - tlp
+  ansible.builtin.systemd:
+    name: power-profiles-daemon.service
+    state: stopped
+    enabled: false
+    masked: true
   become: true
+  failed_when: false
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Save Battery | Stop second disk (HDD). Spin down after 1 minute (12 *5) when on battery
+# All tunables live in a drop-in. TLP reads /etc/tlp.conf first and then
+# /etc/tlp.d/*.conf, later definitions winning, so this replaces the previous
+# per-setting `lineinfile` tasks without fighting the packaged config file.
+- name: Save Battery | Deploy TLP drop-in configuration
   tags:
-    - samsung_expert
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: '[#]?DISK_SPINDOWN_TIMEOUT_ON_BAT="*"'
-    line: DISK_SPINDOWN_TIMEOUT_ON_BAT="0 12"
-    backrefs: true
+    - save-battery
+    - tlp
+  ansible.builtin.template:
+    src: tlp-local.conf.j2
+    dest: /etc/tlp.d/01-local.conf
+    owner: root
+    group: root
+    mode: "0644"
   become: true
+  notify: restart_tlp
   when: '"Notebook" in ansible_facts["form_factor"]'
 
-- name: Save Battery | Set processor to performance when on AC (scaling)
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: "[#]?CPU_SCALING_GOVERNOR_ON_AC=*"
-    line: CPU_SCALING_GOVERNOR_ON_AC=performance
-    backrefs: true
-  become: true
-  when: '"Notebook" in ansible_facts["form_factor"]'
-
-- name: Save Battery | Set processor to powersave when on Battery (scaling)
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: "[#]?CPU_SCALING_GOVERNOR_ON_BAT=*"
-    line: CPU_SCALING_GOVERNOR_ON_BAT=powersave
-    backrefs: true
-  become: true
-  when: '"Notebook" in ansible_facts["form_factor"]'
-
-- name: Save Battery | Set processor to performance when on AC (energy/performance policies)
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: "[#]?CPU_ENERGY_PERF_POLICY_ON_AC=*"
-    line: CPU_ENERGY_PERF_POLICY_ON_AC=performance
-    backrefs: true
-  become: true
-  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
-
-- name: Save Battery | Set processor to powersave when on Battery (energy/performance policies)
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: "[#]?CPU_ENERGY_PERF_POLICY_ON_BAT=*"
-    line: CPU_ENERGY_PERF_POLICY_ON_BAT=power
-    backrefs: true
-  become: true
-  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
-
-- name: Save Battery | Enable processor boost on AC
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: "[#]?CPU_BOOST_ON_AC=*"
-    line: CPU_BOOST_ON_AC=1
-    backrefs: true
-  become: true
-  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
-
-- name: Save Battery | Disable processor boost on battery
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: "[#]?CPU_BOOST_ON_BAT=*"
-    line: CPU_BOOST_ON_BAT=0
-    backrefs: true
-  become: true
-  when: '"Notebook" in ansible_facts["form_factor"]'
-
-- name: Save Battery | Enable Intel CPU HWP dynamic boost when on AC
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: "[#]?CPU_HWP_DYN_BOOST_ON_AC=*"
-    line: CPU_HWP_DYN_BOOST_ON_AC=1
-    backrefs: true
-  become: true
-  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
-
-- name: Save Battery | Disable Intel CPU HWP dynamic boost when on AC
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: "[#]?CPU_HWP_DYN_BOOST_ON_BAT=*"
-    line: CPU_HWP_DYN_BOOST_ON_BAT=0
-    backrefs: true
-  become: true
-  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
-
-- name: Save Battery | Disable minimize of number of used CPU cores/hyper-threads under light load conditions when on AC
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: "[#]?SCHED_POWERSAVE_ON_AC=*"
-    line: SCHED_POWERSAVE_ON_AC=0
-    backrefs: true
-  become: true
-  when: '"GenuineIntel" in ansible_processor and "Notebook" in ansible_facts["form_factor"]'
-
-- name: Save Battery | Enable minimize of number of used CPU cores/hyper-threads under light load conditions when on battery
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: "[#]?SCHED_POWERSAVE_ON_BAT=*"
-    line: SCHED_POWERSAVE_ON_BAT=1
-    backrefs: true
-  become: true
-  when: '"Notebook" in ansible_facts["form_factor"]'
-
-- name: Save Battery | Disable wifi and wwan on LAN connect
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: '[#]?DEVICES_TO_DISABLE_ON_LAN_CONNECT="*"'
-    line: DEVICES_TO_DISABLE_ON_LAN_CONNECT="wifi wwan"
-    backrefs: true
-  become: true
-  when: '"Notebook" in ansible_facts["form_factor"]'
-
-- name: Save Battery | Enable wifi and wwan on LAN disconnect
-  tags:
-    - save-battery
-    - tlp
-  ansible.builtin.lineinfile:
-    path: /etc/tlp.conf
-    regexp: '[#]?DEVICES_TO_ENABLE_ON_LAN_DISCONNECT="*"'
-    line: DEVICES_TO_ENABLE_ON_LAN_DISCONNECT="wifi wwan"
-    backrefs: true
-  become: true
-  when: '"Notebook" in ansible_facts["form_factor"]'
-
-- name: Restart tlp
+- name: Save Battery | Enable tlp service
   tags:
     - save-battery
     - tlp
   ansible.builtin.service:
     name: tlp
-    state: restarted
     enabled: true
+    state: started
   become: true
-  when: light_workstation_restart_tlp is changed
+  when: '"Notebook" in ansible_facts["form_factor"]'
 
 - name: Save Battery | Install powertop package
   tags:

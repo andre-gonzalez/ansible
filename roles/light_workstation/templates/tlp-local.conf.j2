@@ -1,0 +1,116 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+# {{ ansible_managed }}
+# Source: roles/light_workstation/templates/tlp-local.conf.j2
+#
+# Drop-in file. TLP reads /etc/tlp.conf first, then /etc/tlp.d/*.conf, and
+# later definitions win — so everything here overrides the packaged defaults
+# without Ansible having to rewrite /etc/tlp.conf line by line.
+#
+# TLP has three profiles: AC and BAT switch automatically from the power
+# source, SAV is manual (`tlp power-saver`, see ~/.scripts/power-saver).
+
+# --- Battery charge thresholds ----------------------------------------------
+{% if ansible_facts['system_vendor'] == 'LENOVO' %}
+# ThinkPad only: applied by the embedded controller via natacpi
+# (thinkpad_acpi). Neither tp-smapi nor acpi_call is needed on any ThinkPad
+# still supported by a current kernel.
+START_CHARGE_THRESH_BAT0={{ light_workstation_tlp_start_charge_thresh }}
+STOP_CHARGE_THRESH_BAT0={{ light_workstation_tlp_stop_charge_thresh }}
+{% endif %}
+
+# --- CPU scaling driver -----------------------------------------------------
+{% if 'AuthenticAMD' in ansible_processor %}
+# Keep amd-pstate in active mode (amd-pstate-epp) on every profile. Switching
+# opmode between profiles re-registers all cpufreq policies on a live system
+# and, worse, silently disables EPP and MIN/MAX_PERF on the passive side.
+CPU_DRIVER_OPMODE_ON_AC=active
+CPU_DRIVER_OPMODE_ON_BAT=active
+CPU_DRIVER_OPMODE_ON_SAV=active
+
+# In active mode 'performance' pins the CPU to maximum permanently; it is not
+# a "prefer speed" hint. Use powersave everywhere and steer with EPP below.
+CPU_SCALING_GOVERNOR_ON_AC=powersave
+CPU_SCALING_GOVERNOR_ON_BAT=powersave
+CPU_SCALING_GOVERNOR_ON_SAV=powersave
+{% else %}
+CPU_SCALING_GOVERNOR_ON_AC=performance
+CPU_SCALING_GOVERNOR_ON_BAT=powersave
+CPU_SCALING_GOVERNOR_ON_SAV=powersave
+{% endif %}
+
+CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance
+CPU_ENERGY_PERF_POLICY_ON_BAT=balance_power
+CPU_ENERGY_PERF_POLICY_ON_SAV=power
+
+# Race-to-idle: bursting and returning to a deep idle state costs less energy
+# than crawling through the same work with the rest of the SoC held awake.
+CPU_BOOST_ON_AC=1
+CPU_BOOST_ON_BAT=1
+CPU_BOOST_ON_SAV=0
+
+{% if 'GenuineIntel' in ansible_processor %}
+# Intel-only knobs (no-ops on AMD, so they are not emitted there at all).
+CPU_HWP_DYN_BOOST_ON_AC=1
+CPU_HWP_DYN_BOOST_ON_BAT=0
+SCHED_POWERSAVE_ON_AC=0
+SCHED_POWERSAVE_ON_BAT=1
+{% endif %}
+
+{% if ansible_facts['system_vendor'] == 'LENOVO' %}
+# --- Platform profile -------------------------------------------------------
+# Sets the embedded controller's sustained/burst power limits (PPT). This
+# constrains everything above it and matters more than any governor tuning.
+PLATFORM_PROFILE_ON_AC=performance
+PLATFORM_PROFILE_ON_BAT=balanced
+PLATFORM_PROFILE_ON_SAV=low-power
+{% endif %}
+
+{% if 'AuthenticAMD' in ansible_processor %}
+# --- Panel (amdgpu ABM) -----------------------------------------------------
+# Adaptive Backlight Management: dims the backlight and compensates by
+# boosting pixel values. Real savings, but a visible contrast/colour shift.
+AMDGPU_ABM_LEVEL_ON_AC=0
+AMDGPU_ABM_LEVEL_ON_BAT={{ light_workstation_tlp_abm_level_on_bat }}
+AMDGPU_ABM_LEVEL_ON_SAV=3
+{% endif %}
+
+# --- Bus / runtime power management -----------------------------------------
+RUNTIME_PM_ON_AC=auto
+RUNTIME_PM_ON_BAT=auto
+
+PCIE_ASPM_ON_AC=default
+PCIE_ASPM_ON_BAT=powersave
+PCIE_ASPM_ON_SAV=powersupersave
+
+USB_AUTOSUSPEND=1
+{% if light_workstation_tlp_usb_denylist | length > 0 %}
+USB_DENYLIST="{{ light_workstation_tlp_usb_denylist | join(' ') }}"
+{% endif %}
+
+# --- Wireless ---------------------------------------------------------------
+WIFI_PWR_ON_AC=off
+WIFI_PWR_ON_BAT=on
+
+DEVICES_TO_DISABLE_ON_LAN_CONNECT="wifi wwan"
+DEVICES_TO_ENABLE_ON_LAN_DISCONNECT="wifi wwan"
+
+# --- Audio ------------------------------------------------------------------
+SOUND_POWER_SAVE_ON_AC=0
+SOUND_POWER_SAVE_ON_BAT=1
+SOUND_POWER_SAVE_CONTROLLER=Y
+
+# --- Misc -------------------------------------------------------------------
+NMI_WATCHDOG=0
+
+{% if light_workstation_tlp_sata_disk_ids | length > 0 %}
+# --- Spinning / SATA disks --------------------------------------------------
+# Only emitted on hosts that actually have SATA devices; NVMe power states are
+# handled by the kernel's APST and are not configurable through TLP.
+DISK_DEVICES="{{ light_workstation_tlp_sata_disk_ids | join(' ') }}"
+DISK_SPINDOWN_TIMEOUT_ON_AC="{{ light_workstation_tlp_disk_spindown_on_ac }}"
+DISK_SPINDOWN_TIMEOUT_ON_BAT="{{ light_workstation_tlp_disk_spindown_on_bat }}"
+DISK_APM_LEVEL_ON_AC="254 254"
+DISK_APM_LEVEL_ON_BAT="128 128"
+SATA_LINKPWR_ON_AC=med_power_with_dipm
+SATA_LINKPWR_ON_BAT=min_power
+{% endif %}

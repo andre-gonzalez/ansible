@@ -84,3 +84,16 @@
     enabled: true
   become: true
   listen: start clamav
+
+# tlp.service is a oneshot that applies settings at start and does not watch
+# its config files, so a config change is inert until the service is restarted.
+- name: Restart tlp
+  tags:
+    - save-battery
+    - tlp
+  ansible.builtin.service:
+    name: tlp
+    state: restarted
+    enabled: true
+  become: true
+  listen: restart_tlp

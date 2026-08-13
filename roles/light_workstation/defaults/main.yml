@@ -1,0 +1,25 @@
+---
+# TLP power management defaults.
+# Consumed by templates/tlp-local.conf.j2 (see tasks/save-battery.yml).
+# Override per host/group in group_vars/ — e.g. group_vars/samsung_expert.
+
+# Battery charge thresholds (ThinkPad only, applied via natacpi).
+# Charging stops at STOP and only resumes below START. The gap is hysteresis:
+# without it the battery would micro-cycle around the stop threshold.
+light_workstation_tlp_start_charge_thresh: 77
+light_workstation_tlp_stop_charge_thresh: 80
+
+# amdgpu Adaptive Backlight Management on battery. 0 = off, 3 = most
+# aggressive. Set to 0 on machines used for colour-sensitive work.
+light_workstation_tlp_abm_level_on_bat: 2
+
+# USB devices exempted from autosuspend, as "vendor:product" ids.
+# Populate if a wireless receiver or dock peripheral becomes laggy.
+light_workstation_tlp_usb_denylist: []
+
+# SATA/spinning disks managed by TLP, as /dev/disk/by-id names.
+# Empty on NVMe-only hosts — NVMe power states are handled by the kernel's
+# APST and are not configurable through TLP.
+light_workstation_tlp_sata_disk_ids: []
+light_workstation_tlp_disk_spindown_on_ac: "0 0"
+light_workstation_tlp_disk_spindown_on_bat: "0 12"
