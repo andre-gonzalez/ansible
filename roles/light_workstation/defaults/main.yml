@@ -23,3 +23,34 @@ light_workstation_tlp_usb_denylist: []
 light_workstation_tlp_sata_disk_ids: []
 light_workstation_tlp_disk_spindown_on_ac: "0 0"
 light_workstation_tlp_disk_spindown_on_bat: "0 12"
+
+# Snapper configs to manage. Each must already exist under /etc/snapper/configs
+# — tasks/snapper.yml creates them.
+light_workstation_snapper_configs:
+  - root
+  - home
+
+# Snapshot retention, applied to every config listed above. Override per
+# host/group in group_vars/ when a machine has room to keep more history.
+#
+# The timeline limits are the ones that actually bound disk usage. Snapper keeps
+# the newest N snapshots in each bucket independently, so the totals add up:
+# these values cap a config at 12 timeline snapshots (5 hourly + 7 daily).
+# The long-horizon buckets are deliberately 0 — a year-old snapshot pins every block
+# that has changed since it was taken, which on a workstation is most of the
+# filesystem, and that space can never be reclaimed while it exists.
+light_workstation_snapper_retention:
+  TIMELINE_LIMIT_HOURLY: 5
+  TIMELINE_LIMIT_DAILY: 7
+  TIMELINE_LIMIT_WEEKLY: 0
+  TIMELINE_LIMIT_MONTHLY: 0
+  TIMELINE_LIMIT_QUARTERLY: 0
+  TIMELINE_LIMIT_YEARLY: 0
+  # Pre/post pairs created by snap-pac around each pacman transaction.
+  NUMBER_LIMIT: 10
+  NUMBER_LIMIT_IMPORTANT: 5
+  # Fractions of the filesystem. Snapper only honours these once a btrfs qgroup
+  # exists for the config, which is what the setup-quota task below arranges;
+  # without it both values are silently ignored.
+  SPACE_LIMIT: "0.3"
+  FREE_LIMIT: "0.2"
