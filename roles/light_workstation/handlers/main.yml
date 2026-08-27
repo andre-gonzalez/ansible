@@ -97,3 +97,16 @@
     enabled: true
   become: true
   listen: restart_tlp
+
+# Tightening the limits does not delete anything on its own — snapper only
+# prunes when a cleanup algorithm runs, otherwise the existing backlog survives
+# until the next snapper-cleanup.timer tick. Running the service applies every
+# configured algorithm across all configs at once.
+- name: Run snapper cleanup
+  tags:
+    - snapper
+  ansible.builtin.systemd:
+    name: snapper-cleanup.service
+    state: started
+  become: true
+  listen: run_snapper_cleanup

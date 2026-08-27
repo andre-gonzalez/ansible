@@ -27,6 +27,51 @@
     creates: /etc/snapper/configs/home
   become: true
 
+# create-config seeds /etc/snapper/configs/<name> with limits that allow a
+# config to grow to roughly 90 snapshots (40 timeline + 50 number), which is
+# what lets snapshots quietly consume a workstation disk. Rewriting the keys in
+# place leaves the rest of the packaged file alone while making the limits
+# declarative here; snapper re-reads the file on every invocation, so no
+# reload is needed.
+- name: Snapper | Apply snapshot retention limits
+  tags:
+    - snapper
+  ansible.builtin.lineinfile:
+    path: /etc/snapper/configs/{{ item.0 }}
+    regexp: ^{{ item.1.key }}=
+    line: '{{ item.1.key }}="{{ item.1.value }}"'
+  loop: "{{ light_workstation_snapper_configs | product(light_workstation_snapper_retention | dict2items) | list }}"
+  loop_control:
+    label: "{{ item.0 }} {{ item.1.key }}={{ item.1.value }}"
+  become: true
+  notify: run_snapper_cleanup
+
+# SPACE_LIMIT and FREE_LIMIT are only consulted when the config owns a btrfs
+# qgroup. create-config leaves QGROUP empty, so out of the box both are dead
+# settings and nothing bounds snapshots by actual disk usage. setup-quota is
+# not idempotent — it fails when a qgroup is already assigned — so probe the
+# config file rather than relying on the command to no-op.
+- name: Snapper | Check whether a btrfs qgroup is assigned
+  tags:
+    - snapper
+  ansible.builtin.command: grep -q '^QGROUP=".\+"' /etc/snapper/configs/{{ item }}
+  loop: "{{ light_workstation_snapper_configs }}"
+  register: light_workstation_snapper_qgroup
+  changed_when: false
+  failed_when: false
+  become: true
+
+- name: Snapper | Set up btrfs quota so the space limits are enforced
+  tags:
+    - snapper
+  ansible.builtin.command: snapper -c {{ item.item }} setup-quota
+  loop: "{{ light_workstation_snapper_qgroup.results }}"
+  loop_control:
+    label: "{{ item.item }}"
+  when: item.rc != 0
+  become: true
+  notify: run_snapper_cleanup
+
 - name: Snapper | Ensure snapper group exists
   tags:
     - snapper
