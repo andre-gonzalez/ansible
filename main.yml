@@ -105,7 +105,7 @@
   listen: Confirm Tailscale is Connected
   ansible.builtin.debug:
     msg: "Online: {{ tailscale_is_online }}"
-  when: verbose
+  when: base_verbose
 
 - name: Assert Tailscale is Connected
   listen: Confirm Tailscale is Connected

@@ -31,7 +31,7 @@
 #     - ssh
 #   community.general.ufw:
 #     rule: limit
-#     port: "{{ ssh_port }}"
+#     port: "{{ base_ssh_port }}"
 #     proto: tcp
 #   become: true
 
@@ -42,7 +42,7 @@
   community.general.ufw:
     rule: limit
     from_ip: 192.168.100.0/24
-    port: "{{ ssh_port }}"
+    port: "{{ base_ssh_port }}"
     proto: tcp
     comment: ssh to local network
   become: true

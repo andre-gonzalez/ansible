@@ -261,7 +261,7 @@
     group: root
     mode: "0644"
   loop:
-    - {src: apparmor-local-xorg,  dest: /etc/apparmor.d/local/xorg}
+    - {src: apparmor-local-xorg, dest: /etc/apparmor.d/local/xorg}
     - {src: apparmor-local-xinit, dest: /etc/apparmor.d/local/xinit}
     - {src: apparmor-local-xauth, dest: /etc/apparmor.d/local/xauth}
     - {src: apparmor-local-picom, dest: /etc/apparmor.d/local/picom}

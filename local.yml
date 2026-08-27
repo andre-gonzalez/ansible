@@ -19,10 +19,10 @@
       changed_when: false
       when: ansible_facts["distribution"] in ["Debian", "Ubuntu"]
   # vars_prompt:
-  #   - name: neomutt_email
+  #   - name: work_neomutt_email
   #     prompt: What is the email you want in neomutt?
   #     private: false
-  #   - name: neomutt_password
+  #   - name: work_neomutt_password
   #     prompt: What is the password of your email in neomutt?
 
 # run roles
