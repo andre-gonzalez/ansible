@@ -65,7 +65,7 @@
   tags:
     - samba
   ansible.builtin.shell: >-
-    set -o pipefail && echo '{{ heavy_workstation_samba_pass }}';
+    set -o pipefail && (echo '{{ heavy_workstation_samba_pass }}';
     echo '{{ heavy_workstation_samba_pass }}') |
     smbpasswd -s -a {{ lookup('env', 'USER') }}
   register: heavy_workstation_smbpasswd
