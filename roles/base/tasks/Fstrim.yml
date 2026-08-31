@@ -35,7 +35,7 @@
     - storage
   ansible.builtin.debug:
     msg: "Solid-state: {{ base_ssd_disks | join(', ') | default('none', true) }} — rotational: {{ base_hdd_disks | join(', ') | default('none', true) }}"
-  when: verbose
+  when: base_verbose
 
 - name: Fstrim | Enable weekly fstrim on solid-state storage
   tags:

@@ -2,7 +2,7 @@
 - name: Tailscale | Debian and related families
   tags:
     - tailscale
-  when: ansible_facts["distribution"] in tailscale_debian_family_distros
+  when: ansible_facts["distribution"] in base_tailscale_debian_family_distros
   ansible.builtin.include_tasks: ./roles/base/tasks/tailscale-debian.yml
 
 - name: Tailscale | Arch
@@ -53,7 +53,7 @@
     - tailscale
   become: true
   ansible.builtin.service:
-    name: "{{ tailscale_service }}"
+    name: "{{ base_tailscale_service }}"
     state: started
     enabled: true
 
@@ -78,7 +78,7 @@
     - tailscale
   ansible.builtin.debug:
     msg: "Ver: {{ base_tailscale_version }} Online: {{ base_tailscale_is_online }}"
-  when: verbose
+  when: base_verbose
 
 - name: Tailscale | Save State
   tags:
@@ -95,15 +95,15 @@
   tags:
     - tailscale
   become: true
-  ansible.builtin.command: tailscale up {{ tailscale_args | trim }} --authkey={{ tailscale_authkey }}
+  ansible.builtin.command: tailscale up {{ base_tailscale_args | trim }} --authkey={{ base_tailscale_authkey }}
   # Since the auth key is included in this task's output, we do not want to log output
-  no_log: "{{ not (insecurely_log_authkey | bool) }}"
+  no_log: "{{ not (base_tailscale_insecurely_log_authkey | bool) }}"
   changed_when: true
   register: base_tailscale_start
   # If a failure occurred due to state changes, we still want to log a redacted version of the error if "no_log" is true
   ignore_errors: true
   when:
-    - not tailscale_up_skip
+    - not base_tailscale_up_skip
     - base_state_file is changed or not base_tailscale_is_online
   notify: Confirm Tailscale is Connected
   async: 60
@@ -113,7 +113,7 @@
   tags:
     - tailscale
   ansible.builtin.debug:
-    msg: "{{ base_tailscale_start.stdout | replace(tailscale_authkey, 'REDACTED') | regex_replace('\\t', '') | split('\n') }}"
+    msg: "{{ base_tailscale_start.stdout | replace(base_tailscale_authkey, 'REDACTED') | regex_replace('\\t', '') | split('\n') }}"
   when:
     - base_tailscale_start is failed
     - base_tailscale_start.stdout | length > 0

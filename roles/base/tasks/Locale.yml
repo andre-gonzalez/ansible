@@ -9,17 +9,17 @@
   become: true
   when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
 
-- name: Locale | Set timezone to "{{ timezone }}"
+- name: Locale | Set timezone to "{{ base_timezone }}"
   tags:
     - timezone
   community.general.timezone:
-    name: "{{ timezone }}"
+    name: "{{ base_timezone }}"
   become: true
 
 - name: Locale | Ensure the locale exists
   tags:
     - locale
   community.general.locale_gen:
-    name: "{{ locale }}"
+    name: "{{ base_locale }}"
     state: present
   become: true
