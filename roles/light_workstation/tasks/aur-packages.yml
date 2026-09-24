@@ -19,6 +19,7 @@
       - ttf-joypixels
       - checkupdates-with-aur
       - noisetorch-bin # Noise supression program for web calls
+      - something-x # Control ANC on nothing earphones
     use: yay
     state: present
     update_cache: true
