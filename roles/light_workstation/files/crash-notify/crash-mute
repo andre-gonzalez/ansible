@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# crash-mute: silence crash-notify for one program, or list what is silenced.
+# Adapted from omarchy's omarchy-crash-mute (MIT, David Heinemeier Hansson).
+
+set -uo pipefail
+
+readonly mutes=${XDG_STATE_HOME:-$HOME/.local/state}/crash-notify/muted
+
+usage() {
+	echo "Usage: crash-mute [--] [<program>] [on|off|toggle]" >&2
+}
+
+list() {
+	local entry found=0
+
+	for entry in "$mutes"/* "$mutes"/.*; do
+		[[ -f $entry ]] || continue
+		printf '%s\n' "${entry##*/}"
+		found=1
+	done
+
+	((found)) || echo "No programs muted. Crashes all notify."
+}
+
+[[ ${1:-} == "--" ]] && shift
+
+if (($# == 0)); then
+	list
+	exit 0
+fi
+
+# crash-notify keys the mute on the executable's basename, so accept a path as
+# readily as a name and reduce either the same way.
+program=${1##*/}
+action=${2:-on}
+
+if [[ -z $program || $program == "." || $program == ".." ]]; then
+	echo "Not a program name: $1" >&2
+	usage
+	exit 1
+fi
+
+flag=$mutes/$program
+
+case "$action" in
+on) mkdir -p "$mutes" && touch "$flag" ;;
+off) rm -f "$flag" ;;
+toggle)
+	if [[ -f $flag ]]; then
+		rm -f "$flag"
+	else
+		mkdir -p "$mutes" && touch "$flag"
+	fi
+	;;
+*)
+	echo "Not an action: $action" >&2
+	usage
+	exit 1
+	;;
+esac
+
+if [[ -f $flag ]]; then
+	echo "Muted crash notifications for $program."
+else
+	echo "Crash notifications for $program are back on."
+fi

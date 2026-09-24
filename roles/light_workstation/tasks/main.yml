@@ -241,6 +241,11 @@
     - chkrootkit
     - clamav
 
+- name: Light Workstation | Include tasks from crash-notify play
+  ansible.builtin.include_tasks: tasks/crash-notify.yml
+  tags:
+    - crash-notify
+
 # - name: Light Workstation | Include tasks from doas play
 #   ansible.builtin.include_tasks: tasks/doas.yml
 #   tags:

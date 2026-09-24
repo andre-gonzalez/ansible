@@ -1,0 +1,41 @@
+---
+- name: Crash-notify | Install packages crash-notify depends on
+  tags:
+    - crash-notify
+  ansible.builtin.package:
+    name:
+      - jq
+      - gdb
+      - libnotify
+    state: present
+  become: true
+
+- name: Crash-notify | Ensure local bin and skill directories exist
+  tags:
+    - crash-notify
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  with_items:
+    - "{{ lookup('env', 'HOME') }}/.local/bin"
+    - "{{ lookup('env', 'HOME') }}/.claude/skills/diagnose-crash"
+
+- name: Crash-notify | Install crash-notify and crash-mute
+  tags:
+    - crash-notify
+  ansible.builtin.copy:
+    src: "crash-notify/{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.local/bin/{{ item }}"
+    mode: "0755"
+  with_items:
+    - crash-notify
+    - crash-mute
+
+- name: Crash-notify | Install the diagnose-crash Claude Code skill
+  tags:
+    - crash-notify
+  ansible.builtin.copy:
+    src: crash-notify/diagnose-crash/SKILL.md
+    dest: "{{ lookup('env', 'HOME') }}/.claude/skills/diagnose-crash/SKILL.md"
+    mode: "0644"

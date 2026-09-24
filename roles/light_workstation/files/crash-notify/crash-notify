@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# crash-notify: announce every core dump of this user's programs with a dunst
+# notification; its action opens Claude Code running the diagnose-crash skill.
+# Adapted from omarchy's omarchy-crash-watch (MIT, David Heinemeier Hansson).
+
+set -uo pipefail
+
+# systemd-coredump journals every dump under this MESSAGE_ID with structured
+# COREDUMP_* fields. See systemd.journal-fields(7).
+readonly COREDUMP_MESSAGE_ID=fc2e22bc6ee647b6b90729ab34a250b1
+
+# Where Claude starts, so a fix that belongs in the system config lands in the
+# Ansible repo with its CLAUDE.md in context.
+readonly workdir=${CRASH_NOTIFY_WORKDIR:-$HOME/projects/ansible/main-ansible}
+
+# Crash loops dump core repeatedly, so announce each program once a window.
+readonly dedupe_seconds=${CRASH_NOTIFY_DEDUPE_SECONDS:-60}
+
+# Extended regex of program names never worth announcing.
+readonly ignore_pattern=${CRASH_NOTIFY_IGNORE:-}
+
+# One flag file per program, written by crash-mute.
+readonly mutes=${XDG_STATE_HOME:-$HOME/.local/state}/crash-notify/muted
+
+declare -A last_notified
+
+announce() {
+	local name=$1 pid=$2 exe=$3 signal=$4 action prompt when
+
+	# notify-send blocks until the notification is acted on or closed, so each
+	# one runs in the background and never holds up the journal loop.
+	action=$(notify-send --app-name=crash-notify --urgency=critical \
+		--action=diagnose="Diagnose with Claude" \
+		"Process crashed: $name" "$signal — PID $pid") || return
+	[[ $action == diagnose ]] || return
+
+	when=$(coredumpctl list "$pid" --no-pager --no-legend 2>/dev/null | tail -1 | cut -d' ' -f1-4) || true
+
+	prompt=$(
+		cat <<PROMPT
+A process crashed on this machine and I want to know why.
+
+What systemd-coredump recorded:
+  process:  $name
+  PID:      $pid
+  binary:   $exe
+  signal:   $signal
+  time:     ${when:-unknown}
+
+Use the diagnose-crash skill: it covers how to investigate, what to report, and
+how to offer a fix.
+PROMPT
+	)
+
+	cd "$workdir" 2>/dev/null || cd "$HOME" || return
+	exec st -t "crash: $name" -e claude --permission-mode auto -- "$prompt"
+}
+
+# -n 0 so a restart does not re-announce crashes already dealt with.
+journalctl -f -n 0 -o json "MESSAGE_ID=$COREDUMP_MESSAGE_ID" 2>/dev/null |
+	while IFS= read -r entry; do
+		# A dash stands in for empty fields as well as missing ones: tab is IFS
+		# whitespace, so an empty field would collapse into the next delimiter and
+		# shift every field after it along one.
+		IFS=$'\t' read -r uid comm pid exe signal < <(
+			jq -r 'def field: if . == null or . == "" then "-" else . end;
+             [(.COREDUMP_UID | field),
+              (.COREDUMP_COMM | field),
+              (.COREDUMP_PID | field),
+              (.COREDUMP_EXE | field),
+              (.COREDUMP_SIGNAL_NAME | field)] | @tsv' <<<"$entry" 2>/dev/null
+		)
+
+		[[ $pid =~ ^[0-9]+$ ]] || continue
+
+		# Only this user's crashes. Membership in adm makes system daemons' dumps
+		# readable too, and those are not something to debug from the desktop.
+		[[ $uid =~ ^[0-9]+$ ]] || continue
+		((uid == UID)) || continue
+
+		# comm is truncated to 15 characters, so prefer the executable's basename,
+		# and keep the result a single path component because crash-mute turns it
+		# into a file name.
+		name=$comm
+		[[ $exe == /* ]] && name=${exe##*/}
+		name=${name##*/}
+		[[ -n $name && $name != "-" && $name != "." && $name != ".." ]] || name=unknown
+
+		[[ -n $ignore_pattern && $name =~ $ignore_pattern ]] && continue
+		[[ $name == crash-notify || $name == crash-mute ]] && continue
+		[[ -f $mutes/$name ]] && continue
+
+		now=$EPOCHSECONDS
+		((now - ${last_notified[$name]:-0} < dedupe_seconds)) && continue
+		last_notified[$name]=$now
+
+		announce "$name" "$pid" "$exe" "$signal" &
+	done
