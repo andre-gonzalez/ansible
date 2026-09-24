@@ -28,6 +28,17 @@
   register: base_grub_update
   changed_when: base_grub_update.rc != 0
 
+# The keymap hook bakes /etc/vconsole.conf into the initramfs/UKI at build
+# time, so the LUKS prompt only picks up a new keymap after a rebuild.
+- name: Rebuild initramfs
+  tags:
+    - keyboard
+  ansible.builtin.command: mkinitcpio -P
+  become: true
+  listen: rebuild initramfs
+  changed_when: true
+  when: ansible_os_family == "Archlinux"
+
 - name: Restart ssh
   tags:
     - security
