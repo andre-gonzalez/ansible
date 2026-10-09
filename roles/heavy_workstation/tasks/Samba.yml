@@ -64,7 +64,10 @@
 - name: Samba | Create samba password and the user {{ lookup('env', 'USER') }}
   tags:
     - samba
-  ansible.builtin.shell: set -o pipefail && echo '{{ samba_pass }}'; echo '{{ samba_pass }}') | smbpasswd -s -a {{ lookup('env', 'USER') }}
+  ansible.builtin.shell: >-
+    set -o pipefail && (echo '{{ heavy_workstation_samba_pass }}';
+    echo '{{ heavy_workstation_samba_pass }}') |
+    smbpasswd -s -a {{ lookup('env', 'USER') }}
   register: heavy_workstation_smbpasswd
   changed_when: "'Added user' in heavy_workstation_smbpasswd.stdout"
   become: true
