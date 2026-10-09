@@ -52,7 +52,6 @@
   tags:
     - security
     - fail2ban
-    - apparmor
 
 - name: Base | Include tasks from ufw play
   ansible.builtin.include_tasks: tasks/UFW.yml

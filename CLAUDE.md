@@ -63,7 +63,7 @@ Check available tags per role before running.
 
 | Role | Hosts | Purpose |
 |------|-------|---------|
-| `base` | all | Core system: packages, users, SSH, security, network, AppArmor, fish, neovim |
+| `base` | all | Core system: packages, users, SSH, security, network, fish, neovim |
 | `light_workstation` | light_workstation | DWM desktop, AUR packages, dotfiles, audio, bluetooth, wifi |
 | `heavy_workstation` | heavy_workstation | Docker, libvirt, Windows VM, Samba, SMTP |
 | `work` | work | AWS, Terraform, Databricks, Slack, neomutt, Cursor |

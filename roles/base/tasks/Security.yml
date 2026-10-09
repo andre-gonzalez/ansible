@@ -40,92 +40,22 @@
   become: true
   notify: start fail2ban
 
-- name: Security | Install apparmor on Archlinux
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.package:
-    name:
-      - apparmor
-      - audit
-      - python-notify2
-  become: true
-  when: ansible_facts["distribution"] == "Archlinux"
-  notify: start apparmor
-
-- name: Security | Ensure apparmor service is enabled and started on Archlinux
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.service:
-    name: apparmor
-    state: started
-    enabled: true
-  become: true
-  when: ansible_facts["distribution"] == "Archlinux"
-
-- name: Security | Install apparmor on Ubuntu or Debian
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.package:
-    name:
-      - apparmor
-      - apparmor-utils
-      - apparmor-profiles-extra
-      - apparmor-profiles
-  become: true
-  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
-  notify: start apparmor
-
-- name: Security | Enable apparmor in kernel parameters with audit enabled on Archlinux
+- name: Security | Enable audit in kernel parameters on Archlinux
   tags:
     - grub
     - security
-    - apparmor
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: .*GRUB_CMDLINE_LINUX_DEFAULT=.*
-    line: GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf audit=1"
+    line: GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet lsm=landlock,lockdown,yama,integrity,bpf audit=1"
     backrefs: true
   become: true
   when: ansible_facts["distribution"] == "Archlinux"
   notify: update grub
 
-- name: Security | Ensure grub.d directory exists on Debian and Ubuntu
-  tags:
-    - ssh
-  ansible.builtin.file:
-    dest: /etc/default/grub.d
-    mode: "0700"
-    state: directory
-    recurse: true
-  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
-
-- name: Security | Ensure apparmor.cfg file exists on Debian and Ubuntu
-  tags:
-    - ssh
-  ansible.builtin.file:
-    dest: /etc/default/grub.d/apparmor.cfg
-    mode: "0700"
-    state: touch
-  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"]
-
-- name: Security | Enable apparmor in kernel parameters with audit enabled on Debian and ubuntu
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.lineinfile:
-    path: /etc/default/grub.d/apparmor.cfg
-    line: GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT apparmor=1 security=apparmor"
-  become: true
-  when: ansible_facts["distribution"] in ["Ubuntu", "Debian"] and ansible_service_mgr == "grub"
-  notify: update grub
-
 - name: Security | Install auditd package
   tags:
     - security
-    - apparmor
   ansible.builtin.package:
     name: auditd
   become: true
@@ -135,7 +65,6 @@
 - name: Security | Ensure group audit exists
   tags:
     - security
-    - apparmor
   ansible.builtin.group:
     name: audit
     state: present
@@ -144,7 +73,6 @@
 - name: Security | Add to group audit the user {{ lookup('env', 'USER') }}
   tags:
     - security
-    - apparmor
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
     groups: audit
@@ -154,7 +82,6 @@
 - name: Security | Add audit group to auditd.conf
   tags:
     - security
-    - apparmor
   ansible.builtin.lineinfile:
     path: /etc/audit/auditd.conf
     line: log_group = audit
@@ -163,7 +90,6 @@
 - name: Security | Configure audit rules for hardening
   tags:
     - security
-    - apparmor
   ansible.builtin.copy:
     dest: /etc/audit/rules.d/hardening.rules
     owner: root
@@ -179,236 +105,8 @@
       # Monitor passwd/shadow changes
       -w /etc/passwd -p wa -k passwd_changes
       -w /etc/shadow -p wa -k shadow_changes
-      # Monitor AppArmor policy changes
-      -w /etc/apparmor.d/ -p wa -k apparmor_policy
   become: true
   notify: Restart auditd
-
-- name: Security | Ensure autostart directory exists.
-  tags:
-    - pihole
-  ansible.builtin.file:
-    dest: "{{ lookup('env', 'HOME') }}/.config/autostart/"
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
-    mode: "0644"
-    state: directory
-
-- name: Security | Copy apparmor-notify.desktop file to autostart apparmor notify
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.copy:
-    src: apparmor-notify.desktop
-    dest: "{{ lookup('env', 'HOME') }}/.config/autostart"
-    owner: "{{ lookup('env', 'USER') }}"
-    group: audit
-    mode: "0644"
-  become: true
-
-- name: Security | Enable write-cache to speed up apparmor
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.lineinfile:
-    path: /etc/apparmor/parser.conf
-    regexp: "#write-cache"
-    line: write-cache
-    backrefs: true
-  become: true
-
-- name: Security | Install apparmor.d profile collection from AUR
-  tags:
-    - security
-    - apparmor
-    - aur
-  kewlfft.aur.aur:
-    name: apparmor.d-enforced
-    state: present
-    use: yay
-  when: ansible_facts["distribution"] == "Archlinux"
-  become: false
-
-- name: Security | Find system profiles superseded by apparmor.d package
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.find:
-    paths: /etc/apparmor.d
-    patterns: "*.apparmor.d"
-  register: base_apparmor_d_profiles
-  become: true
-
-- name: Security | Remove system profiles conflicting with apparmor.d package
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.file:
-    path: "/etc/apparmor.d/{{ item.path | basename | regex_replace('\\.apparmor\\.d$', '') }}"
-    state: absent
-  loop: "{{ base_apparmor_d_profiles.files }}"
-  become: true
-  notify: start apparmor
-
-- name: Security | Copy apparmor local overrides for X11 stack
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: root
-    group: root
-    mode: "0644"
-  loop:
-    - {src: apparmor-local-xorg,  dest: /etc/apparmor.d/local/xorg}
-    - {src: apparmor-local-xinit, dest: /etc/apparmor.d/local/xinit}
-    - {src: apparmor-local-xauth, dest: /etc/apparmor.d/local/xauth}
-    - {src: apparmor-local-picom, dest: /etc/apparmor.d/local/picom}
-  become: true
-  notify: start apparmor
-
-- name: Security | Set X11 utility profiles to complain mode
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.command:
-    cmd: aa-complain {{ item }}
-  loop:
-    - xrandr
-    - numlockx
-    - rfkill
-    - xautolock
-    - xdg-user-dirs-update
-    - lsb-release
-    - nvidia_modprobe
-    - child-modprobe-nvidia
-  become: true
-  register: base_aa_complain_result
-  changed_when: "'Setting' in base_aa_complain_result.stdout"
-  failed_when: base_aa_complain_result.rc != 0 and 'No such file' not in base_aa_complain_result.stderr
-
-- name: Security | Copy apparmor local override for git to allow lowercase projects dir
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.copy:
-    src: apparmor-local-git
-    dest: /etc/apparmor.d/local/git
-    owner: root
-    group: root
-    mode: "0644"
-  become: true
-  notify: start apparmor
-
-- name: Security | Copy apparmor profile for helium browser
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.copy:
-    src: apparmor-helium
-    dest: /etc/apparmor.d/helium
-    owner: root
-    group: root
-    mode: "0644"
-  become: true
-  notify: start apparmor
-
-- name: Security | Copy apparmor profile for slack
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.copy:
-    src: apparmor-slack
-    dest: /etc/apparmor.d/slack
-    owner: root
-    group: root
-    mode: "0644"
-  become: true
-  notify: start apparmor
-
-- name: Security | Copy apparmor local override for slack
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.copy:
-    src: apparmor-local-slack
-    dest: /etc/apparmor.d/local/slack
-    owner: root
-    group: root
-    mode: "0644"
-  become: true
-  notify: start apparmor
-
-- name: Security | Copy apparmor local override for xinit to allow tty, /usr/local/bin and home scripts
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.copy:
-    src: apparmor-local-xinit
-    dest: /etc/apparmor.d/local/xinit
-    owner: root
-    group: root
-    mode: "0644"
-  become: true
-  notify: start apparmor
-
-- name: Security | Copy apparmor local override for xorg to allow DRI file_receive via logind
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.copy:
-    src: apparmor-local-xorg
-    dest: /etc/apparmor.d/local/xorg
-    owner: root
-    group: root
-    mode: "0644"
-  become: true
-  notify: start apparmor
-
-- name: Security | Copy apparmor local override for xauth to allow nameservice sockets
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.copy:
-    src: apparmor-local-xauth
-    dest: /etc/apparmor.d/local/xauth
-    owner: root
-    group: root
-    mode: "0644"
-  become: true
-  notify: start apparmor
-
-- name: Security | Flush handlers to reload AppArmor before enforcing profiles
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.meta: flush_handlers
-
-- name: Security | Enforce apparmor profiles for high-risk applications
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.command:
-    cmd: aa-enforce {{ item }}
-  loop:
-    - firefox
-    - helium
-    - brave
-    - chrome
-    - chromium
-    - thunderbird
-    - signal-desktop
-    - Discord
-    - slack
-    - transmission
-    - unprivileged_userns
-    - obsidian
-    - vscode
-  become: true
-  register: base_aa_enforce_result
-  changed_when: "'Setting' in base_aa_enforce_result.stdout"
-  failed_when: base_aa_enforce_result.rc != 0 and 'No such file' not in base_aa_enforce_result.stderr
 
 - name: Security | Install security updates automatically
   tags:

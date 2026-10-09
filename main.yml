@@ -59,25 +59,11 @@
 - name: Restart auditd
   tags:
     - security
-    - apparmor
   ansible.builtin.service:
     name: auditd
     state: restarted
     enabled: true
   become: true
-
-- name: Restart apparmor
-  tags:
-    - security
-    - apparmor
-  ansible.builtin.service:
-    name: apparmor
-    state: restarted
-    enabled: true
-  become: true
-  listen: start apparmor
-
-# Tailscale handlers
 
 - name: Restart tailscale service
   tags:

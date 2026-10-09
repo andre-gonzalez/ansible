@@ -11,7 +11,7 @@ Output format — grouped by role:
 base
   tasks/Packages.yml       → packages
   tasks/SSH.yml            → ssh
-  tasks/Security.yml       → security, apparmor
+  tasks/Security.yml       → security
   ...
 
 light_workstation
