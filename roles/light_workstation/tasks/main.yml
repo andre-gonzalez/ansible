@@ -159,6 +159,11 @@
     - packages
     - nvidia
 
+- name: Light Workstation | Include tasks from keyboard play
+  ansible.builtin.include_tasks: tasks/keyboard.yml
+  tags:
+    - keyboard
+
 - name: Light Workstation | Include tasks from autorandr play
   ansible.builtin.include_tasks: tasks/autorandr.yml
   tags:
