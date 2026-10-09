@@ -54,3 +54,11 @@ light_workstation_snapper_retention:
   # without it both values are silently ignored.
   SPACE_LIMIT: "0.3"
   FREE_LIMIT: "0.2"
+
+# GPG secret keys restored by tasks/gpg.yml, by fingerprint (public). The
+# armored export lives vaulted in files/gpg-secret-keys.asc, written by the
+# NixOS repo's secrets/export-gpg-keys.sh. Keep in sync with its
+# modules/home/gpg-keys.nix.
+light_workstation_gpg_keys:
+  - 546B690A34BFB5F67D768159BB1AC653FDBAD33C # André Gonzalez (personal) <lopescg@gmail.com>
+  # Not the Athenaworks key (A2F88C89…BE5ED78E): its passphrase is lost.

@@ -1,0 +1,45 @@
+---
+# Restore the GPG secret keys from the vaulted export when any is missing,
+# and trust them ultimately. The export is still protected by each key's own
+# passphrase, so importing asks for none. Runs as the user (no become): the
+# keys belong in their ~/.gnupg.
+- name: Gpg | Install GnuPG and pinentry
+  tags:
+    - gpg
+  ansible.builtin.package:
+    name:
+      - gnupg
+      - pinentry
+    state: present
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+- name: Gpg | Check which secret keys are present
+  tags:
+    - gpg
+  ansible.builtin.command: gpg --batch --list-secret-keys {{ item }}
+  loop: "{{ light_workstation_gpg_keys }}"
+  register: light_workstation_gpg_present
+  changed_when: false
+  failed_when: false
+
+- name: Gpg | Import the secret keys
+  tags:
+    - gpg
+  ansible.builtin.command:
+    cmd: gpg --batch --quiet --import
+    stdin: "{{ lookup('ansible.builtin.file', 'gpg-secret-keys.asc') }}"
+  no_log: true
+  changed_when: true
+  when:
+    - light_workstation_gpg_present.results | selectattr('rc', 'ne', 0) | list | length > 0
+    - (role_path ~ '/files/gpg-secret-keys.asc') is file
+
+- name: Gpg | Trust the keys ultimately
+  tags:
+    - gpg
+  ansible.builtin.command:
+    cmd: gpg --batch --quiet --import-ownertrust
+    stdin: "{% for fpr in light_workstation_gpg_keys %}{{ fpr }}:6:\n{% endfor %}"
+  changed_when: true
+  when: light_workstation_gpg_present.results | selectattr('rc', 'ne', 0) | list | length > 0

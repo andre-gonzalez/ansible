@@ -31,6 +31,11 @@
   tags:
     - faillock
 
+- name: Light Workstation | Include tasks from gpg play
+  ansible.builtin.include_tasks: tasks/gpg.yml
+  tags:
+    - gpg
+
 - name: Light Workstation | Include tasks from ansible play
   ansible.builtin.include_tasks: tasks/ansible.yml
   tags:
