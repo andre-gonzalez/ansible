@@ -1,0 +1,27 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+# {{ ansible_managed }}
+# Source: roles/light_workstation/templates/home-nosnapshot.conf.j2
+#
+# Keep these home directories out of the snapper "home" snapshots by making
+# them nested btrfs subvolumes. Type v creates a subvolume only when the path
+# does not exist yet, and the ":" prefix applies mode and owner only to inodes
+# it creates, so on a machine where the directories are already there this
+# file changes nothing; convert those once by hand.
+#
+# Parents first, owned by the user, so tmpfiles does not create them as root.
+{% set parents = [] %}
+{% for dir in light_workstation_nosnapshot_dirs %}
+{%   set parts = dir.path.split('/') %}
+{%   for i in range(1, parts | length) %}
+{%     set parent = parts[:i] | join('/') %}
+{%     if parent not in parents %}
+{%       set _ = parents.append(parent) %}
+{%     endif %}
+{%   endfor %}
+{% endfor %}
+{% for parent in parents %}
+d {{ light_workstation_nosnapshot_home }}/{{ parent }} :0755 :{{ light_workstation_nosnapshot_user }} :{{ light_workstation_nosnapshot_user }} -
+{% endfor %}
+{% for dir in light_workstation_nosnapshot_dirs %}
+v {{ light_workstation_nosnapshot_home }}/{{ dir.path }} :{{ dir.mode }} :{{ light_workstation_nosnapshot_user }} :{{ light_workstation_nosnapshot_user }} -
+{% endfor %}

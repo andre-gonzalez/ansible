@@ -30,18 +30,19 @@ light_workstation_snapper_configs:
   - root
   - home
 
-# Snapshot retention, applied to every config listed above. Override per
+# Snapshot retention shared by every config listed above. Per-config deviations
+# go in light_workstation_snapper_retention_overrides below. Override per
 # host/group in group_vars/ when a machine has room to keep more history.
 #
 # The timeline limits are the ones that actually bound disk usage. Snapper keeps
 # the newest N snapshots in each bucket independently, so the totals add up:
-# these values cap a config at 12 timeline snapshots (5 hourly + 7 daily).
+# these values cap a config at 8 timeline snapshots (5 hourly + 3 daily).
 # The long-horizon buckets are deliberately 0 — a year-old snapshot pins every block
 # that has changed since it was taken, which on a workstation is most of the
 # filesystem, and that space can never be reclaimed while it exists.
 light_workstation_snapper_retention:
   TIMELINE_LIMIT_HOURLY: 5
-  TIMELINE_LIMIT_DAILY: 7
+  TIMELINE_LIMIT_DAILY: 3
   TIMELINE_LIMIT_WEEKLY: 0
   TIMELINE_LIMIT_MONTHLY: 0
   TIMELINE_LIMIT_QUARTERLY: 0
@@ -52,8 +53,32 @@ light_workstation_snapper_retention:
   # Fractions of the filesystem. Snapper only honours these once a btrfs qgroup
   # exists for the config, which is what the setup-quota task below arranges;
   # without it both values are silently ignored.
-  SPACE_LIMIT: "0.3"
+  SPACE_LIMIT: "0.2"
   FREE_LIMIT: "0.2"
+
+# Keys merged over light_workstation_snapper_retention for one config, keyed by
+# config name. A config without an entry uses the shared values unchanged.
+#
+# root drops hourly snapshots (3 timeline snapshots in total): the snap-pac
+# pre/post pairs already give a rollback point around every package change,
+# and hourly snapshots of / add little on top of them. Holding fewer pairs
+# also releases the old package files they pin sooner.
+light_workstation_snapper_retention_overrides:
+  root:
+    TIMELINE_LIMIT_HOURLY: 0
+    NUMBER_LIMIT: 6
+
+# Directories under the user's home kept out of the home snapshots. Snapper
+# snapshots a single subvolume and never descends into nested ones, so making
+# these nested btrfs subvolumes means cache churn and game updates are freed
+# as soon as they are deleted instead of being pinned by every snapshot for
+# days. tasks/snapper.yml turns this list into a systemd-tmpfiles drop-in.
+# Paths are relative to the home directory.
+light_workstation_nosnapshot_dirs:
+  - path: .cache
+    mode: "0700"
+  - path: .local/share/Steam
+    mode: "0755"
 
 # GPG secret keys restored by tasks/gpg.yml, by fingerprint (public). The
 # armored export lives vaulted in files/gpg-secret-keys.asc, written by the

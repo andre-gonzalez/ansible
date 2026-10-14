@@ -125,6 +125,7 @@
       - noto-fonts # Google Fonts
       - noto-fonts-extra # Additional variants of google fonts
       - ncdu # Terminal disk space usage explorer utility
+      - pacman-contrib # paccache, used by limpar-disco to empty the package cache
       - git-delta # Better delta for git
       - pkgstats # Send list of installed packages to arch developers
       - dash
