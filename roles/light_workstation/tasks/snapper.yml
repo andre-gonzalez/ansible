@@ -33,16 +33,30 @@
 # place leaves the rest of the packaged file alone while making the limits
 # declarative here; snapper re-reads the file on every invocation, so no
 # reload is needed.
+#
+# Each config gets the shared retention with its own overrides merged on top,
+# flattened into one (config, key, value) item per line to rewrite.
 - name: Snapper | Apply snapshot retention limits
   tags:
     - snapper
   ansible.builtin.lineinfile:
-    path: /etc/snapper/configs/{{ item.0 }}
-    regexp: ^{{ item.1.key }}=
-    line: '{{ item.1.key }}="{{ item.1.value }}"'
-  loop: "{{ light_workstation_snapper_configs | product(light_workstation_snapper_retention | dict2items) | list }}"
+    path: /etc/snapper/configs/{{ item.config }}
+    regexp: ^{{ item.key }}=
+    line: '{{ item.key }}="{{ item.value }}"'
+  loop: "{{ light_workstation_snapper_retention_items }}"
   loop_control:
-    label: "{{ item.0 }} {{ item.1.key }}={{ item.1.value }}"
+    label: "{{ item.config }} {{ item.key }}={{ item.value }}"
+  vars:
+    light_workstation_snapper_retention_items: >-
+      {%- set items = [] -%}
+      {%- for config in light_workstation_snapper_configs -%}
+      {%-   set merged = light_workstation_snapper_retention
+                         | combine(light_workstation_snapper_retention_overrides[config] | default({})) -%}
+      {%-   for entry in merged | dict2items -%}
+      {%-     set _ = items.append({'config': config, 'key': entry.key, 'value': entry.value}) -%}
+      {%-   endfor -%}
+      {%- endfor -%}
+      {{ items }}
   become: true
   notify: run_snapper_cleanup
 
@@ -71,6 +85,36 @@
   when: item.rc != 0
   become: true
   notify: run_snapper_cleanup
+
+# Snapper never descends into nested subvolumes, so a directory that is its
+# own subvolume stays out of the home snapshots and its space is freed as soon
+# as files in it are deleted. tmpfiles type v creates the subvolume only when
+# the path does not exist, which makes this safe on a machine whose home is
+# already populated: there it does nothing, and the directory has to be
+# converted once by hand. On a fresh install it runs before the user logs in
+# for the first time, while the paths are still free.
+- name: Snapper | Keep cache and game directories out of home snapshots
+  tags:
+    - snapper
+  ansible.builtin.template:
+    src: home-nosnapshot.conf.j2
+    dest: /etc/tmpfiles.d/home-nosnapshot.conf
+    owner: root
+    group: root
+    mode: "0644"
+  vars:
+    light_workstation_nosnapshot_user: "{{ lookup('env', 'USER') }}"
+    light_workstation_nosnapshot_home: "{{ lookup('env', 'HOME') }}"
+  become: true
+  register: light_workstation_nosnapshot_tmpfiles
+
+- name: Snapper | Create the nested subvolumes that do not exist yet
+  tags:
+    - snapper
+  ansible.builtin.command: systemd-tmpfiles --create /etc/tmpfiles.d/home-nosnapshot.conf
+  when: light_workstation_nosnapshot_tmpfiles is changed
+  changed_when: true
+  become: true
 
 - name: Snapper | Ensure snapper group exists
   tags:
