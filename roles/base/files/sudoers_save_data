@@ -1,0 +1,18 @@
+# save-data (~/.scripts/save-data) stops these units on a metered network
+# and starts them again on restore. It is launched from dmenu, so sudo has no
+# tty to ask for a password: only these exact commands skip it. Keep the list
+# in sync with CORE_UNITS/OPTIONAL_UNITS in save-data.
+Cmnd_Alias SAVE_DATA_UNITS = \
+	/usr/bin/systemctl stop clamav-freshclam, /usr/bin/systemctl start clamav-freshclam, \
+	/usr/bin/systemctl stop clamav-freshclam.timer, /usr/bin/systemctl start clamav-freshclam.timer, \
+	/usr/bin/systemctl stop pkgstats.timer, /usr/bin/systemctl start pkgstats.timer, \
+	/usr/bin/systemctl stop archlinux-keyring-wkd-sync.timer, /usr/bin/systemctl start archlinux-keyring-wkd-sync.timer, \
+	/usr/bin/systemctl stop docker.socket, /usr/bin/systemctl start docker.socket, \
+	/usr/bin/systemctl stop docker, /usr/bin/systemctl start docker, \
+	/usr/bin/systemctl stop containerd, /usr/bin/systemctl start containerd, \
+	/usr/bin/systemctl stop nix-daemon, /usr/bin/systemctl start nix-daemon, \
+	/usr/bin/systemctl stop tailscaled, /usr/bin/systemctl start tailscaled, \
+	/usr/bin/systemctl stop awsvpnclient, /usr/bin/systemctl start awsvpnclient, \
+	/usr/bin/systemctl stop cronie, /usr/bin/systemctl start cronie
+
+frank ALL=(root) NOPASSWD: SAVE_DATA_UNITS

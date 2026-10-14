@@ -74,7 +74,9 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
+    validate: visudo -cf %s
   with_items:
     - { src: sudoers_ansible, dest: /etc/sudoers.d/ansible, mode: "0440" }
     - { src: sudoers_frank, dest: /etc/sudoers.d/frank, mode: "0440" }
+    - { src: sudoers_save_data, dest: /etc/sudoers.d/save-data, mode: "0440" }
   become: true
