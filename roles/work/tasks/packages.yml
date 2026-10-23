@@ -6,6 +6,7 @@
     name:
       - drawio-desktop
       - ttf-ibm-plex # Fonts
+      - glab # GitLab CLI, for merge requests and pipelines
     state: present
     update_cache: true
   become: true
