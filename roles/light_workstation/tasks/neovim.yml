@@ -144,3 +144,23 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/sql-language-server/"
     owner: "{{ lookup('env', 'USER') }}"
     mode: "0600"
+
+- name: Neovim | Create neovim lua directory for the secrets file
+  tags:
+    - neovim
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/nvim/lua"
+    state: directory
+    mode: "0700"
+    owner: "{{ lookup('env', 'USER') }}"
+
+# Vault-encrypted; read by lua/plugins/vim-dadbod.lua and ignored by the dotfiles repo.
+- name: Neovim | Copy secrets.lua to .config
+  tags:
+    - neovim
+  ansible.builtin.copy:
+    src: nvim-secrets.lua
+    dest: "{{ lookup('env', 'HOME') }}/.config/nvim/lua/secrets.lua"
+    owner: "{{ lookup('env', 'USER') }}"
+    mode: "0600"
+  diff: false
