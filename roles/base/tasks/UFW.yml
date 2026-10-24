@@ -54,6 +54,25 @@
     comment: connections from tailscale
   become: true
 
+# KDE Connect reaches the phone over tailscale0 (the phone adds this host by its
+# Tailscale IP), so 1714-1764 stays closed on the networks the laptop joins.
+# These rules were added by hand; delete them where they still exist.
+- name: UFW | Remove KDE Connect ports
+  tags:
+    - ufw
+  community.general.ufw:
+    rule: allow
+    port: "1714:1764"
+    proto: "{{ item.proto }}"
+    from_ip: "{{ item.from_ip }}"
+    delete: true
+  loop:
+    - { proto: tcp, from_ip: any }
+    - { proto: udp, from_ip: any }
+    - { proto: tcp, from_ip: 192.168.1.0/24 }
+    - { proto: udp, from_ip: 192.168.1.0/24 }
+  become: true
+
 # - name: UFW | Allow port range 80/tcp
 #   tags:
 #     - ufw
