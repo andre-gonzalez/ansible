@@ -10,8 +10,11 @@
   loop:
     - { insertafter: "\\[Resolve\\]", line: DNS=1.1.1.3 }
     - { insertafter: DNS=1.1.1.3, line: FallbackDNS=1.0.0.3 }
+    # LLMNR answers can be spoofed by anyone on the same network
+    - { insertafter: FallbackDNS=1.0.0.3, line: LLMNR=no }
   become: true
   when: ansible_facts["distribution"] == "Archlinux"
+  notify: restart resolved
 
 - name: Network | Change default DNS server (Debian and Ubuntu)
   tags:

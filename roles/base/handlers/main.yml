@@ -107,3 +107,12 @@
     enabled: true
   become: true
   listen: start sysstat
+
+- name: Restart systemd-resolved
+  tags:
+    - network
+  ansible.builtin.service:
+    name: systemd-resolved
+    state: restarted
+  become: true
+  listen: restart resolved
