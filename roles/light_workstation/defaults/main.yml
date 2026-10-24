@@ -87,3 +87,58 @@ light_workstation_nosnapshot_dirs:
 light_workstation_gpg_keys:
   - 546B690A34BFB5F67D768159BB1AC653FDBAD33C # André Gonzalez (personal) <lopescg@gmail.com>
   # Not the Athenaworks key (A2F88C89…BE5ED78E): its passphrase is lost.
+
+# OpenSnitch (tasks/opensnitch.yml). DefaultAction applies to a connection no
+# rule matches when opensnitch-ui does not answer: before startx, in a TTY or
+# over SSH. "allow" while it learns; "deny" once the rules cover daily use.
+light_workstation_opensnitch_default_action: allow
+
+# Rules for what must reach the network without a prompt. Each becomes
+# /etc/opensnitchd/rules/<name>.json (action allow, duration always); rules
+# made in opensnitch-ui live next to them.
+light_workstation_opensnitch_rules:
+  - name: 000-allow-localhost-ipv4
+    description: Loopback (systemd-resolved stub, local services)
+    type: network
+    operand: dest.network
+    data: 127.0.0.0/8
+  - name: 000-allow-localhost-ipv6
+    description: Loopback (systemd-resolved stub, local services)
+    type: network
+    operand: dest.network
+    data: "::1/128"
+  - name: 001-allow-systemd-resolved
+    description: DNS for every program
+    type: simple
+    operand: process.path
+    data: /usr/lib/systemd/systemd-resolved
+  - name: 001-allow-systemd-timesyncd
+    description: NTP
+    type: simple
+    operand: process.path
+    data: /usr/lib/systemd/systemd-timesyncd
+  - name: 001-allow-iwd
+    description: WiFi and its DHCP
+    type: simple
+    operand: process.path
+    data: /usr/lib/iwd/iwd
+  - name: 001-allow-tailscaled
+    description: Tailscale control plane and DERP relays
+    type: simple
+    operand: process.path
+    data: /usr/bin/tailscaled
+  - name: 001-allow-pacman
+    description: Package downloads, also for yay and Ansible
+    type: simple
+    operand: process.path
+    data: /usr/bin/pacman
+  - name: 001-allow-dockerd
+    description: Image pulls
+    type: simple
+    operand: process.path
+    data: /usr/bin/dockerd
+  - name: 001-allow-kdeconnectd
+    description: Phone over Tailscale (dwmblocks battery block)
+    type: simple
+    operand: process.path
+    data: /usr/bin/kdeconnectd

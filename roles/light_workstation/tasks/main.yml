@@ -256,6 +256,11 @@
   tags:
     - crash-notify
 
+- name: Light Workstation | Include tasks from opensnitch play
+  ansible.builtin.include_tasks: tasks/opensnitch.yml
+  tags:
+    - opensnitch
+
 # - name: Light Workstation | Include tasks from doas play
 #   ansible.builtin.include_tasks: tasks/doas.yml
 #   tags:

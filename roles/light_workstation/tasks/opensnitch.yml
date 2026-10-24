@@ -1,0 +1,101 @@
+---
+# Application firewall: asks before a program makes a new outgoing
+# connection. opensnitch-ui is started by .xinitrc (dotfiles repo); without
+# it, light_workstation_opensnitch_default_action decides.
+- name: OpenSnitch | Install opensnitch
+  tags:
+    - opensnitch
+  ansible.builtin.package:
+    name: opensnitch
+  become: true
+
+- name: OpenSnitch | Read the daemon configuration
+  tags:
+    - opensnitch
+  ansible.builtin.slurp:
+    src: /etc/opensnitchd/default-config.json
+  register: light_workstation_opensnitch_config
+  become: true
+
+# Only DefaultAction is ours; the rest stays as the package ships it.
+- name: OpenSnitch | Set the default action
+  tags:
+    - opensnitch
+  ansible.builtin.copy:
+    content: >-
+      {{ light_workstation_opensnitch_config.content | b64decode | from_json
+         | combine({'DefaultAction': light_workstation_opensnitch_default_action})
+         | to_nice_json(indent=4) }}
+    dest: /etc/opensnitchd/default-config.json
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: restart opensnitchd
+
+# opensnitchd watches the rules directory, so new rules apply without a restart.
+- name: OpenSnitch | Install the base rules
+  tags:
+    - opensnitch
+  vars:
+    light_workstation_opensnitch_rule:
+      name: "{{ item.name }}"
+      description: "{{ item.description }}"
+      enabled: true
+      precedence: false
+      nolog: false
+      action: allow
+      duration: always
+      operator:
+        type: "{{ item.type }}"
+        operand: "{{ item.operand }}"
+        sensitive: false
+        data: "{{ item.data }}"
+        list: []
+  ansible.builtin.copy:
+    content: "{{ light_workstation_opensnitch_rule | to_nice_json(indent=4) }}"
+    dest: /etc/opensnitchd/rules/{{ item.name }}.json
+    owner: root
+    group: root
+    mode: "0644"
+  loop: "{{ light_workstation_opensnitch_rules }}"
+  loop_control:
+    label: "{{ item.name }}"
+  become: true
+
+# What opensnitch-ui does with a prompt nobody answers in 30 s. Its own default
+# is deny until restart, which would break things while it learns; follow
+# DefaultAction instead, once (0) so the next connection asks again.
+# Indexes: default_action 0 deny, 1 allow; default_duration 0 once.
+- name: OpenSnitch | Create the opensnitch-ui configuration directory
+  tags:
+    - opensnitch
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/opensnitch"
+    state: directory
+    mode: "0755"
+
+- name: OpenSnitch | Set what an unanswered prompt does
+  tags:
+    - opensnitch
+  community.general.ini_file:
+    path: "{{ lookup('env', 'HOME') }}/.config/opensnitch/settings.conf"
+    section: global
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    no_extra_spaces: true
+    mode: "0644"
+  loop:
+    - option: default_action
+      value: "{{ 1 if light_workstation_opensnitch_default_action == 'allow' else 0 }}"
+    - option: default_duration
+      value: "0"
+
+- name: OpenSnitch | Enable and start opensnitchd
+  tags:
+    - opensnitch
+  ansible.builtin.service:
+    name: opensnitchd
+    state: started
+    enabled: true
+  become: true

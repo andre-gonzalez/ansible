@@ -105,3 +105,12 @@
     state: started
   become: true
   listen: run_snapper_cleanup
+
+- name: Restart opensnitchd
+  tags:
+    - opensnitch
+  ansible.builtin.service:
+    name: opensnitchd
+    state: restarted
+  become: true
+  listen: restart opensnitchd
