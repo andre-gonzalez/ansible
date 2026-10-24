@@ -6,13 +6,6 @@
     name: ufw
   become: true
 
-- name: UFW | Disable ufw
-  tags:
-    - ufw
-  community.general.ufw:
-    state: disabled
-  become: true
-
 - name: UFW | Set logging on
   tags:
     - ufw
@@ -35,7 +28,10 @@
 #     proto: tcp
 #   become: true
 
-- name: UFW | Allow ssh only to local network
+# SSH is reachable only through tailscale0 (next task). This removes the old
+# LAN rule from hosts that still have it; ufw keeps rules that are no longer
+# declared here.
+- name: UFW | Remove ssh from local network
   tags:
     - ufw
     - ssh
@@ -44,7 +40,7 @@
     from_ip: 192.168.100.0/24
     port: "{{ base_ssh_port }}"
     proto: tcp
-    comment: ssh to local network
+    delete: true
   become: true
 
 - name: UFW | Allow connections from tailscale
