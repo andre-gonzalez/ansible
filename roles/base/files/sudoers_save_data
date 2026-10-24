@@ -13,6 +13,9 @@ Cmnd_Alias SAVE_DATA_UNITS = \
 	/usr/bin/systemctl stop nix-daemon, /usr/bin/systemctl start nix-daemon, \
 	/usr/bin/systemctl stop tailscaled, /usr/bin/systemctl start tailscaled, \
 	/usr/bin/systemctl stop awsvpnclient, /usr/bin/systemctl start awsvpnclient, \
-	/usr/bin/systemctl stop cronie, /usr/bin/systemctl start cronie
+	/usr/bin/systemctl stop cronie, /usr/bin/systemctl start cronie, \
+	/usr/bin/systemctl stop cups.path, /usr/bin/systemctl start cups.path, \
+	/usr/bin/systemctl stop cups.socket, /usr/bin/systemctl start cups.socket, \
+	/usr/bin/systemctl stop cups.service, /usr/bin/systemctl start cups.service
 
 frank ALL=(root) NOPASSWD: SAVE_DATA_UNITS
