@@ -263,6 +263,11 @@ light_workstation_opensnitch_rules:
     type: simple
     operand: process.path
     data: /usr/bin/docker
+  - name: 100-allow-docker-buildx
+    description: Docker buildx (image pulls, build contexts)
+    type: simple
+    operand: process.path
+    data: /usr/lib/docker/cli-plugins/docker-buildx
   - name: 100-allow-terraform
     description: Terraform (provider downloads, state)
     type: simple
@@ -414,6 +419,10 @@ light_workstation_opensnitch_removed_rules:
   - allow-always-simple-usr-bin-cmk-agent-ctl
   - allow-always-simple-usr-bin-nix
   - allow-always-simple-usr-bin-yay
+  - allow-always-simple-usr-lib-docker-cli-plugins-docker-buildx
+  # Interpreter or curl for every destination; the uv one is also under $HOME
+  - allow-always-simple-home-frank-local-share-uv-python-cpython-3-12-13-linux-x86-64-gnu-bin-python3-12
+  - allow-always-simple-nix-store-9ql07bi7wm8ijngjmwbz44cv8am6lv3i-curl-8-21-0-bin-bin-curl
   - allow-always-simple-bitwarden-com
   - allow-always-simple-youtube-com
   - allow-always-simple-googlevideo-com
