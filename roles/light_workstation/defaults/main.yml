@@ -193,6 +193,16 @@ light_workstation_opensnitch_rules:
     type: simple
     operand: process.path
     data: /usr/bin/lynx
+  # QtWebEngine runs the network service inside the Python process, so every
+  # page qutebrowser loads comes from python3. Match its command line, not all
+  # of Python. Malware as this user can fake the command line, but it can also
+  # tell any allowed browser to open a URL, so this adds little.
+  - name: 100-allow-qutebrowser
+    description: qutebrowser (pages, adblock lists)
+    type: list
+    list:
+      - { type: regexp, operand: process.path, data: '^/usr/bin/python3\.[0-9]+$' }
+      - { type: regexp, operand: process.command, data: '^/usr/bin/python3 /usr/bin/qutebrowser( |$)' }
   - name: 100-allow-webkit-network
     description: Network process of every WebKitGTK program
     type: simple
@@ -289,38 +299,8 @@ light_workstation_opensnitch_rules:
     operand: process.path
     data: /usr/bin/yay
 
-  # Destinations any program may reach (mostly qutebrowser, whose
-  # QtWebEngineProcess has no rule of its own)
-  - name: 200-allow-bitwarden-com
-    description: Bitwarden
-    type: regexp
-    operand: dest.host
-    data: '^(|.*\.)bitwarden\.com$'
-  - name: 200-allow-youtube-com
-    description: YouTube
-    type: regexp
-    operand: dest.host
-    data: '^(|.*\.)youtube\.com$'
-  - name: 200-allow-googlevideo-com
-    description: YouTube video streams
-    type: regexp
-    operand: dest.host
-    data: '^(|.*\.)googlevideo\.com$'
-  - name: 200-allow-sponsor-ajay-app
-    description: SponsorBlock
-    type: simple
-    operand: dest.host
-    data: sponsor.ajay.app
-  - name: 200-allow-whatsapp-com
-    description: WhatsApp Web
-    type: regexp
-    operand: dest.host
-    data: '^(|.*\.)whatsapp\.com$'
-  - name: 200-allow-whatsapp-net
-    description: WhatsApp Web media
-    type: regexp
-    operand: dest.host
-    data: '^(|.*\.)whatsapp\.net$'
+  # Destinations any program may reach: Terraform and its providers
+  # (servarr-failover), which run from ~/.local/state
   - name: 200-allow-hetzner-com
     description: Hetzner (servarr-failover)
     type: regexp
@@ -351,6 +331,12 @@ light_workstation_opensnitch_rules:
     list:
       - { type: simple, operand: process.path, data: /usr/bin/cargo }
       - { type: regexp, operand: dest.host, data: '^(|.*\.)crates\.io$' }
+  - name: 300-allow-bw-bitwarden
+    description: Bitwarden CLI (bw is a Node script)
+    type: list
+    list:
+      - { type: simple, operand: process.path, data: /usr/bin/node }
+      - { type: regexp, operand: dest.host, data: '^(|.*\.)bitwarden\.com$' }
   - name: 300-allow-uv-pypi
     description: PyPI index and downloads
     type: list
@@ -423,6 +409,16 @@ light_workstation_opensnitch_removed_rules:
   # Interpreter or curl for every destination; the uv one is also under $HOME
   - allow-always-simple-home-frank-local-share-uv-python-cpython-3-12-13-linux-x86-64-gnu-bin-python3-12
   - allow-always-simple-nix-store-9ql07bi7wm8ijngjmwbz44cv8am6lv3i-curl-8-21-0-bin-bin-curl
+  # qutebrowser has its own rule now (100-allow-qutebrowser), and bw has
+  # 300-allow-bw-bitwarden: no destination stays open to every program
+  - allow-always-simple-api-github-com
+  - allow-always-simple-archlinux-org
+  - 200-allow-bitwarden-com
+  - 200-allow-youtube-com
+  - 200-allow-googlevideo-com
+  - 200-allow-sponsor-ajay-app
+  - 200-allow-whatsapp-com
+  - 200-allow-whatsapp-net
   - allow-always-simple-bitwarden-com
   - allow-always-simple-youtube-com
   - allow-always-simple-googlevideo-com
