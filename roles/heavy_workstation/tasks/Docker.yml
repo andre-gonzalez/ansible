@@ -13,6 +13,8 @@
 # Published ports bind to localhost unless a compose file names another host IP.
 # Docker writes its own nftables accept rules, so UFW never sees these ports:
 # a plain "27017:27017" would otherwise be open to every Wi-Fi network.
+# "ip" covers only the default bridge (docker run); compose networks take the
+# bind address from default-network-opts, and only when they are created.
 - name: Docker | Create the docker configuration directory
   tags:
     - docker
@@ -34,7 +36,12 @@
     mode: "0644"
     content: |
       {
-        "ip": "127.0.0.1"
+        "ip": "127.0.0.1",
+        "default-network-opts": {
+          "bridge": {
+            "com.docker.network.bridge.host_binding_ipv4": "127.0.0.1"
+          }
+        }
       }
   become: true
   notify: Restart docker
