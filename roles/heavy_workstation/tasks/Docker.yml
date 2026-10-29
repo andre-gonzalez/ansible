@@ -10,6 +10,35 @@
     update_cache: false
   become: true
 
+# Published ports bind to localhost unless a compose file names another host IP.
+# Docker writes its own nftables accept rules, so UFW never sees these ports:
+# a plain "27017:27017" would otherwise be open to every Wi-Fi network.
+- name: Docker | Create the docker configuration directory
+  tags:
+    - docker
+  ansible.builtin.file:
+    path: /etc/docker
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+
+- name: Docker | Bind published ports to localhost by default
+  tags:
+    - docker
+  ansible.builtin.copy:
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      {
+        "ip": "127.0.0.1"
+      }
+  become: true
+  notify: Restart docker
+
 - name: Docker | Start docker
   tags:
     - docker
