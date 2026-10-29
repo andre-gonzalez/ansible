@@ -24,6 +24,21 @@
     - clamav-freshclam
     - cups
 
+# cups-pdf creates its spool and output root (/var/spool/cups-pdf) on first
+# use, which the read-only /var of the sandbox no longer allows; and
+# ReadWritePaths only applies to paths that exist when cupsd starts.
+- name: Service-sandbox | Create the cups-pdf spool directory
+  tags:
+    - security
+    - sandbox
+  ansible.builtin.file:
+    path: /var/spool/cups-pdf
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+
 - name: Service-sandbox | Deploy sandbox drop-ins
   tags:
     - security
