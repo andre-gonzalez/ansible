@@ -252,6 +252,7 @@
     - clamav
     - arch-audit
     - permissions
+    - lynis
 
 - name: Light Workstation | Include tasks from service-sandbox play
   ansible.builtin.include_tasks: tasks/service-sandbox.yml

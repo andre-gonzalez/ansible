@@ -118,3 +118,38 @@
   loop_control:
     label: "{{ item.item.path }}"
   become: true
+
+# The profile records the decisions of the hardening review: each skipped test
+# has its reason, so a new Lynis run shows only new findings.
+- name: Security | Install lynis
+  tags:
+    - security
+    - lynis
+  ansible.builtin.package:
+    name: lynis
+    state: present
+  become: true
+
+- name: Security | Create the lynis configuration directory
+  tags:
+    - security
+    - lynis
+  ansible.builtin.file:
+    path: /etc/lynis
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+
+- name: Security | Copy the lynis profile with the review decisions
+  tags:
+    - security
+    - lynis
+  ansible.builtin.copy:
+    src: lynis-custom.prf
+    dest: /etc/lynis/custom.prf
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
