@@ -6,6 +6,7 @@
     name:
       - lf
       - ueberzugpp
+      - lynx # scope previews HTML with it; also the text browser
       - ttf-symbola
     use: yay
     state: present

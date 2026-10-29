@@ -90,13 +90,15 @@ light_workstation_gpg_keys:
 
 # OpenSnitch (tasks/opensnitch.yml). DefaultAction applies to a connection no
 # rule matches when opensnitch-ui does not answer: before startx, in a TTY or
-# over SSH. "allow" while it learns; "deny" once the rules cover daily use.
-light_workstation_opensnitch_default_action: allow
+# over SSH.
+light_workstation_opensnitch_default_action: deny
 
-# Rules for what must reach the network without a prompt. Each becomes
+# Rules for what may reach the network without a prompt. Each becomes
 # /etc/opensnitchd/rules/<name>.json (action allow, duration always); rules
-# made in opensnitch-ui live next to them.
+# made in opensnitch-ui live next to them until they are moved here.
+# type list: every entry of `list` must match (opensnitch-ui writes the same).
 light_workstation_opensnitch_rules:
+  # System daemons
   - name: 000-allow-localhost-ipv4
     description: Loopback (systemd-resolved stub, local services)
     type: network
@@ -117,6 +119,11 @@ light_workstation_opensnitch_rules:
     type: simple
     operand: process.path
     data: /usr/lib/systemd/systemd-timesyncd
+  - name: 001-allow-systemd-networkd
+    description: Wired DHCP
+    type: simple
+    operand: process.path
+    data: /usr/lib/systemd/systemd-networkd
   - name: 001-allow-iwd
     description: WiFi and its DHCP
     type: simple
@@ -137,8 +144,287 @@ light_workstation_opensnitch_rules:
     type: simple
     operand: process.path
     data: /usr/bin/dockerd
+  - name: 001-allow-docker-proxy
+    description: Published container ports
+    type: simple
+    operand: process.path
+    data: /usr/bin/docker-proxy
+  - name: 001-allow-freshclam
+    description: ClamAV signature updates
+    type: simple
+    operand: process.path
+    data: /usr/bin/freshclam
   - name: 001-allow-kdeconnectd
     description: Phone over Tailscale (dwmblocks battery block)
     type: simple
     operand: process.path
     data: /usr/bin/kdeconnectd
+  # Only to the mDNS multicast groups, not port 5353 anywhere
+  - name: 001-allow-mdns
+    description: mDNS queries (avahi, systemd-resolved)
+    type: list
+    list:
+      - { type: simple, operand: dest.port, data: "5353" }
+      - { type: regexp, operand: dest.ip, data: '^(224\.0\.0\.251|ff02::fb)$' }
+
+  # Applications
+  - name: 100-allow-1password
+    description: 1Password sync
+    type: simple
+    operand: process.path
+    data: /opt/1Password/1password
+  - name: 100-allow-claude
+    description: Claude Code
+    type: simple
+    operand: process.path
+    data: /opt/claude-code/bin/claude
+  - name: 100-allow-helium
+    description: Helium browser
+    type: simple
+    operand: process.path
+    data: /opt/helium-browser-bin/helium
+  - name: 100-allow-chromium
+    description: Chromium
+    type: simple
+    operand: process.path
+    data: /usr/lib/chromium/chromium
+  - name: 100-allow-lynx
+    description: Lynx text browser
+    type: simple
+    operand: process.path
+    data: /usr/bin/lynx
+  - name: 100-allow-webkit-network
+    description: Network process of every WebKitGTK program
+    type: simple
+    operand: process.path
+    data: /usr/lib/webkit2gtk-4.1/WebKitNetworkProcess
+  - name: 100-allow-slack
+    description: Slack
+    type: simple
+    operand: process.path
+    data: /usr/lib/slack/slack
+  - name: 100-allow-insync
+    description: Insync (Google Drive)
+    type: simple
+    operand: process.path
+    data: /usr/lib/insync/insync
+  - name: 100-allow-insync-webengine
+    description: Insync sign-in window
+    type: simple
+    operand: process.path
+    data: /usr/lib/insync/PySide2/Qt/libexec/QtWebEngineProcess
+  - name: 100-allow-enteauth
+    description: Ente Auth sync
+    type: simple
+    operand: process.path
+    data: /usr/share/enteauth/enteauth
+  - name: 100-allow-whispering
+    description: Whispering (transcription API)
+    type: simple
+    operand: process.path
+    data: /usr/bin/whispering
+  - name: 100-allow-spotify-launcher
+    description: Spotify download and updates
+    type: simple
+    operand: process.path
+    data: /usr/bin/spotify-launcher
+  - name: 100-allow-newsboat
+    description: RSS feeds
+    type: simple
+    operand: process.path
+    data: /usr/bin/newsboat
+  - name: 100-allow-mbsync
+    description: Mail sync
+    type: simple
+    operand: process.path
+    data: /usr/bin/mbsync
+  - name: 100-allow-ssh
+    description: SSH client
+    type: simple
+    operand: process.path
+    data: /usr/bin/ssh
+  - name: 100-allow-git-remote-http
+    description: Git over HTTPS
+    type: simple
+    operand: process.path
+    data: /usr/lib/git-core/git-remote-http
+  - name: 100-allow-gh
+    description: GitHub CLI
+    type: simple
+    operand: process.path
+    data: /usr/bin/gh
+  - name: 100-allow-glab
+    description: GitLab CLI
+    type: simple
+    operand: process.path
+    data: /usr/bin/glab
+  - name: 100-allow-docker
+    description: Docker CLI (registry login)
+    type: simple
+    operand: process.path
+    data: /usr/bin/docker
+  - name: 100-allow-terraform
+    description: Terraform (provider downloads, state)
+    type: simple
+    operand: process.path
+    data: /usr/bin/terraform
+  - name: 100-allow-cmk-agent-ctl
+    description: Checkmk agent registration
+    type: simple
+    operand: process.path
+    data: /usr/bin/cmk-agent-ctl
+  - name: 100-allow-nix
+    description: Nix (flake inputs, substituters)
+    type: simple
+    operand: process.path
+    data: /usr/bin/nix
+  - name: 100-allow-yay
+    description: AUR downloads
+    type: simple
+    operand: process.path
+    data: /usr/bin/yay
+
+  # Destinations any program may reach (mostly qutebrowser, whose
+  # QtWebEngineProcess has no rule of its own)
+  - name: 200-allow-bitwarden-com
+    description: Bitwarden
+    type: regexp
+    operand: dest.host
+    data: '^(|.*\.)bitwarden\.com$'
+  - name: 200-allow-youtube-com
+    description: YouTube
+    type: regexp
+    operand: dest.host
+    data: '^(|.*\.)youtube\.com$'
+  - name: 200-allow-googlevideo-com
+    description: YouTube video streams
+    type: regexp
+    operand: dest.host
+    data: '^(|.*\.)googlevideo\.com$'
+  - name: 200-allow-sponsor-ajay-app
+    description: SponsorBlock
+    type: simple
+    operand: dest.host
+    data: sponsor.ajay.app
+  - name: 200-allow-whatsapp-com
+    description: WhatsApp Web
+    type: regexp
+    operand: dest.host
+    data: '^(|.*\.)whatsapp\.com$'
+  - name: 200-allow-whatsapp-net
+    description: WhatsApp Web media
+    type: regexp
+    operand: dest.host
+    data: '^(|.*\.)whatsapp\.net$'
+  - name: 200-allow-hetzner-com
+    description: Hetzner (servarr-failover)
+    type: regexp
+    operand: dest.host
+    data: '^(|.*\.)hetzner\.com$'
+  - name: 200-allow-hetzner-cloud
+    description: Hetzner Cloud API (servarr-failover)
+    type: regexp
+    operand: dest.host
+    data: '^(|.*\.)hetzner\.cloud$'
+  - name: 200-allow-terraform-io
+    description: Terraform registry
+    type: regexp
+    operand: dest.host
+    data: '^(|.*\.)terraform\.io$'
+
+  # Interpreters only to their package registry. curl and python have no
+  # fixed destination: answer their prompts once or until reboot.
+  - name: 300-allow-node-npm
+    description: npm registry
+    type: list
+    list:
+      - { type: simple, operand: process.path, data: /usr/bin/node }
+      - { type: regexp, operand: dest.host, data: '^registry\.npmjs\.org$' }
+  - name: 300-allow-cargo-crates-io
+    description: crates.io index and downloads
+    type: list
+    list:
+      - { type: simple, operand: process.path, data: /usr/bin/cargo }
+      - { type: regexp, operand: dest.host, data: '^(|.*\.)crates\.io$' }
+  - name: 300-allow-uv-pypi
+    description: PyPI index and downloads
+    type: list
+    list:
+      - { type: simple, operand: process.path, data: /usr/bin/uv }
+      - { type: regexp, operand: dest.host, data: '^(pypi\.org|files\.pythonhosted\.org)$' }
+
+# Binaries under $HOME, which the user can overwrite: the rule also checks
+# the MD5 taken when the playbook runs, so a replaced binary prompts again.
+# A missing path is skipped; update the path after a version change.
+light_workstation_opensnitch_checksum_rules:
+  - name: 400-allow-discord
+    description: Discord (updates itself)
+    path: .config/discord/app-1.0.166/Discord
+  - name: 400-allow-spotify
+    description: Spotify (installed by spotify-launcher)
+    path: .local/share/spotify-launcher/install/usr/share/spotify/spotify
+  - name: 400-allow-herdr-jira
+    description: herdr Jira plugin
+    path: .config/herdr/plugins/github/herdr-jira-32053ccf3d18/target/release/herdr-jira
+  - name: 400-allow-dwm-systemd-networkd-c
+    description: dwmblocks network block
+    path: .config/dwmblocks/laptop-dwmblocks/bar-functions/dwm_systemd_networkd_c
+  - name: 400-allow-terraform-provider-tailscale
+    description: Terraform Tailscale provider (servarr-failover)
+    path: .local/state/servarr-failover/infra.tfdata/providers/registry.terraform.io/tailscale/tailscale/0.29.2/linux_amd64/terraform-provider-tailscale_v0.29.2
+
+# Rules opensnitch-ui made during the learning period. They are above now, or
+# dropped: process.id rules (a later process gets the same PID), port 53 and
+# port 5353 to any host, dash, and the unbounded interpreter rules.
+light_workstation_opensnitch_removed_rules:
+  - allow-always-simple-41828
+  - allow-always-simple-5315
+  - allow-always-simple-9026
+  - allow-always-simple-53
+  - allow-always-simple-5353
+  - allow-always-simple-usr-bin-dash
+  - allow-always-simple-usr-bin-curl
+  - allow-always-simple-usr-bin-python3-14
+  - allow-always-simple-usr-bin-node
+  - allow-always-simple-usr-bin-uv
+  - allow-always-simple-usr-bin-cargo
+  - allow-always-simple-usr-lib-systemd-systemd-networkd
+  - allow-always-simple-usr-bin-docker-proxy
+  - allow-always-simple-usr-bin-freshclam
+  - allow-always-simple-opt-1password-1password
+  - allow-always-simple-opt-claude-code-bin-claude
+  - allow-always-simple-opt-helium-browser-bin-helium
+  - allow-always-simple-usr-lib-chromium-chromium
+  - allow-always-simple-usr-bin-lynx
+  - allow-always-simple-usr-lib-webkit2gtk-4-1-webkitnetworkprocess
+  - allow-always-simple-usr-lib-slack-slack
+  - allow-always-simple-usr-lib-insync-insync
+  - allow-always-simple-usr-lib-insync-pyside2-qt-libexec-qtwebengineprocess
+  - allow-always-simple-usr-share-enteauth-enteauth
+  - allow-always-simple-usr-bin-whispering
+  - allow-always-simple-usr-bin-spotify-launcher
+  - allow-always-simple-usr-bin-newsboat
+  - allow-always-simple-usr-bin-mbsync
+  - allow-always-simple-usr-bin-ssh
+  - allow-always-simple-usr-lib-git-core-git-remote-http
+  - allow-always-simple-usr-bin-gh
+  - allow-always-simple-usr-bin-glab
+  - allow-always-simple-usr-bin-docker
+  - allow-always-simple-usr-bin-terraform
+  - allow-always-simple-usr-bin-cmk-agent-ctl
+  - allow-always-simple-usr-bin-nix
+  - allow-always-simple-usr-bin-yay
+  - allow-always-simple-bitwarden-com
+  - allow-always-simple-youtube-com
+  - allow-always-simple-googlevideo-com
+  - allow-always-simple-sponsor-ajay-app
+  - allow-always-simple-whatsapp-com
+  - allow-always-simple-whatsapp-net
+  - allow-always-simple-hetzner-com
+  - allow-always-simple-hetzner-cloud
+  - allow-always-simple-terraform-io
+  - allow-always-simple-home-frank-config-discord-app-1-0-166-discord
+  - allow-always-simple-home-frank-local-share-spotify-launcher-install-usr-share-spotify-spotify
+  - allow-always-simple-home-frank-config-herdr-plugins-github-herdr-jira-32053ccf3d18-target-release-herdr-jira
+  - allow-always-simple-home-frank-config-dwmblocks-laptop-dwmblocks-bar-functions-dwm-systemd-networkd-c
+  - allow-always-simple-home-frank-local-state-servarr-failover-infra-tfdata-providers-registry-terraform-io-tailscale-tailscale-0-2

@@ -17,14 +17,16 @@
   register: light_workstation_opensnitch_config
   become: true
 
-# Only DefaultAction is ours; the rest stays as the package ships it.
-- name: OpenSnitch | Set the default action
+# Only DefaultAction and EnableChecksums are ours; the rest stays as the
+# package ships it. Without EnableChecksums, process.hash.md5 never matches.
+- name: OpenSnitch | Set the default action and turn on checksums
   tags:
     - opensnitch
   ansible.builtin.copy:
     content: >-
       {{ light_workstation_opensnitch_config.content | b64decode | from_json
-         | combine({'DefaultAction': light_workstation_opensnitch_default_action})
+         | combine({'DefaultAction': light_workstation_opensnitch_default_action,
+                    'Rules': {'EnableChecksums': true}}, recursive=true)
          | to_nice_json(indent=4) }}
     dest: /etc/opensnitchd/default-config.json
     owner: root
@@ -38,6 +40,11 @@
   tags:
     - opensnitch
   vars:
+    # A list rule keeps its conditions in `list`, and the same as a JSON
+    # string in `data`, the way opensnitch-ui writes it.
+    light_workstation_opensnitch_list: "{{ item.list | default([]) | map('combine', {'sensitive': false}) }}"
+    # opensnitchd logs two warnings per matched connection when `created` is
+    # missing; a fixed date keeps the file unchanged between runs.
     light_workstation_opensnitch_rule:
       name: "{{ item.name }}"
       description: "{{ item.description }}"
@@ -46,12 +53,13 @@
       nolog: false
       action: allow
       duration: always
+      created: "2026-10-24T00:00:00Z"
       operator:
         type: "{{ item.type }}"
-        operand: "{{ item.operand }}"
+        operand: "{{ 'list' if item.type == 'list' else item.operand }}"
         sensitive: false
-        data: "{{ item.data }}"
-        list: []
+        data: "{{ item.list | to_json if item.type == 'list' else item.data }}"
+        list: "{{ light_workstation_opensnitch_list }}"
   ansible.builtin.copy:
     content: "{{ light_workstation_opensnitch_rule | to_nice_json(indent=4) }}"
     dest: /etc/opensnitchd/rules/{{ item.name }}.json
@@ -61,6 +69,59 @@
   loop: "{{ light_workstation_opensnitch_rules }}"
   loop_control:
     label: "{{ item.name }}"
+  become: true
+
+- name: OpenSnitch | Read the checksums of the binaries under home
+  tags:
+    - opensnitch
+  ansible.builtin.stat:
+    path: "{{ lookup('env', 'HOME') }}/{{ item.path }}"
+    checksum_algorithm: md5
+  loop: "{{ light_workstation_opensnitch_checksum_rules }}"
+  loop_control:
+    label: "{{ item.name }}"
+  register: light_workstation_opensnitch_checksums
+
+- name: OpenSnitch | Install the checksum rules
+  tags:
+    - opensnitch
+  vars:
+    light_workstation_opensnitch_list:
+      - { type: simple, operand: process.path, sensitive: false, data: "{{ item.stat.path }}" }
+      - { type: simple, operand: process.hash.md5, sensitive: false, data: "{{ item.stat.checksum }}" }
+    light_workstation_opensnitch_rule:
+      name: "{{ item.item.name }}"
+      description: "{{ item.item.description }}"
+      enabled: true
+      precedence: false
+      nolog: false
+      action: allow
+      duration: always
+      created: "2026-10-24T00:00:00Z"
+      operator:
+        type: list
+        operand: list
+        sensitive: false
+        data: "{{ light_workstation_opensnitch_list | to_json }}"
+        list: "{{ light_workstation_opensnitch_list }}"
+  ansible.builtin.copy:
+    content: "{{ light_workstation_opensnitch_rule | to_nice_json(indent=4) }}"
+    dest: /etc/opensnitchd/rules/{{ item.item.name }}.json
+    owner: root
+    group: root
+    mode: "0644"
+  loop: "{{ light_workstation_opensnitch_checksums.results | selectattr('stat.exists') }}"
+  loop_control:
+    label: "{{ item.item.name }}"
+  become: true
+
+- name: OpenSnitch | Remove the replaced and the unsafe rules
+  tags:
+    - opensnitch
+  ansible.builtin.file:
+    path: /etc/opensnitchd/rules/{{ item }}.json
+    state: absent
+  loop: "{{ light_workstation_opensnitch_removed_rules }}"
   become: true
 
 # What opensnitch-ui does with a prompt nobody answers in 30 s. Its own default
