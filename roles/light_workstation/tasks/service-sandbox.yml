@@ -1,0 +1,96 @@
+---
+# systemd sandbox for the services that parse untrusted input and do not need
+# the whole system: clamd reads every file it scans, freshclam downloads from
+# the internet, cupsd parses print jobs. The rest of the Lynis BOOT-5264 list
+# needs full root by design (docker, nix-daemon, opensnitchd, udisks2) or is a
+# core systemd unit; /etc/lynis/custom.prf skips the test.
+#
+# Common to the three units:
+#   ProtectSystem=strict makes the whole tree read-only except ReadWritePaths,
+#   so a compromised parser cannot plant files outside its own state.
+- name: Service-sandbox | Create drop-in directories
+  tags:
+    - security
+    - sandbox
+  ansible.builtin.file:
+    path: "/etc/systemd/system/{{ item }}.service.d"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+  loop:
+    - clamav-daemon
+    - clamav-freshclam
+    - cups
+
+- name: Service-sandbox | Deploy sandbox drop-ins
+  tags:
+    - security
+    - sandbox
+  ansible.builtin.copy:
+    dest: "/etc/systemd/system/{{ item.unit }}.service.d/sandbox.conf"
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      [Service]
+      NoNewPrivileges=yes
+      ProtectSystem=strict
+      ReadWritePaths={{ item.rw }}
+      PrivateTmp=yes
+      ProtectKernelTunables=yes
+      ProtectKernelModules=yes
+      ProtectKernelLogs=yes
+      ProtectControlGroups=yes
+      ProtectClock=yes
+      ProtectHostname=yes
+      RestrictNamespaces=yes
+      RestrictRealtime=yes
+      RestrictSUIDSGID=yes
+      LockPersonality=yes
+      SystemCallArchitectures=native
+      SystemCallFilter=@system-service
+      RestrictAddressFamilies={{ item.families }}
+      {{ item.extra }}
+  become: true
+  loop:
+    # Socket-activated: clients reach it through clamav-daemon.socket.
+    # Home stays readable, the files to scan live there.
+    - unit: clamav-daemon
+      rw: /var/lib/clamav /var/log/clamav /run/clamav
+      families: AF_UNIX
+      extra: |
+        ProtectHome=read-only
+        PrivateDevices=yes
+    # Network for the mirrors; AF_UNIX to tell clamd to reload.
+    - unit: clamav-freshclam
+      rw: /var/lib/clamav /var/log/clamav -/run/clamav
+      families: AF_UNIX AF_INET AF_INET6 AF_NETLINK
+      extra: |
+        ProtectHome=yes
+        PrivateDevices=yes
+    # No PrivateDevices: the usb backend opens /dev/bus/usb. cups-pdf writes
+    # to /var/spool/cups-pdf with the Arch defaults.
+    - unit: cups
+      rw: /etc/cups /var/spool/cups /var/cache/cups /var/log/cups /run/cups -/var/spool/cups-pdf
+      families: AF_UNIX AF_INET AF_INET6 AF_NETLINK
+      extra: |
+        ProtectHome=yes
+  loop_control:
+    label: "{{ item.unit }}"
+  register: light_workstation_sandbox_dropins
+
+- name: Service-sandbox | Restart the services whose drop-in changed
+  tags:
+    - security
+    - sandbox
+  ansible.builtin.systemd:
+    name: "{{ item.item.unit }}"
+    state: restarted
+    daemon_reload: true
+  become: true
+  loop: "{{ light_workstation_sandbox_dropins.results }}"
+  loop_control:
+    label: "{{ item.item.unit }}"
+  when: item is changed
