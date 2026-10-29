@@ -250,6 +250,7 @@
     - security
     - chkrootkit
     - clamav
+    - arch-audit
 
 - name: Light Workstation | Include tasks from service-sandbox play
   ansible.builtin.include_tasks: tasks/service-sandbox.yml

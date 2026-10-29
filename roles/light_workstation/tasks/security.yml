@@ -31,3 +31,52 @@
     update_cache: true
   become: true
   notify: start clamav
+
+- name: Security | Install arch-audit to find vulnerable packages
+  tags:
+    - security
+    - arch-audit
+  community.general.pacman:
+    name: arch-audit
+    state: present
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+- name: Security | Create the pacman hooks directory
+  tags:
+    - security
+    - arch-audit
+  ansible.builtin.file:
+    path: /etc/pacman.d/hooks
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+# After each install or upgrade, list the packages that the Arch security
+# tracker has a fix for (something to act on: a held, ignored or AUR package),
+# then only count the open issues that have no fix yet.
+- name: Security | Run arch-audit after each pacman transaction
+  tags:
+    - security
+    - arch-audit
+  ansible.builtin.copy:
+    dest: /etc/pacman.d/hooks/zz-arch-audit.hook
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      [Trigger]
+      Operation = Install
+      Operation = Upgrade
+      Type = Package
+      Target = *
+
+      [Action]
+      Description = Checking for vulnerable packages (arch-audit)...
+      When = PostTransaction
+      Exec = /bin/sh -c 'arch-audit -u -C never; echo "arch-audit: $(arch-audit -qq | wc -l) packages with unfixed issues"'
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"

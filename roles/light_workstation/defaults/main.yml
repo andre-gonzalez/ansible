@@ -154,6 +154,11 @@ light_workstation_opensnitch_rules:
     type: simple
     operand: process.path
     data: /usr/bin/freshclam
+  - name: 001-allow-arch-audit
+    description: Arch security tracker, from the pacman hook
+    type: simple
+    operand: process.path
+    data: /usr/bin/arch-audit
   - name: 001-allow-kdeconnectd
     description: Phone over Tailscale (dwmblocks battery block)
     type: simple
