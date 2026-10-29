@@ -17,5 +17,27 @@
 
       # Enable full ASLR (memory protection)
       kernel.randomize_va_space = 2
+
+      # Hide kernel addresses from every user, root included (KASLR bypass)
+      kernel.kptr_restrict = 2
+
+      # Only privileged users load eBPF, and the value stays locked until reboot
+      kernel.unprivileged_bpf_disabled = 1
+
+      # Constant blinding for every eBPF JIT program (JIT spray)
+      net.core.bpf_jit_harden = 2
+
+      # Only CAP_SYS_MODULE may autoload TTY line disciplines (CVE-2017-2636)
+      dev.tty.ldisc_autoload = 0
+
+      # No O_CREAT on another user's FIFO or file in sticky directories,
+      # group-writable ones included (/tmp spoofing)
+      fs.protected_fifos = 2
+      fs.protected_regular = 2
+
+      # Kept on purpose, see /etc/lynis/custom.prf:
+      #   fs.suid_dumpable = 2              systemd-coredump stores the dumps as root
+      #   net.ipv4.conf.all.forwarding = 1  docker, tailscale and libvirt route
+      #   kernel.sysrq = 16                 sync only, needs the local keyboard
   become: true
   notify: Apply sysctl settings
