@@ -80,3 +80,41 @@
       Exec = /bin/sh -c 'arch-audit -u -C never; echo "arch-audit: $(arch-audit -qq | wc -l) packages with unfixed issues"'
   become: true
   when: ansible_facts["distribution"] == "Archlinux"
+
+# Lynis FILE-7524: root-only modes for files that tell a local process what
+# root runs and when (cron) and how sshd is set up. Ansible restores them if a
+# package update resets them. Not /boot/grub/grub.cfg: /boot is the vfat ESP,
+# which has no per-file modes; only its fmask/dmask mount options set them.
+- name: Security | Find the files that only root should read
+  tags:
+    - security
+    - permissions
+  ansible.builtin.stat:
+    path: "{{ item.path }}"
+  loop:
+    - { path: /etc/crontab, mode: "0600" }
+    - { path: /etc/cron.deny, mode: "0600" }
+    - { path: /etc/ssh/sshd_config, mode: "0600" }
+    - { path: /etc/cron.d, mode: "0700" }
+    - { path: /etc/cron.hourly, mode: "0700" }
+    - { path: /etc/cron.daily, mode: "0700" }
+    - { path: /etc/cron.weekly, mode: "0700" }
+    - { path: /etc/cron.monthly, mode: "0700" }
+  loop_control:
+    label: "{{ item.path }}"
+  become: true
+  register: light_workstation_root_only_files
+
+- name: Security | Restrict the files that only root should read
+  tags:
+    - security
+    - permissions
+  ansible.builtin.file:
+    path: "{{ item.item.path }}"
+    mode: "{{ item.item.mode }}"
+    owner: root
+    group: root
+  loop: "{{ light_workstation_root_only_files.results | selectattr('stat.exists') }}"
+  loop_control:
+    label: "{{ item.item.path }}"
+  become: true
