@@ -41,3 +41,27 @@
       #   kernel.sysrq = 16                 sync only, needs the local keyboard
   become: true
   notify: Apply sysctl settings
+
+# A user process loads a protocol module just by opening a socket of that
+# family; these modules have a long CVE history and no use on a laptop.
+# "install ... /bin/false" also stops a manual modprobe, and it is the form
+# Lynis NETW-3200 looks for. dccp is gone since Linux 6.16 and stays listed
+# for older kernels. Not llc: bridge, and so docker, needs it.
+- name: Kernel-hardening | Block rare network protocol and line discipline modules
+  tags:
+    - security
+    - kernel-hardening
+  ansible.builtin.copy:
+    dest: /etc/modprobe.d/rare-protocols.conf
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      install dccp /bin/false
+      install sctp /bin/false
+      install rds /bin/false
+      install tipc /bin/false
+      install n_hdlc /bin/false
+      install atm /bin/false
+      install can /bin/false
+  become: true
