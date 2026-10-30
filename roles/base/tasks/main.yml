@@ -52,6 +52,7 @@
   tags:
     - security
     - fail2ban
+    - grub
 
 - name: Base | Include tasks from ufw play
   ansible.builtin.include_tasks: tasks/UFW.yml
