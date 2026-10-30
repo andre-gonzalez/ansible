@@ -83,8 +83,7 @@
 
 # Lynis FILE-7524: root-only modes for files that tell a local process what
 # root runs and when (cron) and how sshd is set up. Ansible restores them if a
-# package update resets them. Not /boot/grub/grub.cfg: /boot is the vfat ESP,
-# which has no per-file modes; only its fmask/dmask mount options set them.
+# package update resets them. /boot/grub/grub.cfg is in the next block.
 - name: Security | Find the files that only root should read
   tags:
     - security
@@ -118,6 +117,34 @@
   loop_control:
     label: "{{ item.item.path }}"
   become: true
+
+# Lynis FILE-7524 for /boot/grub/grub.cfg (rw-------). /boot is the vfat ESP,
+# which has no per-file modes: the fmask/dmask mount options set the mode of
+# every file and directory. Only a vfat /boot whose options have
+# fmask=...,dmask=... changes; other hosts stay as they are.
+- name: Security | Make /boot readable only by root
+  tags:
+    - security
+    - permissions
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    regexp: '^(\S+\s+/boot\s+vfat\s+\S*)fmask=\d+,dmask=\d+(.*)$'
+    line: '\1fmask=0177,dmask=0077\2'
+    backrefs: true
+  become: true
+  register: light_workstation_boot_fstab
+
+# A vfat remount ignores new masks, so the mount unit is stopped and started.
+- name: Security | Mount /boot again with the new modes
+  tags:
+    - security
+    - permissions
+  ansible.builtin.systemd:
+    name: boot.mount
+    state: restarted
+    daemon_reload: true
+  become: true
+  when: light_workstation_boot_fstab is changed
 
 # The profile records the decisions of the hardening review: each skipped test
 # has its reason, so a new Lynis run shows only new findings.
