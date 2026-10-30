@@ -1,46 +1,40 @@
 ---
-- name: Preload | Install preload package when distribution is Archlinux
-  tags:
-    - preload
-  kewlfft.aur.aur:
-    name:
-      - preload
-    use: yay
-    state: present
-    update_cache: true
-  when: ansible_facts["distribution"] == "Archlinux"
-  ignore_errors: true
-  register: light_workstation_restart_preload
-
-- name: Preload | Install preload package when distribution is Ubuntu
-  tags:
-    - preload
-  ansible.builtin.package:
-    name:
-      - preload
-    state: present
-  become: true
-  when: ansible_facts["distribution"] == "Ubuntu"
-  register: light_workstation_restart_preload2
-
-- name: Preload | Copy file preload.conf to /etc
-  tags:
-    - preload
-  ansible.builtin.copy:
-    src: preload.conf
-    dest: /etc
-    owner: root
-    group: root
-    mode: "0644"
-  become: true
-  register: light_workstation_restart_preload3
-
-- name: Preload | Restart preload
+# preload no longer runs on the laptops: it is a root daemon that reads the
+# memory maps of every process, with no sandbox (systemd-analyze security 9.6),
+# for a gain an NVMe disk does not need. The NixOS hosts dropped it too
+# (T14_PLAN.md decision 12). Stop it, then remove the package and its config.
+- name: Preload | Stop and disable preload
   tags:
     - preload
   ansible.builtin.service:
     name: preload
-    state: restarted
-    enabled: true
+    state: stopped
+    enabled: false
   become: true
-  when: light_workstation_restart_preload is changed or light_workstation_restart_preload2 is changed or light_workstation_restart_preload3 is changed
+  failed_when: false
+
+- name: Preload | Remove preload package when distribution is Archlinux
+  tags:
+    - preload
+  community.general.pacman:
+    name: preload
+    state: absent
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+- name: Preload | Remove preload package when distribution is Ubuntu
+  tags:
+    - preload
+  ansible.builtin.package:
+    name: preload
+    state: absent
+  become: true
+  when: ansible_facts["distribution"] == "Ubuntu"
+
+- name: Preload | Remove /etc/preload.conf
+  tags:
+    - preload
+  ansible.builtin.file:
+    path: /etc/preload.conf
+    state: absent
+  become: true

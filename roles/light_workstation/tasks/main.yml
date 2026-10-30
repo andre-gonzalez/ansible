@@ -250,6 +250,15 @@
     - security
     - chkrootkit
     - clamav
+    - arch-audit
+    - permissions
+    - lynis
+
+- name: Light Workstation | Include tasks from service-sandbox play
+  ansible.builtin.include_tasks: tasks/service-sandbox.yml
+  tags:
+    - security
+    - sandbox
 
 - name: Light Workstation | Include tasks from crash-notify play
   ansible.builtin.include_tasks: tasks/crash-notify.yml

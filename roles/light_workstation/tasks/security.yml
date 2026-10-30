@@ -31,3 +31,152 @@
     update_cache: true
   become: true
   notify: start clamav
+
+- name: Security | Install arch-audit to find vulnerable packages
+  tags:
+    - security
+    - arch-audit
+  community.general.pacman:
+    name: arch-audit
+    state: present
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+- name: Security | Create the pacman hooks directory
+  tags:
+    - security
+    - arch-audit
+  ansible.builtin.file:
+    path: /etc/pacman.d/hooks
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+# After each install or upgrade, list the packages that the Arch security
+# tracker has a fix for (something to act on: a held, ignored or AUR package),
+# then only count the open issues that have no fix yet.
+- name: Security | Run arch-audit after each pacman transaction
+  tags:
+    - security
+    - arch-audit
+  ansible.builtin.copy:
+    dest: /etc/pacman.d/hooks/zz-arch-audit.hook
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      [Trigger]
+      Operation = Install
+      Operation = Upgrade
+      Type = Package
+      Target = *
+
+      [Action]
+      Description = Checking for vulnerable packages (arch-audit)...
+      When = PostTransaction
+      Exec = /bin/sh -c 'arch-audit -u -C never; echo "arch-audit: $(arch-audit -qq | wc -l) packages with unfixed issues"'
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+# Lynis FILE-7524: root-only modes for files that tell a local process what
+# root runs and when (cron) and how sshd is set up. Ansible restores them if a
+# package update resets them. /boot/grub/grub.cfg is in the next block.
+- name: Security | Find the files that only root should read
+  tags:
+    - security
+    - permissions
+  ansible.builtin.stat:
+    path: "{{ item.path }}"
+  loop:
+    - { path: /etc/crontab, mode: "0600" }
+    - { path: /etc/cron.deny, mode: "0600" }
+    - { path: /etc/ssh/sshd_config, mode: "0600" }
+    - { path: /etc/cron.d, mode: "0700" }
+    - { path: /etc/cron.hourly, mode: "0700" }
+    - { path: /etc/cron.daily, mode: "0700" }
+    - { path: /etc/cron.weekly, mode: "0700" }
+    - { path: /etc/cron.monthly, mode: "0700" }
+  loop_control:
+    label: "{{ item.path }}"
+  become: true
+  register: light_workstation_root_only_files
+
+- name: Security | Restrict the files that only root should read
+  tags:
+    - security
+    - permissions
+  ansible.builtin.file:
+    path: "{{ item.item.path }}"
+    mode: "{{ item.item.mode }}"
+    owner: root
+    group: root
+  loop: "{{ light_workstation_root_only_files.results | selectattr('stat.exists') }}"
+  loop_control:
+    label: "{{ item.item.path }}"
+  become: true
+
+# Lynis FILE-7524 for /boot/grub/grub.cfg (rw-------). /boot is the vfat ESP,
+# which has no per-file modes: the fmask/dmask mount options set the mode of
+# every file and directory. Only a vfat /boot whose options have
+# fmask=...,dmask=... changes; other hosts stay as they are.
+- name: Security | Make /boot readable only by root
+  tags:
+    - security
+    - permissions
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    regexp: '^(\S+\s+/boot\s+vfat\s+\S*)fmask=\d+,dmask=\d+(.*)$'
+    line: '\1fmask=0177,dmask=0077\2'
+    backrefs: true
+  become: true
+  register: light_workstation_boot_fstab
+
+# A vfat remount ignores new masks, so the mount unit is stopped and started.
+- name: Security | Mount /boot again with the new modes
+  tags:
+    - security
+    - permissions
+  ansible.builtin.systemd:
+    name: boot.mount
+    state: restarted
+    daemon_reload: true
+  become: true
+  when: light_workstation_boot_fstab is changed
+
+# The profile records the decisions of the hardening review: each skipped test
+# has its reason, so a new Lynis run shows only new findings.
+- name: Security | Install lynis
+  tags:
+    - security
+    - lynis
+  ansible.builtin.package:
+    name: lynis
+    state: present
+  become: true
+
+- name: Security | Create the lynis configuration directory
+  tags:
+    - security
+    - lynis
+  ansible.builtin.file:
+    path: /etc/lynis
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+
+- name: Security | Copy the lynis profile with the review decisions
+  tags:
+    - security
+    - lynis
+  ansible.builtin.copy:
+    src: lynis-custom.prf
+    dest: /etc/lynis/custom.prf
+    owner: root
+    group: root
+    mode: "0644"
+  become: true

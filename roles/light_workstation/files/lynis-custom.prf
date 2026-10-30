@@ -1,0 +1,83 @@
+#
+# /etc/lynis/custom.prf: decisions from the Lynis review of t14 (2026-10-29).
+# Same decisions as modules/nixos/workstation/lynis.nix in the nix_os repo.
+#
+# Threat model: untrusted networks, and malicious software that runs as the
+# user (a bad AUR, npm or pip package, a container image). Physical access and
+# compliance are out of scope. A skipped test is a decision, not a fix: run
+# "lynis audit system" again after a big change and read the new findings.
+#
+
+# --- False positives ----------------------------------------------------------
+
+# Reads /boot/vmlinuz-linux (the fallback kernel) and derives an empty version;
+# the running linux-zen matches the installed one.
+skip-test=KRNL-5830
+# Clock is synchronized; the timesyncd poll interval grows to 34 min and Wi-Fi
+# reconnects reset it.
+skip-test=TIME-3185
+# The only expired certificate is /usr/share/gnupg/sks-keyservers.netCA.pem,
+# for a key server pool that no longer exists. Nothing uses it.
+skip-test=CRYP-7902
+# The only MongoDB is a dev container. Docker binds its port to 127.0.0.1
+# (/etc/docker/daemon.json), so authentication adds little.
+skip-test=DBS-1820
+
+# --- Kept on purpose ----------------------------------------------------------
+
+# systemd-coredump receives the dumps through a pipe and stores them root-only;
+# crash-notify and the diagnose-crash skill read them.
+skip-test=KRNL-5820
+skip-test=KRNL-6000:fs.suid_dumpable
+# docker, tailscale and libvirt route packets.
+skip-test=KRNL-6000:net.ipv4.conf.all.forwarding
+# 16 = sync only, and only from the local keyboard.
+skip-test=KRNL-6000:kernel.sysrq
+# A laptop loads modules after boot (USB, dock, WireGuard, docker networks).
+skip-test=KRNL-6000:kernel.modules_disabled
+# Logs only; rp_filter = 1 already drops martians, docker and tailscale are noisy.
+skip-test=KRNL-6000:net.ipv4.conf.all.log_martians
+skip-test=KRNL-6000:net.ipv4.conf.default.log_martians
+# Only clamd, freshclam and cupsd parse untrusted input without needing full
+# root; they have sandbox drop-ins. The others need root by design (docker,
+# nix-daemon, opensnitchd, udisks2) or are core systemd units.
+skip-test=BOOT-5264
+# AppArmor was removed on 2026-10-09 (NixOS does not use it).
+skip-test=MACF-6208
+# Developer laptop.
+skip-test=HRDN-7222
+# Ansible and NixOS manage this host; Lynis does not detect them.
+skip-test=TOOL-5002
+
+# --- Out of scope: single user ------------------------------------------------
+
+# /home/frank is 0700; a 027 umask makes files created with sudo unreadable.
+skip-test=AUTH-9328
+# ENCRYPT_METHOD is YESCRYPT; this test checks the SHA rounds.
+skip-test=AUTH-9230
+# One user: no password strength module, aging or expiry. The locked accounts
+# are normal system accounts.
+skip-test=AUTH-9262
+skip-test=AUTH-9282
+skip-test=AUTH-9284
+skip-test=AUTH-9286
+
+# --- Out of scope: compliance and forensics -----------------------------------
+
+skip-test=ACCT-9622
+skip-test=ACCT-9626
+skip-test=ACCT-9628
+skip-test=FINT-4350
+skip-test=LOGG-2154
+
+# --- Out of scope: physical access --------------------------------------------
+
+skip-test=USB-1000
+skip-test=STRG-1846
+skip-test=BANN-7126
+
+# --- No security value here ---------------------------------------------------
+
+skip-test=FILE-6310
+skip-test=NAME-4028
+skip-test=NAME-4404
