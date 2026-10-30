@@ -1,0 +1,143 @@
+---
+# GRUB entries that boot on a host with unified kernel images (UKIs).
+#
+# mkinitcpio can make only a UKI per kernel (/boot/EFI/Linux/*.efi), which
+# GRUB boots through /etc/grub.d/15_uki. But grub-mkconfig also writes entries
+# from /etc/grub.d/10_linux, and grub-btrfs writes snapshot entries; both load
+# /boot/vmlinuz-* with a separate initramfs. Without one, the encrypt hook
+# never runs, LUKS stays locked and the kernel panics. These entries come
+# first in the menu, so the default entry did not boot.
+#
+# Each UKI preset therefore also makes /boot/initramfs-<kernel>.img, and both
+# boot paths get the same kernel parameters:
+#   - UKI: /etc/kernel/cmdline, built into the UKI.
+#   - GRUB: GRUB_CMDLINE_LINUX + GRUB_CMDLINE_LINUX_DEFAULT; 10_linux and
+#     grub-btrfs add root= and rootflags= themselves.
+# GRUB_CMDLINE_LINUX_DEFAULT (base role: lsm=, audit=, quiet) is the source of
+# the shared parameters. /etc/kernel/cmdline is the source of the parameters
+# of this host (cryptdevice=, root=, zswap.enabled=), written at install.
+# Hosts without /etc/kernel/cmdline or without GRUB are not changed.
+
+- name: Boot-entries | Find the mkinitcpio presets
+  tags:
+    - boot-entries
+    - grub
+  ansible.builtin.find:
+    paths: /etc/mkinitcpio.d
+    patterns: "*.preset"
+  register: light_workstation_boot_presets
+
+- name: Boot-entries | Read the mkinitcpio presets
+  tags:
+    - boot-entries
+    - grub
+  ansible.builtin.slurp:
+    src: "{{ item.path }}"
+  loop: "{{ light_workstation_boot_presets.files }}"
+  loop_control:
+    label: "{{ item.path }}"
+  register: light_workstation_boot_preset_contents
+
+# The file name is the kernel package name, which is also the name that
+# 10_linux and grub-btrfs look for: vmlinuz-linux-zen -> initramfs-linux-zen.img.
+- name: Boot-entries | Make an initramfs image next to each UKI
+  tags:
+    - boot-entries
+    - grub
+  ansible.builtin.lineinfile:
+    path: "{{ item.source }}"
+    regexp: ^default_image=
+    insertafter: ^default_uki=
+    line: default_image="/boot/initramfs-{{ item.source | basename | regex_replace('\.preset$', '') }}.img"
+  loop: "{{ light_workstation_boot_preset_contents.results }}"
+  loop_control:
+    label: "{{ item.source }}"
+  when: item.content | b64decode is search('(?m)^default_uki=')
+  become: true
+  register: light_workstation_boot_presets_changed
+
+- name: Boot-entries | Check for the UKI and GRUB command lines
+  tags:
+    - boot-entries
+    - grub
+  ansible.builtin.stat:
+    path: "{{ item }}"
+  loop:
+    - /etc/kernel/cmdline
+    - /etc/default/grub
+  register: light_workstation_boot_cmdline_files
+
+- name: Boot-entries | Read the UKI and GRUB command lines
+  tags:
+    - boot-entries
+    - grub
+  ansible.builtin.slurp:
+    src: "{{ item.stat.path }}"
+  loop: "{{ light_workstation_boot_cmdline_files.results }}"
+  loop_control:
+    label: "{{ item.stat.path }}"
+  when: light_workstation_boot_cmdline_files.results | map(attribute='stat.exists') is all
+  register: light_workstation_boot_cmdline_contents
+
+- name: Boot-entries | Merge the kernel parameters
+  tags:
+    - boot-entries
+    - grub
+  vars:
+    __uki: "{{ (light_workstation_boot_cmdline_contents.results[0].content | b64decode).split() }}"
+    __grub_default: >-
+      {{ (light_workstation_boot_cmdline_contents.results[1].content | b64decode
+          | regex_search('^GRUB_CMDLINE_LINUX_DEFAULT="(.*)"$', '\1', multiline=True)
+          | first | default('')).split() }}
+    # The keys that GRUB_CMDLINE_LINUX_DEFAULT owns, also after one is removed from it.
+    __shared_keys: "{{ (__grub_default | map('regex_replace', '=.*', '') | list + ['lsm', 'audit', 'loglevel', 'quiet']) | unique }}"
+    __host: "{{ __uki | reject('search', '^(' ~ (__shared_keys | map('regex_escape') | join('|')) ~ ')(=|$)') | list }}"
+  ansible.builtin.set_fact:
+    light_workstation_boot_uki_cmdline: "{{ (__host + __grub_default) | join(' ') }}"
+    light_workstation_boot_grub_cmdline: "{{ __host | reject('search', '^(root|rootflags|rw|ro)(=|$)') | join(' ') }}"
+  when: light_workstation_boot_cmdline_contents is not skipped
+
+- name: Boot-entries | Write the UKI command line
+  tags:
+    - boot-entries
+    - grub
+  ansible.builtin.copy:
+    content: "{{ light_workstation_boot_uki_cmdline }}\n"
+    dest: /etc/kernel/cmdline
+    owner: root
+    group: root
+    mode: "0644"
+  when: light_workstation_boot_uki_cmdline is defined
+  become: true
+  register: light_workstation_boot_uki_cmdline_changed
+
+- name: Boot-entries | Write the GRUB command line
+  tags:
+    - boot-entries
+    - grub
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: ^GRUB_CMDLINE_LINUX=
+    line: GRUB_CMDLINE_LINUX="{{ light_workstation_boot_grub_cmdline }}"
+  when: light_workstation_boot_grub_cmdline is defined
+  become: true
+  register: light_workstation_boot_grub_cmdline_changed
+
+- name: Boot-entries | Rebuild the UKIs and initramfs images
+  tags:
+    - boot-entries
+    - grub
+  ansible.builtin.command: mkinitcpio -P
+  when: light_workstation_boot_presets_changed is changed or light_workstation_boot_uki_cmdline_changed is changed
+  become: true
+  register: light_workstation_boot_rebuilt
+
+# After mkinitcpio: 10_linux and grub-btrfs only add an initrd line for the
+# initramfs files that exist when grub-mkconfig runs.
+- name: Boot-entries | Regenerate the GRUB menu
+  tags:
+    - boot-entries
+    - grub
+  ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
+  when: light_workstation_boot_rebuilt is changed or light_workstation_boot_grub_cmdline_changed is changed
+  become: true

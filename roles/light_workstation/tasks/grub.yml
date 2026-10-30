@@ -4,6 +4,8 @@
     - grub
   ansible.builtin.stat:
     path: /boot/grub
+  # /boot is root-only (fmask/dmask in security.yml).
+  become: true
   register: light_workstation_grub_dir
 
 - name: Grub | Install grub

@@ -20,6 +20,12 @@
   tags:
     - mkinitcpio
 
+- name: Light Workstation | Include tasks from boot-entries play
+  ansible.builtin.include_tasks: tasks/boot-entries.yml
+  tags:
+    - boot-entries
+    - grub
+
 - name: Light Workstation | Include tasks from systemd play
   ansible.builtin.include_tasks: tasks/systemd.yml
   tags:
