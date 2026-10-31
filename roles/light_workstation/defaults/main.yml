@@ -253,6 +253,12 @@ light_workstation_opensnitch_rules:
     type: simple
     operand: process.path
     data: /usr/bin/mbsync
+  - name: 100-allow-herdr-update
+    description: herdr update check (herdr.dev/latest.json)
+    type: list
+    list:
+      - { type: simple, operand: process.path, data: /usr/bin/herdr }
+      - { type: regexp, operand: dest.host, data: '^(|.*\.)herdr\.dev$' }
   - name: 100-allow-ssh
     description: SSH client
     type: simple
@@ -322,8 +328,22 @@ light_workstation_opensnitch_rules:
     operand: dest.host
     data: '^(|.*\.)terraform\.io$'
 
-  # Interpreters only to their package registry. curl and python have no
-  # fixed destination: answer their prompts once or until reboot.
+  # Interpreters and download tools only to a fixed destination. Otherwise
+  # curl, wget and python have none: answer their prompts once or until reboot.
+  - name: 300-allow-curl-hc-ping
+    description: Healthchecks pings of the cron scripts (push-new-notes, backup-fish-history)
+    type: list
+    list:
+      - { type: simple, operand: process.path, data: /usr/bin/curl }
+      - { type: regexp, operand: dest.host, data: '^hc-ping\.com$' }
+  # dwm_systemd_networkd.sh runs `ping -c 1 1.1.1.1`; OpenSnitch shows it as
+  # its /bin/sh parent.
+  - name: 300-allow-dash-ping
+    description: dwmblocks network block (internet check)
+    type: list
+    list:
+      - { type: simple, operand: process.path, data: /usr/bin/dash }
+      - { type: simple, operand: dest.ip, data: 1.1.1.1 }
   - name: 300-allow-node-npm
     description: npm registry
     type: list
@@ -418,6 +438,11 @@ light_workstation_opensnitch_removed_rules:
   # 300-allow-bw-bitwarden: no destination stays open to every program
   - allow-always-simple-api-github-com
   - allow-always-simple-archlinux-org
+  # Moved above as narrow rules; wget is like curl
+  - allow-always-list-usr-bin-dash-1-1-1-1
+  - allow-always-simple-hc-ping-com
+  - allow-always-simple-herdr-dev
+  - allow-always-simple-usr-bin-wget
   - 200-allow-bitwarden-com
   - 200-allow-youtube-com
   - 200-allow-googlevideo-com
