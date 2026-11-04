@@ -1,0 +1,158 @@
+---
+# Nix (the pacman package, for the nix_os repo). Its builds run as children of
+# nix-daemon.service, not of the shell that asks for them, so `nice` on the
+# client does nothing. A nixos-anywhere run from this machine built a whole
+# NixOS closure locally and stalled the desktop for minutes.
+#
+# Everything here is skipped on a host without the nix-daemon unit.
+- name: Nix | Check whether the nix-daemon unit exists
+  tags:
+    - nix
+  ansible.builtin.stat:
+    path: /usr/lib/systemd/system/nix-daemon.service
+  register: light_workstation_nix_daemon_unit
+
+- name: Nix | Create the nix-daemon drop-in directory
+  tags:
+    - nix
+  ansible.builtin.file:
+    path: /etc/systemd/system/nix-daemon.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+  when: light_workstation_nix_daemon_unit.stat.exists
+
+# CPUWeight=idle puts the daemon cgroup in the idle class (cpu.idle), so builds
+# only get CPU time that nothing else wants; CPUSchedulingPolicy=idle does the
+# same per thread. MemoryHigh makes the kernel reclaim the build's own page
+# cache first, so a big build does not push the desktop out of RAM.
+# No I/O settings: IOSchedulingClass and IOWeight need the BFQ scheduler, and
+# the NVMe disks here use kyber, which ignores both.
+- name: Nix | Run nix-daemon builds at idle CPU priority
+  tags:
+    - nix
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/nix-daemon.service.d/priority.conf
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      # Managed by Ansible: roles/light_workstation/tasks/nix.yml
+      [Service]
+      CPUWeight=idle
+      CPUSchedulingPolicy=idle
+      MemoryHigh=50%
+  become: true
+  when: light_workstation_nix_daemon_unit.stat.exists
+  register: light_workstation_nix_daemon_dropin
+
+# KillMode=process in the packaged unit: a restart stops only the main
+# daemon, not the builds that run at that time.
+- name: Nix | Restart nix-daemon when its drop-in changed
+  tags:
+    - nix
+  ansible.builtin.systemd:
+    name: nix-daemon.service
+    state: restarted
+    daemon_reload: true
+  become: true
+  when: light_workstation_nix_daemon_dropin is changed
+
+# /nix as its own btrfs subvolume. Snapper never descends into nested
+# subvolumes (see tasks/snapper.yml), so the store leaves the root snapshots:
+# a garbage-collected path frees its space at once, and Nix writes no longer
+# touch extents that the snapshots share, which is the slow case for the
+# qgroup accounting that the snapper space limits need.
+- name: Nix | Check the filesystem of /
+  tags:
+    - nix
+  ansible.builtin.command: findmnt -no FSTYPE /
+  register: light_workstation_nix_root_fstype
+  changed_when: false
+  check_mode: false
+
+- name: Nix | Check whether /nix is a btrfs subvolume
+  tags:
+    - nix
+  ansible.builtin.command: btrfs subvolume show /nix
+  register: light_workstation_nix_subvolume
+  changed_when: false
+  failed_when: false
+  check_mode: false
+  become: true
+  when: light_workstation_nix_root_fstype.stdout == "btrfs"
+
+- name: Nix | Check whether /nix exists
+  tags:
+    - nix
+  ansible.builtin.stat:
+    path: /nix
+  register: light_workstation_nix_dir
+
+# /nix.dir exists only when a move below stopped between its two mv commands.
+- name: Nix | Check for the old /nix of a move that did not finish
+  tags:
+    - nix
+  ansible.builtin.stat:
+    path: /nix.dir
+  register: light_workstation_nix_old_dir
+
+# Fresh install: make the subvolume before pacman installs nix into /nix.
+- name: Nix | Create /nix as a btrfs subvolume
+  tags:
+    - nix
+  ansible.builtin.command: btrfs subvolume create /nix
+  args:
+    creates: /nix
+  become: true
+  when:
+    - light_workstation_nix_root_fstype.stdout == "btrfs"
+    - not light_workstation_nix_dir.stat.exists
+    - not light_workstation_nix_old_dir.stat.exists
+
+# Existing install: copy the store into a new subvolume with reflinks (no data
+# is copied, only metadata) and swap it in with the daemon stopped. The old
+# directory stays in the root snapshots until they rotate out. This is a long,
+# write-heavy run on a large store; do it when the machine is idle.
+- name: Nix | Move an existing /nix into a btrfs subvolume
+  tags:
+    - nix
+  when:
+    - light_workstation_nix_root_fstype.stdout == "btrfs"
+    - light_workstation_nix_dir.stat.exists or light_workstation_nix_old_dir.stat.exists
+    - light_workstation_nix_subvolume.rc != 0
+  become: true
+  block:
+    - name: Nix | Stop nix-daemon for the move
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: stopped
+      loop:
+        - nix-daemon.socket
+        - nix-daemon.service
+      when: light_workstation_nix_daemon_unit.stat.exists
+
+    - name: Nix | Copy /nix into a new subvolume and swap it in
+      ansible.builtin.shell: |
+        set -euo pipefail
+        # Leftovers from a run that stopped part of the way: put the old
+        # directory back, and drop a copy that did not finish.
+        if [ -e /nix.dir ] && [ ! -e /nix ]; then mv /nix.dir /nix; fi
+        if [ -e /nix.subvol ]; then btrfs subvolume delete /nix.subvol; fi
+        btrfs subvolume create /nix.subvol
+        cp -a --reflink=always /nix/. /nix.subvol/
+        mv /nix /nix.dir
+        mv /nix.subvol /nix
+        rm -rf /nix.dir
+      args:
+        executable: /bin/bash
+      changed_when: true
+
+  always:
+    - name: Nix | Start nix-daemon after the move
+      ansible.builtin.systemd:
+        name: nix-daemon.service
+        state: started
+      when: light_workstation_nix_daemon_unit.stat.exists

@@ -210,6 +210,11 @@
   tags:
     - snapper
 
+- name: Light Workstation | Include tasks from nix play
+  ansible.builtin.include_tasks: tasks/nix.yml
+  tags:
+    - nix
+
 - name: Light Workstation | Include tasks from kernel-hardening play
   ansible.builtin.include_tasks: tasks/kernel-hardening.yml
   tags:
