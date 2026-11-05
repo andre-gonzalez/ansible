@@ -1,70 +1,313 @@
 ---
+# Syncthing as a spoke of the servarr hub (servarr repo, stacks/syncthing).
+# Variables: defaults/main.yml; the server's device ID and address come from
+# the vaulted vars/main.yml.
+#
+# The laptop knows one device, the server. Changes go laptop -> server ->
+# other laptop. No discovery, no relays, no NAT traversal: the laptop dials
+# the server over the tailnet, so it needs no inbound ufw rule.
+#
+# Configured through the REST API of the running instance, field by field: a
+# task changes only what differs. The device keys are never written, so the
+# device ID stays the same across runs.
+
+- name: Syncthing | Check that the server device ID and address are set
+  tags:
+    - syncthing
+  ansible.builtin.assert:
+    that:
+      - heavy_workstation_syncthing_server_device_id | length > 0
+      - heavy_workstation_syncthing_server_address | length > 0
+    fail_msg: >-
+      Set heavy_workstation_syncthing_server_device_id and
+      heavy_workstation_syncthing_server_address in
+      roles/heavy_workstation/vars/main.yml (ansible-vault edit).
+    quiet: true
+
 - name: Syncthing | Install syncthing package
   tags:
     - syncthing
-  ansible.builtin.package:
-    name:
-      - syncthing
+  community.general.pacman:
+    name: syncthing
     state: present
-    update_cache: true
   become: true
 
-- name: Syncthing | Copy ufw syncthing rule file
+# The old role copied its own unit; the package's
+# /usr/lib/systemd/user/syncthing.service does the same.
+- name: Syncthing | Remove the old copied systemd unit
+  tags:
+    - syncthing
+  ansible.builtin.file:
+    path: /etc/systemd/user/syncthing.service
+    state: absent
+  become: true
+
+# An old install left a config.xml with other devices and folders. Move it
+# aside once, so that the hub setup starts with a new device identity. The
+# *.pre-hub directory exists after the first run, so the move never repeats.
+- name: Syncthing | Move the old configuration aside
+  tags:
+    - syncthing
+  ansible.builtin.command:
+    cmd: mv {{ ansible_facts['user_dir'] }}/.config/syncthing {{ ansible_facts['user_dir'] }}/.config/syncthing.pre-hub
+    creates: "{{ ansible_facts['user_dir'] }}/.config/syncthing.pre-hub"
+    removes: "{{ ansible_facts['user_dir'] }}/.config/syncthing/config.xml"
+
+- name: Syncthing | Move the old database aside
+  tags:
+    - syncthing
+  ansible.builtin.command:
+    cmd: mv {{ ansible_facts['user_dir'] }}/.local/state/syncthing {{ ansible_facts['user_dir'] }}/.local/state/syncthing.pre-hub
+    creates: "{{ ansible_facts['user_dir'] }}/.local/state/syncthing.pre-hub"
+    removes: "{{ ansible_facts['user_dir'] }}/.local/state/syncthing"
+
+- name: Syncthing | Create the synced folders
+  tags:
+    - syncthing
+  ansible.builtin.file:
+    path: "{{ ansible_facts['user_dir'] }}/{{ heavy_workstation_folder }}"
+    state: directory
+    mode: "0750"
+  loop: "{{ heavy_workstation_syncthing_folders }}"
+  loop_control:
+    loop_var: heavy_workstation_folder
+
+- name: Syncthing | Write the ignore patterns of each folder
   tags:
     - syncthing
   ansible.builtin.copy:
-    src: syncthing-ufw
-    dest: /etc/ufw/applications.d/ufw-syncthing
-    owner: root
-    group: root
+    dest: "{{ ansible_facts['user_dir'] }}/{{ heavy_workstation_folder }}/.stignore"
+    content: |
+      // Managed by Ansible (roles/heavy_workstation). KEEP IN SYNC with servarr
+      // stacks/syncthing/syncthing-config.toml and nix_os syncthing.nix.
+      {{ heavy_workstation_syncthing_ignores | join('\n') }}
     mode: "0644"
-  become: true
+  loop: "{{ heavy_workstation_syncthing_folders }}"
+  loop_control:
+    loop_var: heavy_workstation_folder
 
-- name: Syncthing | Allow syncthing in ufw
+# The laptop dials the server: no inbound rule. This outgoing rule matters
+# only if ufw's default outgoing policy is deny; with allow it is a no-op.
+- name: Syncthing | Allow outgoing sync traffic to the server over the tailnet
   tags:
     - syncthing
   community.general.ufw:
     rule: allow
-    name: syncthing
-  become: true
-
-- name: Syncthing | Copy syncthing systemd file
-  tags:
-    - syncthing
-  ansible.builtin.copy:
-    src: syncthing.service
-    dest: /etc/systemd/user/syncthing.service
-    owner: root
-    group: root
-    mode: "0644"
-  become: true
-
-- name: Syncthing | Ensure syncthing directory exists
-  tags:
-    - syncthing
-  ansible.builtin.file:
-    dest: "{{ lookup('env', 'HOME') }}/.config/syncthing/"
-    mode: "0770"
-    group: "{{ lookup('env', 'USER') }}"
-    owner: "{{ lookup('env', 'USER') }}"
-    state: directory
-
-- name: Syncthing | Copy syncthing config file
-  tags:
-    - syncthing
-  ansible.builtin.copy:
-    src: syncthing-config.xml
-    dest: "{{ lookup('env', 'HOME') }}/.config/syncthing/config.xml"
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
-    mode: "0600"
+    direction: out
+    interface: tailscale0
+    to_port: "22000"
+    proto: tcp
+    comment: syncthing to servarr
   become: true
 
 - name: Syncthing | Start syncthing
   tags:
     - syncthing
-  ansible.builtin.systemd:
-    state: started
+  ansible.builtin.systemd_service:
     name: syncthing
     scope: user
+    state: started
     enabled: true
+    daemon_reload: true
+
+# Syncthing 2 keeps its config in ~/.local/state/syncthing; an older layout
+# uses ~/.config/syncthing. Take the one that exists.
+- name: Syncthing | Wait for the configuration file
+  tags:
+    - syncthing
+  ansible.builtin.find:
+    paths:
+      - "{{ ansible_facts['user_dir'] }}/.local/state/syncthing"
+      - "{{ ansible_facts['user_dir'] }}/.config/syncthing"
+    patterns: config.xml
+  register: heavy_workstation_syncthing_config_file
+  until: heavy_workstation_syncthing_config_file.matched > 0
+  retries: 15
+  delay: 2
+
+- name: Syncthing | Read the configuration file
+  tags:
+    - syncthing
+  ansible.builtin.slurp:
+    src: "{{ heavy_workstation_syncthing_config_file.files[0].path }}"
+  register: heavy_workstation_syncthing_config_xml
+
+- name: Syncthing | Set the API URL and key
+  tags:
+    - syncthing
+  ansible.builtin.set_fact:
+    heavy_workstation_syncthing_api: http://{{ heavy_workstation_syncthing_gui_address }}/rest
+    heavy_workstation_syncthing_headers:
+      X-API-Key: >-
+        {{ heavy_workstation_syncthing_config_xml.content | b64decode
+        | regex_search('<apikey>[^<]+</apikey>') | regex_replace('</?apikey>', '') }}
+  no_log: true
+
+- name: Syncthing | Wait for the REST API
+  tags:
+    - syncthing
+  ansible.builtin.uri:
+    url: "{{ heavy_workstation_syncthing_api }}/system/ping"
+    headers: "{{ heavy_workstation_syncthing_headers }}"
+  register: heavy_workstation_syncthing_ping
+  until: heavy_workstation_syncthing_ping.status == 200
+  retries: 15
+  delay: 2
+  no_log: true
+
+- name: Syncthing | Read the device ID of this laptop
+  tags:
+    - syncthing
+  ansible.builtin.uri:
+    url: "{{ heavy_workstation_syncthing_api }}/system/status"
+    headers: "{{ heavy_workstation_syncthing_headers }}"
+  register: heavy_workstation_syncthing_status
+
+- name: Syncthing | Read the current configuration
+  tags:
+    - syncthing
+  ansible.builtin.uri:
+    url: "{{ heavy_workstation_syncthing_api }}/config"
+    headers: "{{ heavy_workstation_syncthing_headers }}"
+  register: heavy_workstation_syncthing_config
+
+- name: Syncthing | Set the desired options
+  tags:
+    - syncthing
+  ansible.builtin.set_fact:
+    heavy_workstation_syncthing_my_id: "{{ heavy_workstation_syncthing_status.json.myID }}"
+    heavy_workstation_syncthing_options:
+      globalAnnounceEnabled: false
+      localAnnounceEnabled: false
+      relaysEnabled: false
+      natEnabled: false
+      urAccepted: -1
+
+# Discovery, relays and NAT off: the laptop reaches the server only at the
+# static tailnet address. Usage reporting declined.
+- name: Syncthing | Turn off discovery, relays, NAT and usage reporting
+  tags:
+    - syncthing
+  ansible.builtin.uri:
+    url: "{{ heavy_workstation_syncthing_api }}/config/options"
+    method: PATCH
+    headers: "{{ heavy_workstation_syncthing_headers }}"
+    body_format: json
+    body: "{{ heavy_workstation_syncthing_options }}"
+  when: >-
+    heavy_workstation_syncthing_config.json.options
+    | dict2items
+    | selectattr('key', 'in', heavy_workstation_syncthing_options)
+    | items2dict
+    != heavy_workstation_syncthing_options
+  changed_when: true
+
+- name: Syncthing | Keep the GUI on loopback
+  tags:
+    - syncthing
+  ansible.builtin.uri:
+    url: "{{ heavy_workstation_syncthing_api }}/config/gui"
+    method: PATCH
+    headers: "{{ heavy_workstation_syncthing_headers }}"
+    body_format: json
+    body:
+      address: "{{ heavy_workstation_syncthing_gui_address }}"
+  when: heavy_workstation_syncthing_config.json.gui.address != heavy_workstation_syncthing_gui_address
+  changed_when: true
+
+- name: Syncthing | Add or fix the servarr device
+  tags:
+    - syncthing
+  ansible.builtin.uri:
+    url: "{{ heavy_workstation_syncthing_api }}/config/devices/{{ heavy_workstation_syncthing_server_device_id }}"
+    method: PUT
+    headers: "{{ heavy_workstation_syncthing_headers }}"
+    body_format: json
+    body:
+      deviceID: "{{ heavy_workstation_syncthing_server_device_id }}"
+      name: servarr
+      addresses:
+        - "{{ heavy_workstation_syncthing_server_address }}"
+      compression: metadata
+      introducer: false
+      autoAcceptFolders: false
+  vars:
+    heavy_workstation_current: >-
+      {{ heavy_workstation_syncthing_config.json.devices
+      | selectattr('deviceID', 'equalto', heavy_workstation_syncthing_server_device_id)
+      | first | default({}) }}
+  when: >-
+    heavy_workstation_current.name | default('') != 'servarr'
+    or heavy_workstation_current.addresses | default([]) != [heavy_workstation_syncthing_server_address]
+    or heavy_workstation_current.introducer | default(true)
+    or heavy_workstation_current.autoAcceptFolders | default(true)
+  changed_when: true
+
+# Hub-and-spoke: no device except the server (and this laptop itself).
+- name: Syncthing | Remove every other device
+  tags:
+    - syncthing
+  ansible.builtin.uri:
+    url: "{{ heavy_workstation_syncthing_api }}/config/devices/{{ heavy_workstation_device }}"
+    method: DELETE
+    headers: "{{ heavy_workstation_syncthing_headers }}"
+  loop: >-
+    {{ heavy_workstation_syncthing_config.json.devices
+    | map(attribute='deviceID')
+    | reject('equalto', heavy_workstation_syncthing_my_id)
+    | reject('equalto', heavy_workstation_syncthing_server_device_id)
+    | list }}
+  loop_control:
+    loop_var: heavy_workstation_device
+  changed_when: true
+
+- name: Syncthing | Add or fix the hub folders
+  tags:
+    - syncthing
+  ansible.builtin.uri:
+    url: "{{ heavy_workstation_syncthing_api }}/config/folders/{{ heavy_workstation_folder }}"
+    method: PUT
+    headers: "{{ heavy_workstation_syncthing_headers }}"
+    body_format: json
+    body:
+      id: "{{ heavy_workstation_folder }}"
+      label: "{{ heavy_workstation_folder }}"
+      path: "{{ ansible_facts['user_dir'] }}/{{ heavy_workstation_folder }}"
+      type: sendreceive
+      devices:
+        - deviceID: "{{ heavy_workstation_syncthing_server_device_id }}"
+  loop: "{{ heavy_workstation_syncthing_folders }}"
+  loop_control:
+    loop_var: heavy_workstation_folder
+  vars:
+    heavy_workstation_current: >-
+      {{ heavy_workstation_syncthing_config.json.folders
+      | selectattr('id', 'equalto', heavy_workstation_folder)
+      | first | default({}) }}
+    heavy_workstation_peers: >-
+      {{ heavy_workstation_current.devices | default([])
+      | map(attribute='deviceID')
+      | reject('equalto', heavy_workstation_syncthing_my_id)
+      | list }}
+  when: >-
+    heavy_workstation_current.path | default('') != ansible_facts['user_dir'] ~ '/' ~ heavy_workstation_folder
+    or heavy_workstation_current.type | default('') != 'sendreceive'
+    or heavy_workstation_peers != [heavy_workstation_syncthing_server_device_id]
+  changed_when: true
+
+# Removes the "Default Folder" (~/Sync) that Syncthing creates on its first start.
+- name: Syncthing | Remove every other folder
+  tags:
+    - syncthing
+  ansible.builtin.uri:
+    url: "{{ heavy_workstation_syncthing_api }}/config/folders/{{ heavy_workstation_folder }}"
+    method: DELETE
+    headers: "{{ heavy_workstation_syncthing_headers }}"
+  loop: >-
+    {{ heavy_workstation_syncthing_config.json.folders
+    | map(attribute='id')
+    | reject('in', heavy_workstation_syncthing_folders)
+    | list }}
+  loop_control:
+    loop_var: heavy_workstation_folder
+  changed_when: true
