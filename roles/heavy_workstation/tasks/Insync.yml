@@ -1,12 +1,13 @@
 ---
-- name: Insync | Install insync
+# Syncthing (tasks/Syncthing.yml) and the servarr hub replace Insync:
+# gdrive-pessoal syncs through the server, and the server keeps Google Drive
+# in step with rclone bisync. Remove Insync only after the first sync to the
+# server is complete (servarr stacks/syncthing/README.md).
+- name: Insync | Remove insync
   tags:
     - insync
-  kewlfft.aur.aur:
-    name:
-      - insync
-    use: yay
-    state: present
-    update_cache: true
+  community.general.pacman:
+    name: insync
+    state: absent
+  become: true
   when: ansible_facts["distribution"] == "Archlinux"
-  ignore_errors: true
