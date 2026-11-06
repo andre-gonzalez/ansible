@@ -114,3 +114,12 @@
     state: restarted
   become: true
   listen: restart opensnitchd
+
+- name: Restart wazuh-agent
+  tags:
+    - wazuh
+  ansible.builtin.service:
+    name: wazuh-agent
+    state: restarted
+  become: true
+  listen: restart wazuh-agent

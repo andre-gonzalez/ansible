@@ -88,6 +88,10 @@ light_workstation_gpg_keys:
   - 546B690A34BFB5F67D768159BB1AC653FDBAD33C # André Gonzalez (personal) <lopescg@gmail.com>
   # Not the Athenaworks key (A2F88C89…BE5ED78E): its passphrase is lost.
 
+# Wazuh manager address for the agent (tasks/wazuh-agent.yml): servarr's
+# MagicDNS short name, which Tailscale resolves at home and away.
+light_workstation_wazuh_manager: servarr
+
 # OpenSnitch (tasks/opensnitch.yml). DefaultAction applies to a connection no
 # rule matches when opensnitch-ui does not answer: before startx, in a TTY or
 # over SSH.
@@ -129,6 +133,12 @@ light_workstation_opensnitch_rules:
     type: simple
     operand: process.path
     data: /usr/lib/iwd/iwd
+  - name: 001-allow-wazuh-agent
+    description: Wazuh agent to the manager on servarr (events 1514, enrollment 1515)
+    type: list
+    list:
+      - { type: regexp, operand: process.path, data: '^/var/ossec/bin/(wazuh-agentd|agent-auth)$' }
+      - { type: regexp, operand: dest.port, data: '^151[45]$' }
   - name: 001-allow-tailscaled
     description: Tailscale control plane and DERP relays
     type: simple

@@ -1,0 +1,44 @@
+---
+# Wazuh agent: sends this machine's security events (logins, file changes,
+# packages and their CVEs, configuration checks) to the Wazuh manager on
+# servarr (servarr repo, stacks/wazuh). The AUR package repackages the official
+# Wazuh RPM.
+#
+# The agent must not be newer than the manager, or the manager refuses it. So
+# base's pacman.conf has `IgnorePkg = wazuh-agent`: upgrade it by hand
+# (`yay -S wazuh-agent`) only after a manager upgrade.
+#
+# Enrollment needs the manager's password one time. It stays out of this repo:
+# servarr stacks/wazuh/README.md, "Arch (t14)".
+- name: Wazuh-agent | Install wazuh-agent (AUR)
+  tags:
+    - wazuh
+  kewlfft.aur.aur:
+    name:
+      - wazuh-agent
+    use: yay
+    state: present
+  when: ansible_facts["distribution"] == "Archlinux"
+
+# The package ships ossec.conf with the placeholder MANAGER_IP.
+- name: Wazuh-agent | Set the manager address
+  tags:
+    - wazuh
+  ansible.builtin.replace:
+    path: /var/ossec/etc/ossec.conf
+    regexp: '(<client>\s*<server>\s*<address>)[^<]*(</address>)'
+    replace: '\g<1>{{ light_workstation_wazuh_manager }}\g<2>'
+  become: true
+  notify: restart wazuh-agent
+  when: ansible_facts["distribution"] == "Archlinux"
+
+- name: Wazuh-agent | Enable and start the agent
+  tags:
+    - wazuh
+  ansible.builtin.systemd_service:
+    name: wazuh-agent
+    enabled: true
+    state: started
+    daemon_reload: true
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
