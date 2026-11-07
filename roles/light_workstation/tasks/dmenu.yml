@@ -2,8 +2,9 @@
 - name: Dmenu | Clone dmenu
   tags:
     - dmenu
+    - bw-dmenu
   ansible.builtin.git:
-    version: master
+    version: main
     repo: git@github.com:andre-gonzalez/dmenu.git
     key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
     dest: "{{ lookup('env', 'HOME') }}/.config/dmenu"
@@ -12,6 +13,7 @@
 - name: Dmenu | Install dmenu
   tags:
     - dmenu
+    - bw-dmenu
   community.general.make:
     chdir: "{{ lookup('env', 'HOME') }}/.config/dmenu"
     target: install

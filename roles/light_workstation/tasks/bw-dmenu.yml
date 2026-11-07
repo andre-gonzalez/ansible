@@ -2,9 +2,14 @@
 # bw-dmenu: Bitwarden credential picker (github.com/andre-gonzalez/bitwarden-dmenu).
 # dwm runs `bw-dmenu` on MODKEY+s. The script is copied to ~/.local/bin, the
 # same place as its `make install`; fish_user_paths puts that directory on the
-# PATH of startx and dwm. It also needs dmenu with the -P patch (tasks/dmenu.yml)
-# and the personal GPG key (tasks/gpg.yml), which encrypts its cache. OpenSnitch
-# lets bw reach bitwarden.com (300-allow-bw-bitwarden in defaults/main.yml).
+# PATH of startx and dwm. It also needs dmenu with the -P patch (tasks/dmenu.yml,
+# whose tasks also have the bw-dmenu tag) and the personal GPG key
+# (tasks/gpg.yml), which encrypts its cache. OpenSnitch lets bw reach
+# bitwarden.com (300-allow-bw-bitwarden in defaults/main.yml).
+#
+# bw is also needed on its own: with 2FA, the first `bw login` is in a terminal.
+# clipmenu is optional for the script: when clipmenud runs, `clipctl` keeps the
+# credentials out of its history.
 - name: Bw-dmenu | Install packages necessary for bw-dmenu
   tags:
     - bw-dmenu
@@ -15,6 +20,7 @@
       - gnupg
       - xclip
       - libnotify
+      - clipmenu
   become: true
   when: ansible_facts["distribution"] == "Archlinux"
 
