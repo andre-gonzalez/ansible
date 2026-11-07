@@ -1,0 +1,49 @@
+---
+# Syncthing as a spoke of the servarr hub (servarr repo, stacks/syncthing).
+# The laptop knows one device only, the server, and never syncs with the other
+# laptop directly. Tasks: tasks/Syncthing.yml.
+
+# Set both in the vaulted vars/main.yml (`ansible-vault edit
+# roles/heavy_workstation/vars/main.yml`); vars/ wins over these defaults.
+# The tasks stop with a clear message while they are empty.
+#   device ID: ssh servarr 'cd /opt/servarr && stacks/syncthing/syncthing-config.py device-id'
+#   address:   tcp://servarr.<tailnet>.ts.net:22000 (MagicDNS name, so not in
+#              a plain-text file)
+heavy_workstation_syncthing_server_device_id: ""
+heavy_workstation_syncthing_server_address: ""
+
+# The only host that runs tasks/Syncthing.yml while it is on Arch.
+# samsung-expert runs NixOS: the nix_os repo configures it
+# (modules/home/services/syncthing.nix).
+heavy_workstation_syncthing_hosts:
+  - t14
+
+# Folder ID = label = directory name under $HOME. Send & Receive, shared with
+# the server only, no versioning on the laptop (the server keeps the versions).
+heavy_workstation_syncthing_folders:
+  - gdrive-pessoal
+  - athenaworks
+  - random
+
+# .stignore of every folder. KEEP IN SYNC with servarr
+# stacks/syncthing/syncthing-config.toml and nix_os
+# modules/home/services/syncthing.nix.
+heavy_workstation_syncthing_ignores:
+  - "(?d).DS_Store"
+  - "(?d)Thumbs.db"
+  - ".~lock.*#"
+  - "*.partial"
+  - "*.gddoc"
+  - "*.gdsheet"
+  - "*.gdslides"
+  - "*.gdform"
+  - "*.gddraw"
+  - "*.gdlink"
+  - "*.gdmap"
+  - "*.gdsite"
+  - "*.gdjam"
+  - "*.gdtable"
+  - "*.gdscript"
+
+# GUI and REST API: loopback only.
+heavy_workstation_syncthing_gui_address: 127.0.0.1:8384
