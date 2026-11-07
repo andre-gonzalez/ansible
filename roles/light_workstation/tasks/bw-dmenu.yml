@@ -1,0 +1,41 @@
+---
+# bw-dmenu: Bitwarden credential picker (github.com/andre-gonzalez/bitwarden-dmenu).
+# dwm runs `bw-dmenu` on MODKEY+s. The script is copied to ~/.local/bin, the
+# same place as its `make install`; fish_user_paths puts that directory on the
+# PATH of startx and dwm. It also needs dmenu with the -P patch (tasks/dmenu.yml)
+# and the personal GPG key (tasks/gpg.yml), which encrypts its cache. OpenSnitch
+# lets bw reach bitwarden.com (300-allow-bw-bitwarden in defaults/main.yml).
+- name: Bw-dmenu | Install packages necessary for bw-dmenu
+  tags:
+    - bw-dmenu
+  ansible.builtin.package:
+    name:
+      - bitwarden-cli
+      - jq
+      - gnupg
+      - xclip
+      - libnotify
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+# Private repository: cloned over ssh with the personal key.
+- name: Bw-dmenu | Clone bw-dmenu
+  tags:
+    - bw-dmenu
+  ansible.builtin.git:
+    version: main
+    repo: git@github.com:andre-gonzalez/bitwarden-dmenu.git
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
+    dest: "{{ lookup('env', 'HOME') }}/.config/bitwarden-dmenu"
+    accept_hostkey: true
+  ignore_errors: true
+
+# What `make install` does, but idempotent: changed only when the script changed.
+- name: Bw-dmenu | Install bw-dmenu
+  tags:
+    - bw-dmenu
+  ansible.builtin.copy:
+    src: "{{ lookup('env', 'HOME') }}/.config/bitwarden-dmenu/bw-dmenu.sh"
+    dest: "{{ lookup('env', 'HOME') }}/.local/bin/bw-dmenu"
+    remote_src: true
+    mode: "0755"
