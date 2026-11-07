@@ -49,23 +49,23 @@
   tags:
     - syncthing
   ansible.builtin.command:
-    cmd: mv {{ ansible_facts['user_dir'] }}/.config/syncthing {{ ansible_facts['user_dir'] }}/.config/syncthing.pre-hub
-    creates: "{{ ansible_facts['user_dir'] }}/.config/syncthing.pre-hub"
-    removes: "{{ ansible_facts['user_dir'] }}/.config/syncthing/config.xml"
+    cmd: mv {{ lookup('env', 'HOME') }}/.config/syncthing {{ lookup('env', 'HOME') }}/.config/syncthing.pre-hub
+    creates: "{{ lookup('env', 'HOME') }}/.config/syncthing.pre-hub"
+    removes: "{{ lookup('env', 'HOME') }}/.config/syncthing/config.xml"
 
 - name: Syncthing | Move the old database aside
   tags:
     - syncthing
   ansible.builtin.command:
-    cmd: mv {{ ansible_facts['user_dir'] }}/.local/state/syncthing {{ ansible_facts['user_dir'] }}/.local/state/syncthing.pre-hub
-    creates: "{{ ansible_facts['user_dir'] }}/.local/state/syncthing.pre-hub"
-    removes: "{{ ansible_facts['user_dir'] }}/.local/state/syncthing"
+    cmd: mv {{ lookup('env', 'HOME') }}/.local/state/syncthing {{ lookup('env', 'HOME') }}/.local/state/syncthing.pre-hub
+    creates: "{{ lookup('env', 'HOME') }}/.local/state/syncthing.pre-hub"
+    removes: "{{ lookup('env', 'HOME') }}/.local/state/syncthing"
 
 - name: Syncthing | Create the synced folders
   tags:
     - syncthing
   ansible.builtin.file:
-    path: "{{ ansible_facts['user_dir'] }}/{{ heavy_workstation_folder }}"
+    path: "{{ lookup('env', 'HOME') }}/{{ heavy_workstation_folder }}"
     state: directory
     mode: "0750"
   loop: "{{ heavy_workstation_syncthing_folders }}"
@@ -76,7 +76,7 @@
   tags:
     - syncthing
   ansible.builtin.copy:
-    dest: "{{ ansible_facts['user_dir'] }}/{{ heavy_workstation_folder }}/.stignore"
+    dest: "{{ lookup('env', 'HOME') }}/{{ heavy_workstation_folder }}/.stignore"
     content: |
       // Managed by Ansible (roles/heavy_workstation). KEEP IN SYNC with servarr
       // stacks/syncthing/syncthing-config.toml and nix_os syncthing.nix.
@@ -117,8 +117,8 @@
     - syncthing
   ansible.builtin.find:
     paths:
-      - "{{ ansible_facts['user_dir'] }}/.local/state/syncthing"
-      - "{{ ansible_facts['user_dir'] }}/.config/syncthing"
+      - "{{ lookup('env', 'HOME') }}/.local/state/syncthing"
+      - "{{ lookup('env', 'HOME') }}/.config/syncthing"
     patterns: config.xml
   register: heavy_workstation_syncthing_config_file
   until: heavy_workstation_syncthing_config_file.matched > 0
@@ -272,7 +272,7 @@
     body:
       id: "{{ heavy_workstation_folder }}"
       label: "{{ heavy_workstation_folder }}"
-      path: "{{ ansible_facts['user_dir'] }}/{{ heavy_workstation_folder }}"
+      path: "{{ lookup('env', 'HOME') }}/{{ heavy_workstation_folder }}"
       type: sendreceive
       devices:
         - deviceID: "{{ heavy_workstation_syncthing_server_device_id }}"
@@ -290,7 +290,7 @@
       | reject('equalto', heavy_workstation_syncthing_my_id)
       | list }}
   when: >-
-    heavy_workstation_current.path | default('') != ansible_facts['user_dir'] ~ '/' ~ heavy_workstation_folder
+    heavy_workstation_current.path | default('') != lookup('env', 'HOME') ~ '/' ~ heavy_workstation_folder
     or heavy_workstation_current.type | default('') != 'sendreceive'
     or heavy_workstation_peers != [heavy_workstation_syncthing_server_device_id]
   changed_when: true
