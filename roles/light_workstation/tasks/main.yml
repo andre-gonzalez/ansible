@@ -99,6 +99,7 @@
   ansible.builtin.include_tasks: tasks/dmenu.yml
   tags:
     - dmenu
+    - bw-dmenu
 
 - name: Light Workstation | Include tasks from bw-dmenu play
   ansible.builtin.include_tasks: tasks/bw-dmenu.yml
