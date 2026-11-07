@@ -18,12 +18,22 @@ heavy_workstation_syncthing_server_address: ""
 heavy_workstation_syncthing_hosts:
   - t14
 
-# Folder ID = label = directory name under $HOME. Send & Receive, shared with
-# the server only, no versioning on the laptop (the server keeps the versions).
+# Folder ID = label; path = directory under $HOME (the ID, except for
+# claude-projects: Claude Code reads the fixed path ~/.claude/projects).
+# Send & Receive, shared with the server only, no versioning on the laptop
+# (the server keeps the versions). KEEP IN SYNC with servarr
+# stacks/syncthing/syncthing-config.toml and nix_os syncthing.nix.
+# ~/.claude/history.jsonl is not synced: both laptops append to it, and
+# Syncthing would make conflict copies.
 heavy_workstation_syncthing_folders:
-  - gdrive-pessoal
-  - athenaworks
-  - random
+  - id: gdrive-pessoal
+    path: gdrive-pessoal
+  - id: athenaworks
+    path: athenaworks
+  - id: random
+    path: random
+  - id: claude-projects
+    path: .claude/projects
 
 # .stignore of every folder. KEEP IN SYNC with servarr
 # stacks/syncthing/syncthing-config.toml and nix_os

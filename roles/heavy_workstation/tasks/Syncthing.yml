@@ -65,7 +65,7 @@
   tags:
     - syncthing
   ansible.builtin.file:
-    path: "{{ lookup('env', 'HOME') }}/{{ heavy_workstation_folder }}"
+    path: "{{ lookup('env', 'HOME') }}/{{ heavy_workstation_folder.path }}"
     state: directory
     mode: "0750"
   loop: "{{ heavy_workstation_syncthing_folders }}"
@@ -76,7 +76,7 @@
   tags:
     - syncthing
   ansible.builtin.copy:
-    dest: "{{ lookup('env', 'HOME') }}/{{ heavy_workstation_folder }}/.stignore"
+    dest: "{{ lookup('env', 'HOME') }}/{{ heavy_workstation_folder.path }}/.stignore"
     content: |
       // Managed by Ansible (roles/heavy_workstation). KEEP IN SYNC with servarr
       // stacks/syncthing/syncthing-config.toml and nix_os syncthing.nix.
@@ -265,14 +265,14 @@
   tags:
     - syncthing
   ansible.builtin.uri:
-    url: "{{ heavy_workstation_syncthing_api }}/config/folders/{{ heavy_workstation_folder }}"
+    url: "{{ heavy_workstation_syncthing_api }}/config/folders/{{ heavy_workstation_folder.id }}"
     method: PUT
     headers: "{{ heavy_workstation_syncthing_headers }}"
     body_format: json
     body:
-      id: "{{ heavy_workstation_folder }}"
-      label: "{{ heavy_workstation_folder }}"
-      path: "{{ lookup('env', 'HOME') }}/{{ heavy_workstation_folder }}"
+      id: "{{ heavy_workstation_folder.id }}"
+      label: "{{ heavy_workstation_folder.id }}"
+      path: "{{ lookup('env', 'HOME') }}/{{ heavy_workstation_folder.path }}"
       type: sendreceive
       devices:
         - deviceID: "{{ heavy_workstation_syncthing_server_device_id }}"
@@ -282,7 +282,7 @@
   vars:
     heavy_workstation_current: >-
       {{ heavy_workstation_syncthing_config.json.folders
-      | selectattr('id', 'equalto', heavy_workstation_folder)
+      | selectattr('id', 'equalto', heavy_workstation_folder.id)
       | first | default({}) }}
     heavy_workstation_peers: >-
       {{ heavy_workstation_current.devices | default([])
@@ -290,7 +290,7 @@
       | reject('equalto', heavy_workstation_syncthing_my_id)
       | list }}
   when: >-
-    heavy_workstation_current.path | default('') != lookup('env', 'HOME') ~ '/' ~ heavy_workstation_folder
+    heavy_workstation_current.path | default('') != lookup('env', 'HOME') ~ '/' ~ heavy_workstation_folder.path
     or heavy_workstation_current.type | default('') != 'sendreceive'
     or heavy_workstation_peers != [heavy_workstation_syncthing_server_device_id]
   changed_when: true
@@ -306,7 +306,7 @@
   loop: >-
     {{ heavy_workstation_syncthing_config.json.folders
     | map(attribute='id')
-    | reject('in', heavy_workstation_syncthing_folders)
+    | reject('in', heavy_workstation_syncthing_folders | map(attribute='id'))
     | list }}
   loop_control:
     loop_var: heavy_workstation_folder
