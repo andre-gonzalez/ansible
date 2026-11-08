@@ -7,16 +7,19 @@
       - drawio-desktop
       - ttf-ibm-plex # Fonts
       - glab # GitLab CLI, for merge requests and pipelines
+      - terraform
     state: present
     update_cache: true
   become: true
 
-- name: Packages | Install claude-code
+- name: Packages | Install AUR work packages
   tags:
     - aur
   kewlfft.aur.aur:
     name:
       - claude-code
+      # `from databricks import sql` (brings pandas, pyarrow, lz4, thrift, oauthlib)
+      - python-databricks-sql-connector
     use: yay
     state: present
     update_cache: true
