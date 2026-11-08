@@ -1,0 +1,134 @@
+---
+# Whispering dictation and the dictation kit
+# (github.com/andre-gonzalez/whispering-dictation-kit): the prompts of the
+# transformations, the clipboard context proxy to OpenRouter, and the Super+;
+# reply script. Replaces the kit's install.sh. Same setup as the NixOS flake
+# (nix_os, modules/home/programs/whispering.nix).
+#
+# whispering-bin stays at 7.11: base's pacman.conf has it in IgnorePkg,
+# because the `main` branch of Whispering removes the transformations that the
+# kit depends on. Read the release notes before `yay -S whispering-bin`.
+#
+# dwm (config.h in the dwm repo) binds Super+; to
+# $HOME/.local/bin/whispering-reply and puts the "Whispering" window on tag 9.
+#
+# Not here: the Whispering settings (API keys, the transformations with the
+# proxy URL and the prompts, the shortcuts) and its downloaded models, in
+# ~/.local/share/com.bradenwong.whispering. Configure them once in the app;
+# the kit's README has the steps.
+- name: Whispering | Install whispering-bin (AUR)
+  tags:
+    - whispering
+  kewlfft.aur.aur:
+    name:
+      - whispering-bin
+    use: yay
+    state: present
+  when: ansible_facts["distribution"] == "Archlinux"
+  ignore_errors: true
+
+- name: Whispering | Install the packages the kit scripts call
+  tags:
+    - whispering
+  ansible.builtin.package:
+    name:
+      - python
+      - curl
+      - xclip
+      - xdotool
+      - libnotify
+    state: present
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+# Private repo: the ssh key, as notas. update: false, because the prompts and
+# the helper are edited in place and pushed; a pull here would fail on local
+# changes.
+- name: Whispering | Clone the dictation kit
+  tags:
+    - whispering
+  ansible.builtin.git:
+    version: main
+    repo: git@github.com:andre-gonzalez/whispering-dictation-kit.git
+    dest: "{{ light_workstation_whispering_kit }}"
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
+    accept_hostkey: true
+    update: false
+  ignore_errors: true
+
+- name: Whispering | Ensure the local bin and systemd user directories exist
+  tags:
+    - whispering
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ lookup('env', 'HOME') }}/.local/bin"
+    - "{{ lookup('env', 'HOME') }}/.config/systemd/user"
+
+# The path that dwm's config.h calls.
+- name: Whispering | Link the reply script into the local bin
+  tags:
+    - whispering
+  ansible.builtin.file:
+    src: "{{ light_workstation_whispering_kit }}/bin/whispering-reply"
+    dest: "{{ lookup('env', 'HOME') }}/.local/bin/whispering-reply"
+    state: link
+    force: true
+
+# install.sh enabled the kit's unit file by path, so these two are links into
+# the repo. Remove them, or the copy below writes into the repo file.
+- name: Whispering | Find the unit links that install.sh made
+  tags:
+    - whispering
+  ansible.builtin.stat:
+    path: "{{ lookup('env', 'HOME') }}/.config/systemd/user/{{ item }}"
+  loop:
+    - whispering-context-proxy.service
+    - default.target.wants/whispering-context-proxy.service
+  register: light_workstation_whispering_unit_links
+
+- name: Whispering | Remove the unit links that install.sh made
+  tags:
+    - whispering
+  ansible.builtin.file:
+    path: "{{ item.stat.path }}"
+    state: absent
+  loop: "{{ light_workstation_whispering_unit_links.results }}"
+  loop_control:
+    label: "{{ item.item }}"
+  when: item.stat.islnk | default(false)
+
+# The interpreter by path, not the script's `env python3` shebang, so the
+# command line is fixed: the opensnitch rule 300-allow-whispering-proxy-openrouter
+# matches it (light_workstation_whispering_proxy_command).
+- name: Whispering | Install the context proxy user service
+  tags:
+    - whispering
+  ansible.builtin.copy:
+    content: |
+      [Unit]
+      Description=Whispering dictation kit: clipboard context proxy to OpenRouter
+      ConditionPathExists={{ light_workstation_whispering_kit }}/helper/whispering_context_proxy.py
+
+      [Service]
+      ExecStart={{ light_workstation_whispering_proxy_command }}
+      Restart=on-failure
+      RestartSec=2
+
+      [Install]
+      WantedBy=default.target
+    dest: "{{ lookup('env', 'HOME') }}/.config/systemd/user/whispering-context-proxy.service"
+    mode: "0644"
+  register: light_workstation_whispering_unit
+
+- name: Whispering | Enable and start the context proxy
+  tags:
+    - whispering
+  ansible.builtin.systemd_service:
+    name: whispering-context-proxy
+    scope: user
+    daemon_reload: true
+    enabled: true
+    state: "{{ 'restarted' if light_workstation_whispering_unit is changed else 'started' }}"

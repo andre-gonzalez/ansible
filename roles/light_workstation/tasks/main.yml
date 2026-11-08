@@ -282,6 +282,11 @@
   tags:
     - crash-notify
 
+- name: Light Workstation | Include tasks from whispering play
+  ansible.builtin.include_tasks: tasks/whispering.yml
+  tags:
+    - whispering
+
 - name: Light Workstation | Include tasks from opensnitch play
   ansible.builtin.include_tasks: tasks/opensnitch.yml
   tags:

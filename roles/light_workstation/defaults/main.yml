@@ -378,6 +378,16 @@ light_workstation_opensnitch_rules:
     list:
       - { type: simple, operand: process.path, data: /usr/bin/uv }
       - { type: regexp, operand: dest.host, data: '^(pypi\.org|files\.pythonhosted\.org)$' }
+  # The Whispering dictation kit's proxy (tasks/whispering.yml) sends the
+  # transformations to OpenRouter, and only there. Same approach as
+  # qutebrowser: the interpreter and the exact command line of the unit.
+  - name: 300-allow-whispering-proxy-openrouter
+    description: Whispering dictation kit proxy to OpenRouter
+    type: list
+    list:
+      - { type: regexp, operand: process.path, data: '^/usr/bin/python3\.[0-9]+$' }
+      - { type: regexp, operand: process.command, data: "^{{ light_workstation_whispering_proxy_command | regex_escape }}$" }
+      - { type: regexp, operand: dest.host, data: '^openrouter\.ai$' }
 
 # Binaries under $HOME, which the user can overwrite: the rule also checks
 # the MD5 taken when the playbook runs, so a replaced binary prompts again.
@@ -473,3 +483,9 @@ light_workstation_opensnitch_removed_rules:
   - allow-always-simple-home-frank-config-herdr-plugins-github-herdr-jira-32053ccf3d18-target-release-herdr-jira
   - allow-always-simple-home-frank-config-dwmblocks-laptop-dwmblocks-bar-functions-dwm-systemd-networkd-c
   - allow-always-simple-home-frank-local-state-servarr-failover-infra-tfdata-providers-registry-terraform-io-tailscale-tailscale-0-2
+
+# Whispering dictation kit (tasks/whispering.yml): the clone, and the command
+# line of its proxy unit, which the opensnitch rule
+# 300-allow-whispering-proxy-openrouter matches.
+light_workstation_whispering_kit: "{{ lookup('env', 'HOME') }}/projects/whispering-dictation-kit"
+light_workstation_whispering_proxy_command: "/usr/bin/python3 -I {{ light_workstation_whispering_kit }}/helper/whispering_context_proxy.py"
