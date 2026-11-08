@@ -34,6 +34,8 @@ heavy_workstation_syncthing_folders:
     path: random
   - id: claude-projects
     path: .claude/projects
+  - id: no-backup
+    path: no-backup
 
 # .stignore of every folder. KEEP IN SYNC with servarr
 # stacks/syncthing/syncthing-config.toml and nix_os
