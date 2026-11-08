@@ -1,0 +1,222 @@
+---
+# Whispering dictation and the dictation kit
+# (github.com/andre-gonzalez/whispering-dictation-kit): the prompts of the
+# transformations, the clipboard context proxy to OpenRouter, and the Super+;
+# reply script. Replaces the kit's install.sh. Same setup as the NixOS flake
+# (nix_os, modules/home/programs/whispering.nix).
+#
+# whispering-bin stays at 7.11: base's pacman.conf has it in IgnorePkg,
+# because the `main` branch of Whispering removes the transformations that the
+# kit depends on. Read the release notes before `yay -S whispering-bin`.
+#
+# A CPU without AVX-512 (the i7-8550U of the Samsung laptop) gets 7.10: the
+# 7.11.0 release binary runs AVX-512 instructions in its static initializers
+# and dies with SIGILL before main() (EpicenterHQ/epicenter#2082, #2439).
+# 7.10.0 checks the CPU first and has the same transformations. The AUR has
+# only the newest PKGBUILD, so 7.10 is built from the AUR commit of 7.10.0.
+# Drop it when a release fixes the build. nix_os does the same per host
+# (local.whispering.package on samsung-expert).
+#
+# dwm (config.h in the dwm repo) binds Super+; to
+# $HOME/.local/bin/whispering-reply and puts the "Whispering" window on tag 9.
+#
+# The Whispering settings (the shortcuts, the proxy URL, the transcription
+# service) and the transformations are seeded from the kit's whispering/
+# (helper/whispering_config.py), with the API keys from the vaulted
+# files/whispering-api-keys.json. Only on a machine without Whispering
+# settings: after that the app owns them. To keep the repo current after a
+# change in the app, run `whispering_config.py export` in the kit and commit.
+# Not seeded: the models; the Parakeet one is in ~/no-backup/Models, which
+# Syncthing syncs.
+- name: Whispering | Find out if the CPU has AVX-512
+  tags:
+    - whispering
+  ansible.builtin.command: grep -qw avx512f /proc/cpuinfo
+  register: light_workstation_whispering_avx512
+  changed_when: false
+  check_mode: false
+  failed_when: light_workstation_whispering_avx512.rc > 1
+
+- name: Whispering | Install whispering-bin (AUR)
+  tags:
+    - whispering
+  kewlfft.aur.aur:
+    name:
+      - whispering-bin
+    use: yay
+    state: present
+  when:
+    - ansible_facts["distribution"] == "Archlinux"
+    - light_workstation_whispering_avx512.rc == 0
+  ignore_errors: true
+
+- name: Whispering | Get the 7.10.0 PKGBUILD from the AUR history
+  tags:
+    - whispering
+  ansible.builtin.git:
+    repo: https://aur.archlinux.org/whispering-bin.git
+    version: "{{ light_workstation_whispering_7_10_aur_commit }}"
+    dest: "{{ lookup('env', 'HOME') }}/.cache/ansible/whispering-bin-7.10"
+  when:
+    - ansible_facts["distribution"] == "Archlinux"
+    - light_workstation_whispering_avx512.rc != 0
+
+- name: Whispering | Read the installed whispering-bin version
+  tags:
+    - whispering
+  ansible.builtin.command: pacman -Q whispering-bin
+  register: light_workstation_whispering_installed
+  changed_when: false
+  check_mode: false
+  failed_when: false
+  when:
+    - ansible_facts["distribution"] == "Archlinux"
+    - light_workstation_whispering_avx512.rc != 0
+
+# makepkg --install also replaces (downgrades) an installed 7.11. Only when the
+# version differs, because state latest builds on every run.
+- name: Whispering | Install whispering-bin 7.10.0 (CPU without AVX-512)
+  tags:
+    - whispering
+  kewlfft.aur.aur:
+    name:
+      - whispering-bin
+    use: makepkg
+    local_pkgbuild: "{{ lookup('env', 'HOME') }}/.cache/ansible/whispering-bin-7.10"
+    state: latest
+  when:
+    - ansible_facts["distribution"] == "Archlinux"
+    - light_workstation_whispering_avx512.rc != 0
+    - light_workstation_whispering_installed.stdout != "whispering-bin 7.10.0-1"
+
+- name: Whispering | Install the packages the kit scripts call
+  tags:
+    - whispering
+  ansible.builtin.package:
+    name:
+      - python
+      - curl
+      - xclip
+      - xdotool
+      - libnotify
+    state: present
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+# Private repo: the ssh key, as notas. update: false, because the prompts and
+# the helper are edited in place and pushed; a pull here would fail on local
+# changes.
+- name: Whispering | Clone the dictation kit
+  tags:
+    - whispering
+  ansible.builtin.git:
+    version: main
+    repo: git@github.com:andre-gonzalez/whispering-dictation-kit.git
+    dest: "{{ light_workstation_whispering_kit }}"
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
+    accept_hostkey: true
+    update: false
+  ignore_errors: true
+
+- name: Whispering | Find the seed script of the kit
+  tags:
+    - whispering
+  ansible.builtin.stat:
+    path: "{{ light_workstation_whispering_kit }}/helper/whispering_config.py"
+  register: light_workstation_whispering_seed_script
+
+# A no-op once Whispering has settings, and while it runs. The keys go in on
+# stdin, so they are never on the command line or in a file.
+- name: Whispering | Seed the settings and transformations on a new machine
+  tags:
+    - whispering
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/python3
+      - -I
+      - "{{ light_workstation_whispering_kit }}/helper/whispering_config.py"
+      - seed
+      - --api-keys
+      - "-"
+    stdin: "{{ lookup('ansible.builtin.file', 'whispering-api-keys.json') }}"
+  register: light_workstation_whispering_seed
+  changed_when: "'written' in light_workstation_whispering_seed.stdout"
+  no_log: true
+  when: light_workstation_whispering_seed_script.stat.exists
+
+- name: Whispering | Ensure the local bin and systemd user directories exist
+  tags:
+    - whispering
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ lookup('env', 'HOME') }}/.local/bin"
+    - "{{ lookup('env', 'HOME') }}/.config/systemd/user"
+
+# The path that dwm's config.h calls.
+- name: Whispering | Link the reply script into the local bin
+  tags:
+    - whispering
+  ansible.builtin.file:
+    src: "{{ light_workstation_whispering_kit }}/bin/whispering-reply"
+    dest: "{{ lookup('env', 'HOME') }}/.local/bin/whispering-reply"
+    state: link
+    force: true
+
+# install.sh enabled the kit's unit file by path, so these two are links into
+# the repo. Remove them, or the copy below writes into the repo file.
+- name: Whispering | Find the unit links that install.sh made
+  tags:
+    - whispering
+  ansible.builtin.stat:
+    path: "{{ lookup('env', 'HOME') }}/.config/systemd/user/{{ item }}"
+  loop:
+    - whispering-context-proxy.service
+    - default.target.wants/whispering-context-proxy.service
+  register: light_workstation_whispering_unit_links
+
+- name: Whispering | Remove the unit links that install.sh made
+  tags:
+    - whispering
+  ansible.builtin.file:
+    path: "{{ item.stat.path }}"
+    state: absent
+  loop: "{{ light_workstation_whispering_unit_links.results }}"
+  loop_control:
+    label: "{{ item.item }}"
+  when: item.stat.islnk | default(false)
+
+# The interpreter by path, not the script's `env python3` shebang, so the
+# command line is fixed: the opensnitch rule 300-allow-whispering-proxy-openrouter
+# matches it (light_workstation_whispering_proxy_command).
+- name: Whispering | Install the context proxy user service
+  tags:
+    - whispering
+  ansible.builtin.copy:
+    content: |
+      [Unit]
+      Description=Whispering dictation kit: clipboard context proxy to OpenRouter
+      ConditionPathExists={{ light_workstation_whispering_kit }}/helper/whispering_context_proxy.py
+
+      [Service]
+      ExecStart={{ light_workstation_whispering_proxy_command }}
+      Restart=on-failure
+      RestartSec=2
+
+      [Install]
+      WantedBy=default.target
+    dest: "{{ lookup('env', 'HOME') }}/.config/systemd/user/whispering-context-proxy.service"
+    mode: "0644"
+  register: light_workstation_whispering_unit
+
+- name: Whispering | Enable and start the context proxy
+  tags:
+    - whispering
+  ansible.builtin.systemd_service:
+    name: whispering-context-proxy
+    scope: user
+    daemon_reload: true
+    enabled: true
+    state: "{{ 'restarted' if light_workstation_whispering_unit is changed else 'started' }}"
