@@ -1,0 +1,8 @@
+#%PAM-1.0
+# SSH asks for the key (sshd) and then a TOTP code (this auth stack).
+# No Unix password. Previous file: /etc/pam.d/sshd.bak-pre-totp
+
+auth      required  pam_google_authenticator.so
+account   include   system-remote-login
+password  include   system-remote-login
+session   include   system-remote-login

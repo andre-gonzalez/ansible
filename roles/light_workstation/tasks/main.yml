@@ -10,6 +10,13 @@
     - ssh
     - security
 
+- name: Light Workstation | Include tasks from ssh-totp play
+  ansible.builtin.include_tasks: tasks/ssh-totp.yml
+  tags:
+    - ssh
+    - security
+    - 2fa
+
 - name: Light Workstation | Include tasks from grub play
   ansible.builtin.include_tasks: tasks/grub.yml
   tags:
@@ -296,6 +303,12 @@
   ansible.builtin.include_tasks: tasks/wazuh-agent.yml
   tags:
     - wazuh
+
+- name: Light Workstation | Include tasks from apps play
+  ansible.builtin.include_tasks: tasks/apps.yml
+  tags:
+    - packages
+    - apps
 
 # - name: Light Workstation | Include tasks from doas play
 #   ansible.builtin.include_tasks: tasks/doas.yml

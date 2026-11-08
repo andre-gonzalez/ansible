@@ -1,0 +1,76 @@
+---
+# SSH as the user needs the key AND a TOTP code (pam_google_authenticator),
+# as on servarr. Was configured by hand on the Arch laptop; the NixOS laptops
+# do the same (nix_os: modules/nixos/services/ssh-totp.nix, laptop-totp).
+#
+# Lockout: without ~/.google_authenticator, SSH fails (no nullok). So the seed
+# goes in place first, and only when it is missing: pam_google_authenticator
+# rewrites the file (DISALLOW_REUSE, rate limiting). The console still logs in
+# with the password.
+- name: SSH-TOTP | Install libpam-google-authenticator
+  tags:
+    - ssh
+    - security
+    - 2fa
+  ansible.builtin.package:
+    name:
+      - libpam-google-authenticator
+    state: present
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+- name: SSH-TOTP | Seed ~/.google_authenticator when it is missing
+  tags:
+    - ssh
+    - security
+    - 2fa
+  ansible.builtin.copy:
+    src: google_authenticator
+    dest: "{{ lookup('env', 'HOME') }}/.google_authenticator"
+    owner: "{{ lookup('env', 'USER') }}"
+    mode: "0400"
+    force: false
+
+- name: SSH-TOTP | Deploy the sshd PAM stack (TOTP code, no password)
+  tags:
+    - ssh
+    - security
+    - 2fa
+  ansible.builtin.copy:
+    src: pam-sshd-totp
+    dest: /etc/pam.d/sshd
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+  register: light_workstation_totp_pam
+
+- name: SSH-TOTP | Require key + TOTP in sshd
+  tags:
+    - ssh
+    - security
+    - 2fa
+  ansible.builtin.copy:
+    src: sshd-50-totp.conf
+    dest: /etc/ssh/sshd_config.d/50-totp.conf
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+  register: light_workstation_totp_sshd
+
+- name: SSH-TOTP | Restart sshd
+  tags:
+    - ssh
+    - security
+    - 2fa
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+  become: true
+  when: >-
+    light_workstation_totp_pam is changed or
+    light_workstation_totp_sshd is changed

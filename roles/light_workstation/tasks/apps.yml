@@ -1,0 +1,22 @@
+---
+# Desktop applications that were installed by hand on the Arch laptop (the
+# NixOS configuration has them too). Steam comes from [multilib], which
+# roles/base/files/pacman.conf enables.
+- name: Apps | Install desktop applications
+  tags:
+    - packages
+    - apps
+  ansible.builtin.package:
+    name:
+      - discord
+      - obsidian
+      - gimp
+      - tesseract # OCR, with the English and Portuguese models
+      - tesseract-data-eng
+      - tesseract-data-por
+      - opencode # Terminal AI coding agent
+      - steam
+    state: present
+    update_cache: true
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
