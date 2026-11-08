@@ -20,10 +20,14 @@
 # dwm (config.h in the dwm repo) binds Super+; to
 # $HOME/.local/bin/whispering-reply and puts the "Whispering" window on tag 9.
 #
-# Not here: the Whispering settings (API keys, the transformations with the
-# proxy URL and the prompts, the shortcuts) and its downloaded models, in
-# ~/.local/share/com.bradenwong.whispering. Configure them once in the app;
-# the kit's README has the steps.
+# The Whispering settings (the shortcuts, the proxy URL, the transcription
+# service) and the transformations are seeded from the kit's whispering/
+# (helper/whispering_config.py), with the API keys from the vaulted
+# files/whispering-api-keys.json. Only on a machine without Whispering
+# settings: after that the app owns them. To keep the repo current after a
+# change in the app, run `whispering_config.py export` in the kit and commit.
+# Not seeded: the models; the Parakeet one is in ~/no-backup/Models, which
+# Syncthing syncs.
 - name: Whispering | Find out if the CPU has AVX-512
   tags:
     - whispering
@@ -113,6 +117,32 @@
     accept_hostkey: true
     update: false
   ignore_errors: true
+
+- name: Whispering | Find the seed script of the kit
+  tags:
+    - whispering
+  ansible.builtin.stat:
+    path: "{{ light_workstation_whispering_kit }}/helper/whispering_config.py"
+  register: light_workstation_whispering_seed_script
+
+# A no-op once Whispering has settings, and while it runs. The keys go in on
+# stdin, so they are never on the command line or in a file.
+- name: Whispering | Seed the settings and transformations on a new machine
+  tags:
+    - whispering
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/python3
+      - -I
+      - "{{ light_workstation_whispering_kit }}/helper/whispering_config.py"
+      - seed
+      - --api-keys
+      - "-"
+    stdin: "{{ lookup('ansible.builtin.file', 'whispering-api-keys.json') }}"
+  register: light_workstation_whispering_seed
+  changed_when: "'written' in light_workstation_whispering_seed.stdout"
+  no_log: true
+  when: light_workstation_whispering_seed_script.stat.exists
 
 - name: Whispering | Ensure the local bin and systemd user directories exist
   tags:
