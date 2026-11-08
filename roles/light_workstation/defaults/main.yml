@@ -489,3 +489,7 @@ light_workstation_opensnitch_removed_rules:
 # 300-allow-whispering-proxy-openrouter matches.
 light_workstation_whispering_kit: "{{ lookup('env', 'HOME') }}/projects/whispering-dictation-kit"
 light_workstation_whispering_proxy_command: "/usr/bin/python3 -I {{ light_workstation_whispering_kit }}/helper/whispering_context_proxy.py"
+
+# AUR commit "update to 7.10.0" of whispering-bin: the version for CPUs without
+# AVX-512, where 7.11.0 dies with SIGILL (tasks/whispering.yml).
+light_workstation_whispering_7_10_aur_commit: 991fda9b96f990595be81056dba88d1a1b5050fd
