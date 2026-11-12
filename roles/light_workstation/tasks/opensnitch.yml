@@ -82,13 +82,16 @@
     label: "{{ item.name }}"
   register: light_workstation_opensnitch_checksums
 
+# A rule with `hosts` (a regexp) also limits the destination.
 - name: OpenSnitch | Install the checksum rules
   tags:
     - opensnitch
   vars:
-    light_workstation_opensnitch_list:
-      - { type: simple, operand: process.path, sensitive: false, data: "{{ item.stat.path }}" }
-      - { type: simple, operand: process.hash.md5, sensitive: false, data: "{{ item.stat.checksum }}" }
+    light_workstation_opensnitch_list: >-
+      {{ [{'type': 'simple', 'operand': 'process.path', 'sensitive': false, 'data': item.stat.path},
+          {'type': 'simple', 'operand': 'process.hash.md5', 'sensitive': false, 'data': item.stat.checksum}]
+         + ([{'type': 'regexp', 'operand': 'dest.host', 'sensitive': false, 'data': item.item.hosts}]
+            if item.item.hosts is defined else []) }}
     light_workstation_opensnitch_rule:
       name: "{{ item.item.name }}"
       description: "{{ item.item.description }}"
