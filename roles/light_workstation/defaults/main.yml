@@ -392,6 +392,7 @@ light_workstation_opensnitch_rules:
 # Binaries under $HOME, which the user can overwrite: the rule also checks
 # the MD5 taken when the playbook runs, so a replaced binary prompts again.
 # A missing path is skipped; update the path after a version change.
+# `hosts` (optional) is a dest.host regexp that limits the destination.
 light_workstation_opensnitch_checksum_rules:
   - name: 400-allow-discord
     description: Discord (updates itself)
@@ -408,6 +409,18 @@ light_workstation_opensnitch_checksum_rules:
   - name: 400-allow-terraform-provider-tailscale
     description: Terraform Tailscale provider (servarr-failover)
     path: .local/state/servarr-failover/infra.tfdata/providers/registry.terraform.io/tailscale/tailscale/0.29.2/linux_amd64/terraform-provider-tailscale_v0.29.2
+  # taxes-download (~/projects/taxes-download): the Chromium that Playwright
+  # downloads loads the Contabilizei pages and their third-party hosts, like
+  # a browser. The pip wheel's node driver makes the API calls and fetches
+  # the boleto PDFs (signed Google Storage URLs), and only those.
+  # After a Playwright update, change the chromium-<revision> and pythonX.Y.
+  - name: 400-allow-playwright-chromium
+    description: Playwright Chromium (taxes-download)
+    path: .cache/ms-playwright/chromium-1248/chrome-linux64/chrome
+  - name: 400-allow-taxes-download-playwright-node
+    description: taxes-download Playwright driver (Contabilizei API and boleto PDFs)
+    path: projects/taxes-download/.venv/lib/python3.13/site-packages/playwright/driver/node
+    hosts: '^(app\.contabilizei\.com\.br|storage\.googleapis\.com)$'
 
 # Rules opensnitch-ui made during the learning period. They are above now, or
 # dropped: process.id rules (a later process gets the same PID), port 53 and
@@ -483,6 +496,12 @@ light_workstation_opensnitch_removed_rules:
   - allow-always-simple-home-frank-config-herdr-plugins-github-herdr-jira-32053ccf3d18-target-release-herdr-jira
   - allow-always-simple-home-frank-config-dwmblocks-laptop-dwmblocks-bar-functions-dwm-systemd-networkd-c
   - allow-always-simple-home-frank-local-state-servarr-failover-infra-tfdata-providers-registry-terraform-io-tailscale-tailscale-0-2
+  # Path regexp rules under $HOME, made by hand on 2026-11-12: any program of
+  # the user could write a matching file. The checksum rules
+  # 400-allow-playwright-chromium and 400-allow-taxes-download-playwright-node
+  # replace them.
+  - 100-allow-playwright-chromium
+  - 300-allow-taxes-download-playwright-node
 
 # Whispering dictation kit (tasks/whispering.yml): the clone, and the command
 # line of its proxy unit, which the opensnitch rule
