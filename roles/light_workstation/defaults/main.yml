@@ -413,7 +413,8 @@ light_workstation_opensnitch_checksum_rules:
   # downloads loads the Contabilizei pages and their third-party hosts, like
   # a browser. The pip wheel's node driver makes the API calls and fetches
   # the boleto PDFs (signed Google Storage URLs), and only those.
-  # After a Playwright update, change the chromium-<revision> and pythonX.Y.
+  # tasks/taxes-download.yml installs both. After a Playwright update, change
+  # the chromium-<revision>; pythonX.Y is light_workstation_taxes_download_python.
   - name: 400-allow-playwright-chromium
     description: Playwright Chromium (taxes-download)
     path: .cache/ms-playwright/chromium-1248/chrome-linux64/chrome
@@ -502,6 +503,12 @@ light_workstation_opensnitch_removed_rules:
   # replace them.
   - 100-allow-playwright-chromium
   - 300-allow-taxes-download-playwright-node
+
+# taxes-download (tasks/taxes-download.yml): the clone, and the Python of its
+# .venv. The opensnitch rule 400-allow-taxes-download-playwright-node has the
+# pythonX.Y in its path, so change both together.
+light_workstation_taxes_download_repo: "{{ lookup('env', 'HOME') }}/projects/taxes-download"
+light_workstation_taxes_download_python: "3.13"
 
 # Whispering dictation kit (tasks/whispering.yml): the clone, and the command
 # line of its proxy unit, which the opensnitch rule

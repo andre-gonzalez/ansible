@@ -1,0 +1,138 @@
+---
+# taxes-download (github.com/andre-gonzalez/taxes-download): downloads the
+# monthly DAS and INSS boletos from Contabilizei into the Insync folder, and
+# taxes-check.timer reminds from day 10 of each month while one is missing.
+# Does what `make install` in the repo does: `uv sync`, `playwright install
+# chromium`, and the user timer. Same setup as the NixOS flake (nix_os,
+# modules/home/programs/taxes-download.nix).
+#
+# Not here: the Contabilizei login. The first `make run` opens Chromium; log in
+# and enter the 2FA code there. The session stays in
+# ~/.local/share/taxes-download/browser-profile.
+#
+# The opensnitch rules 400-allow-playwright-chromium and
+# 400-allow-taxes-download-playwright-node (defaults/main.yml) take the MD5 of
+# the Chromium and of the node driver that the tasks below install. So
+# main.yml includes this file before opensnitch.yml.
+
+# pdftotext (poppler) checks each PDF; notify-send sends the reminder. The
+# rest are the libraries that Playwright's Chromium loads (deb.deps in its
+# directory); Playwright does not install them on Arch.
+- name: Taxes-download | Install the packages taxes-download needs
+  tags:
+    - taxes-download
+  ansible.builtin.package:
+    name:
+      - uv
+      - poppler
+      - libnotify
+      - nss
+      - at-spi2-core
+      - libcups
+      - libxkbcommon
+      - libxcomposite
+      - libxdamage
+      - libxrandr
+      - mesa
+      - pango
+      - cairo
+      - alsa-lib
+      - gtk3
+    state: present
+  become: true
+  when: ansible_facts["distribution"] == "Archlinux"
+
+# Private repo: the ssh key, as notas. update: false, because the code is
+# edited in place and pushed; a pull here would fail on local changes.
+- name: Taxes-download | Clone taxes-download
+  tags:
+    - taxes-download
+  ansible.builtin.git:
+    version: main
+    repo: git@github.com:andre-gonzalez/taxes-download.git
+    dest: "{{ light_workstation_taxes_download_repo }}"
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/personal_id_ed25519_2023-11"
+    accept_hostkey: true
+    update: false
+  ignore_errors: true
+
+- name: Taxes-download | Find the clone
+  tags:
+    - taxes-download
+  ansible.builtin.stat:
+    path: "{{ light_workstation_taxes_download_repo }}/pyproject.toml"
+  register: light_workstation_taxes_download_clone
+
+# --frozen: install what uv.lock says, and do not change uv.lock in the clone.
+- name: Taxes-download | Install the Python dependencies
+  tags:
+    - taxes-download
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/uv
+      - sync
+      - --frozen
+    chdir: "{{ light_workstation_taxes_download_repo }}"
+  environment:
+    UV_PYTHON: "{{ light_workstation_taxes_download_python }}"
+  register: light_workstation_taxes_download_sync
+  changed_when: light_workstation_taxes_download_sync.stderr is search('Installed|Uninstalled|Creating virtual environment')
+  when: light_workstation_taxes_download_clone.stat.exists
+
+# Gets the Chromium revision of the locked Playwright into ~/.cache/ms-playwright.
+# It prints "<browser> downloaded to <dir>" only for a download; the "OS is not
+# officially supported" warning shows on every run.
+- name: Taxes-download | Install the Playwright Chromium
+  tags:
+    - taxes-download
+  ansible.builtin.command:
+    argv:
+      - "{{ light_workstation_taxes_download_repo }}/.venv/bin/playwright"
+      - install
+      - chromium
+  register: light_workstation_taxes_download_chromium
+  changed_when: light_workstation_taxes_download_chromium.stdout is search(' downloaded to ')
+  when: light_workstation_taxes_download_clone.stat.exists
+
+- name: Taxes-download | Ensure the systemd user directory exists
+  tags:
+    - taxes-download
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/systemd/user"
+    state: directory
+    mode: "0755"
+
+- name: Taxes-download | Read the unit files of the repo
+  tags:
+    - taxes-download
+  ansible.builtin.slurp:
+    src: "{{ light_workstation_taxes_download_repo }}/systemd/{{ item }}"
+  loop:
+    - taxes-check.service
+    - taxes-check.timer
+  register: light_workstation_taxes_download_units
+  when: light_workstation_taxes_download_clone.stat.exists
+
+# The units of the repo, with @REPO_DIR@ replaced, as `make install` does.
+- name: Taxes-download | Install the check service and timer
+  tags:
+    - taxes-download
+  ansible.builtin.copy:
+    content: "{{ item.content | b64decode | replace('@REPO_DIR@', light_workstation_taxes_download_repo) }}"
+    dest: "{{ lookup('env', 'HOME') }}/.config/systemd/user/{{ item.item }}"
+    mode: "0644"
+  loop: "{{ light_workstation_taxes_download_units.results | default([]) | selectattr('content', 'defined') }}"
+  loop_control:
+    label: "{{ item.item }}"
+  when: light_workstation_taxes_download_clone.stat.exists
+
+- name: Taxes-download | Enable and start the check timer
+  tags:
+    - taxes-download
+  ansible.builtin.systemd_service:
+    name: taxes-check.timer
+    scope: user
+    daemon_reload: true
+    enabled: true
+    state: started
+  when: light_workstation_taxes_download_clone.stat.exists

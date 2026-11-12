@@ -294,6 +294,13 @@
   tags:
     - whispering
 
+# Before opensnitch: its checksum rules read the Playwright binaries that
+# taxes-download installs.
+- name: Light Workstation | Include tasks from taxes-download play
+  ansible.builtin.include_tasks: tasks/taxes-download.yml
+  tags:
+    - taxes-download
+
 - name: Light Workstation | Include tasks from opensnitch play
   ansible.builtin.include_tasks: tasks/opensnitch.yml
   tags:
