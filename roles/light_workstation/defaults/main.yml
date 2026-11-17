@@ -263,6 +263,14 @@ light_workstation_opensnitch_rules:
     type: simple
     operand: process.path
     data: /usr/bin/mbsync
+  # vdirsyncer is a Python script (shebang /usr/bin/python), so match its
+  # command line, like qutebrowser. Its timer syncs the Radicale task lists.
+  - name: 100-allow-vdirsyncer
+    description: vdirsyncer (Radicale tasks for todoman)
+    type: list
+    list:
+      - { type: regexp, operand: process.path, data: '^/usr/bin/python3\.[0-9]+$' }
+      - { type: regexp, operand: process.command, data: '^/usr/bin/python3? /usr/bin/vdirsyncer( |$)' }
   - name: 100-allow-herdr-update
     description: herdr update check (herdr.dev/latest.json)
     type: list

@@ -1,0 +1,65 @@
+---
+# Tasks from Radicale (servarr) in the terminal: vdirsyncer copies the CalDAV
+# task lists to ~/.local/share/calendars, and todoman (`todo`) reads them.
+# The opensnitch rule 100-allow-vdirsyncer lets the sync through, so this
+# play runs after the opensnitch play.
+- name: Todoman | Install vdirsyncer and todoman
+  tags:
+    - todoman
+  ansible.builtin.package:
+    name:
+      - vdirsyncer # CalDAV sync to local .ics files
+      - todoman # Task manager for the terminal (`todo`)
+    state: present
+  become: true
+
+- name: Todoman | Create the config and data directories
+  tags:
+    - todoman
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0700"
+  loop:
+    - "{{ lookup('env', 'HOME') }}/.config/vdirsyncer"
+    - "{{ lookup('env', 'HOME') }}/.config/todoman"
+    - "{{ lookup('env', 'HOME') }}/.local/share/vdirsyncer/status"
+    - "{{ lookup('env', 'HOME') }}/.local/share/calendars"
+
+# Vault-encrypted: it holds the Radicale URL and password.
+- name: Todoman | Copy the vdirsyncer config
+  tags:
+    - todoman
+  ansible.builtin.copy:
+    src: vdirsyncer-config
+    dest: "{{ lookup('env', 'HOME') }}/.config/vdirsyncer/config"
+    mode: "0600"
+
+- name: Todoman | Copy the todoman config
+  tags:
+    - todoman
+  ansible.builtin.copy:
+    src: todoman-config.py
+    dest: "{{ lookup('env', 'HOME') }}/.config/todoman/config.py"
+    mode: "0644"
+
+# discover asks before it creates each local collection; answer yes. Only on
+# the first run: the status file exists after that. yes ends with SIGPIPE when
+# discover exits, so its status must not fail the pipe.
+- name: Todoman | Discover the Radicale task lists
+  tags:
+    - todoman
+  ansible.builtin.shell:
+    cmd: set -o pipefail && { yes || true; } | vdirsyncer discover radicale_tasks
+    executable: /bin/bash
+    creates: "{{ lookup('env', 'HOME') }}/.local/share/vdirsyncer/status/radicale_tasks.collections"
+
+# The package ships the units: a sync 5 minutes after boot, then every 15.
+- name: Todoman | Enable the vdirsyncer timer
+  tags:
+    - todoman
+  ansible.builtin.systemd_service:
+    name: vdirsyncer.timer
+    scope: user
+    enabled: true
+    state: started
