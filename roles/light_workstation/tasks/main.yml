@@ -306,6 +306,12 @@
   tags:
     - opensnitch
 
+# After opensnitch: its rule 100-allow-vdirsyncer lets the first sync through.
+- name: Light Workstation | Include tasks from todoman play
+  ansible.builtin.include_tasks: tasks/todoman.yml
+  tags:
+    - todoman
+
 - name: Light Workstation | Include tasks from wazuh-agent play
   ansible.builtin.include_tasks: tasks/wazuh-agent.yml
   tags:
