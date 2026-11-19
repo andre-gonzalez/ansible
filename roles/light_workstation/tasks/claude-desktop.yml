@@ -1,0 +1,22 @@
+---
+# Claude Desktop: the official Linux build of the Claude app (Chat, Cowork,
+# Claude Code). The AUR's claude-desktop repackages the .deb from Anthropic's
+# apt repository (downloads.claude.ai) and checks its sha256. Its
+# dependencies bring the Cowork VM stack (qemu-system-x86, edk2-ovmf,
+# virtiofsd). Same app as the NixOS flake (nix_os, pkgs/claude-desktop.nix).
+#
+# The app does not update itself on Linux: yay updates it with the other AUR
+# packages. It keeps its login in the Secret Service (gnome-keyring, see
+# ente-auth.yml). opensnitch.yml allows its Electron binary
+# (100-allow-claude-desktop in defaults/main.yml).
+- name: Claude Desktop | Install claude-desktop
+  tags:
+    - claude-desktop
+  kewlfft.aur.aur:
+    name:
+      - claude-desktop
+    use: yay
+    state: present
+    update_cache: true
+  when: ansible_facts["distribution"] == "Archlinux"
+  ignore_errors: true

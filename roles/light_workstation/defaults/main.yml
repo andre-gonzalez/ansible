@@ -193,6 +193,13 @@ light_workstation_opensnitch_rules:
     type: simple
     operand: process.path
     data: /opt/claude-code/bin/claude
+  # The Electron binary (/usr/bin/claude-desktop is a launcher script that
+  # execs it); its network service is a child of the same binary.
+  - name: 100-allow-claude-desktop
+    description: Claude Desktop
+    type: simple
+    operand: process.path
+    data: /usr/lib/claude-desktop/claude-desktop
   - name: 100-allow-helium
     description: Helium browser
     type: simple
