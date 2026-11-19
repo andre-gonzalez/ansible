@@ -247,6 +247,11 @@
   tags:
     - ente-auth
 
+- name: Light Workstation | Include tasks from claude-desktop play
+  ansible.builtin.include_tasks: tasks/claude-desktop.yml
+  tags:
+    - claude-desktop
+
 - name: Light Workstation | Include tasks from web_browser play
   ansible.builtin.include_tasks: tasks/web_browser.yml
   tags:
