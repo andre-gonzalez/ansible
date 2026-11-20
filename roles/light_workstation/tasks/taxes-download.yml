@@ -1,7 +1,7 @@
 ---
 # taxes-download (github.com/andre-gonzalez/taxes-download): downloads the
 # monthly DAS and INSS boletos from Contabilizei into the Insync folder, and
-# taxes-check.timer reminds from day 10 of each month while one is missing.
+# taxes-check.timer reminds from day 12 of each month while one is missing.
 # Does what `make install` in the repo does: `uv sync`, `playwright install
 # chromium`, and the user timer. Same setup as the NixOS flake (nix_os,
 # modules/home/programs/taxes-download.nix).
