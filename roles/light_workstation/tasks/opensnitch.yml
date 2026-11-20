@@ -71,6 +71,23 @@
     label: "{{ item.name }}"
   become: true
 
+# The Chromium revision of taxes-download follows the Playwright version in
+# its uv.lock. A dry run prints the install directory and downloads nothing.
+# It also runs with --tags opensnitch alone, and in check mode.
+- name: OpenSnitch | Find the Playwright Chromium of taxes-download
+  tags:
+    - opensnitch
+  ansible.builtin.command:
+    argv:
+      - "{{ light_workstation_taxes_download_repo }}/.venv/bin/playwright"
+      - install
+      - --dry-run
+      - chromium
+  register: light_workstation_opensnitch_playwright
+  changed_when: false
+  failed_when: false
+  check_mode: false
+
 - name: OpenSnitch | Read the checksums of the binaries under home
   tags:
     - opensnitch

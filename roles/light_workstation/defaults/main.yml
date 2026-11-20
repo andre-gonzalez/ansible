@@ -420,14 +420,15 @@ light_workstation_opensnitch_checksum_rules:
   # downloads loads the Contabilizei pages and their third-party hosts, like
   # a browser. The pip wheel's node driver makes the API calls and fetches
   # the boleto PDFs (signed Google Storage URLs), and only those.
-  # tasks/taxes-download.yml installs both. After a Playwright update, change
-  # the chromium-<revision>; pythonX.Y is light_workstation_taxes_download_python.
+  # tasks/taxes-download.yml installs both. The paths follow a Playwright
+  # update in uv.lock: tasks/opensnitch.yml finds the chromium-<revision>, and
+  # pythonX.Y is light_workstation_taxes_download_python.
   - name: 400-allow-playwright-chromium
     description: Playwright Chromium (taxes-download)
-    path: .cache/ms-playwright/chromium-1248/chrome-linux64/chrome
+    path: .cache/ms-playwright/{{ light_workstation_taxes_download_chromium }}/chrome-linux64/chrome
   - name: 400-allow-taxes-download-playwright-node
     description: taxes-download Playwright driver (Contabilizei API and boleto PDFs)
-    path: projects/taxes-download/.venv/lib/python3.13/site-packages/playwright/driver/node
+    path: projects/taxes-download/.venv/lib/python{{ light_workstation_taxes_download_python }}/site-packages/playwright/driver/node
     hosts: '^(app\.contabilizei\.com\.br|storage\.googleapis\.com)$'
 
 # Rules opensnitch-ui made during the learning period. They are above now, or
@@ -516,6 +517,13 @@ light_workstation_opensnitch_removed_rules:
 # pythonX.Y in its path, so change both together.
 light_workstation_taxes_download_repo: "{{ lookup('env', 'HOME') }}/projects/taxes-download"
 light_workstation_taxes_download_python: "3.13"
+# The Chromium directory of the locked Playwright, from
+# `playwright install --dry-run chromium` (tasks/opensnitch.yml), for example
+# "chromium-1248". Without the .venv there is no match, and the rule is skipped
+# because its path does not exist.
+light_workstation_taxes_download_chromium: >-
+  {{ light_workstation_opensnitch_playwright.stdout | default('')
+     | regex_search('chromium-[0-9]+') | default('chromium', true) }}
 
 # Whispering dictation kit (tasks/whispering.yml): the clone, and the command
 # line of its proxy unit, which the opensnitch rule
