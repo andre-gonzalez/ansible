@@ -36,6 +36,10 @@ heavy_workstation_syncthing_folders:
     path: .claude/projects
   - id: no-backup
     path: no-backup
+  # Paperless' consume folder on the server (servarr repo, stacks/paperless):
+  # a file dropped here is imported and then deleted.
+  - id: paperless-consume
+    path: paperless-consume
 
 # .stignore of every folder. KEEP IN SYNC with servarr
 # stacks/syncthing/syncthing-config.toml and nix_os
